@@ -21,12 +21,12 @@ class ProductParser(ABC):
 
     def parse_page(self):
         response = rq.get(self.url)
-        page = BeautifulSoup(response.text, 'lxml')
+        page = BeautifulSoup(response.text, "lxml")
         return page
 
     @abstractmethod
     def parse_id(self):
-        return re.findall(r'\d+', self.url)[0]
+        pass
 
     @abstractmethod
     def parse_detail(self):
@@ -45,6 +45,10 @@ class ProductParser(ABC):
         pass
 
     @abstractmethod
+    def parse_category(self):
+        pass
+
+    @abstractmethod
     def parse_price(self):
         pass
 
@@ -56,4 +60,10 @@ class ProductParser(ABC):
     def parse_sculptor(self):
         pass
 
+    @abstractmethod
+    def parse_scale(self):
+        pass
 
+    @abstractmethod
+    def parse_size(self):
+        pass

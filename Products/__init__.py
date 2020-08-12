@@ -1,0 +1,1 @@
+from .gsc_product import GSCProduct
