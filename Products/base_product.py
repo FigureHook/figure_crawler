@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 
 
 class Product(ABC):
-    def __init__(self, url, parser):
+    def __init__(self, parser):
         self.__id = parser.parse_id()
         self.__name = parser.parse_name()
         self.__maker = parser.parse_manufacturer()

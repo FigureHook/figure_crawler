@@ -3,8 +3,12 @@ from datetime import datetime
 
 from .base_product_parser import ProductParser
 
+from utils.checker import check_url_host
+from constants import BrandHost
+
 
 class GSCProductParser(ProductParser):
+    @check_url_host(BrandHost.GSC)
     def __init__(self, url):
         super().__init__(url)
         self.detail = self.parse_detail()
