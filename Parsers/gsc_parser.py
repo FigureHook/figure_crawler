@@ -67,7 +67,7 @@ class GSCProductParser(ProductParser):
     def parse_size(self) -> int:
         description = self.detail.select("dd")[6].text.strip()
         specs = description.split("・")
-        size = re.search(r"(\d+.)mm", specs[3]).group(1)
+        size = int(re.search(r"(\d+.)mm", specs[3]).group(1))
         return size
 
     def parse_releaser(self) -> str:
