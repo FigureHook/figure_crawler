@@ -17,14 +17,14 @@ basic_product_attr = [
     "sculptor"
 ]
 
+def make_expected_item(attrs, values):
+    return dict(zip(attrs, values))
 
-class TestGSCParser:
-    urls = ["https://www.goodsmile.info/ja/product/8978"]
-    product_attr = basic_product_attr + ["releaser", "distributer"]
-    products = [
-        ("8978", "A-Z:[B] (びー)", "A-Z:", "Myethos", "1/7スケールフィギュア",
-         12545, (2020, 6, 1), "1/7", 250, "SunYaMing", "Myethos", "グッドスマイルカンパニー"),
-    ]
+
+class Base:
+    urls = []
+    product_attr = basic_product_attr
+    products = []
 
     @pytest.fixture(scope="class", params=urls)
     def item(self, request):
@@ -32,9 +32,7 @@ class TestGSCParser:
 
     @pytest.fixture(scope="class", params=products)
     def expected_item(self, request):
-        product = dict(zip(self.product_attr, request.param))
-
-        return product
+        return make_expected_item(self.product_attr, request.param)
 
     def test_name(self, item, expected_item):
         name = item.parse_name()
@@ -78,6 +76,23 @@ class TestGSCParser:
     def test_size(self, item, expected_item):
         size = item.parse_size()
         assert size == expected_item["size"]
+
+
+class TestGSCParser(Base):
+    urls = ["https://www.goodsmile.info/ja/product/8978"]
+    product_attr = basic_product_attr + ["releaser", "distributer"]
+    products = [
+        ("8978", "A-Z:[B] (びー)", "A-Z:", "Myethos", "1/7スケールフィギュア",
+         12545, (2020, 6, 1), "1/7", 250, "SunYaMing", "Myethos", "グッドスマイルカンパニー"),
+    ]
+
+    @pytest.fixture(scope="class", params=urls)
+    def item(self, request):
+        return GSCProductParser(request.param)
+
+    @pytest.fixture(scope="class", params=products)
+    def expected_item(self, request):
+        return make_expected_item(self.product_attr, request.param)
 
     def test_releaser(self, item, expected_item):
         releaser = item.parse_releaser()
