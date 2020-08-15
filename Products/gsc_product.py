@@ -9,13 +9,3 @@ class GSCProduct(Product):
 
         parser = parser(url)
         super().__init__(parser)
-        self.__releaser = parser.parse_releaser()
-        self.__distributer = parser.parse_distributer()
-
-    @property
-    def releaser(self):
-        return self.__releaser
-
-    @property
-    def distributer(self):
-        return self.__distributer

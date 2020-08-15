@@ -1,10 +1,10 @@
 import re
 from datetime import datetime
 
-from .base_product_parser import ProductParser
-
-from utils.checker import check_url_host
 from constants import BrandHost
+from utils.checker import check_url_host
+
+from .base_product_parser import ProductParser
 
 
 class GSCProductParser(ProductParser):
@@ -12,18 +12,10 @@ class GSCProductParser(ProductParser):
     def __init__(self, url):
         super().__init__(url)
         self.detail = self.parse_detail()
-        self.info = self.parse_info()
-
-    def parse_id(self) -> str:
-        return re.findall(r"\d+", self.url)[0]
 
     def parse_detail(self):
-        detail = self.page.select_one(".detailBox")
+        detail = self.page.select_one(".itemDetail")
         return detail
-
-    def parse_info(self):
-        info = self.page.select_one(".onlinedates")
-        return info
 
     def parse_name(self) -> str:
         name = self.detail.select("dd")[0].text.strip()
@@ -58,10 +50,10 @@ class GSCProductParser(ProductParser):
         sculptor = self.detail.select("dd")[7].text.strip()
         return sculptor
 
-    def parse_scale(self) -> str:
+    def parse_scale(self) -> int:
         description = self.detail.select("dd")[6].text.strip()
         specs = description.split("・")
-        scale = re.search(r"(\d/\d)", specs[1])[0]
+        scale = int(re.search(r"\d/(\d)", specs[1]).group(1))
         return scale
 
     def parse_size(self) -> int:
@@ -77,3 +69,20 @@ class GSCProductParser(ProductParser):
     def parse_distributer(self) -> str:
         distributer = self.detail.select("dd")[9].text.strip()
         return distributer
+
+    def parse_copyright(self) -> str:
+        _copyright = self.detail.select_one(".itemCopy").text.strip()
+        return _copyright
+
+    def parse_resale(self):
+        resale = self.detail.find(name="dt", text=re.compile("再販"))
+        return bool(resale)
+
+    def parse_maker_id(self):
+        return re.findall(r"\d+", self.url)[0]
+
+    def parse_order_period(self):
+        period = self.detail.select_one(".onlinedates").text.strip().split("～")
+        start = datetime(*(int(x) for x in re.findall(r"\d+", period[0])))
+        end = datetime(*(int(x) for x in re.findall(r"\d+", period[1])))
+        return start, end

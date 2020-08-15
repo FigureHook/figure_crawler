@@ -3,20 +3,28 @@ from abc import ABC, abstractmethod
 
 class Product(ABC):
     def __init__(self, parser):
-        self.__id = parser.parse_id()
         self.__name = parser.parse_name()
-        self.__maker = parser.parse_manufacturer()
         self.__series = parser.parse_series()
+        self.__maker = parser.parse_manufacturer()
         self.__category = parser.parse_category()
         self.__price = parser.parse_price()
-        self.__scale = parser.parse_scale()
-        self.__size = parser.parse_size()
-        self.__sculptor = parser.parse_sculptor()
         self.__release_date = parser.parse_release_date()
+        self.__order_period = parser.parse_order_period()
+        self.__size = parser.parse_size()
+        self.__scale = parser.parse_scale()
+        self.__sculptor = parser.parse_sculptor()
+        self.__paintwork = parser.parse_paintwork()
+        self.__resale = parser.parse_resale()
+        self.__adult = parser.parse_adult()
+        self.__copyright = parser.parse_copyright()
+        self.__releaser = parser.parse_releaser()
+        self.__distributer = parser.parse_distributer()
+        self.__jan = parser.parse_JAN()
+        self.__maker_id = parser.parse_maker_id()
 
     @property
-    def id(self):
-        return self.__id
+    def maker_id(self):
+        return self.__maker_id
 
     @property
     def name(self):
@@ -39,6 +47,14 @@ class Product(ABC):
         return self.__price
 
     @property
+    def release_date(self):
+        return self.__release_date
+
+    @property
+    def order_period(self):
+        return self.__order_period
+
+    @property
     def scale(self):
         return self.__scale
 
@@ -51,5 +67,29 @@ class Product(ABC):
         return self.__sculptor
 
     @property
-    def release_date(self):
-        return self.__release_date
+    def paintwork(self):
+        return self.__paintwork
+
+    @property
+    def resale(self):
+        return self.__resale
+
+    @property
+    def adult(self):
+        return self.__adult
+
+    @property
+    def copyright(self):
+        return self.__copyright
+
+    @property
+    def releaser(self):
+        return self.__releaser
+
+    @property
+    def distributer(self):
+        return self.__distributer
+
+    @property
+    def jan(self):
+        return self.__jan

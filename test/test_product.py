@@ -8,17 +8,24 @@ class TestGSCProduct:
 
         gsc_product = GSCProduct(item_url, parser=None)
         attr_list = (
-            "id",
             "name",
+            "series",
             "maker",
             "category",
             "price",
+            "release_date",
+            "order_period",
             "scale",
             "size",
             "sculptor",
-            "release_date",
+            "paintwork",
+            "resale",
+            "adult",
+            "copyright",
             "releaser",
             "distributer",
+            "jan",
+            "maker_id"
         )
 
         for attr in attr_list:
