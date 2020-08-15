@@ -115,7 +115,7 @@ class BaseTestCase:
 class TestGSCParser(BaseTestCase):
     urls = ["https://www.goodsmile.info/ja/product/8978"]
     products = [
-        ("A-Z:[B] (びー)", "A-Z:", "Myethos", "1/7スケールフィギュア",
+        ("A-Z:[B]", "A-Z:", "Myethos", "1/7スケールフィギュア",
          12545, (2020, 6, 1), ((2019, 11, 14, 12, 0), (2019, 12, 18, 21, 0)), 7, 250, "SunYaMing", None, False, False, "©neco/A-Z:PROJECT", "Myethos", "グッドスマイルカンパニー", None, "8978"),
     ]
 

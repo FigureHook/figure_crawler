@@ -93,3 +93,17 @@ class Product(ABC):
     @property
     def jan(self):
         return self.__jan
+
+    def __str__(self):
+        return self.__repr__()
+
+    def __repr__(self):
+        full_product_name = "[{0}] {1} {2} ({3}.{4})".format(
+            self.maker,
+            self.name,
+            self.category,
+            self.release_date.year,
+            self.release_date.month
+        )
+
+        return full_product_name

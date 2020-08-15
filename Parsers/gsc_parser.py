@@ -18,7 +18,11 @@ class GSCProductParser(ProductParser):
         return detail
 
     def parse_name(self) -> str:
-        name = self.detail.select("dd")[0].text.strip()
+        name = self.page.select_one(
+            "h1.title",
+            {"itemprop": "price"}
+        ).text.strip()
+
         return name
 
     def parse_series(self) -> str:
