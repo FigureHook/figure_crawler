@@ -5,7 +5,7 @@ class Product(ABC):
     def __init__(self, parser):
         self.__name = parser.parse_name()
         self.__series = parser.parse_series()
-        self.__maker = parser.parse_manufacturer()
+        self.__manufacturer = parser.parse_manufacturer()
         self.__category = parser.parse_category()
         self.__price = parser.parse_price()
         self.__release_date = parser.parse_release_date()
@@ -35,8 +35,8 @@ class Product(ABC):
         return self.__series
 
     @property
-    def maker(self):
-        return self.__maker
+    def manufacturer(self):
+        return self.__manufacturer
 
     @property
     def category(self):

@@ -7,9 +7,9 @@ from bs4 import BeautifulSoup
 
 
 class ProductParser(ABC):
-    def __init__(self, url):
+    def __init__(self, url, headers, cookies):
         self.__url = url
-        self.__page = self._parse_page()
+        self.__page = self._parse_page(headers, cookies)
 
     @property
     def url(self):
@@ -19,13 +19,13 @@ class ProductParser(ABC):
     def page(self):
         return self.__page
 
-    def _parse_page(self):
-        response = rq.get(self.url)
+    def _parse_page(self, headers, cookies):
+        response = rq.get(self.url, headers=headers, cookies=cookies)
         page = BeautifulSoup(response.text, "lxml")
         return page
 
     @abstractmethod
-    def parse_detail(self):
+    def _parse_detail(self):
         pass
 
     @abstractmethod

@@ -4,13 +4,12 @@ from urllib.parse import urlparse
 
 def check_url_host(brand_host):
     def decorator(init):
-        def checker(product, *args, **kwargs):
-            netloc = urlparse(args[0])[1]
+        def checker(parser, url, **kwargs):
+            netloc = urlparse(url)[1]
 
             if netloc and not search(brand_host.value, netloc):
                 raise ValueError
 
-            init(product, *args, **kwargs)
+            init(parser, url, **kwargs)
         return checker
     return decorator
-

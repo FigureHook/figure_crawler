@@ -2,130 +2,180 @@ from datetime import datetime
 
 import pytest
 
-from Parsers import GSCProductParser, AlterProductParser
+from Parsers import AlterProductParser, GSCProductParser
 
 basic_product_attr = [
-    "name",
-    "series",
-    "maker",
-    "category",
-    "price",
-    "release_date",
-    "order_period",
-    "scale",
-    "size",
-    "sculptor",
-    "paintwork",
-    "resale",
-    "adult",
-    "copyright",
-    "releaser",
-    "distributer",
-    "JAN",
-    "maker_id"
+    "name", "series", "manufacturer",
+    "category", "price", "release_date",
+    "order_period", "scale", "size",
+    "sculptor", "paintwork", "resale",
+    "adult", "copyright", "releaser",
+    "distributer", "JAN", "maker_id"
 ]
 
 
-def make_expected_item(attrs, values):
-    return dict(zip(attrs, values))
+def make_expected_item(values):
+    return dict(zip(basic_product_attr, values))
 
 
 class BaseTestCase:
-    def test_name(self, item, expected_item):
-        name = item.parse_name()
-        assert name == expected_item["name"]
+    def test_name(self, item):
+        name = item["test"].parse_name()
+        assert name == item["expected"]["name"]
 
-    def test_series(self, item, expected_item):
-        series = item.parse_series()
-        assert series == expected_item["series"]
+    def test_series(self, item):
+        series = item["test"].parse_series()
+        assert series == item["expected"]["series"]
 
-    def test_category(self, item, expected_item):
-        category = item.parse_category()
-        assert category == expected_item["category"]
+    def test_category(self, item):
+        category = item["test"].parse_category()
+        assert category == item["expected"]["category"]
 
-    def test_manufacturer(self, item, expected_item):
-        manufacturer = item.parse_manufacturer()
-        assert manufacturer == expected_item["maker"]
+    def test_manufacturer(self, item):
+        manufacturer = item["test"].parse_manufacturer()
+        assert manufacturer == item["expected"]["manufacturer"]
 
-    def test_release_date(self, item, expected_item):
-        release_date = item.parse_release_date()
+    def test_release_date(self, item):
+        release_date = item["test"].parse_release_date()
         assert type(release_date) is datetime
-        assert release_date.year == expected_item["release_date"][0]
-        assert release_date.month == expected_item["release_date"][1]
+        assert release_date.year == item["expected"]["release_date"][0]
+        assert release_date.month == item["expected"]["release_date"][1]
 
-    def test_order_period(self, item, expected_item):
-        order_period = item.parse_order_period()
+    def test_order_period(self, item):
+        order_period = item["test"].parse_order_period()
         start = order_period[0]
         end = order_period[1]
         assert type(start) is datetime
         assert type(end) is datetime
-        assert start == datetime(*expected_item["order_period"][0])
-        assert end == datetime(*expected_item["order_period"][1])
+        assert start == datetime(*item["expected"]["order_period"][0])
+        assert end == datetime(*item["expected"]["order_period"][1])
 
-    def test_sculptor(self, item, expected_item):
-        sculptor = item.parse_sculptor()
-        assert sculptor == expected_item["sculptor"]
+    def test_sculptor(self, item):
+        sculptor = item["test"].parse_sculptor()
+        assert sculptor == item["expected"]["sculptor"]
 
-    def test_price(self, item, expected_item):
-        price = item.parse_price()
+    def test_price(self, item):
+        price = item["test"].parse_price()
         assert type(price) is int
-        assert price == expected_item["price"]
+        assert price == item["expected"]["price"]
 
-    def test_maker_id(self, item, expected_item):
-        id_ = item.parse_maker_id()
-        assert id_ == expected_item["maker_id"]
+    def test_maker_id(self, item):
+        id_ = item["test"].parse_maker_id()
+        assert id_ == item["expected"]["maker_id"]
 
-    def test_scale(self, item, expected_item):
-        scale = item.parse_scale()
-        assert scale == expected_item["scale"]
+    def test_scale(self, item):
+        scale = item["test"].parse_scale()
+        assert scale == item["expected"]["scale"]
 
-    def test_size(self, item, expected_item):
-        size = item.parse_size()
-        assert size == expected_item["size"]
+    def test_size(self, item):
+        size = item["test"].parse_size()
+        assert size == item["expected"]["size"]
 
-    def test_resale(self, item, expected_item):
-        resale = item.parse_resale()
-        assert resale is expected_item["resale"]
+    def test_resale(self, item):
+        resale = item["test"].parse_resale()
+        assert resale is item["expected"]["resale"]
 
-    def test_adult(self, item, expected_item):
-        adult = item.parse_adult()
-        assert adult is expected_item["adult"]
+    def test_adult(self, item):
+        adult = item["test"].parse_adult()
+        assert adult is item["expected"]["adult"]
 
-    def test_copyright(self, item, expected_item):
-        _copyright = item.parse_copyright()
-        assert _copyright
+    def test_copyright(self, item):
+        _copyright = item["test"].parse_copyright()
+        assert _copyright == item["expected"]["copyright"]
 
-    def test_paintwork(self, item, expected_item):
-        paintwork = item.parse_paintwork()
-        assert paintwork == expected_item["paintwork"]
+    def test_paintwork(self, item):
+        paintwork = item["test"].parse_paintwork()
+        assert paintwork == item["expected"]["paintwork"]
 
-    def test_releaser(self, item, expected_item):
-        paintwork = item.parse_releaser()
-        assert paintwork == expected_item["releaser"]
+    def test_releaser(self, item):
+        paintwork = item["test"].parse_releaser()
+        assert paintwork == item["expected"]["releaser"]
 
-    def test_releaser(self, item, expected_item):
-        releaser = item.parse_releaser()
-        assert releaser == expected_item["releaser"]
+    def test_releaser(self, item):
+        releaser = item["test"].parse_releaser()
+        assert releaser == item["expected"]["releaser"]
 
-    def test_distributer(self, item, expected_item):
-        distributer = item.parse_distributer()
-        assert distributer == expected_item["distributer"]
+    def test_distributer(self, item):
+        distributer = item["test"].parse_distributer()
+        assert distributer == item["expected"]["distributer"]
 
 
 class TestGSCParser(BaseTestCase):
-    urls = ["https://www.goodsmile.info/ja/product/8978"]
     products = [
-        ("A-Z:[B]", "A-Z:", "Myethos", "1/7スケールフィギュア",
-         12545, (2020, 6, 1), ((2019, 11, 14, 12, 0), (2019, 12, 18, 21, 0)), 7, 250, "SunYaMing", None, False, False, "©neco/A-Z:PROJECT", "Myethos", "グッドスマイルカンパニー", None, "8978"),
+        {
+            "url": "https://www.goodsmile.info/ja/product/4364",
+            "detail": (
+                "三世村正", "装甲悪鬼村正", "ウイング",
+                "フィギュア", 11800, (2016, 9, 1),
+                ((2016, 4, 25, 12, 0), (2016, 5, 25, 21, 0)), 7, 250,
+                "絵里子（新居興業）", None, True,
+                True, "©2009-2014 Nitroplus", "ウイング",
+                "グッドスマイルカンパニー", None, "4364"
+            ),
+        },
+        {
+            "url": "https://www.goodsmile.info/ja/product/8978",
+            "detail": (
+                "A-Z:[B]", "A-Z:", "Myethos",
+                "フィギュア", 12545, (2020, 6, 1),
+                ((2019, 11, 14, 12, 0), (2019, 12, 18, 21, 0)), 7, 250,
+                "SunYaMing", None, False,
+                False, "©neco/A-Z:PROJECT", "Myethos",
+                "グッドスマイルカンパニー", None, "8978"
+            )
+        },
+        {
+            "url": "https://www.goodsmile.info/ja/product/9683",
+            "detail": (
+                "フォーリナー/葛飾北斎", "Fate/Grand Order", "Phat!",
+                "フィギュア", 32000, (2021, 9, 1),
+                ((2020, 6, 26, 12, 0), (2020, 8, 26, 21, 0)), 7, 280,
+                "間崎祐介", "佐倉", False,
+                False, "©TYPE-MOON / FGO PROJECT", "ファット・カンパニー",
+                "グッドスマイルカンパニー", None, "9683"
+            )
+        },
+        {
+            "url": "https://www.goodsmile.info/ja/product/9361",
+            "detail": (
+                "セイバーオルタ 着物Ver.", "劇場版Fate/stay night [Heaven's Feel]", "ＫＡＤＯＫＡＷＡ",
+                "フィギュア", 21818, (2020, 12, 1),
+                ((2020, 3, 26, 12, 0), (2020, 6, 10, 21, 0)), 7, 275,
+                "のぶた（リボルブ）", "かわも（リボルブ）", False,
+                False, "©TYPE-MOON・ufotable・FSNPC", "KADOKAWA",
+                "グッドスマイルカンパニー", None, "9361"
+            )
+        },
+        {
+            "url": "https://www.goodsmile.info/ja/product/9925",
+            "detail": (
+                "二世村正", "装甲悪鬼村正", "ウイング",
+                "フィギュア", 16000, (2020, 12, 1),
+                ((2020, 8, 18, 12, 0), (2020, 9, 23, 21, 0)), 7, 240,
+                "絵里子（新居興業）", None,  False,
+                True,  "©2009-2020 Nitroplus", "ウイング",
+                "グッドスマイルカンパニー", None, "9925"
+            )
+        },
+        {
+            "url": "https://www.goodsmile.info/ja/product/9888",
+            "detail": (
+                "POP UP PARADE ルビー・ローズ", "RWBY(ルビー)", "グッドスマイルカンパニー",
+                "POP UP PARADE", 3545, (2021, 1, 1),
+                ((2020, 8, 4, 12, 0), (2020, 9, 30, 21, 0)), None, 170,
+                "jarel", None,  False,
+                False,  "©Rooster Teeth Productions, LLC. All Rights Reserved. Licensed by Rooster Teeth Productions, LLC", "グッドスマイルカンパニー",
+                "グッドスマイルカンパニー", None, "9888"
+            )
+        }
     ]
 
-    @pytest.fixture(scope="class", params=urls)
-    def item(self, request):
-        return GSCProductParser(request.param)
-
     @pytest.fixture(scope="class", params=products)
-    def expected_item(self, request):
-        return make_expected_item(basic_product_attr, request.param)
+    def item(self, request):
+        return {
+            "test": GSCProductParser(request.param["url"]),
+            "expected": make_expected_item(request.param["detail"])
+        }
 
 
 # class TestAlterParser(BaseTestCase):

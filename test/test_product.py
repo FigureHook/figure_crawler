@@ -1,7 +1,6 @@
 from Products import GSCProduct
 
 
-
 class TestGSCProduct:
     def test_detail(self):
         item_url = "https://www.goodsmile.info/ja/product/8978"
@@ -10,7 +9,7 @@ class TestGSCProduct:
         attr_list = (
             "name",
             "series",
-            "maker",
+            "manufacturer",
             "category",
             "price",
             "release_date",
