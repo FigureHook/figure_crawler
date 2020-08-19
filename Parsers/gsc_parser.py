@@ -4,6 +4,7 @@ from typing import Tuple, Union
 
 from constants import BrandHost
 from utils.checker import check_url_host
+from utils.text_parser import scale_parse, size_parse
 
 from .base_product_parser import ProductParser
 
@@ -70,18 +71,14 @@ class GSCProductParser(ProductParser):
     def parse_scale(self) -> Union[int, None]:
         description = self.detail.select("dd")[6].text.strip()
         specs = description.split("・")
-        scale_text = re.search(r"\d/(\d)", specs[1])
 
-        if not scale_text:
-            return None
-
-        scale = int(scale_text.group(1))
+        scale = scale_parse(specs[1])
         return scale
 
     def parse_size(self) -> int:
         description = self.detail.select("dd")[6].text.strip()
         specs = description.split("・")
-        size = int(re.search(r"(\d+.)mm", specs[3]).group(1))
+        size = size_parse(specs[3])
         return size
 
     def parse_releaser(self) -> str:

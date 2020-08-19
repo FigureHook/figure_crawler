@@ -46,6 +46,10 @@ class BaseTestCase:
         order_period = item["test"].parse_order_period()
         start = order_period[0]
         end = order_period[1]
+
+        if not start and not end:
+            pytest.xfail("Some maker didn't announce the period.")
+
         assert type(start) is datetime
         assert type(end) is datetime
         assert start == datetime(*item["expected"]["order_period"][0])
@@ -107,7 +111,7 @@ class BaseTestCase:
 
 
 class TestGSCParser(BaseTestCase):
-    products = [
+    products = (
         {
             "url": "https://www.goodsmile.info/ja/product/4364",
             "detail": (
@@ -180,11 +184,59 @@ class TestGSCParser(BaseTestCase):
                 "images.goodsmile.info/cgm/images/product/20200731/9888/72837/large/b5db91fe7f646183583a07879ac280a4.jpg"
             )
         }
-    ]
+    )
 
     @pytest.fixture(scope="class", params=products)
     def item(self, request):
         return {
             "test": GSCProductParser(request.param["url"]),
+            "expected": make_expected_item(request.param["detail"])
+        }
+
+
+class TestAlterParser(BaseTestCase):
+    products = (
+        {
+            "url": "http://www.alter-web.jp/products/261/",
+            "detail": (
+                "アルターエゴ／メルトリリス", "Fate/Grand Order", "アルター",
+                "フィギュア", 24800, (2020, 11, 1),
+                (None, None), 8, 370,
+                "みさいる", "星名詠美", False,
+                False, "© TYPE-MOON / FGO PROJECT", "アルター",
+                None, None, "261",
+                "http://www.alter-web.jp/uploads/products/20191218134339_UP8oL6Su.jpg"
+            ),
+        },
+        {
+            "url": "http://www.alter-web.jp/products/119/",
+            "detail": (
+                "式波・アスカ・ラングレー　ジャージVer.", "ヱヴァンゲリヲン新劇場版：Q", "アルター",
+                "フィギュア", 12800, (2019, 10, 1),
+                (None, None), 7, 230,
+                "のぶた（リボルブ）", "鉄森七方", True,
+                False, "© カラー", "アルター",
+                "EVANGELION STORE(EVA GLOBAL)　日本国内", None, "119",
+                "http://www.alter-web.jp/uploads/products/20161029191822_Os9P8MSM.jpg"
+            ),
+        },
+        {
+            "url": "http://www.alter-web.jp/products/477/",
+            "detail": (
+                "モモ・ベリア・デビルーク　-ベビードール Ver.-", "To LOVEる -とらぶる- ダークネス", "アルター",
+                "フィギュア", 14400, (2021, 3, 1),
+                (None, None), 6, 240,
+                "竜人", "星名詠美", False,
+                False, "© 矢吹健太朗・長谷見沙貴／集英社・とらぶるダークネス製作委員会", "リューノス",
+                "あみあみ", None, "477",
+                "http://www.alter-web.jp/uploads/products/20200326182117_QaB4o3cf.jpg"
+            ),
+        },
+    )
+
+    @pytest.fixture(scope="class", params=products)
+    def item(self, request):
+        return {
+            "test": AlterProductParser(request.param["url"]),
             "expected": make_expected_item(request.param["detail"])
         }

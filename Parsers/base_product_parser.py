@@ -80,11 +80,14 @@ class ProductParser(ABC):
     def parse_images(self):
         pass
 
+    def parse_distributer(self):
+        return None
+
     def parse_adult(self) -> bool:
         return False
 
     def parse_order_period(self) -> tuple:
-        return None
+        return (None, None)
 
     def parse_paintwork(self) -> str:
         return None
