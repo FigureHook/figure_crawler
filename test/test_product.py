@@ -24,7 +24,8 @@ class TestGSCProduct:
             "releaser",
             "distributer",
             "jan",
-            "maker_id"
+            "maker_id",
+            "images"
         )
 
         for attr in attr_list:

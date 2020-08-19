@@ -138,3 +138,13 @@ class GSCProductParser(ProductParser):
 
         paintwork = paintwork_title.find_next("dd").text.strip()
         return paintwork
+
+    def parse_images(self):
+        images_items = self.page.select('.itemImg')
+        images = [images_url_processor(item["src"]) for item in images_items]
+        return images
+
+
+def images_url_processor(url):
+    url = url[2:]
+    return url

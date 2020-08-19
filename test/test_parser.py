@@ -10,7 +10,8 @@ basic_product_attr = [
     "order_period", "scale", "size",
     "sculptor", "paintwork", "resale",
     "adult", "copyright", "releaser",
-    "distributer", "JAN", "maker_id"
+    "distributer", "JAN", "maker_id",
+    "images",
 ]
 
 
@@ -99,6 +100,11 @@ class BaseTestCase:
         distributer = item["test"].parse_distributer()
         assert distributer == item["expected"]["distributer"]
 
+    def test_images(self, item):
+        images = item["test"].parse_images()
+        assert type(images) is list
+        assert item["expected"]["images"] in images
+
 
 class TestGSCParser(BaseTestCase):
     products = [
@@ -110,7 +116,8 @@ class TestGSCParser(BaseTestCase):
                 ((2016, 4, 25, 12, 0), (2016, 5, 25, 21, 0)), 7, 250,
                 "絵里子（新居興業）", None, True,
                 True, "©2009-2014 Nitroplus", "ウイング",
-                "グッドスマイルカンパニー", None, "4364"
+                "グッドスマイルカンパニー", None, "4364",
+                "images.goodsmile.info/cgm/images/product/20140407/4364/28492/large/b5070189c0ebd591226eafb796fd7a77.jpg"
             ),
         },
         {
@@ -121,7 +128,8 @@ class TestGSCParser(BaseTestCase):
                 ((2019, 11, 14, 12, 0), (2019, 12, 18, 21, 0)), 7, 250,
                 "SunYaMing", None, False,
                 False, "©neco/A-Z:PROJECT", "Myethos",
-                "グッドスマイルカンパニー", None, "8978"
+                "グッドスマイルカンパニー", None, "8978",
+                "images.goodsmile.info/cgm/images/product/20191113/8978/65167/large/2a08f3b686ff5cb6b26ba399aedbdf2b.jpg"
             )
         },
         {
@@ -132,7 +140,8 @@ class TestGSCParser(BaseTestCase):
                 ((2020, 6, 26, 12, 0), (2020, 8, 26, 21, 0)), 7, 280,
                 "間崎祐介", "佐倉", False,
                 False, "©TYPE-MOON / FGO PROJECT", "ファット・カンパニー",
-                "グッドスマイルカンパニー", None, "9683"
+                "グッドスマイルカンパニー", None, "9683",
+                "images.goodsmile.info/cgm/images/product/20200624/9683/71238/large/4770e9ca6230563d478bca4b0e34f0f2.jpg"
             )
         },
         {
@@ -143,7 +152,8 @@ class TestGSCParser(BaseTestCase):
                 ((2020, 3, 26, 12, 0), (2020, 6, 10, 21, 0)), 7, 275,
                 "のぶた（リボルブ）", "かわも（リボルブ）", False,
                 False, "©TYPE-MOON・ufotable・FSNPC", "KADOKAWA",
-                "グッドスマイルカンパニー", None, "9361"
+                "グッドスマイルカンパニー", None, "9361",
+                "images.goodsmile.info/cgm/images/product/20200318/9361/68599/large/a8b96d40fe85c254fa1cdb15b32e26df.jpg"
             )
         },
         {
@@ -154,7 +164,8 @@ class TestGSCParser(BaseTestCase):
                 ((2020, 8, 18, 12, 0), (2020, 9, 23, 21, 0)), 7, 240,
                 "絵里子（新居興業）", None,  False,
                 True,  "©2009-2020 Nitroplus", "ウイング",
-                "グッドスマイルカンパニー", None, "9925"
+                "グッドスマイルカンパニー", None, "9925",
+                "images.goodsmile.info/cgm/images/product/20200814/9925/73148/large/711e1ed11101a8a6d2854a075423f568.jpg"
             )
         },
         {
@@ -165,7 +176,8 @@ class TestGSCParser(BaseTestCase):
                 ((2020, 8, 4, 12, 0), (2020, 9, 30, 21, 0)), None, 170,
                 "jarel", None,  False,
                 False,  "©Rooster Teeth Productions, LLC. All Rights Reserved. Licensed by Rooster Teeth Productions, LLC", "グッドスマイルカンパニー",
-                "グッドスマイルカンパニー", None, "9888"
+                "グッドスマイルカンパニー", None, "9888",
+                "images.goodsmile.info/cgm/images/product/20200731/9888/72837/large/b5db91fe7f646183583a07879ac280a4.jpg"
             )
         }
     ]
@@ -176,19 +188,3 @@ class TestGSCParser(BaseTestCase):
             "test": GSCProductParser(request.param["url"]),
             "expected": make_expected_item(request.param["detail"])
         }
-
-
-# class TestAlterParser(BaseTestCase):
-#     urls = ["http://www.alter-web.jp/products/261/"]
-#     products = [
-#         ("アルターエゴ／メルトリリス", "Fate/Grand Order", "アルター", "フィギュア",
-#          24800, (2020, 11, 1), (None, None), 8, 370, "みさいる", "星名詠美", False, False, "TYPE-MOON / FGO PROJECT", "アルター", None, None, None),
-#     ]
-
-#     @pytest.fixture(scope="class", params=urls)
-#     def item(self, request):
-#         return AlterProductParser(request.param)
-
-#     @pytest.fixture(scope="class", params=products)
-#     def expected_item(self, request):
-#         return make_expected_item(basic_product_attr, request.param)

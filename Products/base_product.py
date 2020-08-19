@@ -21,6 +21,7 @@ class Product(ABC):
         self.__distributer = parser.parse_distributer()
         self.__jan = parser.parse_JAN()
         self.__maker_id = parser.parse_maker_id()
+        self.__images = parser.parse_images()
 
     @property
     def maker_id(self):
@@ -93,6 +94,10 @@ class Product(ABC):
     @property
     def jan(self):
         return self.__jan
+
+    @property
+    def images(self):
+        return self.__images
 
     def __str__(self):
         return self.__repr__()

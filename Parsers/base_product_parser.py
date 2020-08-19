@@ -76,6 +76,10 @@ class ProductParser(ABC):
     def parse_resale(self) -> bool:
         pass
 
+    @abstractmethod
+    def parse_images(self):
+        pass
+
     def parse_adult(self) -> bool:
         return False
 
