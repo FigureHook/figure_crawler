@@ -65,7 +65,12 @@ class GSCProductParser(ProductParser):
         return date
 
     def parse_sculptor(self) -> str:
-        sculptor = self.detail.select("dd")[7].text.strip()
+        sculptor_info = self.detail.find(name="dt", text=re.compile("原型制作"))
+
+        if not sculptor_info:
+            return None
+
+        sculptor = sculptor_info.find_next("dd").text.strip()
         return sculptor
 
     def parse_scale(self) -> Union[int, None]:
@@ -76,14 +81,14 @@ class GSCProductParser(ProductParser):
         return scale
 
     def parse_size(self) -> int:
+        pattern = r"・(.*[cm|mm].*)"
         description = self.detail.select("dd")[6].text.strip()
-        specs = description.split("・")
-        size = size_parse(specs[3])
+        specs = re.search(pattern, description).group(1)
+        size = size_parse(specs)
         return size
 
     def parse_releaser(self) -> str:
-        detail_dd = self.detail.find(
-            name="dt", text=re.compile("発売元"))
+        detail_dd = self.detail.find(name="dt", text=re.compile("発売元"))
 
         if not detail_dd:
             return self.parse_manufacturer()

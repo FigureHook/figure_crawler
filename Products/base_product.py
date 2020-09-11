@@ -104,7 +104,7 @@ class Product(ABC):
 
     def __repr__(self):
         full_product_name = "[{0}] {1} {2} ({3}.{4})".format(
-            self.maker,
+            self.manufacturer,
             self.name,
             self.category,
             self.release_date.year,

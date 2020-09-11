@@ -183,6 +183,30 @@ class TestGSCParser(BaseTestCase):
                 "グッドスマイルカンパニー", None, "9888",
                 "images.goodsmile.info/cgm/images/product/20200731/9888/72837/large/b5db91fe7f646183583a07879ac280a4.jpg"
             )
+        },
+        {
+            "url": "https://www.goodsmile.info/ja/product/9709",
+            "detail": (
+                "PREMIUM Optimus Prime（PREMIUM オプティマスプライム）", "BUMBLEBEE（バンブルビー）", "threezero",
+                "フィギュア", 60000, (2021, 6, 1),
+                ((2020, 6, 30, 12, 0), (2020, 8, 19, 21, 0)), None, 480,
+                "threezero", None,  False,
+                False,  "©2020  TOMY. © 2018 Paramount Pictures Corporation.  All Rights Reserved.\r\nTM & ® denote Japan Trademarks. Manufactured under license from TOMY Company, Ltd.\r\nFor sale in Japan only.\r\n「トランスフォーマー」「ＴＲＡＮＳＦＯＲＭＥＲＳ」は株式会社タカラトミーの登録商標です。", "threezero",
+                "グッドスマイルカンパニー", None, "9709",
+                "images.goodsmile.info/cgm/images/product/20200626/9709/71468/large/10488b14834fbb06a017d67719274723.jpg"
+            )
+        },
+        {
+            "url": "https://www.goodsmile.info/ja/product/10021",
+            "detail": (
+                "POP UP PARADE エドワード・エルリック", "鋼の錬金術師 FULLMETAL ALCHEMIST", "グッドスマイルカンパニー",
+                "POP UP PARADE", 3545, (2021, 1, 1),
+                ((2020, 9, 10, 12, 0), (2020, 10, 7, 21, 0)), None, 155,
+                None, None,  False,
+                False,  "©荒川弘／鋼の錬金術師製作委員会・MBS", "グッドスマイルカンパニー",
+                "グッドスマイルカンパニー", None, "10021",
+                "images.goodsmile.info/cgm/images/product/20200907/10021/74006/large/e1b9bd1473d3b1a6718e271d9bfad747.jpg"
+            )
         }
     )
 
@@ -225,11 +249,71 @@ class TestAlterParser(BaseTestCase):
             "detail": (
                 "モモ・ベリア・デビルーク　-ベビードール Ver.-", "To LOVEる -とらぶる- ダークネス", "アルター",
                 "フィギュア", 14400, (2021, 3, 1),
-                (None, None), 6, 240,
+                ((2020, 5, 25), (2020, 7, 6)), 6, 240,
                 "竜人", "星名詠美", False,
                 False, "© 矢吹健太朗・長谷見沙貴／集英社・とらぶるダークネス製作委員会", "リューノス",
                 "あみあみ", None, "477",
                 "http://www.alter-web.jp/uploads/products/20200326182117_QaB4o3cf.jpg"
+            ),
+        },
+        {
+            "url": "http://www.alter-web.jp/products/22/",
+            "detail": (
+                "柳生十兵衛　ファイナルブライドVer.", "百花繚乱", "アルター",
+                "フィギュア", 15984, (2017, 7, 1),
+                ((2016, 8, 25), (2016, 10, 11)), 8, 270,
+                "本宮あまと", "渡邊恭大", False,
+                False, "© すずきあきら・Niθ／ホビージャパン", "ホビージャパン",
+                None, None, "22",
+                "http://www.alter-web.jp/uploads/products/20161021213511_O8HI6aTN.jpg"
+            ),
+        },
+        {
+            "url": "http://www.alter-web.jp/products/264/",
+            "detail": (
+                "プリンツ・オイゲン", "アズールレーン", "アルター",
+                "フィギュア", 37800, (2021, 4, 1),
+                (None, None), 7, 270,
+                "田中冬志", ("渡邊恭大", "山本洋平", "みうらおさみ"), False,
+                False, "© 2017 Manjuu Co.,Ltd. & Yongshi Co.,Ltd. All Rights Reserved.　© 2017 Yostar, Inc. All Rights Reserved.", "アルター",
+                None, None, "264",
+                "http://www.alter-web.jp/uploads/products/20200114115725_TNP443Nj.jpg"
+            ),
+        },
+        {
+            "url": "http://www.alter-web.jp/products/264/",
+            "detail": (
+                "プリンツ・オイゲン", "アズールレーン", "アルター",
+                "フィギュア", 37800, (2021, 4, 1),
+                (None, None), 7, 270,
+                "田中冬志", ("渡邊恭大", "山本洋平", "みうらおさみ"), False,
+                False, "© 2017 Manjuu Co.,Ltd. & Yongshi Co.,Ltd. All Rights Reserved.　© 2017 Yostar, Inc. All Rights Reserved.", "アルター",
+                None, None, "264",
+                "http://www.alter-web.jp/uploads/products/20200114115725_TNP443Nj.jpg"
+            ),
+        },
+        {
+            "url": "http://www.alter-web.jp/products/181/",
+            "detail": (
+                "パープルハート", "超次元ゲイム ネプテューヌ", "アルター",
+                "フィギュア", 17800, (2018, 4, 1),
+                (None, None), 7, 350,
+                ("槙尾宗利", "ウサギ"), "DUTCH", False,
+                False, "© 2013 アイディアファクトリー・コンパイルハート/ネプテューヌ製作委員会", "アルター",
+                None, None, "181",
+                "http://www.alter-web.jp/uploads/products/20161201151222_09EtY0sl.jpg"
+            ),
+        },
+        {
+            "url": "http://www.alter-web.jp/products/196/",
+            "detail": (
+                "グウェンドリン　レイヴスラシルVer.", "オーディンスフィア レイヴスラシル", "アルター",
+                "フィギュア", 16800, (2018, 8, 1),
+                (None, None), 8, 240,
+                "i-con（藍色空色）", "星名詠美", False,
+                False, "©ATLUS ©SEGA All rights reserved.", "アルター",
+                None, None, "196",
+                "http://www.alter-web.jp/uploads/products/20170613114935_PUC7qKIW.jpg"
             ),
         },
     )
