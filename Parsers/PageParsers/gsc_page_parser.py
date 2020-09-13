@@ -16,13 +16,12 @@ class GSCYearlyAnnouncement:
         self.base_url = make_base_url(category, lang)
 
     def __iter__(self):
+        item_selector = ".hitItem:not(.shimeproduct) > .hitBox > a"
         for year in self.period:
             url = self.base_url(year)
             response = rq.get(url)
             page = BeautifulSoup(response.text, "lxml")
-            product_urls = (item["href"] for item in page.select(
-                ".hitItem:not(.shimeproduct) > .hitBox > a"
-                ))
+            product_urls = (item["href"] for item in page.select(item_selector))
 
             yield product_urls
 
