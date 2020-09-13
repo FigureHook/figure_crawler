@@ -106,16 +106,35 @@ class Product(ABC):
     def images(self):
         return self.__images
 
+    def keys(self):
+        return [
+            "adult",
+            "category",
+            "distributer",
+            "images",
+            "jan",
+            "maker_id",
+            "manufacturer",
+            "name",
+            "order_period",
+            "paintwork",
+            "price",
+            "release_date",
+            "releaser",
+            "resale",
+            "scale",
+            "sculptor",
+            "series",
+            "size",
+            "url"
+        ]
+
+    def __getitem__(self, key):
+        return getattr(self, key)
+
     def __str__(self):
         return self.__repr__()
 
     def __repr__(self):
-        full_product_name = "[{0}] {1} {2} ({3}.{4})".format(
-            self.manufacturer,
-            self.name,
-            self.category,
-            self.release_date.year,
-            self.release_date.month
-        )
-
+        full_product_name = "[{manufacturer}] {name} {category}".format(**self)
         return full_product_name
