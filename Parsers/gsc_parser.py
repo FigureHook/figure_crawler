@@ -22,6 +22,10 @@ class GSCProductParser(ProductParser):
         super().__init__(url, headers, cookies)
         self.detail = self._parse_detail()
 
+    def _find_detail(self, name, text):
+        target = self.detail.find(name=name, text=re.compile(text))
+        return target
+
     def _parse_detail(self):
         detail = self.page.select_one(".itemDetail")
         return detail
@@ -52,20 +56,28 @@ class GSCProductParser(ProductParser):
         return category
 
     def parse_price(self) -> int:
-        price_text = self.detail.find("dd", {"itemprop": "price"}).text.strip()
+        price_target = self._find_detail("dt", "価格")
+
+        price_text = price_target.find_next("dd").text.strip()
         price_text = price_text.replace(",", "")
-        price = int(re.match(r"\d+", price_text)[0])
+        price = int(re.search(r"\d+", price_text)[0])
         return price
 
     def parse_release_date(self) -> datetime:
         date_format = "%Y/%m"
         date_text = self.detail.find(
             "dd", {"itemprop": "releaseDate"}).text.strip()
+
+        isValidDate = bool(re.match(r"\d+/\d+", date_text))
+
+        if not isValidDate:
+            return None
+
         date = datetime.strptime(date_text, date_format)
         return date
 
     def parse_sculptor(self) -> str:
-        sculptor_info = self.detail.find(name="dt", text=re.compile("原型制作"))
+        sculptor_info = self._find_detail("dt", "原型制作")
 
         if not sculptor_info:
             return None
@@ -74,21 +86,27 @@ class GSCProductParser(ProductParser):
         return sculptor
 
     def parse_scale(self) -> Union[int, None]:
-        description = self.detail.select("dd")[6].text.strip()
-        specs = description.split("・")
+        spec_target = self._find_detail("dt", "仕様")
 
-        scale = scale_parse(specs[1])
+        if not spec_target:
+            return None
+
+        description = spec_target.find_next("dd").text.strip()
+        scale = scale_parse(description)
         return scale
 
     def parse_size(self) -> int:
-        pattern = r"・(.*[cm|mm].*)"
-        description = self.detail.select("dd")[6].text.strip()
-        specs = re.search(pattern, description).group(1)
-        size = size_parse(specs)
+        spec_target = self._find_detail("dt", "仕様")
+
+        if not spec_target:
+            return None
+
+        description = spec_target.find_next("dd").text.strip()
+        size = size_parse(description)
         return size
 
     def parse_releaser(self) -> str:
-        detail_dd = self.detail.find(name="dt", text=re.compile("発売元"))
+        detail_dd = self._find_detail("dt", "発売元")
 
         if not detail_dd:
             return self.parse_manufacturer()
@@ -97,8 +115,7 @@ class GSCProductParser(ProductParser):
         return releaser
 
     def parse_distributer(self) -> str:
-        detail_dd = self.detail.find(
-            name="dt", text=re.compile("販売元"))
+        detail_dd = self._find_detail("dt", "販売元")
 
         if not detail_dd:
             return self.parse_manufacturer()
@@ -107,33 +124,43 @@ class GSCProductParser(ProductParser):
         return distributer
 
     def parse_copyright(self) -> str:
-        _copyright = self.detail.select_one(".itemCopy").text.strip()
-        return _copyright
+        _copyright = self.detail.select_one(".itemCopy")
+
+        if not _copyright:
+            return None
+
+        return _copyright.text.strip()
 
     def parse_resale(self) -> bool:
-        resale = self.detail.find(name="dt", text=re.compile("再販"))
+        resale = self._find_detail("dt", "再販")
         return bool(resale)
 
     def parse_maker_id(self) -> str:
         return re.findall(r"\d+", self.url)[0]
 
     def parse_order_period(self) -> Period:
-        period = self.detail.select_one(".onlinedates").text.strip().split("～")
-        start = datetime(*(int(x) for x in re.findall(r"\d+", period[0])))
-        end = datetime(*(int(x) for x in re.findall(r"\d+", period[1])))
+        period = self.detail.select_one(".onlinedates")
+
+        if not period:
+            return None, None
+
+        period_text = period.text.strip()
+        pattern = r"(\d+)年(\d+)月(\d+)日（\S）(\d+):(\d+)"
+        period_list = re.findall(pattern, period_text)
+
+        start = make_datetime(period_list[0])
+        end = make_datetime(period_list[1]) if len(period_list) is 2 else None
         return start, end
 
     def parse_adult(self) -> bool:
         keyword = re.compile(r"(18歳以上推奨)")
-        detaill_adult = self.detail.find(name="dd", text=keyword)
-        description = self.page.select_one(".description").text
-        description_adult = keyword.search(description)
+        info = self.page.select_one(".itemInfo")
+        detaill_adult = info.find(text=keyword)
 
-        is_adult = bool(detaill_adult) or bool(description_adult)
-        return is_adult
+        return bool(detaill_adult)
 
     def parse_paintwork(self) -> Union[str, None]:
-        paintwork_title = self.detail.find(name="dt", text=re.compile("彩色"))
+        paintwork_title = self._find_detail("dt", "彩色")
 
         if not paintwork_title:
             return None
@@ -145,3 +172,7 @@ class GSCProductParser(ProductParser):
         images_items = self.page.select('.itemImg')
         images = [item["src"][2:] for item in images_items]
         return images
+
+
+def make_datetime(datetime_like):
+    return datetime(*(int(x) for x in datetime_like))

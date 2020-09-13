@@ -7,6 +7,16 @@ def scale_parse(text):
     return scale
 
 def size_parse(text):
-    pattern = r"(\d+.)mm"
-    size_text = re.search(pattern, text).group(1)
-    return int(size_text)
+    pattern = r"(\d+)[mm|cm]"
+    is_cm = bool(re.search(r"cm", text))
+    size_text = re.search(pattern, text)
+
+    if not size_text:
+        return None
+
+    size = size_text.group(1)
+
+    if is_cm:
+        return int(size) * 10
+
+    return int(size)

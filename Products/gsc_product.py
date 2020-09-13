@@ -7,5 +7,4 @@ class GSCProduct(Product):
         if not parser:
             parser = GSCProductParser
 
-        parser = parser(url)
-        super().__init__(parser)
+        super().__init__(url, parser)

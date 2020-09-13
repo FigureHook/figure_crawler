@@ -38,7 +38,8 @@ class BaseTestCase:
 
     def test_release_date(self, item):
         release_date = item["test"].parse_release_date()
-        assert type(release_date) is datetime
+        the_type = type(release_date)
+        assert the_type is datetime or the_type is None
         assert release_date.year == item["expected"]["release_date"][0]
         assert release_date.month == item["expected"]["release_date"][1]
 
@@ -206,6 +207,30 @@ class TestGSCParser(BaseTestCase):
                 False,  "©荒川弘／鋼の錬金術師製作委員会・MBS", "グッドスマイルカンパニー",
                 "グッドスマイルカンパニー", None, "10021",
                 "images.goodsmile.info/cgm/images/product/20200907/10021/74006/large/e1b9bd1473d3b1a6718e271d9bfad747.jpg"
+            )
+        },
+        {
+            "url": "https://www.goodsmile.info/ja/product/2171",
+            "detail": (
+                "九重りん　体操服ver.", "こどものじかん", "FREEing",
+                "フィギュア", 11238, (2009, 1, 1),
+                (None, None), 4, 190,
+                "FREEing", None,  False,
+                False,  "© 私屋カヲル／こどものじかん製作委員会", "FREEing",
+                "グッドスマイルカンパニー", None, "2171",
+                "images.goodsmile.info/cgm/images/product/20091023/2171/5942/large/e53693699d03e0847b42946c88d62f20.jpg"
+            )
+        },
+        {
+            "url": "https://www.goodsmile.info/ja/product/2138",
+            "detail": (
+                "両儀 式", "空の境界", "グッドスマイルカンパニー",
+                "フィギュア", 5238, (2009, 2, 1),
+                (None, None), 6, None,
+                "川畑和男・工藤祐司（マックスファクトリー）", None,  False,
+                False,  "© 奈須きのこ/講談社・アニプレックス・ノーツ・ufotable", "グッドスマイルカンパニー",
+                "グッドスマイルカンパニー", None, "2138",
+                "images.goodsmile.info/cgm/images/product/20091023/2138/5767/large/54d780148032d652cac51bbc02e9b443.jpg"
             )
         }
     )

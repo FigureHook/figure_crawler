@@ -2,7 +2,10 @@ from abc import ABC, abstractmethod
 
 
 class Product(ABC):
-    def __init__(self, parser):
+    def __init__(self, url, parser):
+        parser = parser(url)
+
+        self.__url = url
         self.__name = parser.parse_name()
         self.__series = parser.parse_series()
         self.__manufacturer = parser.parse_manufacturer()
@@ -22,6 +25,10 @@ class Product(ABC):
         self.__jan = parser.parse_JAN()
         self.__maker_id = parser.parse_maker_id()
         self.__images = parser.parse_images()
+
+    @property
+    def url(self):
+        return self.__url
 
     @property
     def maker_id(self):
