@@ -4,6 +4,8 @@ import pytest
 
 from Parsers import AlterProductParser, GSCProductParser
 
+from Parsers.gsc_parser import parse_locale
+
 basic_product_attr = [
     "name", "series", "manufacturer",
     "category", "price", "release_date",
@@ -349,3 +351,12 @@ class TestAlterParser(BaseTestCase):
             "test": AlterProductParser(request.param["url"]),
             "expected": make_expected_item(request.param["detail"])
         }
+
+class TestParserUtils:
+    def test_gsc_locale_parser(self):
+        en = "https://www.goodsmile.info/en/product/4364"
+        ja = "https://www.goodsmile.info/ja/product/4364"
+        zh = "https://www.goodsmile.info/zh/product/4364"
+        assert parse_locale(en) == "en"
+        assert parse_locale(ja) == "ja"
+        assert parse_locale(zh) == "zh"

@@ -1,6 +1,9 @@
 import re
 from datetime import datetime
-from typing import Tuple, Union
+from typing import List, Tuple, Union
+from urllib.parse import urlparse
+
+import yaml
 
 from constants import BrandHost
 from utils.checker import check_url_host
@@ -9,6 +12,10 @@ from utils.text_parser import scale_parse, size_parse
 from .base_product_parser import ProductParser
 
 Period = Tuple[datetime, datetime]
+
+with open("Parsers/locale/gsc_parse.yml", "r") as stream:
+    print('kappa')
+    locale = yaml.safe_load(stream)
 
 
 class GSCProductParser(ProductParser):
@@ -20,6 +27,7 @@ class GSCProductParser(ProductParser):
             }
 
         super().__init__(url, headers, cookies)
+        self.locale = parse_locale(url)
         self.detail = self._parse_detail()
 
     def _find_detail(self, name, text):
@@ -56,7 +64,8 @@ class GSCProductParser(ProductParser):
         return category
 
     def parse_price(self) -> int:
-        price_target = self._find_detail("dt", "価格")
+        tag = locale[self.locale]["price"]
+        price_target = self._find_detail("dt", tag)
 
         price_text = price_target.find_next("dd").text.strip()
         price_text = price_text.replace(",", "")
@@ -77,7 +86,8 @@ class GSCProductParser(ProductParser):
         return date
 
     def parse_sculptor(self) -> str:
-        sculptor_info = self._find_detail("dt", "原型制作")
+        tag = locale[self.locale]["sculptor"]
+        sculptor_info = self._find_detail("dt", tag)
 
         if not sculptor_info:
             return None
@@ -86,7 +96,8 @@ class GSCProductParser(ProductParser):
         return sculptor
 
     def parse_scale(self) -> Union[int, None]:
-        spec_target = self._find_detail("dt", "仕様")
+        tag = locale[self.locale]["spec"]
+        spec_target = self._find_detail("dt", tag)
 
         if not spec_target:
             return None
@@ -96,7 +107,8 @@ class GSCProductParser(ProductParser):
         return scale
 
     def parse_size(self) -> int:
-        spec_target = self._find_detail("dt", "仕様")
+        tag = locale[self.locale]["spec"]
+        spec_target = self._find_detail("dt", tag)
 
         if not spec_target:
             return None
@@ -106,7 +118,8 @@ class GSCProductParser(ProductParser):
         return size
 
     def parse_releaser(self) -> str:
-        detail_dd = self._find_detail("dt", "発売元")
+        tag = locale[self.locale]["releaser"]
+        detail_dd = self._find_detail("dt", tag)
 
         if not detail_dd:
             return self.parse_manufacturer()
@@ -115,7 +128,8 @@ class GSCProductParser(ProductParser):
         return releaser
 
     def parse_distributer(self) -> str:
-        detail_dd = self._find_detail("dt", "販売元")
+        tag = locale[self.locale]["distributer"]
+        detail_dd = self._find_detail("dt", tag)
 
         if not detail_dd:
             return self.parse_manufacturer()
@@ -132,7 +146,8 @@ class GSCProductParser(ProductParser):
         return _copyright.text.strip()
 
     def parse_resale(self) -> bool:
-        resale = self._find_detail("dt", "再販")
+        tag = locale[self.locale]["resale"]
+        resale = self._find_detail("dt", tag)
         return bool(resale)
 
     def parse_maker_id(self) -> str:
@@ -145,7 +160,7 @@ class GSCProductParser(ProductParser):
             return None, None
 
         period_text = period.text.strip()
-        pattern = r"(\d+)年(\d+)月(\d+)日（\S）(\d+):(\d+)"
+        pattern = locale[self.locale]["order_period"]
         period_list = re.findall(pattern, period_text)
 
         start = make_datetime(period_list[0])
@@ -153,14 +168,16 @@ class GSCProductParser(ProductParser):
         return start, end
 
     def parse_adult(self) -> bool:
-        keyword = re.compile(r"(18歳以上推奨)")
+        pattern = locale[self.locale]["adult"]
+        keyword = re.compile(pattern)
         info = self.page.select_one(".itemInfo")
         detaill_adult = info.find(text=keyword)
 
         return bool(detaill_adult)
 
     def parse_paintwork(self) -> Union[str, None]:
-        paintwork_title = self._find_detail("dt", "彩色")
+        tag = locale[self.locale]["paintwork"]
+        paintwork_title = self._find_detail("dt", tag)
 
         if not paintwork_title:
             return None
@@ -168,11 +185,15 @@ class GSCProductParser(ProductParser):
         paintwork = paintwork_title.find_next("dd").text.strip()
         return paintwork
 
-    def parse_images(self):
-        images_items = self.page.select('.itemImg')
+    def parse_images(self) -> List[str]:
+        images_items = self.page.select(".itemImg")
         images = [item["src"][2:] for item in images_items]
         return images
 
-
 def make_datetime(datetime_like):
     return datetime(*(int(x) for x in datetime_like))
+
+def parse_locale(url):
+    parsed_url = urlparse(url)
+    locale = re.match(r"^\/(\w+)\/", parsed_url.path).group(1)
+    return locale
