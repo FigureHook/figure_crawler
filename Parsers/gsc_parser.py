@@ -14,7 +14,6 @@ from .base_product_parser import ProductParser
 Period = Tuple[datetime, datetime]
 
 with open("Parsers/locale/gsc_parse.yml", "r") as stream:
-    print('kappa')
     locale = yaml.safe_load(stream)
 
 
@@ -58,8 +57,9 @@ class GSCProductParser(ProductParser):
         category = self.detail.find(
             "dd", {"itemprop": "category"}).text.strip()
 
-        if re.search("フィギュア", category):
-            return "フィギュア"
+        scale_category = locale[self.locale]['scale_category']
+        if re.search(scale_category, category):
+            return scale_category
 
         return category
 
@@ -161,10 +161,13 @@ class GSCProductParser(ProductParser):
 
         period_text = period.text.strip()
         pattern = locale[self.locale]["order_period"]
-        period_list = re.findall(pattern, period_text)
+        period_list = [x for x in re.finditer(pattern, period_text)]
 
-        start = make_datetime(period_list[0])
-        end = make_datetime(period_list[1]) if len(period_list) is 2 else None
+        start = make_datetime(period_list[0], self.locale)
+        end = None
+        if len(period_list) is 2:
+            end = make_datetime(period_list[1], self.locale)
+
         return start, end
 
     def parse_adult(self) -> bool:
@@ -190,8 +193,17 @@ class GSCProductParser(ProductParser):
         images = [item["src"][2:] for item in images_items]
         return images
 
-def make_datetime(datetime_like):
-    return datetime(*(int(x) for x in datetime_like))
+def make_datetime(period, locale):
+    year = period.group('year')
+    month = period.group('month')
+    day = period.group('day')
+    hour = period.group('hour')
+    minute = period.group('minute')
+
+    if locale == 'en':
+        month = datetime.strptime(month, '%B').month
+
+    return datetime(*(int(x) for x in (year, month, day, hour, minute)))
 
 def parse_locale(url):
     parsed_url = urlparse(url)
