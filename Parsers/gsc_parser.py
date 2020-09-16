@@ -6,6 +6,7 @@ from urllib.parse import urlparse
 import yaml
 
 from constants import BrandHost
+from DetailClass import OrderPeriod
 from utils.checker import check_url_host
 from utils.text_parser import scale_parse, size_parse
 
@@ -36,6 +37,23 @@ class GSCProductParser(ProductParser):
     def _parse_detail(self):
         detail = self.page.select_one(".itemDetail")
         return detail
+
+    def _parse_resale_date(self):
+        resale_tag = locale[self.locale]["resale"]
+        resale_date_info_tag = r"^{tag}$".format(tag=resale_tag)
+        resale_dates = self._find_detail("dt", resale_date_info_tag)
+        resale_date_text = resale_dates.find_next("dd").text.strip()
+
+        style = "%Y年%m月"
+
+
+        pattern = r"(\d+)\/(\d+)|(\d+)年(\d+)月"
+
+        found = re.finditer(pattern, resale_date_text)
+
+        dates = [datetime.strptime(f[0], style) for f in found]
+
+        return dates
 
     def parse_name(self) -> str:
         name = self.page.select_one(
@@ -70,30 +88,28 @@ class GSCProductParser(ProductParser):
         price_text = price_target.find_next("dd").text.strip()
         price_text = price_text.replace(",", "")
         price = int(re.search(r"\d+", price_text)[0])
-        return price
+        return [price]
 
     def parse_release_date(self) -> datetime:
         date_format = "%Y/%m"
         date_text = self.detail.find(
             "dd", {"itemprop": "releaseDate"}).text.strip()
 
-        isValidDate = bool(re.match(r"\d+/\d+", date_text))
-
-        if not isValidDate:
-            return None
+        if self.parse_resale():
+            return self._parse_resale_date()
 
         date = datetime.strptime(date_text, date_format)
-        return date
+        return [date]
 
     def parse_sculptor(self) -> str:
         tag = locale[self.locale]["sculptor"]
         sculptor_info = self._find_detail("dt", tag)
 
         if not sculptor_info:
-            return None
+            return [None]
 
         sculptor = sculptor_info.find_next("dd").text.strip()
-        return sculptor
+        return [sculptor]
 
     def parse_scale(self) -> Union[int, None]:
         tag = locale[self.locale]["spec"]
@@ -153,11 +169,11 @@ class GSCProductParser(ProductParser):
     def parse_maker_id(self) -> str:
         return re.findall(r"\d+", self.url)[0]
 
-    def parse_order_period(self) -> Period:
+    def parse_order_period(self):
         period = self.detail.select_one(".onlinedates")
 
         if not period:
-            return None, None
+            return None
 
         period_text = period.text.strip()
         pattern = locale[self.locale]["order_period"]
@@ -168,7 +184,7 @@ class GSCProductParser(ProductParser):
         if len(period_list) is 2:
             end = make_datetime(period_list[1], self.locale)
 
-        return start, end
+        return OrderPeriod(start, end)
 
     def parse_adult(self) -> bool:
         pattern = locale[self.locale]["adult"]
@@ -183,10 +199,10 @@ class GSCProductParser(ProductParser):
         paintwork_title = self._find_detail("dt", tag)
 
         if not paintwork_title:
-            return None
+            return [None]
 
         paintwork = paintwork_title.find_next("dd").text.strip()
-        return paintwork
+        return [paintwork]
 
     def parse_images(self) -> List[str]:
         images_items = self.page.select(".itemImg")

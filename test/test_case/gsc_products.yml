@@ -10,13 +10,18 @@
   order_period:
     end: 2016-05-25 21:00:00
     start: 2016-04-25 12:00:00
-  paintwork: null
-  price: 11800
-  release_date: 2016-09-01 00:00:00
+  paintwork:
+  - null
+  price:
+  - 11800
+  release_date:
+  - 2014-10-01 00:00:00
+  - 2016-09-01 00:00:00
   releaser: ウイング
   resale: true
   scale: 7
-  sculptor: 絵里子（新居興業）
+  sculptor:
+  - 絵里子（新居興業）
   series: 装甲悪鬼村正
   size: 250
   url: https://www.goodsmile.info/ja/product/4364
@@ -32,13 +37,17 @@
   order_period:
     end: 2019-12-18 21:00:00
     start: 2019-11-14 12:00:00
-  paintwork: null
-  price: 12545
-  release_date: 2020-06-01 00:00:00
+  paintwork:
+  - null
+  price:
+  - 12545
+  release_date:
+  - 2020-06-01 00:00:00
   releaser: Myethos
   resale: false
   scale: 7
-  sculptor: SunYaMing
+  sculptor:
+  - SunYaMing
   series: 'A-Z:'
   size: 250
   url: https://www.goodsmile.info/ja/product/8978
@@ -54,13 +63,17 @@
   order_period:
     end: 2020-08-26 21:00:00
     start: 2020-06-26 12:00:00
-  paintwork: 佐倉
-  price: 32000
-  release_date: 2021-09-01 00:00:00
+  paintwork:
+  - 佐倉
+  price:
+  - 32000
+  release_date:
+  - 2021-09-01 00:00:00
   releaser: ファット・カンパニー
   resale: false
   scale: 7
-  sculptor: 間崎祐介
+  sculptor:
+  - 間崎祐介
   series: Fate/Grand Order
   size: 280
   url: https://www.goodsmile.info/ja/product/9683
@@ -76,13 +89,17 @@
   order_period:
     end: 2020-06-10 21:00:00
     start: 2020-03-26 12:00:00
-  paintwork: かわも（リボルブ）
-  price: 21818
-  release_date: 2020-12-01 00:00:00
+  paintwork:
+  - かわも（リボルブ）
+  price:
+  - 21818
+  release_date:
+  - 2020-12-01 00:00:00
   releaser: KADOKAWA
   resale: false
   scale: 7
-  sculptor: のぶた（リボルブ）
+  sculptor:
+  - のぶた（リボルブ）
   series: 劇場版Fate/stay night [Heaven's Feel]
   size: 275
   url: https://www.goodsmile.info/ja/product/9361
@@ -98,13 +115,17 @@
   order_period:
     end: 2020-09-23 21:00:00
     start: 2020-08-18 12:00:00
-  paintwork: null
-  price: 16000
-  release_date: 2020-12-01 00:00:00
+  paintwork:
+  - null
+  price:
+  - 16000
+  release_date:
+  - 2020-12-01 00:00:00
   releaser: ウイング
   resale: false
   scale: 7
-  sculptor: 絵里子（新居興業）
+  sculptor:
+  - 絵里子（新居興業）
   series: 装甲悪鬼村正
   size: 240
   url: https://www.goodsmile.info/ja/product/9925
@@ -121,13 +142,17 @@
   order_period:
     end: 2020-09-30 21:00:00
     start: 2020-08-04 12:00:00
-  paintwork: null
-  price: 3545
-  release_date: 2021-01-01 00:00:00
+  paintwork:
+  - null
+  price:
+  - 3545
+  release_date:
+  - 2021-01-01 00:00:00
   releaser: グッドスマイルカンパニー
   resale: false
   scale: null
-  sculptor: jarel
+  sculptor:
+  - jarel
   series: RWBY(ルビー)
   size: 170
   url: https://www.goodsmile.info/ja/product/9888
@@ -145,13 +170,17 @@
   order_period:
     end: 2020-08-19 21:00:00
     start: 2020-06-30 12:00:00
-  paintwork: null
-  price: 60000
-  release_date: 2021-06-01 00:00:00
+  paintwork:
+  - null
+  price:
+  - 60000
+  release_date:
+  - 2021-06-01 00:00:00
   releaser: threezero
   resale: false
   scale: null
-  sculptor: threezero
+  sculptor:
+  - threezero
   series: BUMBLEBEE（バンブルビー）
   size: 480
   url: https://www.goodsmile.info/ja/product/9709
@@ -167,13 +196,17 @@
   order_period:
     end: 2020-10-07 21:00:00
     start: 2020-09-10 12:00:00
-  paintwork: null
-  price: 3545
-  release_date: 2021-01-01 00:00:00
+  paintwork:
+  - null
+  price:
+  - 3545
+  release_date:
+  - 2021-01-01 00:00:00
   releaser: グッドスマイルカンパニー
   resale: false
   scale: null
-  sculptor: null
+  sculptor:
+  - null
   series: 鋼の錬金術師 FULLMETAL ALCHEMIST
   size: 155
   url: https://www.goodsmile.info/ja/product/10021
@@ -189,13 +222,17 @@
   order_period:
     end: null
     start: null
-  paintwork: null
-  price: 11238
-  release_date: 2009-01-01 00:00:00
+  paintwork:
+  - null
+  price:
+  - 11238
+  release_date:
+  - 2009-01-01 00:00:00
   releaser: FREEing
   resale: false
   scale: 4
-  sculptor: FREEing
+  sculptor:
+  - FREEing
   series: こどものじかん
   size: 190
   url: https://www.goodsmile.info/ja/product/2171
@@ -211,13 +248,48 @@
   order_period:
     end: null
     start: null
-  paintwork: null
-  price: 5238
-  release_date: 2009-02-01 00:00:00
+  paintwork:
+  - null
+  price:
+  - 5238
+  release_date:
+  - 2009-02-01 00:00:00
   releaser: グッドスマイルカンパニー
   resale: false
   scale: 6
-  sculptor: 川畑和男・工藤祐司（マックスファクトリー）
+  sculptor:
+  - 川畑和男
+  - 工藤祐司（マックスファクトリー）
   series: 空の境界
   size: null
   url: https://www.goodsmile.info/ja/product/2138
+- JAN: null
+  adult: false
+  category: フィギュア
+  copyright: ©Spike Chunsoft Co., Ltd./希望ヶ峰学園映像部 All Rights Reserved.
+  distributer: グッドスマイルカンパニー
+  images: images.goodsmile.info/cgm/images/product/20140120/4198/27708/large/e25883005d4b4d330d97b1d620a8aa66.jpg
+  maker_id: '4198'
+  manufacturer: Phat!
+  name: 霧切響子
+  order_period:
+    end: 2020-07-22 21:00:00
+    start: 2020-05-21 12:00:00
+  paintwork:
+  - 髙山英樹
+  price:
+  - 13000
+  - 11000
+  - 10000
+  release_date:
+  - 2021-05-01 00:00:00
+  - 2017-04-01 00:00:00
+  - 2014-10-01 00:00:00
+  releaser: Phat!
+  resale: true
+  scale: 8
+  sculptor:
+  - iTANDi
+  series: ダンガンロンパ 希望の学園と絶望の高校生 The Animation
+  size: 150
+  url: https://www.goodsmile.info/ja/product/4198
