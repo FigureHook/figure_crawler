@@ -59,10 +59,9 @@ class BaseTestCase:
     def test_price(self, item):
         price = item["test"].parse_price()
 
-        for p in price:
+        for p, ep in zip(price, item["expected"]["price"]):
             assert type(p) is int
-
-        assert sorted(price) == sorted(item["expected"]["price"])
+            assert p == ep
 
 
     def test_maker_id(self, item):

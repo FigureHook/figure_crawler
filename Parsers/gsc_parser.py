@@ -34,6 +34,10 @@ class GSCProductParser(ProductParser):
         target = self.detail.find(name=name, text=re.compile(text))
         return target
 
+    def _find_detail_all(self, name, text):
+        targets = self.detail.find_all(name=name, text=re.compile(text))
+        return targets
+
     def _parse_detail(self):
         detail = self.page.select_one(".itemDetail")
         return detail
@@ -54,6 +58,10 @@ class GSCProductParser(ProductParser):
         dates = [datetime.strptime(f[0], style) for f in found]
 
         return dates
+
+    def _parse_resale_price(self):
+        price_items = self.detail.find_all(name="dt", text=re.compile(r"販(\w|)価格"))
+        return price_items
 
     def parse_name(self) -> str:
         name = self.page.select_one(
@@ -82,13 +90,19 @@ class GSCProductParser(ProductParser):
         return category
 
     def parse_price(self) -> int:
+        price_slot = []
         tag = locale[self.locale]["price"]
-        price_target = self._find_detail("dt", tag)
+        price_targets = self._find_detail_all("dt", tag)
 
-        price_text = price_target.find_next("dd").text.strip()
-        price_text = price_text.replace(",", "")
-        price = int(re.search(r"\d+", price_text)[0])
-        return [price]
+        for targets in price_targets:
+            price_text = targets.find_next("dd").text.strip()
+            price_text = price_text.replace(",", "")
+            price = int(re.search(r"\d+", price_text)[0])
+            if price not in price_slot:
+                price_slot.append(price)
+
+        price_slot = price_slot[1:] + price_slot[:1]
+        return price_slot
 
     def parse_release_date(self) -> datetime:
         date_format = "%Y/%m"

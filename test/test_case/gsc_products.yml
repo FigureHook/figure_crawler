@@ -278,13 +278,13 @@
   paintwork:
   - 髙山英樹
   price:
-  - 13000
-  - 11000
   - 10000
+  - 11000
+  - 13000
   release_date:
-  - 2021-05-01 00:00:00
-  - 2017-04-01 00:00:00
   - 2014-10-01 00:00:00
+  - 2017-04-01 00:00:00
+  - 2021-05-01 00:00:00
   releaser: Phat!
   resale: true
   scale: 8
@@ -293,3 +293,60 @@
   series: ダンガンロンパ 希望の学園と絶望の高校生 The Animation
   size: 150
   url: https://www.goodsmile.info/ja/product/4198
+- JAN: null
+  adult: false
+  category: フィギュア
+  copyright: ©長月達平・株式会社KADOKAWA刊／Re:ゼロから始める異世界生活製作委員会
+  distributer: グッドスマイルカンパニー
+  images: images.goodsmile.info/cgm/images/product/20170210/6256/43795/large/e69c3be08309486616d9d792d0f478af.jpg
+  maker_id: '6256'
+  manufacturer: グッドスマイルカンパニー
+  name: レム
+  order_period:
+    end: 2020-08-19 21:00:00
+    start: 2020-06-19 12:00:00
+  paintwork:
+  - Luu(グッドスマイル上海)
+  - えこし
+  price:
+  - 11389
+  - 11818
+  release_date:
+  - 2018-02-01 00:00:00
+  - 2021-04-01 00:00:00
+  releaser: グッドスマイルカンパニー
+  resale: true
+  scale: 7
+  sculptor:
+  - ゆうこ～ん(knead)
+  series: Re:ゼロから始める異世界生活
+  size: 225
+  url: https://www.goodsmile.info/ja/product/6256
+- JAN: null
+  adult: false
+  category: POP UP PARADE
+  copyright: ©Crypton Future Media, INC. www.piapro.net
+  distributer: グッドスマイルカンパニー
+  images: images.goodsmile.info/cgm/images/product/20190212/8067/58180/large/4a628e50a64e11b59cc57f84c66cafbf.jpg
+  maker_id: '8067'
+  manufacturer: グッドスマイルカンパニー
+  name: POP UP PARADE 初音ミク
+  order_period:
+    end: 2020-06-24 21:00:00
+    start: 2020-05-22 12:00:00
+  paintwork:
+  - エムアイシー
+  price:
+  - 3611
+  - 3545
+  release_date:
+  - 2019-06-01 00:00:00
+  - 2020-10-01 00:00:00
+  releaser: グッドスマイルカンパニー
+  resale: true
+  scale: null
+  sculptor:
+  - デザインココ
+  series: キャラクター・ボーカル・シリーズ01 初音ミク
+  size: 170
+  url: https://www.goodsmile.info/ja/product/8067
