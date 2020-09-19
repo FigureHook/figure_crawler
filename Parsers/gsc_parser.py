@@ -42,7 +42,7 @@ class GSCProductParser(ProductParser):
         detail = self.page.select_one(".itemDetail")
         return detail
 
-    def _parse_resale_date(self):
+    def _parse_resale_date(self) -> List[datetime]:
         resale_tag = locale[self.locale]["resale"]
         resale_date_info_tag = r"^{tag}$".format(tag=resale_tag)
         resale_dates = self._find_detail("dt", resale_date_info_tag)
@@ -59,7 +59,7 @@ class GSCProductParser(ProductParser):
 
         return dates
 
-    def _parse_resale_price(self):
+    def _parse_resale_price(self) -> List:
         price_items = self.detail.find_all(name="dt", text=re.compile(r"販(\w|)価格"))
         return price_items
 
@@ -89,7 +89,7 @@ class GSCProductParser(ProductParser):
 
         return category
 
-    def parse_price(self) -> int:
+    def parse_price(self) -> List[int]:
         price_slot = []
         tag = locale[self.locale]["price"]
         price_targets = self._find_detail_all("dt", tag)
@@ -104,7 +104,7 @@ class GSCProductParser(ProductParser):
         price_slot = price_slot[1:] + price_slot[:1]
         return price_slot
 
-    def parse_release_date(self) -> datetime:
+    def parse_release_date(self) -> List[datetime]:
         date_format = "%Y/%m"
         date_text = self.detail.find(
             "dd", {"itemprop": "releaseDate"}).text.strip()
@@ -115,7 +115,7 @@ class GSCProductParser(ProductParser):
         date = datetime.strptime(date_text, date_format)
         return [date]
 
-    def parse_sculptor(self) -> str:
+    def parse_sculptor(self) -> List[Union[str, None]]:
         tag = locale[self.locale]["sculptor"]
         sculptor_info = self._find_detail("dt", tag)
 
@@ -209,7 +209,7 @@ class GSCProductParser(ProductParser):
 
         return bool(detaill_adult)
 
-    def parse_paintwork(self) -> Union[str, None]:
+    def parse_paintwork(self) -> List[Union[str, None]]:
         tag = locale[self.locale]["paintwork"]
         paintwork_title = self._find_detail("dt", tag)
 
@@ -225,7 +225,7 @@ class GSCProductParser(ProductParser):
         images = [item["src"][2:] for item in images_items]
         return images
 
-def make_datetime(period, locale):
+def make_datetime(period, locale) -> datetime:
     year = period.group('year')
     month = period.group('month')
     day = period.group('day')
@@ -237,11 +237,11 @@ def make_datetime(period, locale):
 
     return datetime(*(int(x) for x in (year, month, day, hour, minute)))
 
-def parse_locale(url):
+def parse_locale(url) -> str:
     parsed_url = urlparse(url)
     locale = re.match(r"^\/(\w+)\/", parsed_url.path).group(1)
     return locale
 
-def parse_people(people_text):
+def parse_people(people_text) -> List[str]:
     people = re.split(r'・|、', people_text)
     return people
