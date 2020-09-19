@@ -12,6 +12,12 @@ en:
   order_period: (?P<day>\d+)\S+ (?P<month>\S+) (?P<year>\d+) \(\S+\) \S+ (?P<hour>\d+):(?P<minute>\d+)
   adult: Recommeded for Adults Only | 18 and up | 18 and over
   scale_category: Scale
+  weird_date_pattern: .*\s(\d+)
+  seasons:
+    spring: 3
+    summer: 6
+    autumn: 9
+    winter: 12
 ja:
   series: 作品名
   manufacturer: メーカー
@@ -26,6 +32,12 @@ ja:
   order_period: (?P<year>\d+)年(?P<month>\d+)月(?P<day>\d+)日（\S）(?P<hour>\d+):(?P<minute>\d+)
   adult: 18歳以上推奨
   scale_category: フィギュア
+  weird_date_pattern: (\d+)[\/|年]
+  seasons:
+    春: 3
+    夏: 6
+    秋: 9
+    冬: 12
 zh:
   series: 作品名稱
   manufacturer: 製造商
@@ -40,3 +52,9 @@ zh:
   order_period: (?P<year>\d+)年(?P<month>\d+)月(?P<day>\d+)日（\S）(?P<hour>\d+):(?P<minute>\d+)
   adult: 18歲以上建議
   scale_category: 比例模型
+  weird_date_pattern: (\d+)[\/|年]
+  seasons:
+    春: 3
+    夏: 6
+    秋: 9
+    冬: 12
