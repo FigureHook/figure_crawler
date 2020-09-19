@@ -402,3 +402,56 @@
   series: 刀剣乱舞-ONLINE-
   size: 1800
   url: https://www.goodsmile.info/ja/product/7619
+- JAN: null
+  adult: false
+  category: フィギュア
+  copyright: ©円谷プロ ©2018 TRIGGER・雨宮哲／「GRIDMAN」製作委員会
+  distributer: グッドスマイルカンパニー
+  images: images.goodsmile.info/cgm/images/product/20191204/9052/65762/large/5839ac9fcd1f23c375b78d9edf96b2c3.jpg
+  maker_id: '9052'
+  manufacturer: グッドスマイルカンパニー
+  name: 超合体超人 DXフルパワーグリッドマン Initial Fighter カラー
+  order_period:
+    end: null
+    start: 2020-02-09 16:00:00
+  paintwork:
+  - null
+  price:
+  - 15909
+  release_date:
+  - 2020-02-01 00:00:00
+  releaser: グッドスマイルカンパニー
+  resale: false
+  scale: null
+  sculptor:
+  - アストレイズ
+  series: SSSS.GRIDMAN
+  size: 210
+  url: https://www.goodsmile.info/ja/product/9052
+- JAN: null
+  adult: false
+  category: フィギュア
+  copyright: ©Disney
+  distributer: グッドスマイルカンパニー
+  images: images.goodsmile.info/cgm/images/product/20181107/7782/55778/large/897a4e12d91030373cab856db8759a56.jpg
+  maker_id: '7782'
+  manufacturer: グッドスマイルカンパニー
+  name: MICKEY MOUSE & MINNIE MOUSE 90TH ANNIVERSARY EDITION JAMES JEAN × GOOD SMILE COMPANY
+  order_period:
+    end: 2019-12-11 21:00:00
+    start: 2019-11-22 12:00:00
+  paintwork:
+  - null
+  price:
+  - 160000
+  release_date:
+  - 2018-11-01 00:00:00
+  - 2019-12-01 00:00:00
+  releaser: グッドスマイルカンパニー
+  resale: false
+  scale: null
+  sculptor:
+  - null
+  series: Mickey Mouse
+  size: 250
+  url: https://www.goodsmile.info/ja/product/7782

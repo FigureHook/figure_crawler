@@ -47,6 +47,9 @@ class BaseTestCase:
         start = order_period.start
         end = order_period.end
 
+        if not end:
+            pytest.xfail("Some products could be ordered until sold out.")
+
         assert type(start) is datetime
         assert type(end) is datetime
         assert start == item["expected"]["order_period"]["start"]
