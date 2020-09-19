@@ -136,5 +136,4 @@ class Product(ABC):
         return self.__repr__()
 
     def __repr__(self):
-        full_product_name = "[{manufacturer}] {name} {category}".format(**self)
-        return full_product_name
+        return "[{manufacturer}] {name} {category}".format(**self)

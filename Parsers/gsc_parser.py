@@ -123,7 +123,8 @@ class GSCProductParser(ProductParser):
             return [None]
 
         sculptor = sculptor_info.find_next("dd").text.strip()
-        return [sculptor]
+        sulptors = parse_people(sculptor)
+        return sulptors
 
     def parse_scale(self) -> Union[int, None]:
         tag = locale[self.locale]["spec"]
@@ -216,7 +217,8 @@ class GSCProductParser(ProductParser):
             return [None]
 
         paintwork = paintwork_title.find_next("dd").text.strip()
-        return [paintwork]
+        paintworks = parse_people(paintwork)
+        return paintworks
 
     def parse_images(self) -> List[str]:
         images_items = self.page.select(".itemImg")
@@ -239,3 +241,7 @@ def parse_locale(url):
     parsed_url = urlparse(url)
     locale = re.match(r"^\/(\w+)\/", parsed_url.path).group(1)
     return locale
+
+def parse_people(people_text):
+    people = re.split(r'・|、', people_text)
+    return people

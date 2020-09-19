@@ -350,3 +350,55 @@
   series: キャラクター・ボーカル・シリーズ01 初音ミク
   size: 170
   url: https://www.goodsmile.info/ja/product/8067
+- JAN: null
+  adult: false
+  category: フィギュア
+  copyright: ©2013 アイディアファクトリー・コンパイルハート/ネプテューヌ製作委員会
+  distributer: フロンティアワークス
+  images: images.goodsmile.info/cgm/images/product/20191210/9066/65902/large/bdc4ace29c91df869779be233519fa48.jpg
+  maker_id: '9066'
+  manufacturer: その他
+  name: パープルハート・ライラックCOOL（OVA「超次元ゲイム ネプテューヌ ～ねぷのなつやすみ～」ブルーレイ＜完全初回限定生産＞同梱）
+  order_period:
+    end: null
+    start: null
+  paintwork:
+  - 中野フィギュア教室（福井）
+  price:
+  - 32000
+  release_date:
+  - 2020-12-25 00:00:00
+  releaser: フロンティアワークス
+  resale: false
+  scale: 7
+  sculptor:
+  - モワノー
+  series: 超次元ゲイム ネプテューヌ ～ねぷのなつやすみ～
+  size: 250
+  url: https://www.goodsmile.info/ja/product/9066
+- JAN: null
+  adult: false
+  category: フィギュア
+  copyright: ©2015-2019 DMM GAMES/Nitroplus
+  distributer: グッドスマイルカンパニー
+  images: images.goodsmile.info/cgm/images/product/20180919/7619/54677/large/0699a9a7c74b5e7e58087047743d0f64.jpg
+  maker_id: '7619'
+  manufacturer: オランジュ・ルージュ
+  name: 一分の一スケール　三日月宗近
+  order_period:
+    end: null
+    start: null
+  paintwork:
+  - null
+  price:
+  - 2777778
+  release_date:
+  - 2020-12-25 00:00:00
+  releaser: オランジュ・ルージュ
+  resale: false
+  scale: 1
+  sculptor:
+  - プラスティックマニア
+  series: 刀剣乱舞-ONLINE-
+  size: 1800
+  url: https://www.goodsmile.info/ja/product/7619
