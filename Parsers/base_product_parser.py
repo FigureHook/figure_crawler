@@ -1,6 +1,8 @@
 from abc import ABC, abstractmethod
 from datetime import datetime
-from typing import List
+from typing import List, Union
+
+from DetailClass import OrderPeriod
 
 from utils import get_page
 
@@ -74,19 +76,19 @@ class ProductParser(ABC):
     def parse_images(self) -> List[str]:
         pass
 
-    def parse_distributer(self):
+    def parse_distributer(self) -> Union[str, None]:
         return None
 
     def parse_adult(self) -> bool:
         return False
 
-    def parse_order_period(self) -> tuple:
+    def parse_order_period(self) -> Union[OrderPeriod, None]:
         return None
 
     def parse_paintwork(self) -> List[str]:
         return None
 
-    def parse_JAN(self) -> str:
+    def parse_JAN(self) -> Union[str, None]:
         return None
 
     def parse_maker_id(self) -> str:

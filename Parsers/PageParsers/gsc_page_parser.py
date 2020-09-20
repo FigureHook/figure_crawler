@@ -13,17 +13,18 @@ class GSCYearlyAnnouncement:
 
         self.period = range(start, end+1)
         self.base_url = make_base_url(category, lang)
-        self.current_year = start
+        self.current = start
 
     def _get_yearly_items(self, year):
         item_selector = ".hitItem:not(.shimeproduct) > .hitBox > a"
         url = self.base_url(year)
         page = get_page(url)
         items = page.select(item_selector)
+        return items
 
     def __iter__(self):
         for year in self.period:
-            self.current_year = year
+            self.current = year
             items = self._get_yearly_items(year)
             self.total = len(items)
             product_urls = (item["href"] for item in items)
