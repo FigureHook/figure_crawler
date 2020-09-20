@@ -1,6 +1,6 @@
 import re
 from datetime import datetime
-from typing import List, Tuple, Union
+from typing import List, Union
 from urllib.parse import urlparse
 
 import yaml
@@ -11,8 +11,6 @@ from utils.checker import check_url_host
 from utils.text_parser import scale_parse, size_parse
 
 from .base_product_parser import ProductParser
-
-Period = Tuple[datetime, datetime]
 
 with open("Parsers/locale/gsc_parse.yml", "r") as stream:
     locale_dict = yaml.safe_load(stream)
@@ -47,19 +45,20 @@ class GSCProductParser(ProductParser):
 
     def _parse_resale_date(self) -> List[datetime]:
         resale_tag = self._get_from_locale("resale")
-        resale_date_info_tag = r"^{tag}$".format(tag=resale_tag)
+        resale_date_info_tag = r"^\s?{tag}".format(tag=resale_tag)
         resale_dates = self._find_detail("dt", resale_date_info_tag)
-        resale_date_text = resale_dates.find_next("dd").text.strip()
+        resale_date_text = ""
+
+        if resale_dates:
+            resale_date_text = resale_dates.find_next("dd").text.strip()
+        if not resale_dates:
+            resale_dates = self._find_detail("dt", resale_tag)
+            resale_date_text = resale_dates.text.strip()
 
         style = "%Y年%m月"
-
-
         pattern = r"(\d+)\/(\d+)|(\d+)年(\d+)月"
-
         found = re.finditer(pattern, resale_date_text)
-
         dates = [datetime.strptime(f[0], style) for f in found]
-
         return dates
 
     def _parse_resale_price(self) -> List:

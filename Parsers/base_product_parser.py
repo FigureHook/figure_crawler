@@ -1,15 +1,14 @@
-import re
 from abc import ABC, abstractmethod
 from datetime import datetime
+from typing import List
 
-import requests as rq
-from bs4 import BeautifulSoup
+from utils import get_page
 
 
 class ProductParser(ABC):
     def __init__(self, url, headers, cookies):
         self.__url = url
-        self.__page = self._parse_page(headers, cookies)
+        self.__page = get_page(url, headers, cookies)
 
     @property
     def url(self):
@@ -18,11 +17,6 @@ class ProductParser(ABC):
     @property
     def page(self):
         return self.__page
-
-    def _parse_page(self, headers, cookies):
-        response = rq.get(self.url, headers=headers, cookies=cookies)
-        page = BeautifulSoup(response.text, "lxml")
-        return page
 
     @abstractmethod
     def _parse_detail(self):
@@ -45,15 +39,15 @@ class ProductParser(ABC):
         pass
 
     @abstractmethod
-    def parse_price(self) -> int:
+    def parse_price(self) -> List[int]:
         pass
 
     @abstractmethod
-    def parse_release_date(self):
+    def parse_release_date(self) -> List[datetime]:
         pass
 
     @abstractmethod
-    def parse_sculptor(self) -> str:
+    def parse_sculptor(self) -> List[str]:
         pass
 
     @abstractmethod
@@ -77,7 +71,7 @@ class ProductParser(ABC):
         pass
 
     @abstractmethod
-    def parse_images(self):
+    def parse_images(self) -> List[str]:
         pass
 
     def parse_distributer(self):
@@ -87,9 +81,9 @@ class ProductParser(ABC):
         return False
 
     def parse_order_period(self) -> tuple:
-        return (None, None)
+        return None
 
-    def parse_paintwork(self) -> str:
+    def parse_paintwork(self) -> List[str]:
         return None
 
     def parse_JAN(self) -> str:
