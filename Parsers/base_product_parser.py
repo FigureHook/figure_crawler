@@ -1,6 +1,4 @@
-import re
 from abc import ABC, abstractmethod
-from datetime import datetime
 
 import requests as rq
 from bs4 import BeautifulSoup
