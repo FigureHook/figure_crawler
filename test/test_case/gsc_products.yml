@@ -10,8 +10,7 @@
   order_period:
     end: 2016-05-25 21:00:00
     start: 2016-04-25 12:00:00
-  paintwork:
-  - null
+  paintwork: []
   price:
   - 11800
   release_date:
@@ -37,8 +36,7 @@
   order_period:
     end: 2019-12-18 21:00:00
     start: 2019-11-14 12:00:00
-  paintwork:
-  - null
+  paintwork: []
   price:
   - 12545
   release_date:
@@ -115,8 +113,7 @@
   order_period:
     end: 2020-09-23 21:00:00
     start: 2020-08-18 12:00:00
-  paintwork:
-  - null
+  paintwork: []
   price:
   - 16000
   release_date:
@@ -142,8 +139,7 @@
   order_period:
     end: 2020-09-30 21:00:00
     start: 2020-08-04 12:00:00
-  paintwork:
-  - null
+  paintwork: []
   price:
   - 3545
   release_date:
@@ -170,8 +166,7 @@
   order_period:
     end: 2020-08-19 21:00:00
     start: 2020-06-30 12:00:00
-  paintwork:
-  - null
+  paintwork: []
   price:
   - 60000
   release_date:
@@ -196,8 +191,7 @@
   order_period:
     end: 2020-10-07 21:00:00
     start: 2020-09-10 12:00:00
-  paintwork:
-  - null
+  paintwork: []
   price:
   - 3545
   release_date:
@@ -205,8 +199,7 @@
   releaser: グッドスマイルカンパニー
   resale: false
   scale: null
-  sculptor:
-  - null
+  sculptor: []
   series: 鋼の錬金術師 FULLMETAL ALCHEMIST
   size: 155
   url: https://www.goodsmile.info/ja/product/10021
@@ -222,8 +215,7 @@
   order_period:
     end: null
     start: null
-  paintwork:
-  - null
+  paintwork: []
   price:
   - 11238
   release_date:
@@ -248,8 +240,7 @@
   order_period:
     end: null
     start: null
-  paintwork:
-  - null
+  paintwork: []
   price:
   - 5238
   release_date:
@@ -318,7 +309,7 @@
   scale: 8
   sculptor:
   - iTANDi
-  series: "Danganronpa: Kibou no Gakuen to Zetsubou no Koukousei The Animation"
+  series: 'Danganronpa: Kibou no Gakuen to Zetsubou no Koukousei The Animation'
   size: 150
   url: https://www.goodsmile.info/en/product/4198
 - JAN: null
@@ -416,12 +407,11 @@
   order_period:
     end: null
     start: null
-  paintwork:
-  - null
+  paintwork: []
   price:
   - 2777778
   release_date:
-  - 2019-9-1 00:00:00
+  - 2019-09-01 00:00:00
   releaser: オランジュ・ルージュ
   resale: false
   scale: 1
@@ -442,8 +432,7 @@
   order_period:
     end: null
     start: null
-  paintwork:
-  - null
+  paintwork: []
   price:
   - 15909
   release_date:
@@ -456,6 +445,7 @@
   series: SSSS.GRIDMAN
   size: 210
   url: https://www.goodsmile.info/ja/product/9052
+
 # - JAN: null
 #   adult: false
 #   category: フィギュア
