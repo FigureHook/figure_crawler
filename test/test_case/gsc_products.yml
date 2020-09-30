@@ -295,6 +295,34 @@
   url: https://www.goodsmile.info/ja/product/4198
 - JAN: null
   adult: false
+  category: Scale
+  copyright: ©Spike Chunsoft Co., Ltd./希望ヶ峰学園映像部 All Rights Reserved.
+  distributer: Good Smile Company
+  images: images.goodsmile.info/cgm/images/product/20140120/4198/27706/large/4e17730853b6d42d484f618783639de6.jpg
+  maker_id: '4198'
+  manufacturer: Phat!
+  name: Kyoko Kirigiri
+  order_period:
+    end: 2020-07-23 12:00:00
+    start: 2020-05-21 12:00:00
+  paintwork:
+  - Takayama Hideki
+  price:
+  - 13000
+  release_date:
+  - 2014-10-01 00:00:00
+  - 2017-02-01 00:00:00
+  - 2021-05-01 00:00:00
+  releaser: Phat! Company
+  resale: true
+  scale: 8
+  sculptor:
+  - iTANDi
+  series: "Danganronpa: Kibou no Gakuen to Zetsubou no Koukousei The Animation"
+  size: 150
+  url: https://www.goodsmile.info/en/product/4198
+- JAN: null
+  adult: false
   category: フィギュア
   copyright: ©長月達平・株式会社KADOKAWA刊／Re:ゼロから始める異世界生活製作委員会
   distributer: グッドスマイルカンパニー

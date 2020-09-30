@@ -47,16 +47,11 @@ class GSCProductParser(ProductParser):
         resale_tag = self._get_from_locale("resale")
         resale_date_info_tag = r"^\s?{tag}".format(tag=resale_tag)
         resale_dates = self._find_detail("dt", resale_date_info_tag)
-        resale_date_text = ""
+        resale_date_text = resale_dates.find_next("dd").text.strip()
 
-        if resale_dates:
-            resale_date_text = resale_dates.find_next("dd").text.strip()
-        if not resale_dates:
-            resale_dates = self._find_detail("dt", resale_tag)
-            resale_date_text = resale_dates.text.strip()
+        style = self._get_from_locale("release_date_format")
+        pattern = self._get_from_locale("release_date_pattern")
 
-        style = "%Y年%m月"
-        pattern = r"(\d+)\/(\d+)|(\d+)年(\d+)月"
         found = re.finditer(pattern, resale_date_text)
         dates = [datetime.strptime(f[0], style) for f in found]
         return dates
@@ -107,7 +102,7 @@ class GSCProductParser(ProductParser):
         return price_slot
 
     def parse_release_date(self) -> List[datetime]:
-        pattern = r"(\d+)[\/|年](\d+)月?"
+        pattern = self._get_from_locale("release_date_pattern")
         weird_pattern = self._get_from_locale("weird_date_pattern")
         date_text = self.detail.find(
             "dd", {"itemprop": "releaseDate"}).text.strip()
@@ -117,8 +112,10 @@ class GSCProductParser(ProductParser):
 
         date_list = []
         if re.match(pattern, date_text):
-            for ds in re.findall(pattern, date_text):
-                the_datetime = datetime(*(int(d) for d in ds), 1)
+            for matched_date in re.finditer(pattern, date_text):
+                year = int(matched_date.group('year'))
+                month = int(matched_date.group('month'))
+                the_datetime = datetime(year, month, 1)
                 date_list.append(the_datetime)
 
 
@@ -208,7 +205,7 @@ class GSCProductParser(ProductParser):
             return None
 
         period_text = period.text.strip()
-        pattern = self._get_from_locale("order_period")
+        pattern = self._get_from_locale("order_period_pattern")
         period_list = [x for x in re.finditer(pattern, period_text)]
 
         start = make_datetime(period_list[0], self.locale)

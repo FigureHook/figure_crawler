@@ -27,7 +27,7 @@ class OrderPeriod:
         return getattr(self, key)
 
     def __repr__(self):
-        return "{class_name}({start}, {end}}".format(
+        return "{class_name}({start}, {end})".format(
             class_name=self.__class__.__name__,
             **self
         )
