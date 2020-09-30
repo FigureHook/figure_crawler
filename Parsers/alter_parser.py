@@ -68,7 +68,7 @@ class AlterProductParser(ProductParser):
         return scale
 
     def parse_sculptor(self) -> str:
-        sculptor = self.spec["原型"]
+        sculptor = "".join(self.spec["原型"].split())
         return sculptor
 
     def parse_series(self) -> str:
