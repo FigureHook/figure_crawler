@@ -8,7 +8,7 @@ import yaml
 from constants import BrandHost
 from DetailClass import OrderPeriod
 from utils.checker import check_url_host
-from utils.text_parser import scale_parse, size_parse
+from utils.text_parser import scale_parse, size_parse, price_parse
 
 from .base_product_parser import ProductParser
 
@@ -93,8 +93,7 @@ class GSCProductParser(ProductParser):
 
         for targets in price_targets:
             price_text = targets.find_next("dd").text.strip()
-            price_text = price_text.replace(",", "")
-            price = int(re.search(r"\d+", price_text)[0])
+            price = price_parse(price_text)
             if price not in price_slot:
                 price_slot.append(price)
 
