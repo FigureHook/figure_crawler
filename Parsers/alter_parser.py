@@ -53,19 +53,20 @@ class AlterProductParser(ProductParser):
     def parse_manufacturer(self) -> str:
         return "アルター"
 
-    # TODO: find some resale products with different price.s
     def parse_prices(self) -> List[int]:
+        price_list = []
         price_text = self.spec["価格"]
-        price = price_parse(price_text)
+        price_text = re.findall(r"\d\S+?円", price_text)
+        for price in price_text:
+            price_list.append(price_parse(price))
 
-        return [price]
+        return price_list
 
-    # TODO: find some resale products.
     def parse_release_date(self) -> List[datetime]:
-        date_text = self.spec["発売月"].replace("年", "/")
-        date = re.findall(r"(\d+/\d+)", date_text)[0]
-        date = datetime.strptime(date, "%Y/%m")
-        return [date]
+        date_text = self.spec["発売月"]
+        matched_date = re.findall(r"\d+年\d+月", date_text)
+        date_list = [datetime.strptime(date, "%Y年%m月") for date in matched_date]
+        return date_list
 
     def parse_scale(self):
         scale = scale_parse(self.spec["サイズ"])
@@ -161,6 +162,9 @@ class AlterProductParser(ProductParser):
 
 
 def parse_worker(text) -> Union[List[str], str]:
+    if text in ["―", "—"]:
+        return None
+
     plus_text = "＋"
     text = text.replace(" ", "")
     text = re.sub(r"／?原型協力：アルター", "", text)
