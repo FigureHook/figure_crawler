@@ -5,7 +5,7 @@ from urllib.parse import urlparse, urlunparse
 
 from constants import BrandHost
 from utils.checker import check_url_host
-from utils.text_parser import scale_parse, size_parse
+from utils.text_parser import scale_parse, size_parse, price_parse
 
 from .base_product_parser import ProductParser
 
@@ -41,6 +41,7 @@ class AlterProductParser(ProductParser):
         name = self.page.select_one("#contents h1").text.strip()
         return name
 
+    # FIXME: need to find the correct category
     def parse_category(self) -> str:
         # category = self.page.select("#topicpath li > a")[1].text.strip()
         return "フィギュア"
@@ -48,28 +49,29 @@ class AlterProductParser(ProductParser):
     def parse_manufacturer(self) -> str:
         return "アルター"
 
+    # TODO: find some resale products with different price.s
     def parse_price(self) -> int:
         price_text = self.spec["価格"]
-        price = ""
+        price = price_parse(price_text)
 
-        for n in re.findall(r"\d+", price_text):
-            price += n
+        return [price]
 
-        return int(price)
-
+    # TODO: find some resale products.
     def parse_release_date(self) -> datetime:
         date_text = self.spec["発売月"].replace("年", "/")
         date = re.findall(r"(\d+/\d+)", date_text)[0]
         date = datetime.strptime(date, "%Y/%m")
-        return date
+        return [date]
 
     def parse_scale(self):
         scale = scale_parse(self.spec["サイズ"])
         return scale
 
+    # TODO: 田中 冬志 原型協力：アルター
     def parse_sculptor(self) -> str:
         sculptor = self.spec["原型"]
-        return sculptor
+        sculptor = sculptor.replace(" ", "")
+        return [sculptor]
 
     def parse_series(self) -> str:
         series = self.spec["作品名"]
@@ -79,15 +81,16 @@ class AlterProductParser(ProductParser):
         size = size_parse(self.spec["サイズ"])
         return size
 
+    # TODO: 渡邊恭大【プリンツ・オイゲン】山本洋平＋みうらおさみ【艤装】
     def parse_paintwork(self) -> str:
         paintwork = "".join(self.spec["彩色"].split())
 
         restrict_paintwork = re.search(r"(?<=：)\w+", paintwork)
 
         if not restrict_paintwork:
-            return paintwork
+            return [paintwork]
 
-        return restrict_paintwork[0]
+        return [restrict_paintwork[0]]
 
     def parse_releaser(self) -> str:
         pattern = r"：(\S.+)"
@@ -127,6 +130,7 @@ class AlterProductParser(ProductParser):
     def parse_images(self) -> List[str]:
         host = urlparse(self.url)
         images_item = self.detail.select(".bxslider > li > img")
+        # FIXME: LUL, WTF is this
         images = [
             urlunparse(
                 (host.scheme, host.netloc, img["src"], None, None, None)
