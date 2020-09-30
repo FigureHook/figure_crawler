@@ -128,12 +128,12 @@ class GSCProductParser(ProductParser):
 
         return date_list
 
-    def parse_sculptors(self) -> List[Union[str, None]]:
+    def parse_sculptors(self) -> List:
         tag = self._get_from_locale("sculptor")
         sculptor_info = self._find_detail("dt", tag)
 
         if not sculptor_info:
-            return [None]
+            return []
 
         sculptor = sculptor_info.find_next("dd").text.strip()
         sulptors = parse_people(sculptor)
@@ -225,12 +225,12 @@ class GSCProductParser(ProductParser):
 
         return bool(detaill_adult)
 
-    def parse_paintworks(self) -> List[Union[str, None]]:
+    def parse_paintworks(self) -> List:
         tag = self._get_from_locale("paintwork")
         paintwork_title = self._find_detail("dt", tag)
 
         if not paintwork_title:
-            return [None]
+            return []
 
         paintwork = paintwork_title.find_next("dd").text.strip()
         paintworks = parse_people(paintwork)
