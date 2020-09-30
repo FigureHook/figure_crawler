@@ -10,13 +10,17 @@
   order_period:
     end: null
     start: null
-  paintwork: 星名詠美
-  price: 24800
-  release_date: 2020-11-01 00:00:00
+  paintwork:
+  - 星名詠美
+  price:
+  - 24800
+  release_date:
+  - 2020-11-01 00:00:00
   releaser: アルター
   resale: false
   scale: 8
-  sculptor: みさいる
+  sculptor:
+  - みさいる
   series: Fate/Grand Order
   size: 370
   url: http://www.alter-web.jp/products/261/
@@ -32,13 +36,17 @@
   order_period:
     end: null
     start: null
-  paintwork: 鉄森七方
-  price: 12800
-  release_date: 2019-10-01 00:00:00
+  paintwork:
+  - 鉄森七方
+  price:
+  - 12800
+  release_date:
+  - 2019-10-01 00:00:00
   releaser: アルター
   resale: true
   scale: 7
-  sculptor: のぶた（リボルブ）
+  sculptor:
+  - のぶた（リボルブ）
   series: ヱヴァンゲリヲン新劇場版：Q
   size: 230
   url: http://www.alter-web.jp/products/119/
@@ -54,13 +62,17 @@
   order_period:
     end: 2020-07-06 00:00:00
     start: 2020-05-25 00:00:00
-  paintwork: 星名詠美
-  price: 14400
-  release_date: 2021-03-01 00:00:00
+  paintwork:
+  - 星名詠美
+  price:
+  - 14400
+  release_date:
+  - 2021-03-01 00:00:00
   releaser: リューノス
   resale: false
   scale: 6
-  sculptor: 竜人
+  sculptor:
+  - 竜人
   series: To LOVEる -とらぶる- ダークネス
   size: 240
   url: http://www.alter-web.jp/products/477/
@@ -76,13 +88,17 @@
   order_period:
     end: 2016-10-11 00:00:00
     start: 2016-08-25 00:00:00
-  paintwork: 渡邊恭大
-  price: 15984
-  release_date: 2017-07-01 00:00:00
+  paintwork:
+  - 渡邊恭大
+  price:
+  - 15984
+  release_date:
+  - 2017-07-01 00:00:00
   releaser: ホビージャパン
   resale: false
   scale: 8
-  sculptor: 本宮あまと
+  sculptor:
+  - 本宮あまと
   series: 百花繚乱
   size: 270
   url: http://www.alter-web.jp/products/22/
@@ -103,12 +119,15 @@
   - 渡邊恭大
   - 山本洋平
   - みうらおさみ
-  price: 37800
-  release_date: 2021-04-01 00:00:00
+  price:
+  - 37800
+  release_date:
+  - 2021-04-01 00:00:00
   releaser: アルター
   resale: false
   scale: 7
-  sculptor: 田中冬志
+  sculptor:
+  - 田中冬志
   series: アズールレーン
   size: 270
   url: http://www.alter-web.jp/products/264/
@@ -129,12 +148,15 @@
   - 渡邊恭大
   - 山本洋平
   - みうらおさみ
-  price: 37800
-  release_date: 2021-04-01 00:00:00
+  price:
+  - 37800
+  release_date:
+  - 2021-04-01 00:00:00
   releaser: アルター
   resale: false
   scale: 7
-  sculptor: 田中冬志
+  sculptor:
+  - 田中冬志
   series: アズールレーン
   size: 270
   url: http://www.alter-web.jp/products/264/
@@ -150,9 +172,12 @@
   order_period:
     end: null
     start: null
-  paintwork: DUTCH
-  price: 17800
-  release_date: 2018-04-01 00:00:00
+  paintwork:
+  - DUTCH
+  price:
+  - 17800
+  release_date:
+  - 2018-04-01 00:00:00
   releaser: アルター
   resale: false
   scale: 7
@@ -174,13 +199,17 @@
   order_period:
     end: null
     start: null
-  paintwork: 星名詠美
-  price: 16800
-  release_date: 2018-08-01 00:00:00
+  paintwork:
+  - 星名詠美
+  price:
+  - 16800
+  release_date:
+  - 2018-08-01 00:00:00
   releaser: アルター
   resale: false
   scale: 8
-  sculptor: i-con（藍色空色）
+  sculptor:
+  - i-con（藍色空色）
   series: オーディンスフィア レイヴスラシル
   size: 240
   url: http://www.alter-web.jp/products/196/
