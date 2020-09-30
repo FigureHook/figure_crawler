@@ -56,11 +56,11 @@ class BaseTestCase:
         assert end == item["expected"]["order_period"]["end"]
 
     def test_sculptor(self, item):
-        sculptor = item["test"].parse_sculptor()
+        sculptor = item["test"].parse_sculptors()
         assert sorted(sculptor) == sorted(item["expected"]["sculptor"])
 
     def test_price(self, item):
-        price = item["test"].parse_price()
+        price = item["test"].parse_prices()
 
         for p, ep in zip(price, item["expected"]["price"]):
             assert type(p) is int
@@ -92,7 +92,7 @@ class BaseTestCase:
         assert _copyright == item["expected"]["copyright"]
 
     def test_paintwork(self, item):
-        paintwork = item["test"].parse_paintwork()
+        paintwork = item["test"].parse_paintworks()
         assert sorted(paintwork) == sorted(item["expected"]["paintwork"])
 
     def test_releaser(self, item):

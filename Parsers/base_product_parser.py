@@ -41,7 +41,7 @@ class ProductParser(ABC):
         pass
 
     @abstractmethod
-    def parse_price(self) -> List[int]:
+    def parse_prices(self) -> List[int]:
         pass
 
     @abstractmethod
@@ -49,7 +49,7 @@ class ProductParser(ABC):
         pass
 
     @abstractmethod
-    def parse_sculptor(self) -> List[str]:
+    def parse_sculptors(self) -> List[str]:
         pass
 
     @abstractmethod
@@ -85,7 +85,7 @@ class ProductParser(ABC):
     def parse_order_period(self) -> Union[OrderPeriod, None]:
         return None
 
-    def parse_paintwork(self) -> List[str]:
+    def parse_paintworks(self) -> List[str]:
         return None
 
     def parse_JAN(self) -> Union[str, None]:

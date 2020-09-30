@@ -54,7 +54,7 @@ class AlterProductParser(ProductParser):
         return "アルター"
 
     # TODO: find some resale products with different price.s
-    def parse_price(self) -> List[int]:
+    def parse_prices(self) -> List[int]:
         price_text = self.spec["価格"]
         price = price_parse(price_text)
 
@@ -71,7 +71,7 @@ class AlterProductParser(ProductParser):
         scale = scale_parse(self.spec["サイズ"])
         return scale
 
-    def parse_sculptor(self) -> List[str]:
+    def parse_sculptors(self) -> List[str]:
         sculptor_text = self.spec["原型"]
 
         sculptors = []
@@ -90,7 +90,7 @@ class AlterProductParser(ProductParser):
         size = size_parse(self.spec["サイズ"])
         return size
 
-    def parse_paintwork(self) -> List[str]:
+    def parse_paintworks(self) -> List[str]:
         paintwork_texts = self.spec["彩色"]
         paintworks = []
         for p in paintwork_texts:

@@ -86,7 +86,7 @@ class GSCProductParser(ProductParser):
 
         return category
 
-    def parse_price(self) -> List[int]:
+    def parse_prices(self) -> List[int]:
         price_slot = []
         tag = self._get_from_locale("price")
         price_targets = self._find_detail_all("dt", tag)
@@ -128,7 +128,7 @@ class GSCProductParser(ProductParser):
 
         return date_list
 
-    def parse_sculptor(self) -> List[Union[str, None]]:
+    def parse_sculptors(self) -> List[Union[str, None]]:
         tag = self._get_from_locale("sculptor")
         sculptor_info = self._find_detail("dt", tag)
 
@@ -225,7 +225,7 @@ class GSCProductParser(ProductParser):
 
         return bool(detaill_adult)
 
-    def parse_paintwork(self) -> List[Union[str, None]]:
+    def parse_paintworks(self) -> List[Union[str, None]]:
         tag = self._get_from_locale("paintwork")
         paintwork_title = self._find_detail("dt", tag)
 
