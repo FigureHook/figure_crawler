@@ -1,6 +1,6 @@
 import re
 from datetime import datetime
-from typing import List
+from typing import List, Union
 from urllib.parse import urlparse, urlunparse
 
 from constants import BrandHost
@@ -28,8 +28,12 @@ class AlterProductParser(ProductParser):
 
         for table in tables:
             for th, td in zip(table.select("th"), table.select("td")):
-                heads.append("".join(th.text.split()))
-                values.append(td.text.strip())
+                key = "".join(th.text.split())
+                heads.append(key)
+                value = td.text
+                if key in ["原型", "彩色"]:
+                    value = [ content for content in td.contents if content.name != "br" ]
+                values.append(value)
 
         spec = dict(zip(heads, values))
         return spec
@@ -50,14 +54,14 @@ class AlterProductParser(ProductParser):
         return "アルター"
 
     # TODO: find some resale products with different price.s
-    def parse_price(self) -> int:
+    def parse_price(self) -> List[int]:
         price_text = self.spec["価格"]
         price = price_parse(price_text)
 
         return [price]
 
     # TODO: find some resale products.
-    def parse_release_date(self) -> datetime:
+    def parse_release_date(self) -> List[datetime]:
         date_text = self.spec["発売月"].replace("年", "/")
         date = re.findall(r"(\d+/\d+)", date_text)[0]
         date = datetime.strptime(date, "%Y/%m")
@@ -67,11 +71,16 @@ class AlterProductParser(ProductParser):
         scale = scale_parse(self.spec["サイズ"])
         return scale
 
-    # TODO: 田中 冬志 原型協力：アルター
-    def parse_sculptor(self) -> str:
-        sculptor = self.spec["原型"]
-        sculptor = sculptor.replace(" ", "")
-        return [sculptor]
+    def parse_sculptor(self) -> List[str]:
+        sculptor_text = self.spec["原型"]
+
+        sculptors = []
+        for s in sculptor_text:
+            sculptor = parse_worker(s)
+            if sculptor:
+                sculptors.append(sculptor)
+
+        return sculptors
 
     def parse_series(self) -> str:
         series = self.spec["作品名"]
@@ -81,16 +90,18 @@ class AlterProductParser(ProductParser):
         size = size_parse(self.spec["サイズ"])
         return size
 
-    # TODO: 渡邊恭大【プリンツ・オイゲン】山本洋平＋みうらおさみ【艤装】
-    def parse_paintwork(self) -> str:
-        paintwork = "".join(self.spec["彩色"].split())
+    def parse_paintwork(self) -> List[str]:
+        paintwork_texts = self.spec["彩色"]
+        paintworks = []
+        for p in paintwork_texts:
+            paintwork = parse_worker(p)
+            the_type = type(paintwork)
+            if the_type is list:
+                paintworks.extend(paintwork)
+            if paintwork and the_type is str:
+                paintworks.append(paintwork)
 
-        restrict_paintwork = re.search(r"(?<=：)\w+", paintwork)
-
-        if not restrict_paintwork:
-            return [paintwork]
-
-        return [restrict_paintwork[0]]
+        return paintworks
 
     def parse_releaser(self) -> str:
         pattern = r"：(\S.+)"
@@ -130,13 +141,12 @@ class AlterProductParser(ProductParser):
     def parse_images(self) -> List[str]:
         host = urlparse(self.url)
         images_item = self.detail.select(".bxslider > li > img")
-        # FIXME: LUL, WTF is this
-        images = [
-            urlunparse(
-                (host.scheme, host.netloc, img["src"], None, None, None)
-            )
-            for img in images_item
-        ]
+        images = []
+        for img in images_item:
+            url_components = (host.scheme, host.netloc,
+                              img["src"], None, None, None)
+            url = urlunparse(url_components)
+            images.append(url)
 
         return images
 
@@ -148,3 +158,16 @@ class AlterProductParser(ProductParser):
         ).group(1).strip()
 
         return copyright_
+
+
+def parse_worker(text) -> Union[List[str], str]:
+    plus_text = "＋"
+    text = text.replace(" ", "")
+    text = re.sub(r"／?原型協力：アルター", "", text)
+    text = re.sub(r"【\S+?】", "", text)
+    if "：" in text:
+        text = re.search(r"(?<=：)\w+", text)[0]
+    if plus_text in text:
+        text = text.split(plus_text)
+
+    return text
