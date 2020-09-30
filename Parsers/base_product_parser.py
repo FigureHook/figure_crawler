@@ -85,7 +85,7 @@ class ProductParser(ABC):
         return False
 
     def parse_order_period(self) -> tuple:
-        return (None, None)
+        return None
 
     def parse_paintwork(self) -> str:
         return None
