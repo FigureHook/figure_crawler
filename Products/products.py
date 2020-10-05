@@ -1,6 +1,6 @@
 from abc import ABC
 
-from Parsers.alter import AlterProductParser as __alter_parser
+from Parsers.alter import AlterProductParser
 from Parsers.gsc import GSCProductParser
 
 
@@ -143,12 +143,10 @@ class Product(ABC):
 
 
 class GSCProduct(Product):
-    def __init__(self, url, parser=None):
-        parser = parser or GSCProductParser
+    def __init__(self, url, parser=GSCProductParser):
         super().__init__(url, parser)
 
 
 class AlterProduct(Product):
-    def __init__(self, url, parser=None):
-        parser = parser = __alter_parser
+    def __init__(self, url, parser=AlterProductParser):
         super().__init__(url, parser)
