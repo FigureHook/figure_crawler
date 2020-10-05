@@ -3,9 +3,10 @@ from datetime import datetime
 import pytest
 import yaml
 
-from Parsers import AlterProductParser, GSCProductParser
+from Parsers.gsc import GSCProductParser
+from Parsers.alter import AlterProductParser
 
-from Parsers.gsc_parser import parse_locale
+from Parsers.gsc.product_parser import parse_locale
 
 
 def load_yaml(path):

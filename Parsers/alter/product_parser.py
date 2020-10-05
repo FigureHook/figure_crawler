@@ -7,7 +7,7 @@ from constants import BrandHost
 from utils.checker import check_url_host
 from utils.text_parser import scale_parse, size_parse, price_parse
 
-from .base_product_parser import ProductParser
+from .._product_parser import ProductParser
 
 
 class AlterProductParser(ProductParser):

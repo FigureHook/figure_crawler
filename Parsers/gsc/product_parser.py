@@ -10,9 +10,9 @@ from DetailClass import OrderPeriod
 from utils.checker import check_url_host
 from utils.text_parser import scale_parse, size_parse, price_parse
 
-from .base_product_parser import ProductParser
+from .._product_parser import ProductParser
 
-with open("Parsers/locale/gsc_parse.yml", "r") as stream:
+with open("Parsers/gsc/locale/gsc_parse.yml", "r") as stream:
     locale_dict = yaml.safe_load(stream)
 
 
