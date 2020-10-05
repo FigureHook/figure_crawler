@@ -1,29 +1,6 @@
-from datetime import datetime
-
 from utils import get_page
 
-
-class YearlyAnnouncement:
-    def __init__(self, start, end):
-        if not end:
-            end = datetime.now().year
-
-        if end < start:
-            raise ValueError
-
-        self.period = range(start, end+1)
-        self._current = start
-
-    @property
-    def current(self) -> int:
-        return self._current
-
-    @current.setter
-    def current(self, current_year:int):
-        if type(current_year) is int:
-            self._current = current_year
-        else:
-            raise TypeError("Current should be 'int' type.")
+from ..announcement_parser import YearlyAnnouncement
 
 
 class GSCYearlyAnnouncement(YearlyAnnouncement):
@@ -36,16 +13,7 @@ class GSCYearlyAnnouncement(YearlyAnnouncement):
         url = self.base_url(year)
         page = get_page(url)
         items = page.select(item_selector)
-        return items
-
-    def __iter__(self):
-        for year in self.period:
-            self.current = year
-            items = self._get_yearly_items(year)
-            self.total = len(items)
-            product_urls = [item["href"] for item in items]
-
-            yield product_urls
+        return [item["href"] for item in items]
 
 
 def make_base_url(category, lang):

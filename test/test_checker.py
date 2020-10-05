@@ -1,5 +1,4 @@
 import pytest
-
 from constants import BrandHost
 from utils.checker import check_url_host
 

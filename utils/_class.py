@@ -31,3 +31,26 @@ class OrderPeriod:
             class_name=self.__class__.__name__,
             **self
         )
+
+
+class YearlyAnnouncement:
+    def __init__(self, start, end):
+        if not end:
+            end = datetime.now().year
+
+        if end < start:
+            raise ValueError
+
+        self.period = range(start, end+1)
+        self._current = start
+
+    @property
+    def current(self) -> int:
+        return self._current
+
+    @current.setter
+    def current(self, current_year: int):
+        if type(current_year) is int:
+            self._current = current_year
+        else:
+            raise TypeError("Current should be 'int' type.")
