@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from datetime import datetime
+from typing import List
 
 
 class YearlyAnnouncement(ABC):
@@ -19,7 +20,7 @@ class YearlyAnnouncement(ABC):
         self.period = range(start, end+1)
 
     @abstractmethod
-    def _get_yearly_items(self, year):
+    def _get_yearly_items(self, year) -> List[str]:
         pass
 
     def __iter__(self):

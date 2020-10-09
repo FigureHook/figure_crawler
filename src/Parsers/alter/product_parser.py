@@ -4,10 +4,9 @@ from typing import List, Union
 from urllib.parse import urlparse, urlunparse
 
 from constants import BrandHost
+from Parsers.product_parser import ProductParser
 from utils.checker import check_url_host
 from utils.text_parser import price_parse, scale_parse, size_parse
-
-from ..product_parser import ProductParser
 
 
 class AlterProductParser(ProductParser):
@@ -45,10 +44,15 @@ class AlterProductParser(ProductParser):
         name = self.page.select_one("#contents h1").text.strip()
         return name
 
-    # FIXME: need to find the correct category
     def parse_category(self) -> str:
-        # category = self.page.select("#topicpath li > a")[1].text.strip()
-        return "フィギュア"
+        default_category = "フィギュア"
+        transform_list = ["コラボ", "アルタイル", default_category]
+        category = self.page.select("#topicpath li > a")[1].text.strip()
+
+        if category in transform_list:
+            return default_category
+
+        return category
 
     def parse_manufacturer(self) -> str:
         return "アルター"

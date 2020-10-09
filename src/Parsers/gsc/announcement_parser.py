@@ -1,6 +1,7 @@
-from utils import get_page
+from typing import List
 
 from Parsers.announcement_parser import YearlyAnnouncement
+from utils import get_page
 
 
 class GSCYearlyAnnouncement(YearlyAnnouncement):
@@ -8,7 +9,7 @@ class GSCYearlyAnnouncement(YearlyAnnouncement):
         super().__init__(start, end)
         self.base_url = make_base_url(category, lang)
 
-    def _get_yearly_items(self, year):
+    def _get_yearly_items(self, year) -> List[str]:
         item_selector = ".hitItem:not(.shimeproduct) > .hitBox > a"
         url = self.base_url(year)
         page = get_page(url)

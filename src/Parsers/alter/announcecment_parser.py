@@ -1,6 +1,5 @@
+from Parsers.announcement_parser import YearlyAnnouncement
 from utils import get_page
-
-from ..announcement_parser import YearlyAnnouncement
 
 
 class AlterYearlyAnnouncement(YearlyAnnouncement):
