@@ -1,0 +1,16 @@
+# Maker List
+- [x] GoodSmileCompany
+- [x] Alter
+- [ ] native
+- [ ] SKYTUBE
+- [ ] AMAKUNI
+- [ ] KOTOBUKIYA
+- [ ] daikikougyou
+- [ ] OrchidSeed
+- [ ] FLARE
+- [ ] PLUM
+- [ ] WAVE
+- [ ] union-creative
+- [ ] alphamax
+- [ ] ORCATORYS
+- [ ] quesQ
