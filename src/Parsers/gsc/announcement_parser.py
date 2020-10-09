@@ -1,6 +1,6 @@
 from utils import get_page
 
-from ..announcement_parser import YearlyAnnouncement
+from Parsers.announcement_parser import YearlyAnnouncement
 
 
 class GSCYearlyAnnouncement(YearlyAnnouncement):
@@ -18,7 +18,8 @@ class GSCYearlyAnnouncement(YearlyAnnouncement):
 
 def make_base_url(category, lang):
     def maker(year):
-        base_url = "https://www.goodsmile.info/{lang}/products/category/{category}/announced/{year}".format(
+        url_pattern = "https://www.goodsmile.info/{lang}/products/category/{category}/announced/{year}"
+        base_url = url_pattern.format(
             lang=lang,
             category=category,
             year=year,

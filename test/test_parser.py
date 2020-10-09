@@ -134,7 +134,7 @@ class TestAlterParser(BaseTestCase):
         }
 
     def test_order_period(self, item):
-        pytest.skip("404 Not found.")
+        pytest.skip("Alter doesn't provide order_period.")
 
 class TestParserUtils:
     def test_gsc_locale_parser(self):

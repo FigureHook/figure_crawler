@@ -1,6 +1,7 @@
 version: '3'
 services:
     crawler:
+        env_file: .env/.env.dev
         build: .
         image: crawler
         container_name: crawler

@@ -5,7 +5,7 @@ class TestGSCProduct:
     def test_detail(self):
         item_url = "https://www.goodsmile.info/ja/product/8978"
 
-        gsc_product = GSCProduct(item_url, parser=None)
+        gsc_product = GSCProduct(item_url)
         attr_list = (
             "name",
             "series",

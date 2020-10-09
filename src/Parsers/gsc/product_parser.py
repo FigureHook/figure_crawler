@@ -1,17 +1,19 @@
 import re
 from datetime import datetime
+from pathlib import Path
 from typing import List, Union
 from urllib.parse import urlparse
 
 import yaml
 from constants import BrandHost
+from Parsers.product_parser import ProductParser
 from utils._class import OrderPeriod
 from utils.checker import check_url_host
 from utils.text_parser import price_parse, scale_parse, size_parse
 
-from ..product_parser import ProductParser
+locale_file_path = Path(__file__).parent.joinpath('locale', 'gsc_parse.yml')
 
-with open("Parsers/gsc/locale/gsc_parse.yml", "r") as stream:
+with open(locale_file_path, "r") as stream:
     locale_dict = yaml.safe_load(stream)
 
 
@@ -48,11 +50,11 @@ class GSCProductParser(ProductParser):
         resale_dates = self._find_detail("dt", resale_date_info_tag)
         resale_date_text = resale_dates.find_next("dd").text.strip()
 
-        style = self._get_from_locale("release_date_format")
-        pattern = self._get_from_locale("release_date_pattern")
+        date_style = self._get_from_locale("release_date_format")
+        date_pattern = self._get_from_locale("release_date_pattern")
 
-        found = re.finditer(pattern, resale_date_text)
-        dates = [datetime.strptime(f[0], style) for f in found]
+        found = re.finditer(date_pattern, resale_date_text)
+        dates = [datetime.strptime(f[0], date_style) for f in found]
         return dates
 
     def _parse_resale_price(self) -> List:
@@ -100,8 +102,8 @@ class GSCProductParser(ProductParser):
         return price_slot
 
     def parse_release_date(self) -> List[datetime]:
-        pattern = self._get_from_locale("release_date_pattern")
-        weird_pattern = self._get_from_locale("weird_date_pattern")
+        date_pattern = self._get_from_locale("release_date_pattern")
+        weird_date_pattern = self._get_from_locale("weird_date_pattern")
         date_text = self.detail.find(
             "dd", {"itemprop": "releaseDate"}).text.strip()
 
@@ -109,17 +111,17 @@ class GSCProductParser(ProductParser):
             return self._parse_resale_date()
 
         date_list = []
-        if re.match(pattern, date_text):
-            for matched_date in re.finditer(pattern, date_text):
+        if re.match(date_pattern, date_text):
+            for matched_date in re.finditer(date_pattern, date_text):
                 year = int(matched_date.group('year'))
                 month = int(matched_date.group('month'))
                 the_datetime = datetime(year, month, 1)
                 date_list.append(the_datetime)
 
 
-        if re.match(weird_pattern, date_text):
+        if re.match(weird_date_pattern, date_text):
             seasons = self._get_from_locale("seasons")
-            year = int(re.match(weird_pattern, date_text).group(1))
+            year = int(re.match(weird_date_pattern, date_text).group(1))
             for season, month in seasons.items():
                 if season in date_text.lower():
                     the_datetime = datetime(year, month, 1)
@@ -203,8 +205,8 @@ class GSCProductParser(ProductParser):
             return None
 
         period_text = period.text.strip()
-        pattern = self._get_from_locale("order_period_pattern")
-        period_list = [x for x in re.finditer(pattern, period_text)]
+        order_period_pattern = self._get_from_locale("order_period_pattern")
+        period_list = [x for x in re.finditer(order_period_pattern, period_text)]
 
         start = make_datetime(period_list[0], self.locale)
         end = None
@@ -217,8 +219,8 @@ class GSCProductParser(ProductParser):
         return OrderPeriod(start, end)
 
     def parse_adult(self) -> bool:
-        pattern = self._get_from_locale("adult")
-        keyword = re.compile(pattern)
+        rq_pattern = self._get_from_locale("adult")
+        keyword = re.compile(rq_pattern)
         info = self.page.select_one(".itemInfo")
         detaill_adult = info.find(text=keyword)
 
