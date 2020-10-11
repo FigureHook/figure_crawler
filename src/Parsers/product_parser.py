@@ -84,11 +84,11 @@ class ProductParser(ABC):
     def parse_order_period(self) -> Union[OrderPeriod, None]:
         return None
 
-    def parse_paintworks(self) -> List[str]:
-        return None
+    def parse_paintworks(self) -> List:
+        return []
 
     def parse_JAN(self) -> Union[str, None]:
         return None
 
-    def parse_maker_id(self) -> str:
+    def parse_maker_id(self) -> Union[str, None]:
         return None

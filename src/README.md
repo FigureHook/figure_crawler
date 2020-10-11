@@ -3,7 +3,7 @@
 - [x] Alter
 - [ ] native
 - [ ] SKYTUBE
-- [ ] AMAKUNI
+- [ ] AMAKUNI(HobbyJapan)
 - [ ] KOTOBUKIYA
 - [ ] daikikougyou
 - [ ] OrchidSeed
@@ -14,3 +14,4 @@
 - [ ] alphamax
 - [ ] ORCATORYS
 - [ ] quesQ
+- [ ] MegaHouse

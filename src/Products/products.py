@@ -136,10 +136,10 @@ class Product(ABC):
         return getattr(self, key)
 
     def __str__(self):
-        return self.__repr__()
+        return "[{manufacturer}] {name} {category}".format(**self)
 
     def __repr__(self):
-        return "[{manufacturer}] {name} {category}".format(**self)
+        return f"{self.__class__.__name__}({self.url})"
 
 
 class GSCProduct(Product):
