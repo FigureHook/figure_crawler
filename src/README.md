@@ -1,4 +1,4 @@
-# Maker List
+## Maker List
 - [x] GoodSmileCompany
 - [x] Alter
 - [ ] native
@@ -15,3 +15,10 @@
 - [ ] ORCATORYS
 - [ ] quesQ
 - [ ] MegaHouse
+
+## Shop List
+- [ ] TokyoFigure
+- [ ] HobbyJapan
+- [ ] amiami
+- [ ] toranoana
+- [ ] melonbooks

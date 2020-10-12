@@ -1,10 +1,10 @@
 from abc import ABC, abstractmethod
 from datetime import datetime
-from typing import List
+from typing import Iterable, Iterator, List, Tuple
 
 
 class YearlyAnnouncement(ABC):
-    def __init__(self, start, end):
+    def __init__(self, start, end) -> Iterable[Tuple]:
         if not end:
             end = datetime.now().year
 

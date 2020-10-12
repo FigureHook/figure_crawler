@@ -1,9 +1,11 @@
 from datetime import datetime
+from typing import Iterable
 
 import pytest
 import yaml
+from constants import GSCCategory
 from Parsers.alter import AlterProductParser
-from Parsers.gsc import GSCProductParser
+from Parsers.gsc import GSCProductParser, GSCYearlyAnnouncement
 from Parsers.gsc.product_parser import parse_locale
 
 
@@ -115,12 +117,21 @@ class BaseTestCase:
 class TestGSCParser(BaseTestCase):
     products = load_yaml("test/test_case/gsc_products.yml")
 
-    @pytest.fixture(scope="class", params=products)
+    @pytest.fixture(scope="function", params=products)
     def item(self, request):
         return {
             "test": GSCProductParser(request.param["url"]),
             "expected": request.param
         }
+
+    def test_announcement(self):
+        gsc_announcement = GSCYearlyAnnouncement(GSCCategory.SCALE, start=2020)
+        assert isinstance(gsc_announcement, Iterable)
+
+        for year, yearly_announcement in gsc_announcement:
+            assert type(year) is int
+            assert type(yearly_announcement.urls) is list
+            assert type(yearly_announcement.total) is int
 
 
 class TestAlterParser(BaseTestCase):
