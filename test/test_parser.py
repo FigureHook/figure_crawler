@@ -3,10 +3,10 @@ from typing import Iterable
 
 import pytest
 import yaml
-from constants import GSCCategory
+from constants import GSCCategory, GSCLang
 from Parsers.alter import AlterProductParser
 from Parsers.gsc import GSCProductParser, GSCYearlyAnnouncement
-from Parsers.gsc.product_parser import parse_locale
+from Parsers.gsc.product_parser import parse_lang
 
 
 def load_yaml(path):
@@ -125,7 +125,7 @@ class TestGSCParser(BaseTestCase):
         }
 
     def test_announcement(self):
-        gsc_announcement = GSCYearlyAnnouncement(GSCCategory.SCALE, start=2020)
+        gsc_announcement = GSCYearlyAnnouncement(GSCCategory.SCALE, start=2020, lang=GSCLang.JAPANESE)
         assert isinstance(gsc_announcement, Iterable)
 
         for year, yearly_announcement in gsc_announcement:
@@ -152,6 +152,6 @@ class TestParserUtils:
         en = "https://www.goodsmile.info/en/product/4364"
         ja = "https://www.goodsmile.info/ja/product/4364"
         zh = "https://www.goodsmile.info/zh/product/4364"
-        assert parse_locale(en) == "en"
-        assert parse_locale(ja) == "ja"
-        assert parse_locale(zh) == "zh"
+        assert parse_lang(en) == "en"
+        assert parse_lang(ja) == "ja"
+        assert parse_lang(zh) == "zh"

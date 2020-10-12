@@ -26,7 +26,7 @@ class GSCProductParser(ProductParser):
             }
 
         super().__init__(url, headers, cookies)
-        self.locale = parse_locale(url)
+        self.locale = parse_lang(url)
         self.detail = self._parse_detail()
 
     def _get_from_locale(self, key):
@@ -254,10 +254,10 @@ def make_datetime(period, locale) -> datetime:
 
     return datetime(*(int(x) for x in (year, month, day, hour, minute)))
 
-def parse_locale(url) -> str:
+def parse_lang(url) -> str:
     parsed_url = urlparse(url)
-    locale = re.match(r"^\/(\w+)\/", parsed_url.path).group(1)
-    return locale
+    lang = re.match(r"^\/(\w+)\/", parsed_url.path).group(1)
+    return lang
 
 def parse_people(people_text) -> List[str]:
     people = re.split(r'・|、', people_text)

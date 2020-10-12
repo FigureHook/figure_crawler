@@ -11,3 +11,9 @@ class GSCCategory(str, Enum):
     FIGMA = "figma"
     OTHER_FIGURE = "otherfigures"
     GOODS = "goodsother"
+
+
+class GSCLang(str, Enum):
+    ENGLISH = "en"
+    JAPANESE = "ja"
+    TRADITIONAL_CHINESE = "zh"
