@@ -5,7 +5,7 @@ import pytest
 import yaml
 from constants import GSCCategory, GSCLang
 from Parsers.alter import AlterProductParser
-from Parsers.gsc import GSCProductParser, GSCYearlyAnnouncement
+from Parsers.gsc import GSCProductParser, GSCYearlyAnnouncement, GSCReleaseInfo
 from Parsers.gsc.product_parser import parse_lang
 
 
@@ -123,6 +123,26 @@ class TestGSCParser(BaseTestCase):
             "test": GSCProductParser(request.param["url"]),
             "expected": request.param
         }
+
+    def test_release_info_parser(self):
+        gsc_release_info = GSCReleaseInfo()
+        dates = gsc_release_info.dates
+        urls = gsc_release_info.urls
+        JANs = gsc_release_info.JANs
+
+        assert type(dates) is list
+        assert type(urls) is list
+        assert type(JANs) is list
+
+        for date in dates:
+            assert type(date) is datetime
+
+        for url in urls:
+            assert type(url) is str
+
+        for jan in JANs:
+            assert type(jan) is str
+            assert len(jan) is 13   
 
     def test_announcement(self):
         gsc_announcement = GSCYearlyAnnouncement(GSCCategory.SCALE, start=2020, lang=GSCLang.JAPANESE)
