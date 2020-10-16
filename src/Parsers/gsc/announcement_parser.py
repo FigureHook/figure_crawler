@@ -1,7 +1,7 @@
 from typing import Iterable, List
 
 from Parsers.announcement_parser import YearlyAnnouncement
-from utils import get_page
+from utils import get_page, RelativeUrl
 
 
 class GSCYearlyAnnouncement(YearlyAnnouncement):
@@ -19,7 +19,7 @@ class GSCYearlyAnnouncement(YearlyAnnouncement):
 
 def make_base_url(category: str, lang: str):
     def maker(year: int) -> str:
-        url_pattern = "https://www.goodsmile.info/{lang}/products/category/{category}/announced/{year}"
+        url_pattern = RelativeUrl.gsc("/{lang}/products/category/{category}/announced/{year}")
         base_url = url_pattern.format(
             lang=lang,
             category=category,

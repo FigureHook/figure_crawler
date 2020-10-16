@@ -1,5 +1,5 @@
 from Parsers.announcement_parser import YearlyAnnouncement
-from utils import get_page
+from utils import RelativeUrl, get_page
 
 
 class AlterYearlyAnnouncement(YearlyAnnouncement):
@@ -9,11 +9,7 @@ class AlterYearlyAnnouncement(YearlyAnnouncement):
 
     def _get_yearly_items(self, year):
         item_selector = "figure > a"
-        url = f"http://www.alter-web.jp/{self._category}/?yy={year}&mm="
+        url = RelativeUrl.alter(f"/{self._category}/?yy={year}&mm=")
         page = get_page(url)
         items = page.select(item_selector)
-        return [make_url(item["href"]) for item in items]
-
-
-def make_url(path):
-    return f"http://www.alter-web.jp{path}"
+        return [RelativeUrl.alter(item["href"]) for item in items]
