@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date
 from typing import Iterable
 
 import pytest
@@ -124,25 +124,15 @@ class TestGSCParser(BaseTestCase):
             "expected": request.param
         }
 
-    def test_release_info_parser(self):
+    def test_release_info(self):
         gsc_release_info = GSCReleaseInfo()
-        dates = gsc_release_info.dates
-        urls = gsc_release_info.urls
-        JANs = gsc_release_info.JANs
-
-        assert type(dates) is list
-        assert type(urls) is list
-        assert type(JANs) is list
-
-        for date in dates:
-            assert type(date) is datetime
-
-        for url in urls:
-            assert type(url) is str
-
-        for jan in JANs:
-            assert type(jan) is str
-            assert len(jan) is 13   
+        for key, value in gsc_release_info.items():
+            assert type(key) is date
+            assert type(value) is list
+            for product in value:
+                assert type(product) is dict
+                assert "url" in product.keys()
+                assert "jan" in product.keys()
 
     def test_announcement(self):
         gsc_announcement = GSCYearlyAnnouncement(GSCCategory.SCALE, start=2020, lang=GSCLang.JAPANESE)
