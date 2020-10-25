@@ -260,5 +260,5 @@ def parse_lang(url) -> str:
     return lang
 
 def parse_people(people_text) -> List[str]:
-    people = re.split(r'・|、', people_text)
+    people = re.split(r'・|、|/', people_text)
     return people
