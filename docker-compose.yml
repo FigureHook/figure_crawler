@@ -1,13 +1,15 @@
 version: '3'
 services:
     crawler:
-        image: python:3.8.1-buster
+        build:
+            context: .
+            dockerfile: DockerFile
+        image: figure_crawler
         container_name: crawler
         env_file: .env/.env.dev
         volumes:
             - .:/app
         working_dir: /app
-        command: sh .sh/python_init.sh
         stdin_open: true
         tty: true
         depends_on:
@@ -19,5 +21,5 @@ services:
         env_file: .env/.env.dev
         ports:
             - 5432:5432
-        volumes:
-            - ./data:/var/lib/postgresql/data
+        # volumes:
+        #     - ./data:/var/lib/postgresql/data
