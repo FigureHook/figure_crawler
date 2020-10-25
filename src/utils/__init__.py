@@ -1,4 +1,3 @@
-from os import stat
 import requests as rq
 from bs4 import BeautifulSoup
 from constants import BrandHost
