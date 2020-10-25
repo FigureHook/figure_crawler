@@ -1,0 +1,6 @@
+beautifulsoup4
+lxml
+requests
+psycopg2
+SQLAlchemy
+PyYAML
