@@ -315,6 +315,36 @@
 - JAN: null
   adult: false
   category: フィギュア
+  copyright: ©Spike Chunsoft Co., Ltd./希望ヶ峰学園映像部 All Rights Reserved.
+  distributer: グッドスマイルカンパニー
+  images: images.goodsmile.info/cgm/images/product/20140120/4198/27706/large/4e17730853b6d42d484f618783639de6.jpg
+  maker_id: '4198'
+  manufacturer: Phat!
+  name: 霧切響子
+  order_period:
+    end: 2020-07-22 21:00:00
+    start: 2020-05-21 12:00:00
+  paintwork:
+  - 髙山英樹
+  price:
+  - 10000
+  - 11000
+  - 13000
+  release_date:
+  - 2014-10-01 00:00:00
+  - 2017-04-01 00:00:00
+  - 2021-05-01 00:00:00
+  releaser: Phat!
+  resale: true
+  scale: 8
+  sculptor:
+  - iTANDi
+  series: ダンガンロンパ 希望の学園と絶望の高校生 The Animation
+  size: 150
+  url: https://www.goodsmile.info/ja/product/4198
+- JAN: null
+  adult: false
+  category: フィギュア
   copyright: ©長月達平・株式会社KADOKAWA刊／Re:ゼロから始める異世界生活製作委員会
   distributer: グッドスマイルカンパニー
   images: images.goodsmile.info/cgm/images/product/20170210/6256/43795/large/e69c3be08309486616d9d792d0f478af.jpg
@@ -445,6 +475,35 @@
   series: SSSS.GRIDMAN
   size: 210
   url: https://www.goodsmile.info/ja/product/9052
+- JAN: null
+  adult: false
+  category: フィギュア
+  copyright: ©2020 コーエーテクモゲームス All rights reserved.
+  distributer: グッドスマイルカンパニー
+  images: images.goodsmile.info/cgm/images/product/20190925/8841/64026/large/83d0954b6bca2fdbdf736aa44387f4dd.jpg
+  maker_id: '8841'
+  manufacturer: Wonderful Works
+  name: ライザ（ライザリン・シュタウト）
+  order_period:
+    start: 2020-10-20 12:00:00
+    end: 2020-11-25 21:00:00
+  paintwork:
+  - 路川宏之
+  price:
+  - 18800
+  release_date:
+  - 2020-07-01 00:00:00
+  - 2021-05-01 00:00:00
+  releaser: WonderfulWorks
+  resale: true
+  scale: 7
+  sculptor:
+  - 榊馨
+  - やまかつ
+  - iTANDi
+  series: ライザのアトリエ ～常闇の女王と秘密の隠れ家～
+  size: 240
+  url: https://www.goodsmile.info/ja/product/8841
 
 # - JAN: null
 #   adult: false
