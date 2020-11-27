@@ -39,6 +39,7 @@ class BaseTestCase:
         assert the_type is list
 
         assert sorted(release_date) == sorted(item["expected"]["release_date"])
+
     def test_order_period(self, item):
         order_period = item["test"].parse_order_period()
 
@@ -67,7 +68,6 @@ class BaseTestCase:
             assert type(p) is int
             assert p == ep
 
-
     def test_maker_id(self, item):
         id_ = item["test"].parse_maker_id()
         assert id_ == item["expected"]["maker_id"]
@@ -95,10 +95,6 @@ class BaseTestCase:
     def test_paintwork(self, item):
         paintwork = item["test"].parse_paintworks()
         assert sorted(paintwork) == sorted(item["expected"]["paintwork"])
-
-    def test_releaser(self, item):
-        paintwork = item["test"].parse_releaser()
-        assert paintwork == item["expected"]["releaser"]
 
     def test_releaser(self, item):
         releaser = item["test"].parse_releaser()
@@ -156,6 +152,7 @@ class TestAlterParser(BaseTestCase):
 
     def test_order_period(self, item):
         pytest.skip("Alter doesn't provide order_period.")
+
 
 class TestParserUtils:
     def test_gsc_locale_parser(self):
