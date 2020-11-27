@@ -90,7 +90,7 @@ class Model(CRUDMixin, Base):
     __abstract__ = True
 
 
-class Model(Model):
+class PkModel(Model):
     """Base model class that includes CRUD convenience methods, plus adds a 'primary key' column named ``id``."""
 
     __abstract__ = True

@@ -1,16 +1,14 @@
-from sqlalchemy import Column, String, Integer
-from src.database import Base
+from sqlalchemy import Column, String
+from src.database import PkModel
 
 
-class Paintwork(Base):
+class Paintwork(PkModel):
     __tablename__ = "paintwork"
 
-    id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
 
 
-class Sculptor(Base):
+class Sculptor(PkModel):
     __tablename__ = "sculptor"
 
-    id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)

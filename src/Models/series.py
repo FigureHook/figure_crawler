@@ -1,10 +1,9 @@
-from sqlalchemy import Column, String, Integer
+from sqlalchemy import Column, String
 
-from src.database import Base
+from src.database import PkModel
 
 
-class Series(Base):
+class Series(PkModel):
     __tablename__ = "series"
 
-    id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False, unique=True)

@@ -2,7 +2,7 @@ from sqlalchemy import (BigInteger, Boolean, Column, Date, DateTime,
                         ForeignKey, Integer, SmallInteger, String, Table)
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
-from src.database import Base, metadata
+from src.database import metadata, PkModel
 
 # association table
 product_sculptor_table = Table(
@@ -18,10 +18,9 @@ product_paintwork_table = Table(
 )
 
 
-class ProductReleaseInfo(Base):
+class ProductReleaseInfo(PkModel):
     __tablename__ = "product_release_info"
 
-    id = Column(Integer, primary_key=True)
     price = Column(Integer, nullable=False)
     order_period_start = Column(Date)
     order_period_end = Column(Date)
@@ -32,13 +31,12 @@ class ProductReleaseInfo(Base):
     product_id = Column(Integer, ForeignKey("product.id"))
 
 
-class Product(Base):
+class Product(PkModel):
     __tablename__ = "product"
 
-    id = Column(Integer, primary_key=True)
     url = Column(String)
     series_id = Column(Integer, ForeignKey("series.id"))
-    manufacturer_id = Column(Integer, ForeignKey("manufacturer.id"))
+    manufacturer_id = Column(Integer, ForeignKey("company.id"))
     categroy_id = Column(Integer, ForeignKey("category.id"))
     releaser_id = Column(Integer, ForeignKey("company.id"))
     distributer_id = Column(Integer, ForeignKey("company.id"))
