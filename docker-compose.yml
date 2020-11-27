@@ -6,6 +6,8 @@ services:
             dockerfile: DockerFile
         image: figure_crawler
         container_name: crawler
+        environment:
+            - PYTHONPATH=$PYTHONPATH:/app
         volumes:
             - .:/app
         working_dir: /app

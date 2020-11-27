@@ -8,6 +8,7 @@ session = Session()
 
 
 Base = declarative_base()
+metadata = Base.metadata
 
 """
 https://github.com/sqlalchemy/sqlalchemy/wiki/UniqueObject
@@ -89,7 +90,7 @@ class Model(CRUDMixin, Base):
     __abstract__ = True
 
 
-class PkModel(Model):
+class Model(Model):
     """Base model class that includes CRUD convenience methods, plus adds a 'primary key' column named ``id``."""
 
     __abstract__ = True
