@@ -47,7 +47,7 @@ class Product(PkModel):
     scale = Column(SmallInteger)
     resale = Column(Boolean)
     adult = Column(Boolean)
-    copyright_ = Column("copyright", String)
+    copyright = Column("copyright", String)
     created_at = Column(DateTime, default=func.now())
     series = relationship("Series", backref="Products")
     release_infos = relationship(

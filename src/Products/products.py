@@ -1,7 +1,7 @@
 from abc import ABC
 
-from Parsers.alter import AlterProductParser
-from Parsers.gsc import GSCProductParser
+from src.Parsers.alter import AlterProductParser
+from src.Parsers.gsc import GSCProductParser
 
 
 class Product(ABC):

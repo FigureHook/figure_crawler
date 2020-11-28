@@ -1,6 +1,6 @@
 import pytest
-from constants import BrandHost
-from utils.checker import check_url_host
+from src.constants import BrandHost
+from src.utils.checker import check_url_host
 
 mock_self = "mock"
 

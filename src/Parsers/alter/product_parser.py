@@ -3,10 +3,10 @@ from datetime import datetime
 from typing import List, Union
 from urllib.parse import urlparse, urlunparse
 
-from constants import BrandHost
-from Parsers.product_parser import ProductParser
-from utils.checker import check_url_host
-from utils.text_parser import price_parse, scale_parse, size_parse
+from src.constants import BrandHost
+from src.Parsers.product_parser import ProductParser
+from src.utils.checker import check_url_host
+from src.utils.text_parser import price_parse, scale_parse, size_parse
 
 
 class AlterProductParser(ProductParser):
@@ -31,7 +31,7 @@ class AlterProductParser(ProductParser):
                 heads.append(key)
                 value = td.text
                 if key in ["原型", "彩色"]:
-                    value = [ content for content in td.contents if content.name != "br" ]
+                    value = [content for content in td.contents if content.name != "br"]
                 values.append(value)
 
         spec = dict(zip(heads, values))

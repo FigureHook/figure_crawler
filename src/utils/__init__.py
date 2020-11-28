@@ -1,6 +1,7 @@
 import requests as rq
 from bs4 import BeautifulSoup
-from constants import BrandHost
+from src.constants import BrandHost
+
 
 def get_page(url, headers={}, cookies={}):
     response = rq.get(url, headers=headers, cookies=cookies)

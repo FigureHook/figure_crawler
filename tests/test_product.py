@@ -1,4 +1,4 @@
-from Products import GSCProduct
+from src.Products import GSCProduct
 
 
 class TestGSCProduct:

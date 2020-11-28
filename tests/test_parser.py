@@ -3,10 +3,10 @@ from typing import Iterable
 
 import pytest
 import yaml
-from constants import GSCCategory, GSCLang
-from Parsers.alter import AlterProductParser
-from Parsers.gsc import GSCProductParser, GSCYearlyAnnouncement, GSCReleaseInfo
-from Parsers.gsc.product_parser import parse_lang
+from src.constants import GSCCategory, GSCLang
+from src.Parsers.alter import AlterProductParser
+from src.Parsers.gsc import GSCProductParser, GSCYearlyAnnouncement, GSCReleaseInfo
+from src.Parsers.gsc.product_parser import parse_lang
 
 
 def load_yaml(path):
@@ -111,7 +111,7 @@ class BaseTestCase:
 
 
 class TestGSCParser(BaseTestCase):
-    products = load_yaml("test/test_case/gsc_products.yml")
+    products = load_yaml("tests/test_case/gsc_products.yml")
 
     @pytest.fixture(scope="function", params=products)
     def item(self, request):
@@ -141,7 +141,7 @@ class TestGSCParser(BaseTestCase):
 
 
 class TestAlterParser(BaseTestCase):
-    products = load_yaml("test/test_case/alter_products.yml")
+    products = load_yaml("tests/test_case/alter_products.yml")
 
     @pytest.fixture(scope="class", params=products)
     def item(self, request):

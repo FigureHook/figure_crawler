@@ -2,8 +2,8 @@ from abc import ABC, abstractmethod
 from datetime import datetime
 from typing import List, Union
 
-from utils import get_page
-from utils._class import OrderPeriod
+from src.utils import get_page
+from src.utils._class import OrderPeriod
 
 
 class ProductParser(ABC):

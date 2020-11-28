@@ -5,11 +5,11 @@ from typing import List, Union
 from urllib.parse import urlparse
 
 import yaml
-from constants import BrandHost
-from Parsers.product_parser import ProductParser
-from utils._class import OrderPeriod
-from utils.checker import check_url_host
-from utils.text_parser import price_parse, scale_parse, size_parse
+from src.constants import BrandHost
+from src.Parsers.product_parser import ProductParser
+from src.utils._class import OrderPeriod
+from src.utils.checker import check_url_host
+from src.utils.text_parser import price_parse, scale_parse, size_parse
 
 locale_file_path = Path(__file__).parent.joinpath('locale', 'gsc_parse.yml')
 
@@ -117,7 +117,6 @@ class GSCProductParser(ProductParser):
                 month = int(matched_date.group('month'))
                 the_datetime = datetime(year, month, 1)
                 date_list.append(the_datetime)
-
 
         if re.match(weird_date_pattern, date_text):
             seasons = self._get_from_locale("seasons")
@@ -242,6 +241,7 @@ class GSCProductParser(ProductParser):
         images = [item["src"][2:] for item in images_items]
         return images
 
+
 def make_datetime(period, locale) -> datetime:
     year = period.group('year')
     month = period.group('month')
@@ -254,10 +254,12 @@ def make_datetime(period, locale) -> datetime:
 
     return datetime(*(int(x) for x in (year, month, day, hour, minute)))
 
+
 def parse_lang(url) -> str:
     parsed_url = urlparse(url)
     lang = re.match(r"^\/(\w+)\/", parsed_url.path).group(1)
     return lang
+
 
 def parse_people(people_text) -> List[str]:
     people = re.split(r'・|、|/', people_text)

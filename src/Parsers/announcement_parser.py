@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from datetime import datetime
-from typing import Iterable, Iterator, List, Tuple
+from typing import Iterable, List, Tuple
 
 
 class YearlyAnnouncement(ABC):
@@ -29,7 +29,6 @@ class YearlyAnnouncement(ABC):
             yield year, Announcements(items)
 
 
-
 class Announcements:
     def __init__(self, urls):
         self._urls = urls
@@ -38,4 +37,3 @@ class Announcements:
     @property
     def urls(self):
         return self._urls
-

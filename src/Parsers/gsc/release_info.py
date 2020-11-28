@@ -3,8 +3,8 @@ import re
 from collections import UserDict
 from datetime import date
 
-from constants import GSCLang
-from utils import RelativeUrl, get_page
+from src.constants import GSCLang
+from src.utils import RelativeUrl, get_page
 
 
 class GSCReleaseInfo(UserDict):
@@ -56,7 +56,6 @@ class GSCReleaseInfo(UserDict):
         return dates
 
 
-
 def parse_year_and_month(group):
     year, month = (
         int(x)
@@ -65,11 +64,13 @@ def parse_year_and_month(group):
 
     return year, month
 
+
 def parse_day(day_ele):
     day_pattern = r"(?P<month>\d+)月(?P<day>\d+)日"
 
     day = re.match(day_pattern, day_ele.text.strip()).group('day')
     return int(day)
+
 
 def parse_products(ul_ele):
     products = []
@@ -82,6 +83,7 @@ def parse_products(ul_ele):
         products.append(product)
 
     return products
+
 
 def make_jan(li_ele):
     jan_text = li_ele.select_one("small")
