@@ -110,7 +110,7 @@ class Product(ABC):
         return self.__images
 
     def keys(self):
-        return [
+        return (
             "adult",
             "category",
             "distributer",
@@ -130,7 +130,7 @@ class Product(ABC):
             "series",
             "size",
             "url"
-        ]
+        )
 
     def __getitem__(self, key):
         return getattr(self, key)

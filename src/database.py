@@ -10,12 +10,11 @@ session = Session()
 Base = declarative_base()
 metadata = Base.metadata
 
-"""
-https://github.com/sqlalchemy/sqlalchemy/wiki/UniqueObject
-"""
-
 
 def _unique(session, cls, hashfunc, queryfunc, constructor, arg, kw):
+    """
+    https://github.com/sqlalchemy/sqlalchemy/wiki/UniqueObject
+    """
     cache = getattr(session, "_unique_cache", None)
     if cache is None:
         session._unique_cache = cache = {}
