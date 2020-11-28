@@ -5,3 +5,5 @@ __pycache__/
 playground/
 data/
 .devcontainer/
+*.sqlite
+src/*.env

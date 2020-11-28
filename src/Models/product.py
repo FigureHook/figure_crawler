@@ -24,11 +24,11 @@ class ProductReleaseInfo(PkModel):
     price = Column(Integer, nullable=False)
     order_period_start = Column(Date)
     order_period_end = Column(Date)
-    initial_release_date = Column(Date)
+    initial_release_date = Column(Date, nullable=False)
     delay_release_date = Column(Date)
     announced_at = Column(Date)
     release_at = Column(Date)
-    product_id = Column(Integer, ForeignKey("product.id"))
+    product_id = Column(Integer, ForeignKey("product.id"), nullable=False)
 
 
 class Product(PkModel):
@@ -49,7 +49,7 @@ class Product(PkModel):
     adult = Column(Boolean)
     copyright = Column("copyright", String)
     created_at = Column(DateTime, default=func.now())
-    series = relationship("Series", backref="Products")
+
     release_infos = relationship(
         ProductReleaseInfo, backref="product")
     sculptors = relationship(

@@ -1,10 +1,12 @@
+import os
+
+from sqlalchemy import Column, Integer, create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from src.extension import engine
-from sqlalchemy import Column, Integer
 
-Session = sessionmaker(bind=engine)
-session = Session()
+engine = create_engine(os.environ.get("DB_URL", "sqlite:///db/app.sqlite"), echo=True)
+
+session = sessionmaker(bind=engine)()
 
 
 Base = declarative_base()
@@ -104,5 +106,5 @@ class PkModel(Model):
                 isinstance(record_id, (int, float)),
             )
         ):
-            return cls.query.get(int(record_id))
+            return session.query(cls).get(int(record_id))
         return None
