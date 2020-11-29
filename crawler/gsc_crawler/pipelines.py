@@ -8,6 +8,10 @@
 from itemadapter import ItemAdapter
 
 
-class GscCrawlerPipeline:
+class ProductDataFillingPipeline:
     def process_item(self, item, spider):
+        dates_len = len(item["release_dates"])
+        prices_len = len(item["prices"])
+        if dates_len > prices_len:
+            item["prices"].extend(item["prices"][-1::] * (dates_len - prices_len))
         return item
