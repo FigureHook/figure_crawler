@@ -11,8 +11,8 @@ from src.utils.text_parser import price_parse, scale_parse, size_parse
 
 class AlterProductParser(ProductParser):
     @check_url_host(BrandHost.ALTER)
-    def __init__(self, url, headers=None, cookies=None):
-        super().__init__(url, headers, cookies)
+    def __init__(self, url, headers=None, cookies=None, page=None):
+        super().__init__(url, headers, cookies, page)
         self.detail = self._parse_detail()
         self.spec = self._parse_spec()
 

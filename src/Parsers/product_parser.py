@@ -7,9 +7,9 @@ from src.utils._class import OrderPeriod
 
 
 class ProductParser(ABC):
-    def __init__(self, url, headers, cookies):
+    def __init__(self, url, headers, cookies, page):
         self.__url = url
-        self.__page = get_page(url, headers, cookies)
+        self.__page = page if page else get_page(url, headers, cookies)
 
     @property
     def url(self):

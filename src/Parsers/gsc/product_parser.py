@@ -19,13 +19,13 @@ with open(locale_file_path, "r") as stream:
 
 class GSCProductParser(ProductParser):
     @check_url_host(BrandHost.GSC)
-    def __init__(self, url, headers=None, cookies=None):
+    def __init__(self, url, headers=None, cookies=None, page=None):
         if not cookies:
             cookies = {
                 "age_verification_ok": "true"
             }
 
-        super().__init__(url, headers, cookies)
+        super().__init__(url, headers, cookies, page)
         self.locale = parse_lang(url)
         self.detail = self._parse_detail()
 
