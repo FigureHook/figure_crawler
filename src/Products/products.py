@@ -15,13 +15,13 @@ class Product(ABC):
         "__manufacturer",
         "__name",
         "__order_period",
-        "__paintwork",
+        "__paintworks",
         "__price",
-        "__release_date",
+        "__release_dates",
         "__releaser",
         "__resale",
         "__scale",
-        "__sculptor",
+        "__sculptors",
         "__series",
         "__size",
         "__url"
@@ -76,11 +76,11 @@ class Product(ABC):
         return self.__category
 
     @property
-    def price(self):
+    def prices(self):
         return self.__prices
 
     @property
-    def release_date(self):
+    def release_dates(self):
         return self.__release_dates
 
     @property
@@ -96,11 +96,11 @@ class Product(ABC):
         return self.__size
 
     @property
-    def sculptor(self):
+    def sculptors(self):
         return self.__sculptors
 
     @property
-    def paintwork(self):
+    def paintworks(self):
         return self.__paintworks
 
     @property
@@ -137,13 +137,13 @@ class Product(ABC):
             "manufacturer",
             "name",
             "category",
-            "release_date",
-            "price",
+            "release_dates",
+            "prices",
             "series",
             "size",
             "scale",
-            "paintwork",
-            "sculptor",
+            "paintworks",
+            "sculptors",
             "images",
             "order_period",
             "releaser",
