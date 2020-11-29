@@ -5,8 +5,30 @@ from src.Parsers.gsc import GSCProductParser
 
 
 class Product(ABC):
-    def __init__(self, url, parser):
-        parser = parser(url)
+    __slots__ = (
+        "__adult",
+        "__category",
+        "__distributer",
+        "__images",
+        "__jan",
+        "__maker_id",
+        "__manufacturer",
+        "__name",
+        "__order_period",
+        "__paintwork",
+        "__price",
+        "__release_date",
+        "__releaser",
+        "__resale",
+        "__scale",
+        "__sculptor",
+        "__series",
+        "__size",
+        "__url"
+    )
+
+    def __init__(self, url, parser, page,):
+        parser = parser(url, page=page)
 
         self.__url = url
         self.__name = parser.parse_name()
@@ -109,26 +131,27 @@ class Product(ABC):
     def images(self):
         return self.__images
 
-    def keys(self):
+    @classmethod
+    def keys(cls):
         return (
-            "adult",
-            "category",
-            "distributer",
-            "images",
-            "jan",
-            "maker_id",
             "manufacturer",
             "name",
-            "order_period",
-            "paintwork",
-            "price",
+            "category",
             "release_date",
-            "releaser",
-            "resale",
-            "scale",
-            "sculptor",
+            "price",
             "series",
             "size",
+            "scale",
+            "paintwork",
+            "sculptor",
+            "images",
+            "order_period",
+            "releaser",
+            "distributer",
+            "resale",
+            "adult",
+            "jan",
+            "maker_id",
             "url"
         )
 
@@ -143,10 +166,10 @@ class Product(ABC):
 
 
 class GSCProduct(Product):
-    def __init__(self, url, parser=GSCProductParser):
-        super().__init__(url, parser)
+    def __init__(self, url, parser=GSCProductParser, page=None):
+        super().__init__(url, parser, page)
 
 
 class AlterProduct(Product):
-    def __init__(self, url, parser=AlterProductParser):
-        super().__init__(url, parser)
+    def __init__(self, url, parser=AlterProductParser, page=None):
+        super().__init__(url, parser, page)

@@ -7,3 +7,4 @@ data/
 .devcontainer/
 *.sqlite
 src/*.env
+*.csv
