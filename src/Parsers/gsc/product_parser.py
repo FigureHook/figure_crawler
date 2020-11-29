@@ -44,7 +44,7 @@ class GSCProductParser(ProductParser):
         detail = self.page.select_one(".itemDetail")
         return detail
 
-    def _parse_resale_date(self) -> List[datetime]:
+    def _parse_resale_dates(self) -> List[datetime]:
         resale_tag = self._get_from_locale("resale")
         resale_date_info_tag = r"^\s?{tag}".format(tag=resale_tag)
         resale_dates = self._find_detail("dt", resale_date_info_tag)
@@ -101,14 +101,14 @@ class GSCProductParser(ProductParser):
         price_slot = price_slot[1:] + price_slot[:1]
         return price_slot
 
-    def parse_release_date(self) -> List[datetime]:
+    def parse_release_dates(self) -> List[datetime]:
         date_pattern = self._get_from_locale("release_date_pattern")
         weird_date_pattern = self._get_from_locale("weird_date_pattern")
         date_text = self.detail.find(
             "dd", {"itemprop": "releaseDate"}).text.strip()
 
         if self.parse_resale():
-            return self._parse_resale_date()
+            return self._parse_resale_dates()
 
         date_list = []
         if re.match(date_pattern, date_text):

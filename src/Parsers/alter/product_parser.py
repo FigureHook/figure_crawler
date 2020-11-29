@@ -66,7 +66,7 @@ class AlterProductParser(ProductParser):
 
         return price_list
 
-    def parse_release_date(self) -> List[datetime]:
+    def parse_release_dates(self) -> List[datetime]:
         date_text = self.spec["発売月"]
         matched_date = re.findall(r"\d+年\d+月", date_text)
         date_list = [datetime.strptime(date, "%Y年%m月") for date in matched_date]

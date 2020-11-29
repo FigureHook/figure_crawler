@@ -44,7 +44,7 @@ class ProductParser(ABC):
         pass
 
     @abstractmethod
-    def parse_release_date(self) -> List[datetime]:
+    def parse_release_dates(self) -> List[datetime]:
         pass
 
     @abstractmethod

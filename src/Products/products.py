@@ -35,13 +35,13 @@ class Product(ABC):
         self.__series = parser.parse_series()
         self.__manufacturer = parser.parse_manufacturer()
         self.__category = parser.parse_category()
-        self.__price = parser.parse_prices()
-        self.__release_date = parser.parse_release_date()
+        self.__prices = parser.parse_prices()
+        self.__release_dates = parser.parse_release_dates()
         self.__order_period = parser.parse_order_period()
         self.__size = parser.parse_size()
         self.__scale = parser.parse_scale()
-        self.__sculptor = parser.parse_sculptors()
-        self.__paintwork = parser.parse_paintworks()
+        self.__sculptors = parser.parse_sculptors()
+        self.__paintworks = parser.parse_paintworks()
         self.__resale = parser.parse_resale()
         self.__adult = parser.parse_adult()
         self.__copyright = parser.parse_copyright()
@@ -77,11 +77,11 @@ class Product(ABC):
 
     @property
     def price(self):
-        return self.__price
+        return self.__prices
 
     @property
     def release_date(self):
-        return self.__release_date
+        return self.__release_dates
 
     @property
     def order_period(self):
@@ -97,11 +97,11 @@ class Product(ABC):
 
     @property
     def sculptor(self):
-        return self.__sculptor
+        return self.__sculptors
 
     @property
     def paintwork(self):
-        return self.__paintwork
+        return self.__paintworks
 
     @property
     def resale(self):

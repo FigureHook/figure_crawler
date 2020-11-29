@@ -33,8 +33,8 @@ class BaseTestCase:
         manufacturer = item["test"].parse_manufacturer()
         assert manufacturer == item["expected"]["manufacturer"]
 
-    def test_release_date(self, item):
-        release_date = item["test"].parse_release_date()
+    def test_release_dates(self, item):
+        release_date = item["test"].parse_release_dates()
         the_type = type(release_date)
         assert the_type is list
 
