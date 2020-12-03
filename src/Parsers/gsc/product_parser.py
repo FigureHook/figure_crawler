@@ -5,6 +5,7 @@ from typing import List, Union
 from urllib.parse import urlparse
 
 import yaml
+from bs4 import BeautifulSoup
 from src.constants import BrandHost
 from src.Parsers.product_parser import ProductParser
 from src.utils._class import OrderPeriod
@@ -19,14 +20,20 @@ with open(locale_file_path, "r") as stream:
 
 class GSCProductParser(ProductParser):
     @check_url_host(BrandHost.GSC)
-    def __init__(self, url, headers=None, cookies=None, page=None):
+    def __init__(self, url, headers=None, cookies=None, page: BeautifulSoup = None):
         if not cookies:
             cookies = {
                 "age_verification_ok": "true"
             }
 
         super().__init__(url, headers, cookies, page)
-        self.locale = parse_lang(url)
+
+        if page:
+            self.locale = page.select_one("html")["lang"]
+        else:
+            parsed_url = urlparse(url)
+            self.locale = re.match(r"^\/(\w+)\/", parsed_url.path).group(1)
+
         self.detail = self._parse_detail()
 
     def _get_from_locale(self, key):
@@ -253,12 +260,6 @@ def make_datetime(period, locale) -> datetime:
         month = datetime.strptime(month, '%B').month
 
     return datetime(*(int(x) for x in (year, month, day, hour, minute)))
-
-
-def parse_lang(url) -> str:
-    parsed_url = urlparse(url)
-    lang = re.match(r"^\/(\w+)\/", parsed_url.path).group(1)
-    return lang
 
 
 def parse_people(people_text) -> List[str]:

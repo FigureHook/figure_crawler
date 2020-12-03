@@ -6,7 +6,6 @@ import yaml
 from src.constants import GSCCategory, GSCLang
 from src.Parsers.alter import AlterProductParser
 from src.Parsers.gsc import GSCProductParser, GSCYearlyAnnouncement, GSCReleaseInfo
-from src.Parsers.gsc.product_parser import parse_lang
 
 
 def load_yaml(path):
@@ -159,6 +158,6 @@ class TestParserUtils:
         en = "https://www.goodsmile.info/en/product/4364"
         ja = "https://www.goodsmile.info/ja/product/4364"
         zh = "https://www.goodsmile.info/zh/product/4364"
-        assert parse_lang(en) == "en"
-        assert parse_lang(ja) == "ja"
-        assert parse_lang(zh) == "zh"
+        assert GSCProductParser(en).locale == "en"
+        assert GSCProductParser(ja).locale == "ja"
+        assert GSCProductParser(zh).locale == "zh"
