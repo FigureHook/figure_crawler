@@ -41,7 +41,7 @@ class Product(PkModel):
     releaser_id = Column(Integer, ForeignKey("company.id"))
     distributer_id = Column(Integer, ForeignKey("company.id"))
     jan = Column(BigInteger, unique=True)
-    maker_id = Column(String, unique=True)
+    maker_id = Column(String)
     name = Column(String, nullable=False)
     size = Column(SmallInteger)
     scale = Column(SmallInteger)
