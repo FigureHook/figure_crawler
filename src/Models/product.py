@@ -49,6 +49,7 @@ class Product(PkModel):
     adult = Column(Boolean)
     copyright = Column("copyright", String)
     created_at = Column(DateTime, default=func.now())
+    updated_at = Column(DateTime, default=func.now())
 
     release_infos = relationship(
         ProductReleaseInfo, backref="product")
