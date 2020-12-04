@@ -8,3 +8,4 @@ data/
 *.sqlite
 src/*.env
 *.csv
+*.log
