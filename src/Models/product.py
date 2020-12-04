@@ -18,6 +18,13 @@ product_paintwork_table = Table(
 )
 
 
+class ProductOfficialImage(PkModel):
+    __tablename__ = "product_official_image"
+
+    url = Column("url", String)
+    product_id = Column(Integer, ForeignKey("product.id"), nullable=False)
+
+
 class ProductReleaseInfo(PkModel):
     __tablename__ = "product_release_info"
 
@@ -53,6 +60,9 @@ class Product(PkModel):
 
     release_infos = relationship(
         ProductReleaseInfo, backref="product")
+    official_images = relationship(
+        ProductOfficialImage, backref="product"
+    )
     sculptors = relationship(
         "Sculptor",
         secondary=product_sculptor_table,
