@@ -17,7 +17,7 @@ NEWSPIDER_MODULE = 'gsc_crawler.spiders'
 # SER_AGENT = 'gsc_crawler (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 # ONCURRENT_REQUESTS = 32
@@ -63,7 +63,7 @@ ROBOTSTXT_OBEY = True
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    'gsc_crawler.pipelines.ProductDataFillingPipeline': 300,
+    'gsc_crawler.pipelines.ProductDataProcessingPipeline': 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -86,3 +86,22 @@ ITEM_PIPELINES = {
 # TTPCACHE_DIR = 'httpcache'
 # TTPCACHE_IGNORE_HTTP_CODES = []
 # TTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
+
+# scrapy-proxies settings
+
+RETRY_TIMES = 5
+RETRY_HTTP_CODES = [500, 503, 504, 400, 403, 404, 408]
+
+DOWNLOADER_MIDDLEWARES = {
+    'scrapy.downloadermiddlewares.retry.RetryMiddleware': 90,
+    'scrapy_proxies.RandomProxy': 100,
+    'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware': 110,
+}
+
+PROXY_LIST = '/app/crawler/proxy-list.txt'
+PROXY_MODE = 0
+
+
+# logger settings
+LOG_FILE = '/app/crawler/try.log'
+LOG_LEVEL = 'WARNING'

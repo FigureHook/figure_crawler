@@ -4,12 +4,18 @@
 # See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 
 
+import unicodedata
+
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
 
 
-class ProductDataFillingPipeline:
+class ProductDataProcessingPipeline:
     def process_item(self, item, spider):
+        # full-width to half-width. Yeah, that's you, ＫＡＤＯＫＡＷＡ
+        item["manufacturer"] = unicodedata.normalize("NFKC", item["manufacturer"])
+
+        # fill price according to release_dates
         dates_len = len(item["release_dates"])
         prices_len = len(item["prices"])
         if dates_len > prices_len:
