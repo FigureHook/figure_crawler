@@ -506,6 +506,32 @@
   series: ライザのアトリエ ～常闇の女王と秘密の隠れ家～
   size: 240
   url: https://www.goodsmile.info/ja/product/8841
+- JAN: null
+  adult: false
+  category: フィギュア
+  copyright: ©saitom
+  distributer: グッドスマイルカンパニー
+  images: images.goodsmile.info/cgm/images/product/20200707/9734/71738/large/3533c4b97c38b6fe73b7291188a5cfd2.jpg
+  maker_id: "9734"
+  manufacturer: マックスファクトリー
+  name: ステラ
+  order_period:
+    start: 2020-7-10 12:00:00
+    end: 2020-9-2 21:00:00
+  paintwork:
+    - 中野フィギュア教室（福井）
+  price:
+    - 15273
+  release_date:
+    - 2021-08-01 00:00:00
+  releaser: マックスファクトリー
+  resale: false
+  scale: 7
+  sculptor:
+    - あきもふ
+  series: null
+  size: 250
+  url: https://www.goodsmile.info/ja/product/9734
 # - JAN: null
 #   adult: false
 #   category: フィギュア

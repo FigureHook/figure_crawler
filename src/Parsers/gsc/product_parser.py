@@ -76,12 +76,24 @@ class GSCProductParser(ProductParser):
 
         return name
 
-    def parse_series(self) -> str:
-        series = self.detail.select("dd")[1].text.strip()
+    def parse_series(self) -> Union[str, None]:
+        tag = self._get_from_locale("series")
+        series_targets = self._find_detail("dt", tag)
+
+        if not series_targets:
+            return None
+
+        series = series_targets.find_next("dd").text.strip()
         return series
 
-    def parse_manufacturer(self) -> str:
-        manufacturer = self.detail.select("dd")[2].text.strip()
+    def parse_manufacturer(self) -> Union[str, None]:
+        tag = self._get_from_locale("manufacturer")
+        manufacturer_targets = self._find_detail("dt", tag)
+
+        if not manufacturer_targets:
+            return None
+
+        manufacturer = manufacturer_targets.find_next("dd").text.strip()
         return manufacturer
 
     def parse_category(self) -> str:
