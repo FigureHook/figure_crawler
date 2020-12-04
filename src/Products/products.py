@@ -24,7 +24,8 @@ class Product(ABC):
         "__sculptors",
         "__series",
         "__size",
-        "__url"
+        "__url",
+        "__copyright"
     )
 
     def __init__(self, url, parser, page,):
@@ -152,7 +153,8 @@ class Product(ABC):
             "adult",
             "jan",
             "maker_id",
-            "url"
+            "url",
+            "copyright"
         )
 
     def __getitem__(self, key):
