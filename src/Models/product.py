@@ -21,7 +21,7 @@ product_paintwork_table = Table(
 class ProductOfficialImage(PkModel):
     __tablename__ = "product_official_image"
 
-    url = Column("url", String)
+    url = Column(String)
     product_id = Column(Integer, ForeignKey("product.id"), nullable=False)
 
 
@@ -43,21 +43,23 @@ class Product(PkModel):
 
     url = Column(String)
     series_id = Column(Integer, ForeignKey("series.id"))
+    # ---Foreign key columns---
     manufacturer_id = Column(Integer, ForeignKey("company.id"))
     categroy_id = Column(Integer, ForeignKey("category.id"))
     releaser_id = Column(Integer, ForeignKey("company.id"))
     distributer_id = Column(Integer, ForeignKey("company.id"))
+    # ---native columns---
     jan = Column(BigInteger, unique=True)
-    maker_id = Column(String)
+    id_by_official = Column(String)
     name = Column(String, nullable=False)
     size = Column(SmallInteger)
     scale = Column(SmallInteger)
     resale = Column(Boolean)
     adult = Column(Boolean)
-    copyright = Column("copyright", String)
+    copyright = Column(String)
     created_at = Column(DateTime, default=func.now())
     updated_at = Column(DateTime, default=func.now())
-
+    # ---relationships field---
     release_infos = relationship(
         ProductReleaseInfo, backref="product")
     official_images = relationship(

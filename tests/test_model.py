@@ -200,11 +200,8 @@ class TestRelationShip:
     def test_product_has_many_official_images(self, session):
         product = Product(name="foo")
 
-        img1 = ProductOfficialImage(url="http://foo.com/img1.jpg")
-        img2 = ProductOfficialImage(url="http://foo.com/img2.jpg")
-
-        product.official_images.append(img1)
-        product.official_images.append(img2)
+        ProductOfficialImage(product=product, url="http://foo.com/img1.jpg")
+        ProductOfficialImage(product=product, url="http://foo.com/img2.jpg")
 
         product.save()
         assert isinstance(product.official_images, list)
