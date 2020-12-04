@@ -41,24 +41,24 @@ class ProductReleaseInfo(PkModel):
 class Product(PkModel):
     __tablename__ = "product"
 
-    url = Column(String)
-    series_id = Column(Integer, ForeignKey("series.id"))
-    # ---Foreign key columns---
-    manufacturer_id = Column(Integer, ForeignKey("company.id"))
-    category_id = Column(Integer, ForeignKey("category.id"))
-    releaser_id = Column(Integer, ForeignKey("company.id"))
-    distributer_id = Column(Integer, ForeignKey("company.id"))
     # ---native columns---
-    jan = Column(BigInteger, unique=True)
-    id_by_official = Column(String)
     name = Column(String, nullable=False)
     size = Column(SmallInteger)
     scale = Column(SmallInteger)
     resale = Column(Boolean)
     adult = Column(Boolean)
     copyright = Column(String)
+    url = Column(String)
+    jan = Column(BigInteger, unique=True)
+    id_by_official = Column(String)
     created_at = Column(DateTime, default=func.now())
     updated_at = Column(DateTime, default=func.now())
+    # ---Foreign key columns---
+    series_id = Column(Integer, ForeignKey("series.id"))
+    manufacturer_id = Column(Integer, ForeignKey("company.id"))
+    category_id = Column(Integer, ForeignKey("category.id"))
+    releaser_id = Column(Integer, ForeignKey("company.id"))
+    distributer_id = Column(Integer, ForeignKey("company.id"))
     # ---relationships field---
     release_infos = relationship(
         ProductReleaseInfo, backref="product")
