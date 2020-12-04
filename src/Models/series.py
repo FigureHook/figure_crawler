@@ -7,7 +7,7 @@ from src.database import PkModel, UniqueMixin
 class Series(UniqueMixin, PkModel):
     __tablename__ = "series"
 
-    name = Column(String, nullable=False, unique=True)
+    name = Column(String, unique=True)
     products = relationship("Product", backref="series")
 
     @classmethod
