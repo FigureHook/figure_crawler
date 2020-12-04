@@ -29,8 +29,8 @@ class ProductReleaseInfo(PkModel):
     __tablename__ = "product_release_info"
 
     price = Column(Integer, nullable=False)
-    order_period_start = Column(Date)
-    order_period_end = Column(Date)
+    order_period_start = Column(DateTime)
+    order_period_end = Column(DateTime)
     initial_release_date = Column(Date, nullable=False)
     delay_release_date = Column(Date)
     announced_at = Column(Date)

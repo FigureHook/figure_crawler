@@ -1,7 +1,7 @@
 """init
 
 Revision ID: 41cea22067fb
-Revises: 
+Revises:
 Create Date: 2020-12-04 08:42:31.602349
 
 """
@@ -88,8 +88,8 @@ def upgrade():
     op.create_table('product_release_info',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('price', sa.Integer(), nullable=False),
-    sa.Column('order_period_start', sa.Date(), nullable=True),
-    sa.Column('order_period_end', sa.Date(), nullable=True),
+    sa.Column('order_period_start', sa.DateTime(), nullable=True),
+    sa.Column('order_period_end', sa.DateTime(), nullable=True),
     sa.Column('initial_release_date', sa.Date(), nullable=False),
     sa.Column('delay_release_date', sa.Date(), nullable=True),
     sa.Column('announced_at', sa.Date(), nullable=True),
