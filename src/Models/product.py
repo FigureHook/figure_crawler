@@ -28,10 +28,10 @@ class ProductOfficialImage(PkModel):
 class ProductReleaseInfo(PkModel):
     __tablename__ = "product_release_info"
 
-    price = Column(Integer, nullable=False)
+    price = Column(Integer)
     order_period_start = Column(DateTime)
     order_period_end = Column(DateTime)
-    initial_release_date = Column(Date, nullable=False)
+    initial_release_date = Column(Date)
     delay_release_date = Column(Date)
     announced_at = Column(Date)
     release_at = Column(Date)
