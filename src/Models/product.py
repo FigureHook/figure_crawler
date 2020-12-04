@@ -45,7 +45,7 @@ class Product(PkModel):
     series_id = Column(Integer, ForeignKey("series.id"))
     # ---Foreign key columns---
     manufacturer_id = Column(Integer, ForeignKey("company.id"))
-    categroy_id = Column(Integer, ForeignKey("category.id"))
+    category_id = Column(Integer, ForeignKey("category.id"))
     releaser_id = Column(Integer, ForeignKey("company.id"))
     distributer_id = Column(Integer, ForeignKey("company.id"))
     # ---native columns---
