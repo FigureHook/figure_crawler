@@ -64,6 +64,8 @@ ROBOTSTXT_OBEY = False
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
     'gsc_crawler.pipelines.ProductDataProcessingPipeline': 300,
+    'gsc_crawler.pipelines.SaveProductInDatabasePipeline': 400,
+    # 'gsc_crawler.pipelines.OrderPeriodFillingPipeline': 500
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -104,4 +106,4 @@ PROXY_MODE = 0
 
 # logger settings
 LOG_FILE = '/app/crawler/try.log'
-LOG_LEVEL = 'WARNING'
+LOG_LEVEL = 'ERROR'
