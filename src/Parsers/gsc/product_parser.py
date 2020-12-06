@@ -53,12 +53,13 @@ class GSCProductParser(ProductParser):
 
     def _parse_resale_dates(self) -> List[datetime]:
         resale_tag = self._get_from_locale("resale")
-        resale_date_info_tag = r"^\s?{tag}".format(tag=resale_tag)
-        resale_dates = self._find_detail("dt", resale_date_info_tag)
-        resale_date_text = resale_dates.find_next("dd").text.strip()
-
         date_style = self._get_from_locale("release_date_format")
         date_pattern = self._get_from_locale("release_date_pattern")
+        resale_date_info_tag = r"{tag}".format(tag=resale_tag)
+        resale_dates = self._find_detail("dt", resale_date_info_tag)
+
+        resale_dd = resale_dates.find_next("dd").text.strip()
+        resale_date_text = resale_dd if resale_dd else resale_dates.text.strip()
 
         found = re.finditer(date_pattern, resale_date_text)
         dates = [datetime.strptime(f[0], date_style) for f in found]
@@ -127,7 +128,9 @@ class GSCProductParser(ProductParser):
             "dd", {"itemprop": "releaseDate"}).text.strip()
 
         if self.parse_resale():
-            return self._parse_resale_dates()
+            dates = self._parse_resale_dates()
+            if dates:
+                return dates
 
         date_list = []
         if re.match(date_pattern, date_text):
@@ -276,4 +279,5 @@ def make_datetime(period, locale) -> datetime:
 
 def parse_people(people_text) -> List[str]:
     people = re.split(r'・|、|/', people_text)
+    people = list(map(str.strip, people))
     return people
