@@ -2,7 +2,8 @@ from datetime import date, datetime
 
 import pytest
 from src.Models import (Category, Company, Paintwork, Product,
-                        ProductReleaseInfo, Sculptor, Series)
+                        ProductOfficialImage, ProductReleaseInfo, Sculptor,
+                        Series)
 
 
 @pytest.mark.usefixtures("session")
@@ -195,3 +196,13 @@ class TestRelationShip:
         assert len(product.sculptors) == 2
         assert isinstance(product.paintworks, list)
         assert len(product.paintworks) == 2
+
+    def test_product_has_many_official_images(self, session):
+        product = Product(name="foo")
+
+        ProductOfficialImage(product=product, url="http://foo.com/img1.jpg")
+        ProductOfficialImage(product=product, url="http://foo.com/img2.jpg")
+
+        product.save()
+        assert isinstance(product.official_images, list)
+        assert len(product.official_images) == 2

@@ -11,8 +11,8 @@ from src.utils.text_parser import price_parse, scale_parse, size_parse
 
 class AlterProductParser(ProductParser):
     @check_url_host(BrandHost.ALTER)
-    def __init__(self, url, headers=None, cookies=None):
-        super().__init__(url, headers, cookies)
+    def __init__(self, url, headers=None, cookies=None, page=None):
+        super().__init__(url, headers, cookies, page)
         self.detail = self._parse_detail()
         self.spec = self._parse_spec()
 
@@ -66,7 +66,7 @@ class AlterProductParser(ProductParser):
 
         return price_list
 
-    def parse_release_date(self) -> List[datetime]:
+    def parse_release_dates(self) -> List[datetime]:
         date_text = self.spec["発売月"]
         matched_date = re.findall(r"\d+年\d+月", date_text)
         date_list = [datetime.strptime(date, "%Y年%m月") for date in matched_date]

@@ -8,3 +8,5 @@ python-dotenv
 flake8
 alembic
 pytest
+scrapy
+scrapy_proxies

@@ -5,6 +5,7 @@ from typing import List, Union
 from urllib.parse import urlparse
 
 import yaml
+from bs4 import BeautifulSoup
 from src.constants import BrandHost
 from src.Parsers.product_parser import ProductParser
 from src.utils._class import OrderPeriod
@@ -19,14 +20,20 @@ with open(locale_file_path, "r") as stream:
 
 class GSCProductParser(ProductParser):
     @check_url_host(BrandHost.GSC)
-    def __init__(self, url, headers=None, cookies=None):
+    def __init__(self, url, headers=None, cookies=None, page: BeautifulSoup = None):
         if not cookies:
             cookies = {
                 "age_verification_ok": "true"
             }
 
-        super().__init__(url, headers, cookies)
-        self.locale = parse_lang(url)
+        super().__init__(url, headers, cookies, page)
+
+        if page:
+            self.locale = page.select_one("html")["lang"]
+        else:
+            parsed_url = urlparse(url)
+            self.locale = re.match(r"^\/(\w+)\/", parsed_url.path).group(1)
+
         self.detail = self._parse_detail()
 
     def _get_from_locale(self, key):
@@ -44,14 +51,15 @@ class GSCProductParser(ProductParser):
         detail = self.page.select_one(".itemDetail")
         return detail
 
-    def _parse_resale_date(self) -> List[datetime]:
+    def _parse_resale_dates(self) -> List[datetime]:
         resale_tag = self._get_from_locale("resale")
-        resale_date_info_tag = r"^\s?{tag}".format(tag=resale_tag)
-        resale_dates = self._find_detail("dt", resale_date_info_tag)
-        resale_date_text = resale_dates.find_next("dd").text.strip()
-
         date_style = self._get_from_locale("release_date_format")
         date_pattern = self._get_from_locale("release_date_pattern")
+        resale_date_info_tag = r"{tag}".format(tag=resale_tag)
+        resale_dates = self._find_detail("dt", resale_date_info_tag)
+
+        resale_dd = resale_dates.find_next("dd").text.strip()
+        resale_date_text = resale_dd if resale_dd else resale_dates.text.strip()
 
         found = re.finditer(date_pattern, resale_date_text)
         dates = [datetime.strptime(f[0], date_style) for f in found]
@@ -69,12 +77,24 @@ class GSCProductParser(ProductParser):
 
         return name
 
-    def parse_series(self) -> str:
-        series = self.detail.select("dd")[1].text.strip()
+    def parse_series(self) -> Union[str, None]:
+        tag = self._get_from_locale("series")
+        series_targets = self._find_detail("dt", tag)
+
+        if not series_targets:
+            return None
+
+        series = series_targets.find_next("dd").text.strip()
         return series
 
-    def parse_manufacturer(self) -> str:
-        manufacturer = self.detail.select("dd")[2].text.strip()
+    def parse_manufacturer(self) -> Union[str, None]:
+        tag = self._get_from_locale("manufacturer")
+        manufacturer_targets = self._find_detail("dt", tag)
+
+        if not manufacturer_targets:
+            return None
+
+        manufacturer = manufacturer_targets.find_next("dd").text.strip()
         return manufacturer
 
     def parse_category(self) -> str:
@@ -101,14 +121,16 @@ class GSCProductParser(ProductParser):
         price_slot = price_slot[1:] + price_slot[:1]
         return price_slot
 
-    def parse_release_date(self) -> List[datetime]:
+    def parse_release_dates(self) -> List[datetime]:
         date_pattern = self._get_from_locale("release_date_pattern")
         weird_date_pattern = self._get_from_locale("weird_date_pattern")
         date_text = self.detail.find(
             "dd", {"itemprop": "releaseDate"}).text.strip()
 
         if self.parse_resale():
-            return self._parse_resale_date()
+            dates = self._parse_resale_dates()
+            if dates:
+                return dates
 
         date_list = []
         if re.match(date_pattern, date_text):
@@ -255,12 +277,7 @@ def make_datetime(period, locale) -> datetime:
     return datetime(*(int(x) for x in (year, month, day, hour, minute)))
 
 
-def parse_lang(url) -> str:
-    parsed_url = urlparse(url)
-    lang = re.match(r"^\/(\w+)\/", parsed_url.path).group(1)
-    return lang
-
-
 def parse_people(people_text) -> List[str]:
     people = re.split(r'・|、|/', people_text)
+    people = list(map(str.strip, people))
     return people

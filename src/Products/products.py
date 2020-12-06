@@ -5,21 +5,44 @@ from src.Parsers.gsc import GSCProductParser
 
 
 class Product(ABC):
-    def __init__(self, url, parser):
-        parser = parser(url)
+    __slots__ = (
+        "__adult",
+        "__category",
+        "__distributer",
+        "__images",
+        "__jan",
+        "__maker_id",
+        "__manufacturer",
+        "__name",
+        "__order_period",
+        "__paintworks",
+        "__price",
+        "__release_dates",
+        "__releaser",
+        "__resale",
+        "__scale",
+        "__sculptors",
+        "__series",
+        "__size",
+        "__url",
+        "__copyright"
+    )
+
+    def __init__(self, url, parser, page,):
+        parser = parser(url, page=page)
 
         self.__url = url
         self.__name = parser.parse_name()
         self.__series = parser.parse_series()
         self.__manufacturer = parser.parse_manufacturer()
         self.__category = parser.parse_category()
-        self.__price = parser.parse_prices()
-        self.__release_date = parser.parse_release_date()
+        self.__prices = parser.parse_prices()
+        self.__release_dates = parser.parse_release_dates()
         self.__order_period = parser.parse_order_period()
         self.__size = parser.parse_size()
         self.__scale = parser.parse_scale()
-        self.__sculptor = parser.parse_sculptors()
-        self.__paintwork = parser.parse_paintworks()
+        self.__sculptors = parser.parse_sculptors()
+        self.__paintworks = parser.parse_paintworks()
         self.__resale = parser.parse_resale()
         self.__adult = parser.parse_adult()
         self.__copyright = parser.parse_copyright()
@@ -54,12 +77,12 @@ class Product(ABC):
         return self.__category
 
     @property
-    def price(self):
-        return self.__price
+    def prices(self):
+        return self.__prices
 
     @property
-    def release_date(self):
-        return self.__release_date
+    def release_dates(self):
+        return self.__release_dates
 
     @property
     def order_period(self):
@@ -74,12 +97,12 @@ class Product(ABC):
         return self.__size
 
     @property
-    def sculptor(self):
-        return self.__sculptor
+    def sculptors(self):
+        return self.__sculptors
 
     @property
-    def paintwork(self):
-        return self.__paintwork
+    def paintworks(self):
+        return self.__paintworks
 
     @property
     def resale(self):
@@ -109,27 +132,29 @@ class Product(ABC):
     def images(self):
         return self.__images
 
-    def keys(self):
+    @classmethod
+    def keys(cls):
         return (
-            "adult",
-            "category",
-            "distributer",
-            "images",
-            "jan",
-            "maker_id",
             "manufacturer",
             "name",
-            "order_period",
-            "paintwork",
-            "price",
-            "release_date",
-            "releaser",
-            "resale",
-            "scale",
-            "sculptor",
+            "category",
+            "release_dates",
+            "prices",
             "series",
             "size",
-            "url"
+            "scale",
+            "paintworks",
+            "sculptors",
+            "images",
+            "order_period",
+            "releaser",
+            "distributer",
+            "resale",
+            "adult",
+            "jan",
+            "maker_id",
+            "url",
+            "copyright"
         )
 
     def __getitem__(self, key):
@@ -143,10 +168,10 @@ class Product(ABC):
 
 
 class GSCProduct(Product):
-    def __init__(self, url, parser=GSCProductParser):
-        super().__init__(url, parser)
+    def __init__(self, url, parser=GSCProductParser, page=None):
+        super().__init__(url, parser, page)
 
 
 class AlterProduct(Product):
-    def __init__(self, url, parser=AlterProductParser):
-        super().__init__(url, parser)
+    def __init__(self, url, parser=AlterProductParser, page=None):
+        super().__init__(url, parser, page)
