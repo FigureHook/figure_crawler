@@ -24,7 +24,8 @@ class TestProduct:
 @pytest.mark.usefixtures("session")
 class TestProductReleaseInfo:
     def test_get_by_id(self):
-        info = ProductReleaseInfo.create(price=12960, product_id=1, initial_release_date=date.today())
+        p = Product(name="foo")
+        info = ProductReleaseInfo.create(price=12960, product=p, initial_release_date=date.today())
 
         fetched_info = ProductReleaseInfo.get_by_id(info.id)
         assert fetched_info is info

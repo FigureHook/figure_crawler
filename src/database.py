@@ -1,16 +1,31 @@
 import os
+from contextlib import contextmanager
 
 from sqlalchemy import Column, Integer, create_engine
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import scoped_session, sessionmaker
+
+# https://stackoverflow.com/questions/12223335/sqlalchemy-creating-vs-reusing-a-session
 
 engine = create_engine(os.environ.get("DB_URL", "sqlite:///db/app.sqlite"), echo=True)
 
-session = sessionmaker(bind=engine)()
+Session = sessionmaker(bind=engine)
+session = scoped_session(Session)
 
 
 Base = declarative_base()
 metadata = Base.metadata
+
+
+@contextmanager
+def db_session():
+    """ Creates a context with an open SQLAlchemy session.
+    """
+    connection = engine.connect()
+    db_session = scoped_session(Session)
+    yield db_session
+    db_session.close()
+    connection.close()
 
 
 def _unique(session, cls, hashfunc, queryfunc, constructor, arg, kw):
@@ -59,7 +74,6 @@ class UniqueMixin(object):
 
 class CRUDMixin(object):
     """Mixin that adds convenience methods for CRUD (create, read, update, delete) operations."""
-
     @classmethod
     def create(cls, **kwargs):
         """Create a new record and save it the database."""
