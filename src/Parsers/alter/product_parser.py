@@ -83,7 +83,10 @@ class AlterProductParser(ProductParser):
         for s in sculptor_text:
             sculptor = parse_worker(s)
             if sculptor:
-                sculptors.append(sculptor)
+                if isinstance(sculptor, list):
+                    sculptors.extend(sculptor)
+                if isinstance(sculptor, str):
+                    sculptors.append(sculptor)
 
         return sculptors
 
