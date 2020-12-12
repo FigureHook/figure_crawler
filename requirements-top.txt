@@ -4,9 +4,9 @@ requests
 psycopg2
 SQLAlchemy
 PyYAML
-python-dotenv
 flake8
 alembic
 pytest
 scrapy
 scrapy_proxies
+sqlalchemy_mixins
