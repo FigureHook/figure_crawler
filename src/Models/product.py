@@ -1,21 +1,9 @@
 from sqlalchemy import (BigInteger, Boolean, Column, Date, DateTime,
-                        ForeignKey, Integer, SmallInteger, String, Table)
+                        ForeignKey, Integer, SmallInteger, String)
 from sqlalchemy.orm import relationship
-from sqlalchemy.sql import func
-from src.database import metadata, PkModel
+from src.database import PkModel, PkModelWithTimestamps
 
-# association table
-product_sculptor_table = Table(
-    "product_sculptor", metadata,
-    Column("prodcut_id", Integer, ForeignKey("product.id")),
-    Column("sculptor_id", Integer, ForeignKey("sculptor.id"))
-)
-
-product_paintwork_table = Table(
-    "product_paintwork", metadata,
-    Column("prodcut_id", Integer, ForeignKey("product.id")),
-    Column("paintwork_id", Integer, ForeignKey("paintwork.id"))
-)
+from .relation_table import product_paintwork_table, product_sculptor_table
 
 
 class ProductOfficialImage(PkModel):
@@ -38,7 +26,7 @@ class ProductReleaseInfo(PkModel):
     product_id = Column(Integer, ForeignKey("product.id"), nullable=False)
 
 
-class Product(PkModel):
+class Product(PkModelWithTimestamps):
     __tablename__ = "product"
 
     # ---native columns---
@@ -51,8 +39,6 @@ class Product(PkModel):
     url = Column(String)
     jan = Column(BigInteger, unique=True)
     id_by_official = Column(String)
-    created_at = Column(DateTime, default=func.now())
-    updated_at = Column(DateTime, default=func.now())
     # ---Foreign key columns---
     series_id = Column(Integer, ForeignKey("series.id"))
     manufacturer_id = Column(Integer, ForeignKey("company.id"))

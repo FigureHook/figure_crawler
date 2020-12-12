@@ -6,7 +6,9 @@
 from scrapy import Item, Field
 
 
-class GscCrawlerItem(Item):
+class ProductItem(Item):
+    announced_at = Field()
+
     # define the fields for your item here like:
     def __init__(self, product) -> None:
         for k in product.keys():

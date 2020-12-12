@@ -1,16 +1,17 @@
 import pytest
-from dotenv import load_dotenv
-
-load_dotenv()
 
 
 @pytest.fixture()
 def session():
-    from src.database import engine, metadata, session
+    from src.database import Model, db
 
-    metadata.create_all(bind=engine)
+    with db("sqlite://", echo=False) as db:
+        engine = db.engine
+        session = db.session
 
-    yield session
+        Model.metadata.create_all(bind=engine)
+
+        yield session
 
     session.close()
-    metadata.drop_all(bind=engine)
+    Model.metadata.drop_all(bind=engine)

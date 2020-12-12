@@ -14,6 +14,14 @@ class GSCCategory(str, Enum):
     GOODS = "goods_other"
 
 
+class AlterCategory(str, Enum):
+    FIGURE = "figure"
+    ALTAIR = "altair"
+    COLLABO = "collabo"
+    OTHER = "other"
+    ALMECHA = "almecha"
+
+
 class GSCLang(str, Enum):
     ENGLISH = "en"
     JAPANESE = "ja"

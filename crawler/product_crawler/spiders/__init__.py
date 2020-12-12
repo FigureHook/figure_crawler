@@ -9,11 +9,11 @@ import scrapy
 from bs4 import BeautifulSoup
 from scrapy.linkextractors import LinkExtractor
 from scrapy.spiders import CrawlSpider
-from src.constants import BrandHost, GSCCategory, GSCLang
-from src.Products import GSCProduct
+from src.constants import BrandHost, GSCCategory, GSCLang, AlterCategory
+from src.Products import GSCProduct, AlterProduct
 from src.utils import RelativeUrl
 
-from ..items import GscCrawlerItem
+from ..items import ProductItem
 
 
 class GSCProductSpider(CrawlSpider):
@@ -53,5 +53,42 @@ class GSCProductSpider(CrawlSpider):
     def parse_product(self, response):
         page = BeautifulSoup(response.text, "lxml")
         product = GSCProduct(response.url, page=page)
-        product_item = GscCrawlerItem(product)
+        product_item = ProductItem(product)
+        yield product_item
+
+
+class AlterProductSpider(CrawlSpider):
+    name = "alter_product"
+    allowed_domains = [BrandHost.ALTER]
+
+    def __init__(
+            self,
+            category=AlterCategory.FIGURE,
+            begin_year=2005,
+            end_year=None,
+            *args,
+            **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+
+        if not end_year:
+            end_year = date.today().year + 2
+
+        self.begin_year = int(begin_year)
+        self.end_year = int(end_year)
+        self.category = category
+
+    def start_requests(self):
+        period = range(self.begin_year, self.end_year+1)
+        for year in period:
+            url = RelativeUrl.alter(f"/{self.category}/?yy={year}")
+            yield scrapy.Request(url, callback=self.parse)
+
+    def parse(self, response):
+        for link in LinkExtractor(restrict_css="figure > a").extract_links(response):
+            yield scrapy.Request(link.url, callback=self.parse_product)
+
+    def parse_product(self, response):
+        page = BeautifulSoup(response.text, "lxml")
+        product = AlterProduct(response.url, page=page)
+        product_item = ProductItem(product)
         yield product_item

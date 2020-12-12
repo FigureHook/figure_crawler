@@ -7,10 +7,10 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = 'gsc_crawler'
+BOT_NAME = 'product_crawler'
 
-SPIDER_MODULES = ['gsc_crawler.spiders']
-NEWSPIDER_MODULE = 'gsc_crawler.spiders'
+SPIDER_MODULES = ['product_crawler.spiders']
+NEWSPIDER_MODULE = 'product_crawler.spiders'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
@@ -63,8 +63,8 @@ ROBOTSTXT_OBEY = False
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    'gsc_crawler.pipelines.ProductDataProcessingPipeline': 300,
-    'gsc_crawler.pipelines.SaveProductInDatabasePipeline': 400,
+    'product_crawler.pipelines.ProductDataProcessingPipeline': 300,
+    'product_crawler.pipelines.SaveProductInDatabasePipeline': 400,
     # 'gsc_crawler.pipelines.OrderPeriodFillingPipeline': 500
 }
 

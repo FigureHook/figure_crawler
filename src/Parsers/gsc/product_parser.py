@@ -223,7 +223,7 @@ class GSCProductParser(ProductParser):
         period = self.detail.select_one(".onlinedates")
 
         if not period:
-            return None
+            return super().parse_order_period()
 
         period_text = period.text.strip()
         order_period_pattern = self._get_from_locale("order_period_pattern")
