@@ -1,21 +1,10 @@
 from sqlalchemy import (BigInteger, Boolean, Column, Date, DateTime,
-                        ForeignKey, Integer, SmallInteger, String, Table)
+                        ForeignKey, Integer, SmallInteger, String)
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
-from src.database import metadata, PkModel
+from src.database import PkModel
 
-# association table
-product_sculptor_table = Table(
-    "product_sculptor", metadata,
-    Column("prodcut_id", Integer, ForeignKey("product.id")),
-    Column("sculptor_id", Integer, ForeignKey("sculptor.id"))
-)
-
-product_paintwork_table = Table(
-    "product_paintwork", metadata,
-    Column("prodcut_id", Integer, ForeignKey("product.id")),
-    Column("paintwork_id", Integer, ForeignKey("paintwork.id"))
-)
+from .relation_table import product_paintwork_table, product_sculptor_table
 
 
 class ProductOfficialImage(PkModel):
