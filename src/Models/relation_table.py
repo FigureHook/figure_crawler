@@ -1,6 +1,7 @@
 from sqlalchemy import Column, ForeignKey, Integer, Table
-from src.database import metadata
+from src.database import Model
 
+metadata = Model.metadata
 # association table
 product_sculptor_table = Table(
     "product_sculptor", metadata,

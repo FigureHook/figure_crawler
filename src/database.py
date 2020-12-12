@@ -3,13 +3,11 @@ from contextlib import contextmanager
 
 from sqlalchemy import Column, Integer, create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
-
 from sqlalchemy_mixins import AllFeaturesMixin
 from sqlalchemy_mixins.inspection import Base
+from sqlalchemy_mixins.timestamp import TimestampsMixin
 
 # https://stackoverflow.com/questions/12223335/sqlalchemy-creating-vs-reusing-a-session
-
-metadata = Base.metadata
 
 
 class DbSession:
@@ -39,9 +37,13 @@ def db(db_url=None, echo=True):
     session = scoped_session(Session)
 
     db_session = DbSession(engine, session)
+
     connection = engine.connect()
+    Model.set_session(session)
+
     yield db_session
 
+    Model.set_session(None)
     session.close()
     connection.close()
 
@@ -113,3 +115,7 @@ class PkModel(Model):
         ):
             return cls.query.get(int(record_id))
         return None
+
+
+class PkModelWithTimestamps(PkModel, TimestampsMixin):
+    __abstract__ = True
