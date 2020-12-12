@@ -2,29 +2,47 @@ import os
 from contextlib import contextmanager
 
 from sqlalchemy import Column, Integer, create_engine
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker
+
+from sqlalchemy_mixins import AllFeaturesMixin
+from sqlalchemy_mixins.inspection import Base
 
 # https://stackoverflow.com/questions/12223335/sqlalchemy-creating-vs-reusing-a-session
 
-engine = create_engine(os.environ.get("DB_URL", "sqlite:///db/app.sqlite"), echo=True)
-
-Session = sessionmaker(bind=engine)
-session = scoped_session(Session)
-
-
-Base = declarative_base()
 metadata = Base.metadata
 
 
+class DbSession:
+    def __init__(self, engine, session) -> None:
+        super().__init__()
+        self.__engine = engine
+        self.__session = session
+
+    @property
+    def engine(self):
+        return self.__engine
+
+    @property
+    def session(self):
+        return self.__session
+
+
 @contextmanager
-def db_session():
+def db(db_url=None, echo=True):
     """ Creates a context with an open SQLAlchemy session.
     """
+    if not db_url:
+        db_url = os.environ.get("DB_URL", "sqlite:///db/app.sqlite")
+
+    engine = create_engine(db_url, echo=echo)
+    Session = sessionmaker(bind=engine)
+    session = scoped_session(Session)
+
+    db_session = DbSession(engine, session)
     connection = engine.connect()
-    db_session = scoped_session(Session)
     yield db_session
-    db_session.close()
+
+    session.close()
     connection.close()
 
 
@@ -72,34 +90,7 @@ class UniqueMixin(object):
         )
 
 
-class CRUDMixin(object):
-    """Mixin that adds convenience methods for CRUD (create, read, update, delete) operations."""
-    @classmethod
-    def create(cls, **kwargs):
-        """Create a new record and save it the database."""
-        instance = cls(**kwargs)
-        return instance.save()
-
-    def update(self, commit=True, **kwargs):
-        """Update specific fields of a record."""
-        for attr, value in kwargs.items():
-            setattr(self, attr, value)
-        return commit and self.save() or self
-
-    def save(self, commit=True):
-        """Save the record."""
-        session.add(self)
-        if commit:
-            session.commit()
-        return self
-
-    def delete(self, commit=True):
-        """Remove the record from the database."""
-        session.delete(self)
-        return commit and session.commit()
-
-
-class Model(CRUDMixin, Base):
+class Model(AllFeaturesMixin):
     """Base model class that includes CRUD convenience methods."""
 
     __abstract__ = True
@@ -120,5 +111,5 @@ class PkModel(Model):
                 isinstance(record_id, (int, float)),
             )
         ):
-            return session.query(cls).get(int(record_id))
+            return cls.query.get(int(record_id))
         return None
