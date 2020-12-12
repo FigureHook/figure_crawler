@@ -4,7 +4,6 @@ from contextlib import contextmanager
 from sqlalchemy import Column, Integer, create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy_mixins import AllFeaturesMixin
-from sqlalchemy_mixins.inspection import Base
 from sqlalchemy_mixins.timestamp import TimestampsMixin
 
 # https://stackoverflow.com/questions/12223335/sqlalchemy-creating-vs-reusing-a-session
