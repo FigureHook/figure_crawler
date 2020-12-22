@@ -10,3 +10,13 @@ pytest
 scrapy
 scrapy_proxies
 sqlalchemy_mixins
+
+# flask-related
+flask
+Flask-Session
+flask-login
+Flask-Cors
+Flask-WTF
+WTForms
+Authlib
+loginpassgi

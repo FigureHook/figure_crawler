@@ -1,2 +1,7 @@
+FILE=requirements-top.txt
 pip install --upgrade pip
-pip install -r requirements-top.txt
+if test -f "$FILE"; then
+    pip install -r $FILE
+else
+    pip install -r requirements.txt
+fi
