@@ -19,4 +19,4 @@ Flask-Cors
 Flask-WTF
 WTForms
 Authlib
-loginpassgi
+loginpass
