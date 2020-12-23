@@ -69,7 +69,7 @@
   price:
     - 14400
   release_date:
-    - 2021-03-01 00:00:00
+    - 2021-05-01 00:00:00
   releaser: リューノス
   resale: false
   scale: 6
@@ -179,11 +179,12 @@
   paintwork:
     - DUTCH
   price:
-    - 17800
+    - 18800
   release_date:
     - 2018-04-01 00:00:00
+    - 2022-02-01 00:00:00
   releaser: アルター
-  resale: false
+  resale: true
   scale: 7
   sculptor:
     - 槙尾宗利
