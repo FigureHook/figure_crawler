@@ -37,7 +37,7 @@ class BaseTestCase:
         the_type = type(release_date)
         assert the_type is list
 
-        assert sorted(release_date) == sorted(item["expected"]["release_date"])
+        assert sorted(release_date) == sorted([d.date() for d in item["expected"]["release_date"]])
 
     def test_order_period(self, item):
         order_period = item["test"].parse_order_period()

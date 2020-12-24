@@ -106,4 +106,4 @@ PROXY_MODE = 0
 
 # logger settings
 LOG_FILE = '/app/crawler/try.log'
-LOG_LEVEL = 'ERROR'
+LOG_LEVEL = 'INFO'

@@ -1,6 +1,9 @@
+from datetime import date
+
 from sqlalchemy import (BigInteger, Boolean, Column, Date, DateTime,
                         ForeignKey, Integer, SmallInteger, String)
 from sqlalchemy.orm import relationship
+
 from src.database import PkModel, PkModelWithTimestamps
 
 from .relation_table import product_paintwork_table, product_sculptor_table
@@ -19,11 +22,15 @@ class ProductReleaseInfo(PkModel):
     price = Column(Integer)
     order_period_start = Column(DateTime)
     order_period_end = Column(DateTime)
-    initial_release_date = Column(Date)
+    initial_release_date = Column(Date, nullable=True)
     delay_release_date = Column(Date)
     announced_at = Column(Date)
     release_at = Column(Date)
     product_id = Column(Integer, ForeignKey("product.id"), nullable=False)
+
+    def postpone_release_date_to(self, delay_date: date):
+        if delay_date and self.initial_release_date != delay_date:
+            self.delay_release_date = delay_date
 
 
 class Product(PkModelWithTimestamps):
@@ -46,8 +53,11 @@ class Product(PkModelWithTimestamps):
     releaser_id = Column(Integer, ForeignKey("company.id"))
     distributer_id = Column(Integer, ForeignKey("company.id"))
     # ---relationships field---
-    release_infos = relationship(
-        ProductReleaseInfo, backref="product")
+    release_infos: list[ProductReleaseInfo] = relationship(
+        ProductReleaseInfo,
+        backref="product",
+        order_by="desc(ProductReleaseInfo.initial_release_date)"
+    )
     official_images = relationship(
         ProductOfficialImage, backref="product"
     )

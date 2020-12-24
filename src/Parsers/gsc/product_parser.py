@@ -1,11 +1,12 @@
 import re
-from datetime import datetime
+from datetime import date, datetime
 from pathlib import Path
 from typing import List, Union
 from urllib.parse import urlparse
 
 import yaml
 from bs4 import BeautifulSoup
+
 from src.constants import BrandHost
 from src.Parsers.product_parser import ProductParser
 from src.utils._class import OrderPeriod
@@ -51,7 +52,7 @@ class GSCProductParser(ProductParser):
         detail = self.page.select_one(".itemDetail")
         return detail
 
-    def _parse_resale_dates(self) -> List[datetime]:
+    def _parse_resale_dates(self) -> List[date]:
         resale_tag = self._get_from_locale("resale")
         date_style = self._get_from_locale("release_date_format")
         date_pattern = self._get_from_locale("release_date_pattern")
@@ -62,7 +63,7 @@ class GSCProductParser(ProductParser):
         resale_date_text = resale_dd if resale_dd else resale_dates.text.strip()
 
         found = re.finditer(date_pattern, resale_date_text)
-        dates = [datetime.strptime(f[0], date_style) for f in found]
+        dates = [datetime.strptime(f[0], date_style).date() for f in found]
         return dates
 
     def _parse_resale_price(self) -> List:
@@ -121,7 +122,7 @@ class GSCProductParser(ProductParser):
         price_slot = price_slot[1:] + price_slot[:1]
         return price_slot
 
-    def parse_release_dates(self) -> List[datetime]:
+    def parse_release_dates(self) -> List[date]:
         date_pattern = self._get_from_locale("release_date_pattern")
         weird_date_pattern = self._get_from_locale("weird_date_pattern")
         date_text = self.detail.find(
@@ -137,7 +138,7 @@ class GSCProductParser(ProductParser):
             for matched_date in re.finditer(date_pattern, date_text):
                 year = int(matched_date.group('year'))
                 month = int(matched_date.group('month'))
-                the_datetime = datetime(year, month, 1)
+                the_datetime = datetime(year, month, 1).date()
                 date_list.append(the_datetime)
 
         if re.match(weird_date_pattern, date_text):
@@ -145,7 +146,7 @@ class GSCProductParser(ProductParser):
             year = int(re.match(weird_date_pattern, date_text).group(1))
             for season, month in seasons.items():
                 if season in date_text.lower():
-                    the_datetime = datetime(year, month, 1)
+                    the_datetime = datetime(year, month, 1).date()
                     date_list.append(the_datetime)
 
         return date_list
