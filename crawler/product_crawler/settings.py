@@ -105,5 +105,5 @@ PROXY_MODE = 0
 
 
 # logger settings
-LOG_FILE = '/app/crawler/try.log'
+LOG_FILE = '/app/logs/crawler.log'
 LOG_LEVEL = 'INFO'

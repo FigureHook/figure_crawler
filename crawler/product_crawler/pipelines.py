@@ -88,9 +88,8 @@ class SaveProductInDatabasePipeline:
                 for price, date in zip(item["prices"], item["release_dates"]):
                     info = ProductReleaseInfo(
                         price=price,
+                        initial_release_date=date
                     )
-                    if bool(date):
-                        info.initial_release_date = date
                     product.release_infos.append(info)
 
             for paintwork in item["paintworks"]:

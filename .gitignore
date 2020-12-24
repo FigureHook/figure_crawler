@@ -9,3 +9,5 @@ data/
 src/*.env
 *.csv
 *.log
+logs/
+*.sql
