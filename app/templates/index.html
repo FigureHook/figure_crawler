@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Figure noti</title>
+</head>
+<body>
+    <form action="https://discord.com/api/oauth2/authorize" method="get">
+        {{ form.csrf_token() }}
+        {{ form.response_type() }}
+        {{ form.client_id() }}
+        {{ form.scope() }}
+        {{ form.redirect_uri() }}
+        <button type="submit">
+            Hook!
+        </button>
+    </form>
+</body>
+</html>
