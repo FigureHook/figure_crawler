@@ -76,11 +76,13 @@ def parse_products(ul_ele):
     products = []
 
     for li in ul_ele.select("li"):
-        product = {
-            "url": RelativeUrl.gsc(li.select_one("a")["href"]),
-            "jan": make_jan(li)
-        }
-        products.append(product)
+        anchor = li.select_one("a")
+        if anchor:
+            product = {
+                "url": RelativeUrl.gsc(anchor["href"]),
+                "jan": make_jan(li)
+            }
+            products.append(product)
 
     return products
 
