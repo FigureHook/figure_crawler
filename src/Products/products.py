@@ -1,7 +1,11 @@
-from abc import ABC
+from abc import ABC, abstractmethod
+from typing import Union
+
+from bs4 import BeautifulSoup
 
 from src.Parsers.alter import AlterProductParser
 from src.Parsers.gsc import GSCProductParser
+from src.Parsers.product_parser import ProductParser
 
 
 class Product(ABC):
@@ -28,8 +32,8 @@ class Product(ABC):
         "__copyright"
     )
 
-    def __init__(self, url, parser, page,):
-        parser = parser(url, page=page)
+    def __init__(self, url: str, page: Union[BeautifulSoup, None] = None):
+        parser = self.parser(url, page=page)
 
         self.__url = url
         self.__name = parser.parse_name()
@@ -51,6 +55,11 @@ class Product(ABC):
         self.__jan = parser.parse_JAN()
         self.__maker_id = parser.parse_maker_id()
         self.__images = parser.parse_images()
+
+    @property
+    @abstractmethod
+    def parser(self) -> ProductParser:
+        pass
 
     @property
     def url(self):
@@ -168,10 +177,8 @@ class Product(ABC):
 
 
 class GSCProduct(Product):
-    def __init__(self, url, parser=GSCProductParser, page=None):
-        super().__init__(url, parser, page)
+    parser = GSCProductParser
 
 
 class AlterProduct(Product):
-    def __init__(self, url, parser=AlterProductParser, page=None):
-        super().__init__(url, parser, page)
+    parser = AlterProductParser
