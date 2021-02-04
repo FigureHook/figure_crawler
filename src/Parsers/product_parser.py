@@ -2,14 +2,19 @@ from abc import ABC, abstractmethod
 from datetime import datetime
 from typing import List, Union
 
+from bs4 import BeautifulSoup
+
 from src.utils import get_page
 from src.utils._class import OrderPeriod
 
 
 class ProductParser(ABC):
-    def __init__(self, url, headers, cookies, page):
+    headers = {}
+    cookies = {}
+
+    def __init__(self, url: str, page: BeautifulSoup = None):
         self.__url = url
-        self.__page = page if page else get_page(url, headers, cookies)
+        self.__page = page if page else get_page(url, self.headers, self.cookies)
 
     @property
     def url(self):

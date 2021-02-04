@@ -3,6 +3,8 @@ from datetime import date, datetime
 from typing import List, Union
 from urllib.parse import urlparse, urlunparse
 
+from bs4 import BeautifulSoup
+
 from src.constants import BrandHost
 from src.Parsers.product_parser import ProductParser
 from src.utils.checker import check_url_host
@@ -11,8 +13,8 @@ from src.utils.text_parser import price_parse, scale_parse, size_parse
 
 class AlterProductParser(ProductParser):
     @check_url_host(BrandHost.ALTER)
-    def __init__(self, url, headers=None, cookies=None, page=None):
-        super().__init__(url, headers, cookies, page)
+    def __init__(self, url: str, page: BeautifulSoup = None):
+        super().__init__(url, page)
         self.detail = self._parse_detail()
         self.spec = self._parse_spec()
 

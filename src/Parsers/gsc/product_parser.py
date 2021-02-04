@@ -20,14 +20,14 @@ with open(locale_file_path, "r") as stream:
 
 
 class GSCProductParser(ProductParser):
-    @check_url_host(BrandHost.GSC)
-    def __init__(self, url, headers=None, cookies=None, page: BeautifulSoup = None):
-        if not cookies:
-            cookies = {
-                "age_verification_ok": "true"
-            }
+    cookies = {
+        "age_verification_ok": "true"
+    }
 
-        super().__init__(url, headers, cookies, page)
+    @check_url_host(BrandHost.GSC)
+    def __init__(self, url: str, page: BeautifulSoup = None):
+
+        super().__init__(url, page)
 
         if page:
             self.locale = page.select_one("html")["lang"]
