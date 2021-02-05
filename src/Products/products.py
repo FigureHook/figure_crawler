@@ -69,7 +69,7 @@ class Product(ABC):
         return f"[{self.manufacturer}] {self.name} {self.category}"
 
     def __repr__(self):
-        return f"{self.__class__.__name__}({self.url})"
+        return f"{self.__class__.__name__}('{self.url}')"
 
 
 class GSCProduct(Product):
