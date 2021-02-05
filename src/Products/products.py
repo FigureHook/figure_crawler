@@ -37,7 +37,12 @@ class Product(ABC):
         "name", "series", "manufacturer", "releaser", "distributer", "paintworks", "sculptors"
     ]
 
-    def __init__(self, url: str, page: BeautifulSoup = None, is_normalized: bool = False,):
+    def __init__(
+        self, url: str,
+        page: BeautifulSoup = None,
+        is_normalized: bool = False,
+        is_price_filled: bool = False
+    ):
         parser: ProductParser = self.parser(url, page=page)
 
         self.url = url
@@ -64,15 +69,29 @@ class Product(ABC):
         if is_normalized:
             self.normalize_attrs()
 
+        if is_price_filled:
+            self.fill_price_with_release_dates()
+
     @property
     @abstractmethod
     def parser(self) -> ProductParser:
         pass
 
-    def normalize_attrs(self):
+    def normalize_attrs(self) -> None:
         for attr in self.attrs_should_be_normalized:
             attr_value = getattr(self, attr)
             setattr(self, attr, normalize_product_attr(attr_value))
+
+    def fill_price_with_release_dates(self) -> None:
+        dates_len = len(self.release_dates)
+        prices_len = len(self.prices)
+
+        if not prices_len:
+            self.prices = [None] * dates_len
+        if not dates_len:
+            self.release_dates = [None] * prices_len
+        if dates_len > prices_len:
+            self.prices.extend(self.prices[-1::] * (dates_len - prices_len))
 
     def __getitem__(self, key):
         return getattr(self, key)
