@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 from src.Parsers.alter import AlterProductParser
 from src.Parsers.gsc import GSCProductParser
 from src.Parsers.product_parser import ProductParser
+from src.utils.text_parser import normalize_product_attr
 
 product_slots = (
     "adult",
@@ -32,9 +33,12 @@ product_slots = (
 
 class Product(ABC):
     __slots__ = product_slots
+    attrs_should_be_normalized: list[str] = [
+        "name", "series", "manufacturer", "releaser", "distributer", "paintworks", "sculptors"
+    ]
 
-    def __init__(self, url: str, page: BeautifulSoup = None):
-        parser = self.parser(url, page=page)
+    def __init__(self, url: str, page: BeautifulSoup = None, is_normalized: bool = False,):
+        parser: ProductParser = self.parser(url, page=page)
 
         self.url = url
         self.name = parser.parse_name()
@@ -57,10 +61,18 @@ class Product(ABC):
         self.maker_id = parser.parse_maker_id()
         self.images = parser.parse_images()
 
+        if is_normalized:
+            self.normalize_attrs()
+
     @property
     @abstractmethod
     def parser(self) -> ProductParser:
         pass
+
+    def normalize_attrs(self):
+        for attr in self.attrs_should_be_normalized:
+            attr_value = getattr(self, attr)
+            setattr(self, attr, normalize_product_attr(attr_value))
 
     def __getitem__(self, key):
         return getattr(self, key)
