@@ -36,6 +36,7 @@ class GSCProductParser(ProductParser):
             self.locale = re.match(r"^\/(\w+)\/", parsed_url.path).group(1)
 
         self.detail = self._parse_detail()
+        self.resale = self._parse_resale()
 
     def _get_from_locale(self, key):
         return locale_dict[self.locale][key]
@@ -66,9 +67,16 @@ class GSCProductParser(ProductParser):
         dates = [datetime.strptime(f[0], date_style).date() for f in found]
         return dates
 
-    def _parse_resale_price(self) -> List:
+    def _parse_resale_prices(self) -> List[int]:
+        price_slot = []
         price_items = self.detail.find_all(name="dt", text=re.compile(r"販(\w|)価格"))
-        return price_items
+
+        for price_item in price_items:
+            price_text = price_item.find_next("dd").text.strip()
+            price = price_parse(price_text)
+            price_slot.append(price)
+
+        return price_slot
 
     def parse_name(self) -> str:
         name = self.page.select_one(
@@ -111,15 +119,27 @@ class GSCProductParser(ProductParser):
     def parse_prices(self) -> List[int]:
         price_slot = []
         tag = self._get_from_locale("price")
-        price_targets = self._find_detail_all("dt", tag)
+        last_price_target = self._find_detail("dt", "^"+tag)
 
-        for targets in price_targets:
-            price_text = targets.find_next("dd").text.strip()
-            price = price_parse(price_text)
-            if price not in price_slot:
-                price_slot.append(price)
+        if last_price_target:
+            last_price = price_parse(last_price_target.find_next("dd").text.strip())
+        else:
+            last_price = None
 
-        price_slot = price_slot[1:] + price_slot[:1]
+        if self.resale:
+            price_slot = self._parse_resale_prices()
+
+            if not price_slot:
+                price_slot.append(last_price)
+
+            if price_slot and last_price != price_slot[-1] and last_price:
+                price_slot.append(last_price)
+
+            return price_slot
+
+        if last_price:
+            price_slot.append(last_price)
+
         return price_slot
 
     def parse_release_dates(self) -> List[date]:
@@ -212,10 +232,13 @@ class GSCProductParser(ProductParser):
 
         return _copyright.text.strip()
 
-    def parse_resale(self) -> bool:
+    def _parse_resale(self) -> bool:
         tag = self._get_from_locale("resale")
         resale = self._find_detail("dt", tag)
         return bool(resale)
+
+    def parse_resale(self) -> bool:
+        return self.resale
 
     def parse_maker_id(self) -> str:
         return re.findall(r"\d+", self.url)[0]

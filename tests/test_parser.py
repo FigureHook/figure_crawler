@@ -60,10 +60,13 @@ class BaseTestCase:
         sculptor = item["test"].parse_sculptors()
         assert sorted(sculptor) == sorted(item["expected"]["sculptor"])
 
-    def test_price(self, item):
-        price = item["test"].parse_prices()
+    def test_prices(self, item):
+        prices = item["test"].parse_prices()
+        expected_prices = item["expected"]["price"]
 
-        for p, ep in zip(price, item["expected"]["price"]):
+        assert len(prices) == len(expected_prices)
+
+        for p, ep in zip(prices, item["expected"]["price"]):
             assert type(p) is int
             assert p == ep
 
