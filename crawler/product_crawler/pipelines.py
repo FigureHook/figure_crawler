@@ -5,8 +5,6 @@
 
 
 import os
-import re
-import unicodedata
 from datetime import datetime
 from typing import Union
 
@@ -17,35 +15,6 @@ from src.database import db
 from src.Models import (Category, Company, Paintwork, Product,
                         ProductOfficialImage, ProductReleaseInfo, Sculptor,
                         Series)
-
-
-def normalize_text(v):
-    v = unicodedata.normalize("NFKC", v)
-    # remove weird spacec
-    v = re.sub(r"\s{1,}", " ", v, 0, re.MULTILINE)
-    v = re.sub(r"’", "'", v, 0)
-    return v
-
-
-class ProductDataProcessingPipeline:
-    def process_item(self, item, spider):
-        # full-width to half-width. Yeah, that's you, ＫＡＤＯＫＡＷＡ
-        for key in ["manufacturer", "releaser", "distributer", "paintworks", "sculptors", "series", "name"]:
-            if isinstance(item[key], list):
-                item[key] = list(map(normalize_text, item[key]))
-            if isinstance(item[key], str):
-                item[key] = normalize_text(item[key])
-
-        # fill price according to release_dates
-        dates_len = len(item["release_dates"])
-        prices_len = len(item["prices"])
-        if not prices_len:
-            item["prices"] = [None] * dates_len
-        if dates_len > prices_len:
-            item["prices"].extend(item["prices"][-1::] * (dates_len - prices_len))
-        if not dates_len:
-            item["release_dates"] = [None] * prices_len
-        return item
 
 
 class SaveProductInDatabasePipeline:

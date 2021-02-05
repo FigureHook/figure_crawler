@@ -62,11 +62,11 @@ class BaseTestCase:
 
     def test_prices(self, item):
         prices = item["test"].parse_prices()
-        expected_prices = item["expected"]["price"]
+        expected_prices = item["expected"]["prices"]
 
         assert len(prices) == len(expected_prices)
 
-        for p, ep in zip(prices, item["expected"]["price"]):
+        for p, ep in zip(prices, expected_prices):
             assert type(p) is int
             assert p == ep
 
