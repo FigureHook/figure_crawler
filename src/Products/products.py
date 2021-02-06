@@ -93,8 +93,14 @@ class Product(ABC):
         if dates_len > prices_len:
             self.prices.extend(self.prices[-1::] * (dates_len - prices_len))
 
-    def __getitem__(self, key):
-        return getattr(self, key)
+    def as_dict(self) -> dict:
+        product_dict = dict(
+            zip(
+                self.__slots__,
+                [getattr(self, attr) for attr in self.__slots__]
+            )
+        )
+        return product_dict
 
     def __str__(self):
         return f"[{self.manufacturer}] {self.name} {self.category}"
