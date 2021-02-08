@@ -1,45 +1,19 @@
-from abc import ABC
-
-from dataclasses import dataclass
+from abc import abstractmethod
+from dataclasses import asdict, dataclass
 from datetime import datetime
-
+from typing import Optional
 
 from bs4 import BeautifulSoup
 
 from src.Parsers.alter import AlterProductParser
 from src.Parsers.gsc import GSCProductParser
 from src.Parsers.product_parser import ProductParser
-from src.utils.text_parser import normalize_product_attr
 from src.utils._class import OrderPeriod
-
-product_slots = (
-    "adult",
-    "category",
-    "distributer",
-    "images",
-    "jan",
-    "maker_id",
-    "manufacturer",
-    "name",
-    "order_period",
-    "paintworks",
-    "prices",
-    "release_dates",
-    "releaser",
-    "resale",
-    "scale",
-    "sculptors",
-    "series",
-    "size",
-    "url",
-    "copyright"
-)
+from src.utils.text_parser import normalize_product_attr
 
 
-@dataclass
-class Product:
-    __slots__ = product_slots
-
+@dataclass(init=False)
+class ProductBase:
     url: str
     name: str
     series: str
@@ -61,8 +35,53 @@ class Product:
     maker_id: str
     images: list[str]
 
-    def normalize_attrs(self, attrs) -> None:
-        for attr in attrs:
+    def __init__(
+        self,
+        url: str,
+        page: Optional[BeautifulSoup] = None,
+    ) -> None:
+        parser: ProductParser = self.parser(url, page)
+
+        self.url = url
+        self.name = parser.parse_name()
+        self.series = parser.parse_series()
+        self.manufacturer = parser.parse_manufacturer()
+        self.category = parser.parse_category()
+        self.prices = parser.parse_prices()
+        self.release_dates = parser.parse_release_dates()
+        self.order_period = parser.parse_order_period()
+        self.size = parser.parse_size()
+        self.scale = parser.parse_scale()
+        self.sculptors = parser.parse_sculptors()
+        self.paintworks = parser.parse_paintworks()
+        self.resale = parser.parse_resale()
+        self.adult = parser.parse_adult()
+        self.copyright = parser.parse_copyright()
+        self.releaser = parser.parse_releaser()
+        self.distributer = parser.parse_distributer()
+        self.jan = parser.parse_JAN()
+        self.maker_id = parser.parse_maker_id()
+        self.images = parser.parse_images()
+
+    @property
+    @abstractmethod
+    def parser(self):
+        pass
+
+    def as_dict(self) -> dict:
+        return asdict(self)
+
+    def __str__(self):
+        return f"[{self.manufacturer}] {self.name} {self.category}"
+
+
+class ProductDataProcessMixin:
+    attrs_to_be_normalized: list[str] = [
+        "name", "series", "manufacturer", "releaser", "distributer", "paintworks", "sculptors"
+    ]
+
+    def normalize_attrs(self) -> None:
+        for attr in self.attrs_to_be_normalized:
             attr_value = getattr(self, attr)
             setattr(self, attr, normalize_product_attr(attr_value))
 
@@ -78,57 +97,25 @@ class Product:
             self.prices.extend(self.prices[-1::] * (dates_len - prices_len))
 
 
-class ProductMixIn(ABC):
-    attrs_should_be_normalized: list[str] = [
-        "name", "series", "manufacturer", "releaser", "distributer", "paintworks", "sculptors"
-    ]
-
-    def __new__(
-        cls,
-        url: str,
-        page: BeautifulSoup = None,
-        is_normalized: bool = False,
-        is_price_filled: bool = False
-    ):
-        if not hasattr(cls, "parser"):
-            raise NotImplementedError
-
-        parser: ProductParser = getattr(cls, "parser")(url, page)
-        product_data = Product(
-            url=url,
-            name=parser.parse_name(),
-            series=parser.parse_series(),
-            manufacturer=parser.parse_manufacturer(),
-            category=parser.parse_category(),
-            prices=parser.parse_prices(),
-            release_dates=parser.parse_release_dates(),
-            order_period=parser.parse_order_period(),
-            size=parser.parse_size(),
-            scale=parser.parse_scale(),
-            sculptors=parser.parse_sculptors(),
-            paintworks=parser.parse_paintworks(),
-            resale=parser.parse_resale(),
-            adult=parser.parse_adult(),
-            copyright=parser.parse_copyright(),
-            releaser=parser.parse_releaser(),
-            distributer=parser.parse_distributer(),
-            jan=parser.parse_JAN(),
-            maker_id=parser.parse_maker_id(),
-            images=parser.parse_images()
-        )
+class Product(ProductBase, ProductDataProcessMixin):
+    def __init__(
+            self,
+            url: str,
+            page: Optional[BeautifulSoup] = None,
+            is_normalized: Optional[bool] = False,
+            is_price_filled: Optional[bool] = False
+    ) -> None:
+        super().__init__(url, page=page)
 
         if is_normalized:
-            product_data.normalize_attrs(cls.attrs_should_be_normalized)
-
+            self.normalize_attrs()
         if is_price_filled:
-            product_data.fill_price_with_release_dates()
-
-        return product_data
+            self.fill_price_with_release_dates()
 
 
-class GSCProduct(ProductMixIn):
+class GSCProduct(Product):
     parser = GSCProductParser
 
 
-class AlterProduct(ProductMixIn):
+class AlterProduct(Product):
     parser = AlterProductParser
