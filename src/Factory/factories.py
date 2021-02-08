@@ -16,6 +16,10 @@ __all__ = [
 
 
 class ProductFactory(ABC):
+    """
+    ### abstract product factory
+    Inherit this class and implement the parser class property
+    """
     @classmethod
     def createProduct(
             cls,
@@ -60,8 +64,10 @@ class ProductFactory(ABC):
 
 
 class GSCFactory(ProductFactory):
+    """Good smile company product factory"""
     parser = GSCProductParser
 
 
 class AlterFactory(ProductFactory):
+    """Alter product factory"""
     parser = AlterProductParser
