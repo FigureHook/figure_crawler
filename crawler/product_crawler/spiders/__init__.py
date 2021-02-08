@@ -90,5 +90,4 @@ class AlterProductSpider(CrawlSpider):
     def parse_product(self, response):
         page = BeautifulSoup(response.text, "lxml")
         product = AlterProduct(response.url, page=page)
-        product_item = ProductItem(product)
-        yield product_item
+        yield product.as_dict()
