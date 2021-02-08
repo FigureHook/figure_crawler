@@ -1,5 +1,6 @@
 from dataclasses import asdict, dataclass
 from datetime import datetime
+from typing import Union
 
 from src.utils._class import OrderPeriod
 from src.utils.text_parser import normalize_product_attr
@@ -9,23 +10,23 @@ from src.utils.text_parser import normalize_product_attr
 class ProductBase:
     url: str
     name: str
-    series: str
+    series: Union[str, None]
     manufacturer: str
     category: str
     prices: list[int]
     release_dates: list[datetime]
     order_period: OrderPeriod
     size: int
-    scale: int
-    sculptors: list[str]
-    paintworks: list[str]
+    scale: Union[int, None]
+    sculptors: list[Union[str, None]]
+    paintworks: list[Union[str, None]]
     resale: bool
     adult: bool
     copyright: str
-    releaser: str
-    distributer: str
-    jan: str
-    maker_id: str
+    releaser: Union[str, None]
+    distributer: Union[str, None]
+    jan: Union[str, None]
+    maker_id: Union[str, None]
     images: list[str]
 
     def as_dict(self) -> dict:
