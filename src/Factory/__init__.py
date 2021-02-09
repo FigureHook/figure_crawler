@@ -2,3 +2,4 @@
 # flake8: noqa
 
 from .factories import *
+from .product import *
