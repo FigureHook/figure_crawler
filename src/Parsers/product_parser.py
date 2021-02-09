@@ -4,7 +4,7 @@ from typing import List, Union
 
 from bs4 import BeautifulSoup
 
-from src.Factory.product import OrderPeriod
+from src.custom_classes import OrderPeriod
 from src.utils import get_page
 
 

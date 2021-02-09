@@ -37,6 +37,7 @@ class TestOrderPeriod:
 
         order_period = OrderPeriod(start, end)
         assert order_period.is_available_at(now)
+        assert now in order_period
 
     def test_default_value(self):
         order_period = OrderPeriod()

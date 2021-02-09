@@ -4,30 +4,13 @@ from dataclasses import asdict, dataclass
 from datetime import datetime
 from typing import Union, overload
 
+from src.custom_classes import OrderPeriod
+
 __all__ = [
-    "OrderPeriod",
     "ProductBase",
     "ProductDataProcessMixin",
     "ProductUtils"
 ]
-
-
-@dataclass
-class OrderPeriod:
-    start: datetime = None
-    end: datetime = None
-
-    def __post_init__(self):
-        if self.start and self.end:
-            if self.end < self.start:
-                raise ValueError
-
-    @property
-    def is_available(self):
-        return self.start < datetime.now() < self.end
-
-    def is_available_at(self, the_time: datetime) -> bool:
-        return self.start < the_time < self.end
 
 
 @dataclass
