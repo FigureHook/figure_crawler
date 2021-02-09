@@ -4,11 +4,50 @@ from dataclasses import asdict, dataclass
 from datetime import datetime
 from typing import Union, overload
 
-from src.utils._class import OrderPeriod
+
+@dataclass
+class OrderPeriod:
+    start: datetime = None
+    end: datetime = None
+
+    def __post_init__(self):
+        if self.start and self.end:
+            if self.end < self.start:
+                raise ValueError
+
+    @property
+    def is_available(self):
+        return self.start < datetime.now() < self.end
+
+    def is_available_at(self, the_time: datetime) -> bool:
+        return self.start < the_time < self.end
 
 
 @dataclass
 class ProductBase:
+    __slots__ = (
+        "url",
+        "name",
+        "series",
+        "manufacturer",
+        "category",
+        "prices",
+        "release_dates",
+        "order_period",
+        "size",
+        "scale",
+        "sculptors",
+        "paintworks",
+        "resale",
+        "adult",
+        "copyright",
+        "releaser",
+        "distributer",
+        "jan",
+        "maker_id",
+        "images"
+    )
+
     url: str
     name: str
     series: Union[str, None]
@@ -38,6 +77,7 @@ class ProductBase:
 
 
 class ProductDataProcessMixin:
+    __slots__ = ()
     attrs_to_be_normalized: list[str] = [
         "name",
         "series",
@@ -78,6 +118,7 @@ class ProductDataProcessMixin:
 
 
 class Product(ProductBase, ProductDataProcessMixin):
+    __slots__ = ()
     ...
 
 
