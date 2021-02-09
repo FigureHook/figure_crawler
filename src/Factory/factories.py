@@ -58,7 +58,7 @@ class ProductFactory(ABC):
         if is_normalized:
             product.normalize_attrs()
         if is_price_filled:
-            product.fill_price_with_release_dates()
+            product.fill_prices_with_release_dates()
 
         return product
 

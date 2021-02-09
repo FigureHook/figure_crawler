@@ -1,7 +1,8 @@
-import pytest
 from dataclasses import is_dataclass
 
-from src.Factory import GSCFactory, AlterFactory, ProductFactory
+import pytest
+
+from src.Factory import AlterFactory, GSCFactory, ProductFactory
 
 
 class TestFactory:
