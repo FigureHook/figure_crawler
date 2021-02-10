@@ -8,6 +8,12 @@ from src.database import PkModel, PkModelWithTimestamps
 
 from .relation_table import product_paintwork_table, product_sculptor_table
 
+__all__ = [
+    "ProductOfficialImage",
+    "ProductReleaseInfo",
+    "Product"
+]
+
 
 class ProductOfficialImage(PkModel):
     __tablename__ = "product_official_image"

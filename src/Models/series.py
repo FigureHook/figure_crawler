@@ -4,6 +4,9 @@ from sqlalchemy.orm import relationship
 from src.database import PkModel, UniqueMixin
 
 
+__all__ = ["Series"]
+
+
 class Series(UniqueMixin, PkModel):
     __tablename__ = "series"
 

@@ -2,6 +2,12 @@ from sqlalchemy import Column, String
 from src.database import PkModel, UniqueMixin
 
 
+__all__ = [
+    "Paintwork",
+    "Sculptor"
+]
+
+
 class Paintwork(UniqueMixin, PkModel):
     __tablename__ = "paintwork"
 

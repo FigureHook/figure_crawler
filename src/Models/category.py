@@ -3,6 +3,9 @@ from sqlalchemy.orm import relationship
 from src.database import PkModel, UniqueMixin
 
 
+__all__ = ["Category"]
+
+
 class Category(UniqueMixin, PkModel):
     __tablename__ = "category"
 
