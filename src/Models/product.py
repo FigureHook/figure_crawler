@@ -2,6 +2,7 @@ from datetime import date
 
 from sqlalchemy import (BigInteger, Boolean, Column, Date, DateTime,
                         ForeignKey, Integer, SmallInteger, String)
+from sqlalchemy.ext.orderinglist import ordering_list
 from sqlalchemy.orm import relationship
 
 from src.database import PkModel, PkModelWithTimestamps
@@ -62,7 +63,8 @@ class Product(PkModelWithTimestamps):
     release_infos: list[ProductReleaseInfo] = relationship(
         ProductReleaseInfo,
         backref="product",
-        order_by="desc(ProductReleaseInfo.initial_release_date)"
+        order_by="desc(ProductReleaseInfo.initial_release_date)",
+        collection_class=ordering_list("initial_release_date")
     )
     official_images = relationship(
         ProductOfficialImage, backref="product"

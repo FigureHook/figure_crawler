@@ -55,7 +55,11 @@ def _unique(session, cls, hashfunc, queryfunc, constructor, arg, kw):
     if cache is None:
         session._unique_cache = cache = {}
 
-    key = (cls, hashfunc(*arg, **kw))
+    hash_value = hashfunc(*arg, **kw)
+    if not hash_value:
+        return None
+
+    key = (cls, hash_value)
     if key in cache:
         return cache[key]
     else:

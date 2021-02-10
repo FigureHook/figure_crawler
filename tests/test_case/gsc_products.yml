@@ -532,6 +532,31 @@
   series: null
   size: 250
   url: https://www.goodsmile.info/ja/product/9734
+- JAN: null
+  adult: false
+  category: フィギュア
+  copyright: © 2011 平坂読・メディアファクトリー／製作委員会は友達が少ない
+  distributer: グッドスマイルカンパニー
+  images: images.goodsmile.info/cgm/images/product/20120729/3629/19754/large/8c3ae7731aa259b59f316ea8a13b632f.jpg
+  maker_id: "3629"
+  manufacturer: グッドスマイルカンパニー
+  name: 柏崎星奈
+  order_period:
+    start: None
+    end: None
+  paintwork: []
+  prices:
+    - 6476
+  release_date:
+    - 2013-05-01 00:00:00
+  releaser: グッドスマイルカンパニー
+  resale: false
+  scale: 7
+  sculptor:
+    - Fio（ReplyFrom...）
+  series: 僕は友達が少ない
+  size: 215
+  url: https://www.goodsmile.info/ja/product/3629
 # - JAN: null
 #   adult: false
 #   category: フィギュア

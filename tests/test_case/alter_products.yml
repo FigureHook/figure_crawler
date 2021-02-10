@@ -12,7 +12,7 @@
     start: null
   paintwork:
     - 星名詠美
-  price:
+  prices:
     - 24800
   release_date:
     - 2021-5-01 00:00:00
@@ -38,7 +38,7 @@
     start: null
   paintwork:
     - 鉄森七方
-  price:
+  prices:
     - 12800
   release_date:
     - 2014-10-01 00:00:00
@@ -66,7 +66,7 @@
     start: 2020-05-25 00:00:00
   paintwork:
     - 星名詠美
-  price:
+  prices:
     - 14400
   release_date:
     - 2021-05-01 00:00:00
@@ -92,7 +92,7 @@
     start: 2016-08-25 00:00:00
   paintwork:
     - 渡邊恭大
-  price:
+  prices:
     - 15984
   release_date:
     - 2017-07-01 00:00:00
@@ -122,7 +122,7 @@
     - 渡邊恭大
     - 山本洋平
     - みうらおさみ
-  price:
+  prices:
     - 37800
   release_date:
     - 2021-04-01 00:00:00
@@ -152,7 +152,7 @@
     - 渡邊恭大
     - 山本洋平
     - みうらおさみ
-  price:
+  prices:
     - 37800
   release_date:
     - 2021-04-01 00:00:00
@@ -178,7 +178,7 @@
     start: null
   paintwork:
     - DUTCH
-  price:
+  prices:
     - 18800
   release_date:
     - 2018-04-01 00:00:00
@@ -206,7 +206,7 @@
     start: null
   paintwork:
     - 星名詠美
-  price:
+  prices:
     - 16800
   release_date:
     - 2018-08-01 00:00:00
@@ -232,7 +232,7 @@
     start: null
   paintwork:
     - 鉄森七方
-  price:
+  prices:
     - 12800
   release_date:
     - 2016-07-01 00:00:00
@@ -258,7 +258,7 @@
     end: null
     start: null
   paintwork: []
-  price:
+  prices:
     - 6800
   release_date:
     - 2009-12-01 00:00:00
@@ -283,7 +283,7 @@
     end: null
     start: null
   paintwork: []
-  price:
+  prices:
     - 9800
     - 10800
   release_date:
@@ -309,7 +309,7 @@
     end: null
     start: null
   paintwork: []
-  price:
+  prices:
     - 9800
     - 10800
   release_date:
@@ -322,3 +322,31 @@
   series: 百花繚乱
   size: 280
   url: http://www.alter-web.jp/products/146/
+- JAN: null
+  adult: false
+  category: フィギュア
+  copyright: © あｆろ・芳文社／野外活動サークル
+  distributer: null
+  images: http://www.alter-web.jp/uploads/products/20190510142836_TQuJMI3v.jpg
+  maker_id: "252"
+  manufacturer: アルター
+  name: 志摩 リン with スクーター
+  order_period:
+    end: null
+    start: null
+  paintwork:
+    - 渡邊恭大
+    - みうらおさみ
+  prices:
+    - 21000
+  release_date:
+    - 2021-2-01 00:00:00
+  releaser: アルター
+  resale: false
+  scale: 10
+  sculptor:
+    - たなか☆せんう
+    - みうらおさみ
+  series: ゆるキャン△
+  size: 150
+  url: http://www.alter-web.jp/products/252/

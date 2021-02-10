@@ -7,6 +7,12 @@ from src.Models import (Category, Company, Paintwork, Product,
 
 
 @pytest.mark.usefixtures("session")
+def test_none_unique(session):
+    company = Company.as_unique(session, name=None)
+    assert not company
+
+
+@pytest.mark.usefixtures("session")
 class TestProduct:
     def test_get_by_id(self):
         product = Product.create(name="foo figure", url="www.foo.com")

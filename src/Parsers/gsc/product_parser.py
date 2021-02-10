@@ -301,7 +301,9 @@ def make_datetime(period, locale) -> datetime:
     return datetime(*(int(x) for x in (year, month, day, hour, minute)))
 
 
-def parse_people(people_text) -> List[str]:
+def parse_people(people_text: str) -> List[str]:
+    if re.search(r'・{2,}', people_text):
+        people_text = people_text.replace("・", ".")
     people = re.split(r'・|、|/', people_text)
     people = list(map(str.strip, people))
     return people

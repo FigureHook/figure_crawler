@@ -10,10 +10,8 @@ from bs4 import BeautifulSoup
 from scrapy.linkextractors import LinkExtractor
 from scrapy.spiders import CrawlSpider
 from src.constants import BrandHost, GSCCategory, GSCLang, AlterCategory
-from src.Products import GSCProduct, AlterProduct
+from src.Factory import GSCFactory, AlterFactory
 from src.utils import RelativeUrl
-
-from ..items import ProductItem
 
 
 class GSCProductSpider(CrawlSpider):
@@ -51,10 +49,10 @@ class GSCProductSpider(CrawlSpider):
             })
 
     def parse_product(self, response):
+        self.logger.info(f"Parsing {response.url}...")
         page = BeautifulSoup(response.text, "lxml")
-        product = GSCProduct(response.url, page=page)
-        product_item = ProductItem(product)
-        yield product_item
+        product = GSCFactory.createProduct(response.url, page=page, is_normalized=True, is_price_filled=True)
+        yield product
 
 
 class AlterProductSpider(CrawlSpider):
@@ -88,6 +86,7 @@ class AlterProductSpider(CrawlSpider):
             yield scrapy.Request(link.url, callback=self.parse_product)
 
     def parse_product(self, response):
+        self.logger.info(f"Parsing {response.url}...")
         page = BeautifulSoup(response.text, "lxml")
-        product = AlterProduct(response.url, page=page)
-        yield product.as_dict()
+        product = AlterFactory.createProduct(response.url, page=page, is_normalized=True, is_price_filled=True)
+        yield product
