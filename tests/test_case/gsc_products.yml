@@ -529,7 +529,7 @@
   scale: 7
   sculptor:
     - あきもふ
-  series: null
+  series: DF
   size: 250
   url: https://www.goodsmile.info/ja/product/9734
 - JAN: null
@@ -557,6 +557,34 @@
   series: 僕は友達が少ない
   size: 215
   url: https://www.goodsmile.info/ja/product/3629
+- JAN: null
+  adult: false
+  category: フィギュア
+  copyright: ©2017 Nintendo / MONOLITHSOFT
+  distributer: グッドスマイルカンパニー
+  images: images.goodsmile.info/cgm/images/product/20171220/6966/49531/large/71fb6d429debc6db494a65af44ecc1de.jpg
+  maker_id: "6966"
+  manufacturer: グッドスマイルカンパニー
+  name: ホムラ
+  order_period:
+    start: 2021-03-12 12:00:00
+    end: 2021-04-21 21:00:00
+  paintwork:
+    - あきもとはじめ
+  prices:
+    - 18333
+  release_date:
+    - 2018-12-01 00:00:00
+    - 2021-06-01 00:00:00
+    - 2022-09-01 00:00:00
+  releaser: グッドスマイルカンパニー
+  resale: true
+  scale: 7
+  sculptor:
+    - あきもふ
+  series: ゼノブレイド2
+  size: 210
+  url: https://www.goodsmile.info/ja/product/6966
 # - JAN: null
 #   adult: false
 #   category: フィギュア
