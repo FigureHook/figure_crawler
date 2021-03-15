@@ -9,6 +9,11 @@ from src.utils import get_page
 
 
 class ProductParser(ABC):
+    """
+    **important**
+    prices' order follows release dates' order
+    release dates' order is ascending.
+    """
     headers = {}
     cookies = {}
 
