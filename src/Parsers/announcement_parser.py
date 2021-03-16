@@ -1,10 +1,10 @@
 from abc import ABC, abstractmethod
 from datetime import datetime
-from typing import Iterable, List, Tuple
+from typing import List
 
 
 class YearlyAnnouncement(ABC):
-    def __init__(self, start, end) -> Iterable[Tuple]:
+    def __init__(self, start, end):
         if not end:
             end = datetime.now().year
 
@@ -19,21 +19,16 @@ class YearlyAnnouncement(ABC):
 
         self.period = range(start, end+1)
 
+    @property
     @abstractmethod
-    def _get_yearly_items(self, year) -> List[str]:
+    def base_url(self):
+        pass
+
+    @abstractmethod
+    def get_yearly_items(self, year) -> List[str]:
         pass
 
     def __iter__(self):
         for year in self.period:
-            items = self._get_yearly_items(year)
-            yield year, Announcements(items)
-
-
-class Announcements:
-    def __init__(self, urls):
-        self._urls = urls
-        self.total = len(urls)
-
-    @property
-    def urls(self):
-        return self._urls
+            items = self.get_yearly_items(year)
+            yield items

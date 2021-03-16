@@ -1,11 +1,13 @@
-from datetime import datetime, date
-from typing import Iterable
+from datetime import date, datetime
 
 import pytest
 import yaml
+from _pytest.assertion.util import isiterable
+
 from src.constants import GSCCategory, GSCLang
 from src.Parsers.alter import AlterProductParser
-from src.Parsers.gsc import GSCProductParser, GSCYearlyAnnouncement, GSCReleaseInfo
+from src.Parsers.gsc import (GSCAnnouncementLinkExtractor, GSCProductParser,
+                             GSCReleaseInfo, GSCYearlyAnnouncement)
 
 
 def load_yaml(path):
@@ -133,13 +135,20 @@ class TestGSCParser(BaseTestCase):
                 assert "jan" in product.keys()
 
     def test_announcement(self):
-        gsc_announcement = GSCYearlyAnnouncement(GSCCategory.SCALE, start=2020, lang=GSCLang.JAPANESE)
-        assert isinstance(gsc_announcement, Iterable)
+        gsc_yearly = GSCYearlyAnnouncement(
+            GSCCategory.SCALE,
+            start=2020,
+            lang=GSCLang.JAPANESE
+        )
 
-        for year, yearly_announcement in gsc_announcement:
-            assert type(year) is int
-            assert type(yearly_announcement.urls) is list
-            assert type(yearly_announcement.total) is int
+        assert isiterable(gsc_yearly)
+        for items in gsc_yearly:
+            assert isinstance(items, list)
+
+    def test_announcement_link_extractor(self):
+        src = "https://www.goodsmile.info/ja/products/category/scale/announced/2020"
+        links = GSCAnnouncementLinkExtractor(src).extract()
+        assert isinstance(links, list)
 
 
 class TestAlterParser(BaseTestCase):
