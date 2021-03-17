@@ -1,9 +1,11 @@
 from datetime import date, datetime
 
 import pytest
-from src.Models import (Category, Company, Paintwork, Product,
-                        ProductOfficialImage, ProductReleaseInfo, Sculptor,
-                        Series)
+
+from src.constants import SourceSite
+from src.Models import (AnnouncementChecksum, Category, Company, Paintwork,
+                        Product, ProductOfficialImage, ProductReleaseInfo,
+                        Sculptor, Series)
 
 
 @pytest.mark.usefixtures("session")
@@ -213,3 +215,27 @@ class TestRelationShip:
         product.save()
         assert isinstance(product.official_images, list)
         assert len(product.official_images) == 2
+
+
+@pytest.mark.usefixtures("session")
+class TestAnnouncementChecksum:
+    def test_save_checksum(self, session):
+        AnnouncementChecksum.create(
+            site=SourceSite.GSC,
+            checksum="kappa"
+        )
+        session.commit()
+
+    def test_fetch_checksum_by_site(self, session):
+        checksum = "kappa"
+        AnnouncementChecksum.create(
+            site=SourceSite.GSC,
+            checksum=checksum
+        )
+        session.commit()
+
+        site_checksum: AnnouncementChecksum = AnnouncementChecksum.get_by_site(SourceSite.GSC)
+        assert site_checksum.checksum == checksum
+
+    def test_pk_is_enum(self):
+        assert not AnnouncementChecksum.get_by_site(1)

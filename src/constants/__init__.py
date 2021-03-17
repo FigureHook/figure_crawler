@@ -1,6 +1,11 @@
 from enum import Enum
 
 
+class SourceSite(Enum):
+    GSC = 1
+    ALTER = 2
+
+
 class BrandHost(str, Enum):
     GSC = "goodsmile.info"
     ALTER = "alter-web.jp"
