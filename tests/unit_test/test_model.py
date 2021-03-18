@@ -236,6 +236,7 @@ class TestAnnouncementChecksum:
 
         site_checksum: AnnouncementChecksum = AnnouncementChecksum.get_by_site(SourceSite.GSC)
         assert site_checksum.checksum == checksum
+        assert isinstance(site_checksum.checked_at, datetime)
 
     def test_pk_is_enum(self):
         assert not AnnouncementChecksum.get_by_site(1)
