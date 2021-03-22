@@ -1,6 +1,6 @@
 import pytest
 
-from src.Services import GSCChecksum, SiteChecksum
+from src.Services.AnnouncementCheck.checksum import GSCChecksum, SiteChecksum
 
 
 @pytest.mark.usefixtures("session")
