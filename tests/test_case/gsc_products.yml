@@ -11,11 +11,11 @@
     end: 2016-05-25 21:00:00
     start: 2016-04-25 12:00:00
   paintwork: []
-  prices:
-    - 11800
-  release_date:
-    - 2014-10-01 00:00:00
-    - 2016-09-01 00:00:00
+  release_infos:
+    - release_date: 2014-10-01 00:00:00
+      price: 11800
+    - release_date: 2016-09-01 00:00:00
+      price: 11800
   releaser: ウイング
   resale: true
   scale: 7
@@ -37,10 +37,9 @@
     end: 2019-12-18 21:00:00
     start: 2019-11-14 12:00:00
   paintwork: []
-  prices:
-    - 12545
-  release_date:
-    - 2020-06-01 00:00:00
+  release_infos:
+    - release_date: 2020-06-01 00:00:00
+      price: 12545
   releaser: Myethos
   resale: false
   scale: 7
@@ -63,10 +62,9 @@
     start: 2020-06-26 12:00:00
   paintwork:
     - 佐倉
-  prices:
-    - 32000
-  release_date:
-    - 2021-09-01 00:00:00
+  release_infos:
+    - price: 32000
+      release_date: 2021-09-01 00:00:00
   releaser: ファット・カンパニー
   resale: false
   scale: 7
@@ -89,10 +87,9 @@
     start: 2020-03-26 12:00:00
   paintwork:
     - かわも（リボルブ）
-  prices:
-    - 21818
-  release_date:
-    - 2020-12-01 00:00:00
+  release_infos:
+    - price: 21818
+      release_date: 2020-12-01 00:00:00
   releaser: KADOKAWA
   resale: false
   scale: 7
@@ -114,10 +111,9 @@
     end: 2020-09-23 21:00:00
     start: 2020-08-18 12:00:00
   paintwork: []
-  prices:
-    - 16000
-  release_date:
-    - 2021-02-01 00:00:00
+  release_infos:
+    - price: 16000
+      release_date: 2021-02-01 00:00:00
   releaser: ウイング
   resale: false
   scale: 7
@@ -141,10 +137,9 @@
     end: 2020-09-30 21:00:00
     start: 2020-08-04 12:00:00
   paintwork: []
-  prices:
-    - 3545
-  release_date:
-    - 2021-01-01 00:00:00
+  release_infos:
+    - price: 3545
+      release_date: 2021-01-01 00:00:00
   releaser: グッドスマイルカンパニー
   resale: false
   scale: null
@@ -169,10 +164,9 @@
     end: 2020-08-19 21:00:00
     start: 2020-06-30 12:00:00
   paintwork: []
-  prices:
-    - 60000
-  release_date:
-    - 2021-06-01 00:00:00
+  release_infos:
+    - price: 60000
+      release_date: 2021-06-01 00:00:00
   releaser: threezero
   resale: false
   scale: null
@@ -194,10 +188,9 @@
     end: 2020-10-07 21:00:00
     start: 2020-09-10 12:00:00
   paintwork: []
-  prices:
-    - 3545
-  release_date:
-    - 2021-01-01 00:00:00
+  release_infos:
+    - price: 3545
+      release_date: 2021-01-01 00:00:00
   releaser: グッドスマイルカンパニー
   resale: false
   scale: null
@@ -218,10 +211,9 @@
     end: null
     start: null
   paintwork: []
-  prices:
-    - 11238
-  release_date:
-    - 2009-01-01 00:00:00
+  release_infos:
+    - price: 11238
+      release_date: 2009-01-01 00:00:00
   releaser: FREEing
   resale: false
   scale: 4
@@ -243,10 +235,9 @@
     end: null
     start: null
   paintwork: []
-  prices:
-    - 5238
-  release_date:
-    - 2009-02-01 00:00:00
+  release_infos:
+    - price: 5238
+      release_date: 2009-02-01 00:00:00
   releaser: グッドスマイルカンパニー
   resale: false
   scale: 6
@@ -270,14 +261,13 @@
     start: 2020-05-21 12:00:00
   paintwork:
     - 髙山英樹
-  prices:
-    - 10000
-    - 11000
-    - 13000
-  release_date:
-    - 2014-10-01 00:00:00
-    - 2017-04-01 00:00:00
-    - 2021-05-01 00:00:00
+  release_infos:
+    - price: 10000
+      release_date: 2014-10-01 00:00:00
+    - price: 11000
+      release_date: 2017-04-01 00:00:00
+    - price: 13000
+      release_date: 2021-05-01 00:00:00
   releaser: Phat!
   resale: true
   scale: 8
@@ -300,12 +290,13 @@
     start: 2020-05-21 12:00:00
   paintwork:
     - Takayama Hideki
-  prices:
-    - 13000
-  release_date:
-    - 2014-10-01 00:00:00
-    - 2017-02-01 00:00:00
-    - 2021-05-01 00:00:00
+  release_infos:
+    - price: 13000
+      release_date: 2014-10-01 00:00:00
+    - price: 13000
+      release_date: 2017-02-01 00:00:00
+    - price: 13000
+      release_date: 2021-05-01 00:00:00
   releaser: Phat! Company
   resale: true
   scale: 8
@@ -328,14 +319,13 @@
     start: 2020-05-21 12:00:00
   paintwork:
     - 髙山英樹
-  prices:
-    - 10000
-    - 11000
-    - 13000
-  release_date:
-    - 2014-10-01 00:00:00
-    - 2017-04-01 00:00:00
-    - 2021-05-01 00:00:00
+  release_infos:
+    - price: 10000
+      release_date: 2014-10-01 00:00:00
+    - price: 11000
+      release_date: 2017-04-01 00:00:00
+    - price: 13000
+      release_date: 2021-05-01 00:00:00
   releaser: Phat!
   resale: true
   scale: 8
@@ -359,12 +349,11 @@
   paintwork:
     - Luu(グッドスマイル上海)
     - えこし
-  prices:
-    - 11389
-    - 11818
-  release_date:
-    - 2018-02-01 00:00:00
-    - 2021-04-01 00:00:00
+  release_infos:
+    - price: 11389
+      release_date: 2018-02-01 00:00:00
+    - price: 11818
+      release_date: 2021-04-01 00:00:00
   releaser: グッドスマイルカンパニー
   resale: true
   scale: 7
@@ -387,12 +376,11 @@
     start: 2020-05-22 12:00:00
   paintwork:
     - エムアイシー
-  prices:
-    - 3611
-    - 3545
-  release_date:
-    - 2019-06-01 00:00:00
-    - 2020-10-01 00:00:00
+  release_infos:
+    - price: 3611
+      release_date: 2019-06-01 00:00:00
+    - price: 3545
+      release_date: 2020-10-01 00:00:00
   releaser: グッドスマイルカンパニー
   resale: true
   scale: null
@@ -415,10 +403,9 @@
     start: null
   paintwork:
     - 中野フィギュア教室（福井）
-  prices:
-    - 32000
-  release_date:
-    - 2020-12-01 00:00:00
+  release_infos:
+    - price: 32000
+      release_date: 2020-12-01 00:00:00
   releaser: フロンティアワークス
   resale: false
   scale: 7
@@ -440,10 +427,9 @@
     end: null
     start: null
   paintwork: []
-  prices:
-    - 2777778
-  release_date:
-    - 2019-09-01 00:00:00
+  release_infos:
+    - price: 2777778
+      release_date: 2019-09-01 00:00:00
   releaser: オランジュ・ルージュ
   resale: false
   scale: 1
@@ -465,10 +451,9 @@
     end: null
     start: null
   paintwork: []
-  prices:
-    - 15909
-  release_date:
-    - 2020-02-01 00:00:00
+  release_infos:
+    - price: 15909
+      release_date: 2020-02-01 00:00:00
   releaser: グッドスマイルカンパニー
   resale: false
   scale: null
@@ -491,11 +476,11 @@
     end: 2020-11-25 21:00:00
   paintwork:
     - 路川宏之
-  prices:
-    - 18800
-  release_date:
-    - 2020-07-01 00:00:00
-    - 2021-05-01 00:00:00
+  release_infos:
+    - price: 18800
+      release_date: 2020-07-01 00:00:00
+    - price: 18800
+      release_date: 2021-05-01 00:00:00
   releaser: WonderfulWorks
   resale: true
   scale: 7
@@ -520,10 +505,9 @@
     end: 2020-9-2 21:00:00
   paintwork:
     - 中野フィギュア教室（福井）
-  prices:
-    - 15273
-  release_date:
-    - 2021-08-01 00:00:00
+  release_infos:
+    - price: 15273
+      release_date: 2021-08-01 00:00:00
   releaser: マックスファクトリー
   resale: false
   scale: 7
@@ -545,10 +529,9 @@
     start: None
     end: None
   paintwork: []
-  prices:
-    - 6476
-  release_date:
-    - 2013-05-01 00:00:00
+  release_infos:
+    - price: 6476
+      release_date: 2013-05-01 00:00:00
   releaser: グッドスマイルカンパニー
   resale: false
   scale: 7
@@ -571,12 +554,13 @@
     end: 2021-04-21 21:00:00
   paintwork:
     - あきもとはじめ
-  prices:
-    - 18333
-  release_date:
-    - 2018-12-01 00:00:00
-    - 2021-06-01 00:00:00
-    - 2022-09-01 00:00:00
+  release_infos:
+    - price: 18333
+      release_date: 2018-12-01 00:00:00
+    - price: 18333
+      release_date: 2021-06-01 00:00:00
+    - price: 18333
+      release_date: 2022-09-01 00:00:00
   releaser: グッドスマイルカンパニー
   resale: true
   scale: 7
@@ -599,7 +583,7 @@
 #     start: 2019-11-22 12:00:00
 #   paintwork:
 #   - null
-#   prices:
+#   price:
 #   - 160000
 #   release_date:
 #   - 2018-11-01 00:00:00
