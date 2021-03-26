@@ -5,6 +5,7 @@ import yaml
 from _pytest.assertion.util import isiterable
 
 from src.constants import GSCCategory, GSCLang
+from src.custom_classes import ReleaseInfo
 from src.Parsers.alter import AlterProductParser
 from src.Parsers.gsc import (GSCAnnouncementLinkExtractor, GSCProductParser,
                              GSCReleaseInfo, GSCYearlyAnnouncement)
@@ -15,6 +16,22 @@ def load_yaml(path):
         sth = yaml.safe_load(stream)
 
     return sth
+
+
+def test_release_info_class():
+    dates = (datetime(2020, 1, 1), datetime(2020, 2, 1), datetime(2020, 3, 1))
+    prices = (10000, 12000, 12000)
+    ri = ReleaseInfo(
+        zip(dates, prices)
+    )
+    last_release = ri.last()
+
+    assert hasattr(ri, "release_dates")
+    assert hasattr(ri, "prices")
+    assert last_release == {
+        "release_date": datetime(2020, 3, 1),
+        "price": 12000
+    }
 
 
 class BaseTestCase:
@@ -33,13 +50,6 @@ class BaseTestCase:
     def test_manufacturer(self, item):
         manufacturer = item["test"].parse_manufacturer()
         assert manufacturer == item["expected"]["manufacturer"]
-
-    def test_release_dates(self, item):
-        release_date = item["test"].parse_release_dates()
-        the_type = type(release_date)
-        assert the_type is list
-
-        assert sorted(release_date) == sorted([d["release_date"].date() for d in item["expected"]["release_infos"]])
 
     def test_order_period(self, item):
         order_period = item["test"].parse_order_period()
@@ -62,15 +72,15 @@ class BaseTestCase:
         sculptor = item["test"].parse_sculptors()
         assert sorted(sculptor) == sorted(item["expected"]["sculptor"])
 
-    def test_prices(self, item):
-        prices = item["test"].parse_prices()
-        release_infos = item["expected"]["release_infos"]
+    def test_release_infos(self, item):
+        release_infos: ReleaseInfo = item["test"].parse_release_infos()
+        expected_release_infos = item["expected"]["release_infos"]
 
-        assert len(prices) == len(release_infos)
-
-        for p, ep in zip(prices, release_infos):
-            assert type(p) is int
-            assert p == ep["price"]
+        assert len(release_infos) == len(expected_release_infos)
+        assert sorted(release_infos.prices) == sorted((r["price"] for r in expected_release_infos))
+        assert sorted(release_infos.release_dates) == sorted((r["release_date"].date() for r in expected_release_infos))
+        for r in expected_release_infos:
+            assert release_infos.get(r["release_date"].date()) == r["price"]
 
     def test_maker_id(self, item):
         id_ = item["test"].parse_maker_id()

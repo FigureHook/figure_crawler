@@ -1,4 +1,24 @@
 from datetime import datetime
+from collections import UserDict
+
+
+class ReleaseInfo(UserDict):
+    @property
+    def release_dates(self):
+        return self.keys()
+
+    @property
+    def prices(self):
+        return self.values()
+
+    def last(self) -> dict:
+        date = max(self.keys())
+        price = self.get(date)
+
+        return {
+            "release_date": date,
+            "price": price
+        }
 
 
 class OrderPeriod:

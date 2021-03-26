@@ -4,7 +4,7 @@ from typing import List, Union
 
 from bs4 import BeautifulSoup
 
-from src.custom_classes import OrderPeriod
+from src.custom_classes import OrderPeriod, ReleaseInfo
 from src.utils import get_page
 
 
@@ -83,6 +83,10 @@ class ProductParser(ABC):
 
     @abstractmethod
     def parse_images(self) -> List[str]:
+        pass
+
+    @abstractmethod
+    def parse_release_infos(self) -> ReleaseInfo:
         pass
 
     def parse_distributer(self) -> Union[str, None]:

@@ -8,8 +8,9 @@ import yaml
 from bs4 import BeautifulSoup
 
 from src.constants import BrandHost
-from src.custom_classes import OrderPeriod
+from src.custom_classes import OrderPeriod, ReleaseInfo
 from src.Parsers.product_parser import ProductParser
+from src.utils import make_last_element_filler
 from src.utils.checker import check_url_host
 from src.utils.text_parser import price_parse, scale_parse, size_parse
 
@@ -170,6 +171,17 @@ class GSCProductParser(ProductParser):
                     date_list.append(the_datetime)
 
         return date_list
+
+    def parse_release_infos(self) -> ReleaseInfo:
+        dates = self.parse_release_dates()
+        prices = self.parse_prices()
+        prices.extend(
+            make_last_element_filler(prices, len(dates))
+        )
+
+        return ReleaseInfo(
+            zip(dates, prices)
+        )
 
     def parse_sculptors(self) -> List:
         tag = self._get_from_locale("sculptor")
