@@ -39,7 +39,7 @@ class BaseTestCase:
         the_type = type(release_date)
         assert the_type is list
 
-        assert sorted(release_date) == sorted([d.date() for d in item["expected"]["release_date"]])
+        assert sorted(release_date) == sorted([d["release_date"].date() for d in item["expected"]["release_infos"]])
 
     def test_order_period(self, item):
         order_period = item["test"].parse_order_period()
@@ -64,13 +64,13 @@ class BaseTestCase:
 
     def test_prices(self, item):
         prices = item["test"].parse_prices()
-        expected_prices = item["expected"]["prices"]
+        release_infos = item["expected"]["release_infos"]
 
-        assert len(prices) == len(expected_prices)
+        assert len(prices) == len(release_infos)
 
-        for p, ep in zip(prices, expected_prices):
+        for p, ep in zip(prices, release_infos):
             assert type(p) is int
-            assert p == ep
+            assert p == ep["price"]
 
     def test_maker_id(self, item):
         id_ = item["test"].parse_maker_id()
