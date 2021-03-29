@@ -95,8 +95,8 @@ class ProductParser(ABC):
     def parse_adult(self) -> bool:
         return False
 
-    def parse_order_period(self) -> OrderPeriod:
-        return OrderPeriod(None, None)
+    def parse_order_period(self) -> Union[OrderPeriod, None]:
+        return None
 
     def parse_paintworks(self) -> List:
         return []
