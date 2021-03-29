@@ -1,10 +1,11 @@
-from datetime import datetime
 from collections import UserList
+from datetime import datetime
 from typing import Tuple, Union
 
 
 class HistoricalReleases(UserList):
-    def _formatter(self, release: Tuple):
+    @staticmethod
+    def _formatter(release: Tuple):
         date, price = release
         return {
             "release_date": date,
