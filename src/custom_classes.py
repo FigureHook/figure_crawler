@@ -1,24 +1,27 @@
 from datetime import datetime
-from collections import UserDict
+from collections import UserList
+from typing import Tuple, Union
 
 
-class ReleaseInfo(UserDict):
-    @property
-    def release_dates(self):
-        return self.keys()
-
-    @property
-    def prices(self):
-        return self.values()
-
-    def last(self) -> dict:
-        date = max(self.keys())
-        price = self.get(date)
-
+class HistoricalReleases(UserList):
+    def _formatter(self, release: Tuple):
+        date, price = release
         return {
             "release_date": date,
             "price": price
         }
+
+    def __iter__(self):
+        for d in self.data:
+            yield self._formatter(d)
+
+    def last(self) -> Union[dict, None]:
+        if not len(self):
+            return None
+
+        self.sort(key=lambda dt: dt[0].timestamp() if isinstance(dt, datetime) else 0)
+
+        return self._formatter(self.data[-1])
 
 
 class OrderPeriod:

@@ -5,7 +5,7 @@ import yaml
 from _pytest.assertion.util import isiterable
 
 from src.constants import GSCCategory, GSCLang
-from src.custom_classes import ReleaseInfo
+from src.custom_classes import HistoricalReleases
 from src.Parsers.alter import AlterProductParser
 from src.Parsers.gsc import (GSCAnnouncementLinkExtractor, GSCProductParser,
                              GSCReleaseInfo, GSCYearlyAnnouncement)
@@ -19,19 +19,25 @@ def load_yaml(path):
 
 
 def test_release_info_class():
-    dates = (datetime(2020, 1, 1), datetime(2020, 2, 1), datetime(2020, 3, 1))
-    prices = (10000, 12000, 12000)
-    ri = ReleaseInfo(
-        zip(dates, prices)
-    )
-    last_release = ri.last()
+    first_release = (datetime(2020, 1, 1), 10000)
+    second_release = (datetime(2020, 2, 1), 12000)
+    third_release = (datetime(2020, 3, 1), 12000)
+    date_price_combos = [first_release, second_release, third_release]
 
-    assert hasattr(ri, "release_dates")
-    assert hasattr(ri, "prices")
-    assert last_release == {
-        "release_date": datetime(2020, 3, 1),
-        "price": 12000
-    }
+    hr = HistoricalReleases()
+    hr.append(first_release)
+    hr.append(second_release)
+    hr.append(third_release)
+
+    assert hr == date_price_combos
+
+    for r in hr:
+        assert "release_date" in r
+        assert "price" in r
+
+    last_release = hr.last()
+    assert last_release["release_date"] == datetime(2020, 3, 1)
+    assert last_release["price"] == 12000
 
 
 class BaseTestCase:
