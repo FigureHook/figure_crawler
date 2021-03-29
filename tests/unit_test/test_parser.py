@@ -21,7 +21,7 @@ def load_yaml(path):
 def test_release_info_class():
     first_release = (datetime(2020, 1, 1), 10000)
     second_release = (datetime(2020, 2, 1), 12000)
-    third_release = (datetime(2020, 3, 1), 12000)
+    third_release = (None, 12000)
     date_price_combos = [first_release, second_release, third_release]
 
     hr = HistoricalReleases()
@@ -36,7 +36,7 @@ def test_release_info_class():
         assert "price" in r
 
     last_release = hr.last()
-    assert last_release["release_date"] == datetime(2020, 3, 1)
+    assert last_release["release_date"] == datetime(2020, 2, 1)
     assert last_release["price"] == 12000
 
 

@@ -20,7 +20,7 @@ class HistoricalReleases(UserList):
         if not len(self):
             return None
 
-        self.sort(key=lambda dt: dt[0].timestamp() if isinstance(dt, datetime) else 0)
+        self.data = sorted(self.data, key=lambda dt: dt[0].timestamp() if isinstance(dt[0], datetime) else 0)
 
         return self._formatter(self.data[-1])
 
