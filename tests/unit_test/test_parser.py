@@ -5,7 +5,7 @@ import yaml
 from _pytest.assertion.util import isiterable
 
 from src.constants import GSCCategory, GSCLang
-from src.custom_classes import HistoricalReleases
+from src.custom_classes import HistoricalReleases, Release
 from src.Parsers.alter import AlterProductParser
 from src.Parsers.gsc import (GSCAnnouncementLinkExtractor, GSCProductParser,
                              GSCReleaseInfo, GSCYearlyAnnouncement)
@@ -19,9 +19,9 @@ def load_yaml(path):
 
 
 def test_release_info_class():
-    first_release = (datetime(2020, 1, 1), 10000)
-    second_release = (datetime(2020, 2, 1), 12000)
-    third_release = (None, 12000)
+    first_release = Release(release_date=datetime(2020, 1, 1), price=10000)
+    second_release = Release(release_date=datetime(2020, 2, 1), price=12000)
+    third_release = Release(release_date=None, price=12000)
     date_price_combos = [first_release, second_release, third_release]
 
     hr = HistoricalReleases()
@@ -32,12 +32,12 @@ def test_release_info_class():
     assert hr == date_price_combos
 
     for r in hr:
-        assert "release_date" in r
-        assert "price" in r
+        assert hasattr(r, "release_date")
+        assert hasattr(r, "price")
 
     last_release = hr.last()
-    assert last_release["release_date"] == datetime(2020, 2, 1)
-    assert last_release["price"] == 12000
+    assert last_release.release_date == datetime(2020, 2, 1)
+    assert last_release.price == 12000
 
 
 class BaseTestCase:
@@ -79,14 +79,15 @@ class BaseTestCase:
         assert sorted(sculptor) == sorted(item["expected"]["sculptor"])
 
     def test_release_infos(self, item):
-        release_infos: ReleaseInfo = item["test"].parse_release_infos()
+        release_infos: HistoricalReleases = item["test"].parse_release_infos()
         expected_release_infos = item["expected"]["release_infos"]
 
         assert len(release_infos) == len(expected_release_infos)
-        assert sorted(release_infos.prices) == sorted((r["price"] for r in expected_release_infos))
-        assert sorted(release_infos.release_dates) == sorted((r["release_date"].date() for r in expected_release_infos))
-        for r in expected_release_infos:
-            assert release_infos.get(r["release_date"].date()) == r["price"]
+
+        for r, e_r in zip(release_infos, expected_release_infos):
+            assert r.price == e_r["price"]
+            expected_date = e_r["release_date"].date() if e_r["release_date"] else e_r["release_date"]
+            assert r.release_date == expected_date
 
     def test_maker_id(self, item):
         id_ = item["test"].parse_maker_id()

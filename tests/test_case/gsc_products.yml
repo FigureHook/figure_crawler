@@ -569,6 +569,31 @@
   series: ゼノブレイド2
   size: 210
   url: https://www.goodsmile.info/ja/product/6966
+- JAN: null
+  adult: false
+  category: フィギュア
+  copyright: ©橘公司・つなこ
+  distributer: グッドスマイルカンパニー
+  images: images.goodsmile.info/cgm/images/product/20200131/9250/67403/large/9b6feaa42c4e43c59d2bf1d5fb94a8a9.jpg
+  maker_id: "9250"
+  manufacturer: アクアマリン
+  name: 時崎狂三 決意のafter date style
+  order_period:
+    start: 2020-02-06 12:00:00
+    end: 2020-04-15 21:00:00
+  paintwork:
+    - グラハム仮面
+  release_infos:
+    - price: 13800
+      release_date: null
+  releaser: アクアマリン
+  resale: false
+  scale: 7
+  sculptor:
+    - デザインココ
+  series: デート・ア・ライブ
+  size: 155
+  url: https://www.goodsmile.info/ja/product/9250
 # - JAN: null
 #   adult: false
 #   category: フィギュア

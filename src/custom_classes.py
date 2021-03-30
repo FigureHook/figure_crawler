@@ -1,28 +1,30 @@
 from collections import UserList
-from datetime import datetime
-from typing import Tuple, Union
+from dataclasses import asdict, dataclass
+from datetime import date, datetime
+from typing import Union
+
+
+@dataclass
+class Release:
+    release_date: date
+    price: int
+
+    def as_dict(self):
+        return asdict(self)
 
 
 class HistoricalReleases(UserList):
-    @staticmethod
-    def _formatter(release: Tuple):
-        date, price = release
-        return {
-            "release_date": date,
-            "price": price
-        }
-
-    def __iter__(self):
-        for d in self.data:
-            yield self._formatter(d)
-
-    def last(self) -> Union[dict, None]:
+    """
+    List-like class
+    List[Release]
+    """
+    def last(self) -> Union[Release, None]:
         if not len(self):
             return None
 
-        self.sort(key=lambda dt: dt[0].timestamp() if isinstance(dt[0], datetime) else 0)
+        self.sort(key=lambda r: r.release_date.timestamp() if isinstance(r.release_date, date) else 0)
 
-        return self._formatter(self.data[-1])
+        return self.data[-1]
 
 
 class OrderPeriod:
