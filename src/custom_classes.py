@@ -18,6 +18,7 @@ class HistoricalReleases(UserList):
     List-like class
     List[Release]
     """
+
     def last(self) -> Union[Release, None]:
         if not len(self):
             return None

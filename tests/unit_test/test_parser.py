@@ -39,6 +39,9 @@ def test_release_info_class():
     assert last_release.release_date == datetime(2020, 2, 1)
     assert last_release.price == 12000
 
+    hr2 = HistoricalReleases()
+    assert not hr2.last()
+
 
 class BaseTestCase:
     def test_name(self, item):
