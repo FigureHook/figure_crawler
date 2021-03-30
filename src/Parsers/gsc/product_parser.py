@@ -8,9 +8,8 @@ import yaml
 from bs4 import BeautifulSoup
 
 from src.constants import BrandHost
-from src.custom_classes import OrderPeriod, ReleaseInfo
+from src.custom_classes import OrderPeriod
 from src.Parsers.product_parser import ProductParser
-from src.utils import make_last_element_filler
 from src.utils.checker import check_url_host
 from src.utils.text_parser import price_parse, scale_parse, size_parse
 
@@ -39,7 +38,7 @@ class GSCProductParser(ProductParser):
         self.detail = self._parse_detail()
         self.resale = self._parse_resale()
 
-    def _get_from_locale(self, key):
+    def _get_from_locale(self, key) -> str:
         return locale_dict[self.locale][key]
 
     def _find_detail(self, name, text):
@@ -68,6 +67,41 @@ class GSCProductParser(ProductParser):
         dates = [datetime.strptime(f[0], date_style).date() for f in found]
         return dates
 
+    def parse_release_dates(self) -> List[Union[date, None]]:
+        """
+        If the product is re-saled,
+        try to find past release-dates through `self._parse_resale_dates`.
+        """
+        date_pattern = self._get_from_locale("release_date_pattern")
+        weird_date_pattern = self._get_from_locale("weird_date_pattern")
+
+        date_text = self.detail.find(
+            "dd", {"itemprop": "releaseDate"}
+        ).text.strip()
+
+        if self.parse_resale():
+            dates = self._parse_resale_dates()
+            if dates:
+                return dates
+
+        date_list = []
+        if re.match(date_pattern, date_text):
+            for matched_date in re.finditer(date_pattern, date_text):
+                year = int(matched_date.group('year'))
+                month = int(matched_date.group('month'))
+                the_datetime = datetime(year, month, 1).date()
+                date_list.append(the_datetime)
+
+        if re.match(weird_date_pattern, date_text):
+            seasons = self._get_from_locale("seasons")
+            year = int(re.match(weird_date_pattern, date_text).group(1))
+            for season, month in seasons.items():
+                if season in date_text.lower():
+                    the_datetime = datetime(year, month, 1).date()
+                    date_list.append(the_datetime)
+
+        return date_list
+
     def _parse_resale_prices(self) -> List[int]:
         price_slot = []
         price_items = self.detail.find_all(name="dt", text=re.compile(r"販(\w|)価格"))
@@ -76,6 +110,32 @@ class GSCProductParser(ProductParser):
             price_text = price_item.find_next("dd").text.strip()
             price = price_parse(price_text)
             price_slot.append(price)
+
+        return price_slot
+
+    def parse_prices(self) -> List[int]:
+        price_slot = []
+        tag = self._get_from_locale("price")
+        last_price_target = self._find_detail("dt", "^"+tag)
+
+        if last_price_target:
+            last_price = price_parse(last_price_target.find_next("dd").text.strip())
+        else:
+            last_price = None
+
+        if self.resale:
+            price_slot = self._parse_resale_prices()
+
+            if not price_slot:
+                price_slot.append(last_price)
+
+            if price_slot and last_price != price_slot[-1] and last_price:
+                price_slot.append(last_price)
+
+            return price_slot
+
+        if last_price:
+            price_slot.append(last_price)
 
         return price_slot
 
@@ -116,72 +176,6 @@ class GSCProductParser(ProductParser):
             return scale_category
 
         return category
-
-    def parse_prices(self) -> List[int]:
-        price_slot = []
-        tag = self._get_from_locale("price")
-        last_price_target = self._find_detail("dt", "^"+tag)
-
-        if last_price_target:
-            last_price = price_parse(last_price_target.find_next("dd").text.strip())
-        else:
-            last_price = None
-
-        if self.resale:
-            price_slot = self._parse_resale_prices()
-
-            if not price_slot:
-                price_slot.append(last_price)
-
-            if price_slot and last_price != price_slot[-1] and last_price:
-                price_slot.append(last_price)
-
-            return price_slot
-
-        if last_price:
-            price_slot.append(last_price)
-
-        return price_slot
-
-    def parse_release_dates(self) -> List[date]:
-        date_pattern = self._get_from_locale("release_date_pattern")
-        weird_date_pattern = self._get_from_locale("weird_date_pattern")
-        date_text = self.detail.find(
-            "dd", {"itemprop": "releaseDate"}).text.strip()
-
-        if self.parse_resale():
-            dates = self._parse_resale_dates()
-            if dates:
-                return dates
-
-        date_list = []
-        if re.match(date_pattern, date_text):
-            for matched_date in re.finditer(date_pattern, date_text):
-                year = int(matched_date.group('year'))
-                month = int(matched_date.group('month'))
-                the_datetime = datetime(year, month, 1).date()
-                date_list.append(the_datetime)
-
-        if re.match(weird_date_pattern, date_text):
-            seasons = self._get_from_locale("seasons")
-            year = int(re.match(weird_date_pattern, date_text).group(1))
-            for season, month in seasons.items():
-                if season in date_text.lower():
-                    the_datetime = datetime(year, month, 1).date()
-                    date_list.append(the_datetime)
-
-        return date_list
-
-    def parse_release_infos(self) -> ReleaseInfo:
-        dates = self.parse_release_dates()
-        prices = self.parse_prices()
-        prices.extend(
-            make_last_element_filler(prices, len(dates))
-        )
-
-        return ReleaseInfo(
-            zip(dates, prices)
-        )
 
     def parse_sculptors(self) -> List:
         tag = self._get_from_locale("sculptor")
