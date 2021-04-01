@@ -1,12 +1,12 @@
 from collections import UserList
 from dataclasses import asdict, dataclass
 from datetime import date, datetime
-from typing import Union
+from typing import Optional, Union
 
 
 @dataclass
 class Release:
-    release_date: date
+    release_date: Optional[date]
     price: int
 
     def as_dict(self):
@@ -19,11 +19,19 @@ class HistoricalReleases(UserList):
     List[Release]
     """
 
+    def sort(self):
+        def sort_release(release: Release):
+            if isinstance(release.release_date, date):
+                return release.release_date
+            return date.fromtimestamp(0)
+
+        return super().sort(key=sort_release)
+
     def last(self) -> Union[Release, None]:
         if not len(self):
             return None
 
-        self.sort(key=lambda r: r.release_date.timestamp() if isinstance(r.release_date, date) else 0)
+        self.sort()
 
         return self.data[-1]
 

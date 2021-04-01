@@ -19,8 +19,8 @@ def load_yaml(path):
 
 
 def test_release_info_class():
-    first_release = Release(release_date=datetime(2020, 1, 1), price=10000)
-    second_release = Release(release_date=datetime(2020, 2, 1), price=12000)
+    first_release = Release(release_date=date(2020, 1, 1), price=10000)
+    second_release = Release(release_date=date(2020, 2, 1), price=12000)
     third_release = Release(release_date=None, price=12000)
     date_price_combos = [first_release, second_release, third_release]
 
@@ -36,7 +36,7 @@ def test_release_info_class():
         assert hasattr(r, "price")
 
     last_release = hr.last()
-    assert last_release.release_date == datetime(2020, 2, 1)
+    assert last_release.release_date == date(2020, 2, 1)
     assert last_release.price == 12000
 
     hr2 = HistoricalReleases()
@@ -84,7 +84,7 @@ class BaseTestCase:
     def test_release_infos(self, item):
         release_infos: HistoricalReleases = item["test"].parse_release_infos()
         expected_release_infos = item["expected"]["release_infos"]
-
+        release_infos.sor
         assert len(release_infos) == len(expected_release_infos)
 
         for r, e_r in zip(release_infos, expected_release_infos):
