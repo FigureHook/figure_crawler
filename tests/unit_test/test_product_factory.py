@@ -4,7 +4,7 @@ from datetime import datetime
 import pytest
 
 from src.Factory import AlterFactory, GSCFactory, ProductFactory
-from src.Factory.product import OrderPeriod
+from src.Factory.product import OrderPeriod, Product
 
 
 class TestFactory:
@@ -15,10 +15,12 @@ class TestFactory:
     def test_gsc(self):
         p = GSCFactory.createProduct("https://www.goodsmile.info/ja/product/10753/")
         assert is_dataclass(p)
+        assert isinstance(p, Product)
 
     def test_alter(self):
         p = AlterFactory.createProduct("http://www.alter-web.jp/products/261/")
         assert is_dataclass(p)
+        assert isinstance(p, Product)
 
 
 class TestOrderPeriod:

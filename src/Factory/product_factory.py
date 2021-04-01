@@ -29,7 +29,7 @@ class ProductFactory(ABC):
             is_price_filled: bool = False
     ):
         if not hasattr(cls, "parser"):
-            raise NotImplementedError("Please inherit this class and implement the parser.")
+            raise NotImplementedError("Please inherit this class and set the class attribute `parser`.")
 
         parser: ProductParser = cls.parser(url, page)
         product = Product(
@@ -38,8 +38,9 @@ class ProductFactory(ABC):
             series=parser.parse_series(),
             manufacturer=parser.parse_manufacturer(),
             category=parser.parse_category(),
-            prices=parser.parse_prices(),
-            release_dates=parser.parse_release_dates(),
+            price=parser.parse_price(),
+            release_date=parser.parse_release_date(),
+            release_infos=parser.parse_release_infos(),
             order_period=parser.parse_order_period(),
             size=parser.parse_size(),
             scale=parser.parse_scale(),
