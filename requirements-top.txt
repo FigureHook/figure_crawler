@@ -7,9 +7,11 @@ PyYAML
 flake8
 alembic
 pytest
+pytest-mock
 scrapy
 scrapy_proxies
 sqlalchemy_mixins
+faker
 
 # flask-related
 flask

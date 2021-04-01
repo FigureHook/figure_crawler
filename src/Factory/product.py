@@ -1,10 +1,10 @@
 import re
 import unicodedata
 from dataclasses import asdict, dataclass
-from datetime import datetime
+from datetime import date
 from typing import Union, overload
 
-from src.custom_classes import OrderPeriod
+from src.custom_classes import HistoricalReleases, OrderPeriod, Release
 
 __all__ = [
     "ProductBase",
@@ -21,8 +21,9 @@ class ProductBase:
         "series",
         "manufacturer",
         "category",
-        "prices",
-        "release_dates",
+        "price",
+        "release_date",
+        "release_infos",
         "order_period",
         "size",
         "scale",
@@ -43,8 +44,9 @@ class ProductBase:
     series: Union[str, None]
     manufacturer: str
     category: str
-    prices: list[int]
-    release_dates: list[datetime]
+    price: int
+    release_date: date
+    release_infos: HistoricalReleases[Release]
     order_period: OrderPeriod
     size: int
     scale: Union[int, None]
@@ -89,23 +91,6 @@ class ProductDataProcessMixin:
             attr_value = getattr(self, attr)
             setattr(self, attr, ProductUtils.normalize_product_attr(attr_value))
 
-    def fill_prices_with_release_dates(self: ProductBase) -> None:
-        """
-        + filling prices according to length of release_dates.
-        + if the product is lack of price, the prices would be fille with `[None]`.
-        + if there is not any release_date, this will be filled release_dates with `[None]`.
-        """
-        dates_len = len(self.release_dates)
-        prices_len = len(self.prices)
-
-        if not prices_len:
-            self.prices = [None] * dates_len
-        if not dates_len:
-            self.release_dates = [None] * prices_len
-        if dates_len > prices_len:
-            filler = ProductUtils.make_last_element_filler(self.prices, dates_len)
-            self.prices.extend(filler)
-
 
 class Product(ProductBase, ProductDataProcessMixin):
     __slots__ = ()
@@ -120,7 +105,7 @@ class ProductUtils:
     def normalize_product_attr(attr_value: list[str]) -> list[str]: ...
 
     @staticmethod
-    def normalize_product_attr(attr_value: Union[str, list[str]]) -> Union[str, list[str]]:
+    def normalize_product_attr(attr_value: Union[str, list[str]]):
         if not attr_value:
             return attr_value
 
@@ -141,12 +126,4 @@ class ProductUtils:
             if all(type(v) is str for v in attr_value):
                 return list(map(normalize, attr_value))
 
-        raise TypeError
-
-    @staticmethod
-    def make_last_element_filler(target_list: list, desired_length: int) -> list:
-        original_len = len(target_list)
-        last_element = target_list[-1::]
-        filler = last_element * (desired_length - original_len)
-
-        return filler
+        raise TypeError("The attribute value should be `str` or `list[str]`.")
