@@ -295,7 +295,7 @@ class GSCProductParser(ProductParser):
 
     def parse_images(self) -> List[str]:
         images_items = self.page.select(".itemImg")
-        images = [item["src"][2:] for item in images_items]
+        images = [f'https://{item["src"][2:]}' for item in images_items]
         return images
 
 
