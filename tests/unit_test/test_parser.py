@@ -83,9 +83,10 @@ class BaseTestCase:
 
     def test_release_infos(self, item):
         release_infos: HistoricalReleases = item["test"].parse_release_infos()
-        expected_release_infos = item["expected"]["release_infos"]
-        release_infos.sor
+        expected_release_infos: list = item["expected"]["release_infos"]
         assert len(release_infos) == len(expected_release_infos)
+
+        expected_release_infos.sort(key=lambda r: r["release_date"].timestamp() if r["release_date"] else 0)
 
         for r, e_r in zip(release_infos, expected_release_infos):
             assert r.price == e_r["price"]

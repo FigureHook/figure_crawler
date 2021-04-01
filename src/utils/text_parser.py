@@ -1,25 +1,29 @@
 import re
 
 
-def price_parse(text):
+def price_parse(text: str, plus_tax: bool = False) -> int:
     pattern = r"\d+"
-    price = ""
+    price_text = ""
 
     for n in re.findall(pattern, text):
-        price += n
+        price_text += n
 
-    return int(price)
+    price = int(price_text)
+    if plus_tax:
+        price = round(price * 1.1)
+
+    return price
 
 
-def scale_parse(text):
+def scale_parse(text: str) -> int:
     pattern = r"\d/(\d+)"
     scale_text = re.search(pattern, text)
     scale = int(scale_text.group(1)) if scale_text else None
     return scale
 
 
-def size_parse(text):
-    pattern = r"(\d+)[mm|cm]"
+def size_parse(text: str) -> int:
+    pattern = r"(\d+)[mm|cm|ｍｍ|ｃｍ]"
     is_cm = bool(re.search(r"cm", text))
     size_text = re.search(pattern, text)
 

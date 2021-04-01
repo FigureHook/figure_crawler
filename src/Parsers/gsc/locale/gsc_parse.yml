@@ -15,6 +15,7 @@ en:
   adult: Recommeded for Adults Only | 18 and up | 18 and over
   scale_category: Scale
   weird_date_pattern: .*\s(\d+)
+  tax: .*\+tax
   seasons:
     spring: 3
     summer: 6
@@ -37,6 +38,7 @@ ja:
   adult: 18歳以上推奨
   scale_category: フィギュア
   weird_date_pattern: (\d+)[\/|年]
+  tax: .*\+税
   seasons:
     春: 3
     夏: 6
@@ -59,6 +61,7 @@ zh:
   adult: 18歲以上建議
   scale_category: 比例模型
   weird_date_pattern: (\d+)[\/|年]
+  tax: .*\+消費稅
   seasons:
     春: 3
     夏: 6

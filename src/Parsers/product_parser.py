@@ -50,7 +50,7 @@ class ProductParser(ABC):
         pass
 
     def parse_price(self) -> int:
-        return self.parse_release_infos().last().get("price")
+        return self.parse_release_infos().last().price
 
     @abstractmethod
     def parse_prices(self) -> List[int]:
@@ -61,7 +61,7 @@ class ProductParser(ABC):
         pass
 
     def parse_release_date(self) -> date:
-        return self.parse_release_infos().last().get("release_date")
+        return self.parse_release_infos().last().release_date
 
     @abstractmethod
     def parse_release_dates(self) -> List[date]:
