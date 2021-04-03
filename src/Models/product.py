@@ -20,6 +20,7 @@ class ProductOfficialImage(PkModel):
     __tablename__ = "product_official_image"
 
     url = Column(String)
+    order = Column(Integer)
     product_id = Column(Integer, ForeignKey("product.id"), nullable=False)
 
 
@@ -64,10 +65,12 @@ class Product(PkModelWithTimestamps):
         ProductReleaseInfo,
         backref="product",
         order_by="desc(ProductReleaseInfo.initial_release_date)",
-        collection_class=ordering_list("initial_release_date")
     )
     official_images = relationship(
-        ProductOfficialImage, backref="product"
+        ProductOfficialImage,
+        backref="product",
+        order_by="ProductOfficialImage.order",
+        collection_class=ordering_list("order", count_from=1)
     )
     sculptors = relationship(
         "Sculptor",

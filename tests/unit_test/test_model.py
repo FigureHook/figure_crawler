@@ -211,12 +211,17 @@ class TestRelationShip:
     def test_product_has_many_official_images(self, session):
         product = Product(name="foo")
 
-        ProductOfficialImage(product=product, url="http://foo.com/img1.jpg")
-        ProductOfficialImage(product=product, url="http://foo.com/img2.jpg")
+        image_1 = ProductOfficialImage(url="http://foo.com/img1.jpg")
+        image_2 = ProductOfficialImage(url="http://foo.com/img2.jpg")
 
+        product.official_images.append(image_1)
+        product.official_images.append(image_2)
         product.save()
+
         assert isinstance(product.official_images, list)
         assert len(product.official_images) == 2
+        assert image_1.order == 1
+        assert image_2.order == 2
 
 
 @pytest.mark.usefixtures("session")
