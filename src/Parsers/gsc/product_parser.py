@@ -182,7 +182,7 @@ class GSCProductParser(ProductParser):
 
         return category
 
-    def parse_sculptors(self) -> List:
+    def parse_sculptors(self) -> List[str]:
         tag = self._get_from_locale("sculptor")
         sculptor_info = self._find_detail("dt", tag)
 
@@ -282,7 +282,7 @@ class GSCProductParser(ProductParser):
 
         return bool(detaill_adult)
 
-    def parse_paintworks(self) -> List:
+    def parse_paintworks(self) -> List[str]:
         tag = self._get_from_locale("paintwork")
         paintwork_title = self._find_detail("dt", tag)
 

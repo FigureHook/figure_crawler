@@ -2,7 +2,7 @@ import re
 import unicodedata
 from dataclasses import asdict, dataclass
 from datetime import date
-from typing import Union, overload
+from typing import Optional, Union, overload
 
 from src.custom_classes import HistoricalReleases, OrderPeriod, Release
 
@@ -47,18 +47,18 @@ class ProductBase:
     price: int
     release_date: date
     release_infos: HistoricalReleases[Release]
-    order_period: OrderPeriod
+    order_period: Optional[OrderPeriod]
     size: int
     scale: Union[int, None]
-    sculptors: list[Union[str, None]]
-    paintworks: list[Union[str, None]]
+    sculptors: list[str]
+    paintworks: list[str]
     resale: bool
     adult: bool
     copyright: str
-    releaser: Union[str, None]
-    distributer: Union[str, None]
-    jan: Union[str, None]
-    maker_id: Union[str, None]
+    releaser: Optional[str]
+    distributer: Optional[str]
+    jan: Optional[str]
+    maker_id: Optional[str]
     images: list[str]
 
     def as_dict(self) -> dict:

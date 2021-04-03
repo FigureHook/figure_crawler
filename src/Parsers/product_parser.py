@@ -106,7 +106,7 @@ class ProductParser(ABC):
     def parse_images(self) -> List[str]:
         pass
 
-    def parse_release_infos(self) -> HistoricalReleases:
+    def parse_release_infos(self) -> HistoricalReleases[Release]:
         dates = self.parse_release_dates()
         prices = self.parse_prices()
 
