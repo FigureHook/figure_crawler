@@ -124,15 +124,17 @@ class TestSeries:
 class TestRelationShip:
     def test_product_has_many_product_release_infos(self, session):
         product = Product(name="figure")
-        initial_info = ProductReleaseInfo(price=12960, initial_release_date=date.today())
+        initial_info = ProductReleaseInfo(price=12960, initial_release_date=date(2020, 2, 12))
         resale_info = ProductReleaseInfo(price=15800, initial_release_date=date(2021, 2, 12))
 
         product.release_infos.extend([initial_info, resale_info])
         product.save()
+        session.commit()
 
         fetched_product = Product.get_by_id(product.id)
         assert isinstance(fetched_product.release_infos, list)
         assert len(fetched_product.release_infos) == 2
+        assert fetched_product.release_infos[0] == resale_info
 
     def test_series_has_many_products(self, session):
         series = Series(name="foo")
