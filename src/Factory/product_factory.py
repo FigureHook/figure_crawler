@@ -26,7 +26,6 @@ class ProductFactory(ABC):
             url: str,
             page: BeautifulSoup = None,
             is_normalized: bool = False,
-            is_price_filled: bool = False
     ):
         if not hasattr(cls, "parser"):
             raise NotImplementedError("Please inherit this class and set the class attribute `parser`.")
@@ -58,8 +57,6 @@ class ProductFactory(ABC):
 
         if is_normalized:
             product.normalize_attrs()
-        if is_price_filled:
-            product.fill_prices_with_release_dates()
 
         return product
 
