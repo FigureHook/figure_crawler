@@ -1,7 +1,7 @@
 import re
 
 
-def price_parse(text: str, plus_tax: bool = False) -> int:
+def price_parse(text: str, remove_tax: bool = False) -> int:
     pattern = r"\d+"
     price_text = ""
 
@@ -9,8 +9,8 @@ def price_parse(text: str, plus_tax: bool = False) -> int:
         price_text += n
 
     price = int(price_text)
-    if plus_tax:
-        price = round(price * 1.1)
+    if remove_tax:
+        price = round(price / 1.1)
 
     return price
 

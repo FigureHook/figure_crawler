@@ -13,9 +13,9 @@
   paintwork: []
   release_infos:
     - release_date: 2014-10-01 00:00:00
-      price: 12980
+      price: 11800
     - release_date: 2016-09-01 00:00:00
-      price: 12980
+      price: 11800
   releaser: ウイング
   resale: true
   scale: 7
@@ -39,7 +39,7 @@
   paintwork: []
   release_infos:
     - release_date: 2020-06-01 00:00:00
-      price: 13800
+      price: 12545
   releaser: Myethos
   resale: false
   scale: 7
@@ -63,7 +63,7 @@
   paintwork:
     - 佐倉
   release_infos:
-    - price: 35200
+    - price: 32000
       release_date: 2021-09-01 00:00:00
   releaser: ファット・カンパニー
   resale: false
@@ -88,7 +88,7 @@
   paintwork:
     - かわも（リボルブ）
   release_infos:
-    - price: 24000
+    - price: 21818
       release_date: 2020-12-01 00:00:00
   releaser: KADOKAWA
   resale: false
@@ -112,7 +112,7 @@
     start: 2020-08-18 12:00:00
   paintwork: []
   release_infos:
-    - price: 17600
+    - price: 16000
       release_date: 2021-02-01 00:00:00
   releaser: ウイング
   resale: false
@@ -138,7 +138,7 @@
     start: 2020-08-04 12:00:00
   paintwork: []
   release_infos:
-    - price: 3900
+    - price: 3545
       release_date: 2021-01-01 00:00:00
   releaser: グッドスマイルカンパニー
   resale: false
@@ -165,7 +165,7 @@
     start: 2020-06-30 12:00:00
   paintwork: []
   release_infos:
-    - price: 66000
+    - price: 60000
       release_date: 2021-06-01 00:00:00
   releaser: threezero
   resale: false
@@ -189,7 +189,7 @@
     start: 2020-09-10 12:00:00
   paintwork: []
   release_infos:
-    - price: 3900
+    - price: 3545
       release_date: 2021-01-01 00:00:00
   releaser: グッドスマイルカンパニー
   resale: false
@@ -212,7 +212,7 @@
     start: null
   paintwork: []
   release_infos:
-    - price: 12362
+    - price: 11238
       release_date: 2009-01-01 00:00:00
   releaser: FREEing
   resale: false
@@ -236,7 +236,7 @@
     start: null
   paintwork: []
   release_infos:
-    - price: 5762
+    - price: 5238
       release_date: 2009-02-01 00:00:00
   releaser: グッドスマイルカンパニー
   resale: false
@@ -262,11 +262,11 @@
   paintwork:
     - 髙山英樹
   release_infos:
-    - price: 11000
+    - price: 10000
       release_date: 2014-10-01 00:00:00
-    - price: 12100
+    - price: 11000
       release_date: 2017-04-01 00:00:00
-    - price: 14300
+    - price: 13000
       release_date: 2021-05-01 00:00:00
   releaser: Phat!
   resale: true
@@ -291,11 +291,11 @@
   paintwork:
     - Takayama Hideki
   release_infos:
-    - price: 14300
+    - price: 13000
       release_date: 2014-10-01 00:00:00
-    - price: 14300
+    - price: 13000
       release_date: 2017-02-01 00:00:00
-    - price: 14300
+    - price: 13000
       release_date: 2021-05-01 00:00:00
   releaser: Phat! Company
   resale: true
@@ -321,9 +321,9 @@
     - Luu(グッドスマイル上海)
     - えこし
   release_infos:
-    - price: 12528
+    - price: 11389
       release_date: 2018-02-01 00:00:00
-    - price: 13000
+    - price: 11818
       release_date: 2021-04-01 00:00:00
   releaser: グッドスマイルカンパニー
   resale: true
@@ -348,9 +348,9 @@
   paintwork:
     - エムアイシー
   release_infos:
-    - price: 3972
+    - price: 3611
       release_date: 2019-06-01 00:00:00
-    - price: 3900
+    - price: 3545
       release_date: 2020-10-01 00:00:00
   releaser: グッドスマイルカンパニー
   resale: true
@@ -399,7 +399,7 @@
     start: null
   paintwork: []
   release_infos:
-    - price: 3055556
+    - price: 2777778
       release_date: 2019-09-01 00:00:00
   releaser: オランジュ・ルージュ
   resale: false
@@ -423,7 +423,7 @@
     start: null
   paintwork: []
   release_infos:
-    - price: 17500
+    - price: 15909
       release_date: 2020-02-01 00:00:00
   releaser: グッドスマイルカンパニー
   resale: false
@@ -448,9 +448,9 @@
   paintwork:
     - 路川宏之
   release_infos:
-    - price: 20680
+    - price: 18800
       release_date: 2020-07-01 00:00:00
-    - price: 20680
+    - price: 18800
       release_date: 2021-05-01 00:00:00
   releaser: WonderfulWorks
   resale: true
@@ -477,7 +477,7 @@
   paintwork:
     - 中野フィギュア教室（福井）
   release_infos:
-    - price: 16800
+    - price: 15273
       release_date: 2021-08-01 00:00:00
   releaser: マックスファクトリー
   resale: false
@@ -501,7 +501,7 @@
     end: None
   paintwork: []
   release_infos:
-    - price: 7124
+    - price: 6476
       release_date: 2013-05-01 00:00:00
   releaser: グッドスマイルカンパニー
   resale: false
@@ -526,13 +526,13 @@
   paintwork:
     - あきもとはじめ
   release_infos:
-    - price: 20166
+    - price: 18333
       release_date: 2018-12-01 00:00:00
-    - price: 20166
+    - price: 18333
       release_date: 2021-06-01 00:00:00
-    - price: 20166
+    - price: 18333
       release_date: 2022-09-01 00:00:00
-    - price: 20166
+    - price: 18333
       release_date: 2023-02-01 00:00:00
   releaser: グッドスマイルカンパニー
   resale: true
@@ -557,7 +557,7 @@
   paintwork:
     - グラハム仮面
   release_infos:
-    - price: 15180
+    - price: 13800
       release_date: null
   releaser: アクアマリン
   resale: false
@@ -582,7 +582,7 @@
   paintwork:
     - 星名詠美
   release_infos:
-    - price: 16830
+    - price: 15300
       release_date: 2019-01-01 00:00:00
   releaser: アクアマリン
   resale: false

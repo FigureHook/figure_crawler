@@ -4,16 +4,12 @@ from src.Models import (Category, Company, Paintwork, Product,
 
 from .product import ProductBase
 
-
 __all__ = ["ProductModelFactory"]
 
 
 class ProductModelFactory:
     @staticmethod
     def createProduct(session, product_dataclass: ProductBase):
-        if len(product_dataclass.prices) != len(product_dataclass.release_dates):
-            raise ValueError("Please ensure the length of .prices and release_dates are same.")
-
         series = Series.as_unique(session, name=product_dataclass.series)
         manufacturer = Company.as_unique(session, name=product_dataclass.manufacturer)
         category = Category.as_unique(session, name=product_dataclass.category)
@@ -22,11 +18,13 @@ class ProductModelFactory:
 
         release_infos = [
             ProductReleaseInfo(
-                price=price,
-                initial_release_date=date
+                price=release.price,
+                initial_release_date=release.date,
+                order_period_start=release.order_period.start,
+                order_period_end=release.order_period.end
             )
-            for price, date
-            in zip(product_dataclass.prices, product_dataclass.release_dates)
+            for release
+            in product_dataclass.release_infos
         ]
 
         paintworks = [
@@ -64,9 +62,6 @@ class ProductModelFactory:
             paintworks=paintworks,
             official_images=images
         )
-
-        product.release_infos[0].order_period_start = product_dataclass.order_period.start
-        product.release_infos[0].order_period_end = product_dataclass.order_period.end
 
         product.save()
 

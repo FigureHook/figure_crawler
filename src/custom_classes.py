@@ -70,4 +70,5 @@ class HistoricalReleases(UserList):
 
         return self.data[-1]
 
-    def __iter__(self) -> Iterator[Release]: ...
+    def __iter__(self) -> Iterator[Release]:
+        return super().__iter__()

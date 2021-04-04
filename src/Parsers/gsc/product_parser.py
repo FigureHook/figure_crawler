@@ -109,8 +109,8 @@ class GSCProductParser(ProductParser):
         for price_item in price_items:
             price_text = price_item.find_next("dd").text.strip()
             tax_feature = self._get_from_locale("tax")
-            plus_tax = bool(re.search(f"{tax_feature}", price_text))
-            price = price_parse(price_text, plus_tax=plus_tax)
+            remove_tax = bool(re.search(f"{tax_feature}", price_text))
+            price = price_parse(price_text, remove_tax=remove_tax)
             price_slot.append(price)
 
         return price_slot
@@ -123,8 +123,8 @@ class GSCProductParser(ProductParser):
         if last_price_target:
             tax_feature = self._get_from_locale("tax")
             last_price_text = last_price_target.find_next("dd").text.strip()
-            plus_tax = bool(re.search(f"{tax_feature}", last_price_text))
-            last_price = price_parse(last_price_text, plus_tax=plus_tax)
+            remove_tax = bool(re.search(f"{tax_feature}", last_price_text))
+            last_price = price_parse(last_price_text, remove_tax=remove_tax)
         else:
             last_price = None
 
