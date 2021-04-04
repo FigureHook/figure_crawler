@@ -4,8 +4,7 @@ import pytest
 from faker import Faker
 
 from src.custom_classes import HistoricalReleases, OrderPeriod, Release
-from src.Factory import ProductBase
-from src.Factory.product import ProductDataProcessMixin, ProductUtils
+from src.Factory import ProductBase, ProductDataProcessMixin, ProductUtils
 
 
 @pytest.fixture(scope='function', autouse=True)
