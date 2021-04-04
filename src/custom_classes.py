@@ -1,7 +1,7 @@
 from collections import UserList
 from dataclasses import asdict, dataclass
 from datetime import date, datetime
-from typing import Optional, Union
+from typing import Iterator, Optional, Union
 
 
 @dataclass
@@ -15,6 +15,9 @@ class OrderPeriod:
         if start and end:
             if end < start:
                 raise ValueError
+
+    def as_dict(self):
+        return asdict(self)
 
     @property
     def is_available(self):
@@ -66,3 +69,5 @@ class HistoricalReleases(UserList):
         self.sort()
 
         return self.data[-1]
+
+    def __iter__(self) -> Iterator[Release]: ...

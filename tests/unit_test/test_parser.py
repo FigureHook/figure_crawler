@@ -5,7 +5,7 @@ import yaml
 from _pytest.assertion.util import isiterable
 
 from src.constants import GSCCategory, GSCLang
-from src.custom_classes import HistoricalReleases
+from src.custom_classes import HistoricalReleases, OrderPeriod
 from src.Parsers.alter import AlterProductParser
 from src.Parsers.gsc import (GSCAnnouncementLinkExtractor, GSCProductParser,
                              GSCReleaseInfo, GSCYearlyAnnouncement)
@@ -67,6 +67,12 @@ class BaseTestCase:
             assert r.price == e_r["price"]
             expected_date = e_r["release_date"].date() if e_r["release_date"] else e_r["release_date"]
             assert r.release_date == expected_date
+
+        order_period: OrderPeriod = release_infos.last().order_period
+        expected_order_period = item["expected"]["order_period"]
+
+        if order_period:
+            assert order_period.as_dict() == expected_order_period
 
     def test_maker_id(self, item):
         id_ = item["test"].parse_maker_id()

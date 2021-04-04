@@ -128,6 +128,10 @@ class ProductParser(ABC):
             release = Release(release_date=d, price=p)
             historical_releases.append(release)
 
+        order_period = self.parse_order_period()
+        if order_period:
+            historical_releases.last().order_period = order_period
+
         return historical_releases
 
     def parse_distributer(self) -> Union[str, None]:
