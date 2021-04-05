@@ -23,6 +23,16 @@ class ProductOfficialImage(PkModel):
     order = Column(Integer)
     product_id = Column(Integer, ForeignKey("product.id"), nullable=False)
 
+    @classmethod
+    def create_image_list(cls, image_urls: list[str]):
+        images = []
+
+        for url in image_urls:
+            image = cls(url=url)
+            images.append(image)
+
+        return images
+
 
 class ProductReleaseInfo(PkModel):
     __tablename__ = "product_release_info"

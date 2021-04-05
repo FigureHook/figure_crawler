@@ -40,6 +40,19 @@ class TestProductReleaseInfo:
 
 
 @pytest.mark.usefixtures("session")
+class TestProductImage:
+    def test_image_list_process(self, session):
+        urls = ["https://img.com/001.jpg", "https://image.net/17nb123f75.png"]
+
+        images = ProductOfficialImage.create_image_list(urls)
+
+        assert len(images) == len(urls)
+        for image in images:
+            image: ProductOfficialImage
+            assert image.url in urls
+
+
+@pytest.mark.usefixtures("session")
 class TestSculptor:
     def test_get_by_id(self):
         sculptor = Sculptor.create(name="foo")
