@@ -20,7 +20,8 @@ def test_Release_to_ProductReleaseInfoModel(session):
     release_adapter = ReleaseToProductReleaseInfoModelAdapter(release)
     assert isinstance(release_adapter, ProductReleaseInfo)
 
-    # prevent IntegrityError
+    # prevent IntegrityError from sqlalchemy
+    # because the `product_id` should be NOT NULL
     # info: sqlalchemy.exc.IntegrityError: (sqlite3.IntegrityError) NOT NULL constraint failed: product_release_info.product_id
     release_adapter.product_id = 1
     release_adapter.save()
