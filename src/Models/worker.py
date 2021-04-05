@@ -1,6 +1,6 @@
 from sqlalchemy import Column, String
-from src.database import PkModel, UniqueMixin
 
+from src.database import PkModel, UniqueMixin
 
 __all__ = [
     "Paintwork",
@@ -8,7 +8,19 @@ __all__ = [
 ]
 
 
-class Paintwork(UniqueMixin, PkModel):
+class WorkerMultipleUniqueMixin(UniqueMixin):
+    @classmethod
+    def multiple_as_unique(cls, session, worker_names: list[str]) -> list:
+        workers = []
+
+        for name in worker_names:
+            worker = cls.as_unique(session, name=name)
+            workers.append(worker)
+
+        return workers
+
+
+class Paintwork(WorkerMultipleUniqueMixin, PkModel):
     __tablename__ = "paintwork"
 
     name = Column(String, nullable=False)
@@ -22,7 +34,7 @@ class Paintwork(UniqueMixin, PkModel):
         return query.filter(Paintwork.name == name)
 
 
-class Sculptor(UniqueMixin, PkModel):
+class Sculptor(WorkerMultipleUniqueMixin, PkModel):
     __tablename__ = "sculptor"
 
     name = Column(String, nullable=False)

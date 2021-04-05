@@ -56,6 +56,16 @@ class TestSculptor:
         assert another_sculptor is not sculptor
         assert another_sculptor is not same_sculptor
 
+    def test_multiple_sculptors_as_unique(self, session):
+        master = Sculptor.create(name="master")
+
+        sculptors_in_text = ["master", "newbie"]
+        sculptors = Sculptor.multiple_as_unique(session, sculptors_in_text)
+
+        assert isinstance(sculptors, list)
+        assert len(sculptors) == len(sculptors_in_text)
+        assert master in sculptors
+
 
 @pytest.mark.usefixtures("session")
 class TestPaintwork:
@@ -73,6 +83,16 @@ class TestPaintwork:
         assert paintwork is same_paintwork
         assert another_paintwork is not paintwork
         assert another_paintwork is not same_paintwork
+
+    def test_multiple_sculptors_as_unique(self, session):
+        master = Paintwork.create(name="master")
+
+        sculptors_in_text = ["master", "newbie"]
+        sculptors = Paintwork.multiple_as_unique(session, sculptors_in_text)
+
+        assert isinstance(sculptors, list)
+        assert len(sculptors) == len(sculptors_in_text)
+        assert master in sculptors
 
 
 @pytest.mark.usefixtures("session")
