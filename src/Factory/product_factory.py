@@ -20,6 +20,8 @@ class ProductFactory(ABC):
     ### abstract product factory
     Inherit this class and implement the parser class property
     """
+    __product_parser__ = None
+
     @classmethod
     def createProduct(
             cls,
@@ -27,10 +29,11 @@ class ProductFactory(ABC):
             page: BeautifulSoup = None,
             is_normalized: bool = False,
     ):
-        if not hasattr(cls, "parser"):
-            raise NotImplementedError("Please inherit this class and set the class attribute `parser`.")
+        if not cls.__product_parser__:
+            raise NotImplementedError(
+                f"Please inherit from {ProductFactory.__name__} and set the class attribute `__product_parser__`.")
 
-        parser: ProductParser = cls.parser(url, page)
+        parser: ProductParser = cls.__product_parser__(url, page)
         product = Product(
             url=url,
             name=parser.parse_name(),
@@ -63,9 +66,9 @@ class ProductFactory(ABC):
 
 class GSCFactory(ProductFactory):
     """Good smile company product factory"""
-    parser = GSCProductParser
+    __product_parser__ = GSCProductParser
 
 
 class AlterFactory(ProductFactory):
     """Alter product factory"""
-    parser = AlterProductParser
+    __product_parser__ = AlterProductParser
