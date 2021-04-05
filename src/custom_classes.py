@@ -1,7 +1,7 @@
 from collections import UserList
 from dataclasses import asdict, dataclass
 from datetime import date, datetime
-from typing import Iterator, Optional, Union
+from typing import Optional, Union
 
 
 @dataclass
@@ -69,6 +69,3 @@ class HistoricalReleases(UserList):
         self.sort()
 
         return self.data[-1]
-
-    def __iter__(self) -> Iterator[Release]:
-        return super().__iter__()
