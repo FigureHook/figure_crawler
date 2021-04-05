@@ -51,7 +51,7 @@ class GSCProductSpider(CrawlSpider):
     def parse_product(self, response):
         self.logger.info(f"Parsing {response.url}...")
         page = BeautifulSoup(response.text, "lxml")
-        product = GSCFactory.createProduct(response.url, page=page, is_normalized=True, is_price_filled=True)
+        product = GSCFactory.createProduct(response.url, page=page, is_normalized=True)
         yield product
 
 

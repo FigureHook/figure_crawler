@@ -14,7 +14,7 @@ class OrderPeriod:
         end = self.end
         if start and end:
             if end < start:
-                raise ValueError
+                raise ValueError("start date shouldn't larger than end date.")
 
     def as_dict(self):
         return asdict(self)

@@ -1,3 +1,4 @@
+from src.custom_classes import Release
 from src.Models import (Category, Company, Paintwork, Product,
                         ProductOfficialImage, ProductReleaseInfo, Sculptor,
                         Series)
@@ -16,16 +17,18 @@ class ProductModelFactory:
         releaser = Company.as_unique(session, name=product_dataclass.releaser)
         distributer = Company.as_unique(session, name=product_dataclass.distributer)
 
-        release_infos = [
-            ProductReleaseInfo(
+        release_infos = []
+        for release in product_dataclass.release_infos:
+            release: Release
+            release_info = ProductReleaseInfo(
                 price=release.price,
-                initial_release_date=release.date,
-                order_period_start=release.order_period.start,
-                order_period_end=release.order_period.end
+                initial_release_date=release.release_date,
             )
-            for release
-            in product_dataclass.release_infos
-        ]
+            if release.order_period:
+                release_info.order_period_start = release.order_period.start,
+                release_info.order_period_end = release.order_period.end
+
+            release_infos.append(release_info)
 
         paintworks = [
             Paintwork.as_unique(session, name=paintwork)
@@ -62,8 +65,6 @@ class ProductModelFactory:
             paintworks=paintworks,
             official_images=images
         )
-
-        product.save()
 
         return product
 
