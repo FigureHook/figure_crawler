@@ -1,3 +1,4 @@
+from src.Adapters import ReleaseToProductReleaseInfoModelAdapter
 from src.custom_classes import Release
 from src.Models import (Category, Company, Paintwork, Product,
                         ProductOfficialImage, ProductReleaseInfo, Sculptor,
@@ -17,33 +18,16 @@ class ProductModelFactory:
         releaser = Company.as_unique(session, name=product_dataclass.releaser)
         distributer = Company.as_unique(session, name=product_dataclass.distributer)
 
+        paintworks = Paintwork.multiple_as_unique(session, product_dataclass.paintworks)
+        sculptors = Sculptor.multiple_as_unique(session, product_dataclass.sculptors)
+
+        images = ProductOfficialImage.create_image_list(product_dataclass.images)
+
         release_infos = []
         for release in product_dataclass.release_infos:
             release: Release
-            release_info = ProductReleaseInfo(
-                price=release.price,
-                initial_release_date=release.release_date,
-            )
-            if release.order_period:
-                release_info.order_period_start = release.order_period.start,
-                release_info.order_period_end = release.order_period.end
-
+            release_info = ReleaseToProductReleaseInfoModelAdapter(release)
             release_infos.append(release_info)
-
-        paintworks = [
-            Paintwork.as_unique(session, name=paintwork)
-            for paintwork in product_dataclass.paintworks
-        ]
-
-        sculptors = [
-            Sculptor.as_unique(session, name=sculptor)
-            for sculptor in product_dataclass.sculptors
-        ]
-
-        images = [
-            ProductOfficialImage(url=image)
-            for image in product_dataclass.images
-        ]
 
         product = Product.create(
             url=product_dataclass.url,
