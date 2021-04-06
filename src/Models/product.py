@@ -1,4 +1,5 @@
-from datetime import date
+from datetime import date, datetime
+from typing import Union
 
 from sqlalchemy import (BigInteger, Boolean, Column, Date, DateTime,
                         ForeignKey, Integer, SmallInteger, String)
@@ -46,9 +47,23 @@ class ProductReleaseInfo(PkModel):
     release_at = Column(Date)
     product_id = Column(Integer, ForeignKey("product.id"), nullable=False)
 
-    def postpone_release_date_to(self, delay_date: date):
-        if delay_date and self.initial_release_date != delay_date:
+    def postpone_release_date_to(self, delay_date: Union[date, datetime]):
+        if not delay_date:
+            return
+
+        if isinstance(delay_date, datetime):
+            delay_date = delay_date.date()
+
+        valid_type = isinstance(delay_date, date)
+        if not valid_type:
+            raise TypeError(f"{delay_date} is not `date` or `datetime`")
+
+        should_be_postponed = self.initial_release_date < delay_date
+        if should_be_postponed:
             self.delay_release_date = delay_date
+
+        if not should_be_postponed:
+            raise ValueError(f"{delay_date} should be later than {self.initial_release_date}")
 
 
 class Product(PkModelWithTimestamps):

@@ -38,6 +38,23 @@ class TestProductReleaseInfo:
         fetched_info = ProductReleaseInfo.get_by_id(info.id)
         assert fetched_info is info
 
+    def test_postpone_release_date(self):
+        info = ProductReleaseInfo.create(price=12960, initial_release_date=date(2020, 1, 1), product_id=1)
+        delay_date = date(2021, 1, 1)
+        info.postpone_release_date_to(delay_date)
+
+        assert info.delay_release_date == delay_date
+
+        delay_datetime = datetime(2022, 2, 2, 12)
+        info.postpone_release_date_to(delay_datetime)
+        assert info.delay_release_date == delay_datetime.date()
+
+        with pytest.raises(ValueError):
+            info.postpone_release_date_to(date(1999, 1, 1))
+
+        with pytest.raises(TypeError):
+            info.postpone_release_date_to(1)
+
 
 @pytest.mark.usefixtures("session")
 class TestProductImage:
