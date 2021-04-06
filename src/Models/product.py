@@ -92,3 +92,9 @@ class Product(PkModelWithTimestamps):
         secondary=product_paintwork_table,
         backref="products"
     )
+
+    def last_release(self):
+        release_infos = self.release_infos
+        if release_infos:
+            return release_infos[0]
+        return None

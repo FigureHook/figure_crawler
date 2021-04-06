@@ -169,6 +169,18 @@ class TestRelationShip:
         assert len(fetched_product.release_infos) == 2
         assert fetched_product.release_infos[0] == resale_info
 
+    def test_fetech_product_last_product_release_infos(self, session):
+        product = Product(name="figure")
+        initial_info = ProductReleaseInfo(price=12960, initial_release_date=date(2020, 2, 12))
+        resale_info = ProductReleaseInfo(price=15800, initial_release_date=date(2021, 2, 12))
+
+        product.release_infos.extend([initial_info, resale_info])
+        product.save()
+        session.commit()
+
+        last_release = product.first().last_release()
+        assert last_release is resale_info
+
     def test_series_has_many_products(self, session):
         series = Series(name="foo")
         series.products.extend([Product(name="a"), Product(name="b")])
