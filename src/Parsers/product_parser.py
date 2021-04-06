@@ -30,27 +30,22 @@ class ProductParser(ABC):
         return self.__page
 
     @abstractmethod
-    def _parse_detail(self):
-        pass
+    def _parse_detail(self): ...
 
     @abstractmethod
-    def parse_name(self) -> str:
-        pass
+    def parse_name(self) -> str: ...
 
     @abstractmethod
-    def parse_series(self) -> str:
-        pass
+    def parse_series(self) -> str: ...
 
     @abstractmethod
-    def parse_manufacturer(self) -> str:
-        pass
+    def parse_manufacturer(self) -> str: ...
 
     @abstractmethod
-    def parse_category(self) -> str:
-        pass
+    def parse_category(self) -> str: ...
 
-    def parse_price(self) -> int:
-        return self.parse_release_infos().last().price
+    @abstractmethod
+    def parse_sculptors(self) -> List[str]: ...
 
     @abstractmethod
     def parse_prices(self) -> List[int]:
@@ -58,10 +53,7 @@ class ProductParser(ABC):
         Try to parse historical prices
         Order of prices should be as same as release_dates.
         """
-        pass
-
-    def parse_release_date(self) -> date:
-        return self.parse_release_infos().last().release_date
+        ...
 
     @abstractmethod
     def parse_release_dates(self) -> List[date]:
@@ -69,11 +61,7 @@ class ProductParser(ABC):
         Try to parse all release-dates
         Order of release_dates should be as same as prices.
         """
-        pass
-
-    @abstractmethod
-    def parse_sculptors(self) -> List[str]:
-        pass
+        ...
 
     @abstractmethod
     def parse_scale(self) -> Union[int, None]:
@@ -83,28 +71,34 @@ class ProductParser(ABC):
         1/7 -> 7
         Others -> None
         """
-        pass
+        ...
 
     @abstractmethod
     def parse_size(self) -> int:
         """The unit is `mm`"""
-        pass
+        ...
 
     @abstractmethod
     def parse_copyright(self) -> str:
-        pass
+        ...
 
     @abstractmethod
     def parse_releaser(self) -> str:
-        pass
+        ...
 
     @abstractmethod
     def parse_resale(self) -> bool:
-        pass
+        ...
 
     @abstractmethod
     def parse_images(self) -> List[str]:
-        pass
+        ...
+
+    def parse_price(self) -> int:
+        return self.parse_release_infos().last().price
+
+    def parse_release_date(self) -> date:
+        return self.parse_release_infos().last().release_date
 
     def parse_release_infos(self) -> HistoricalReleases[Release]:
         dates = self.parse_release_dates()
