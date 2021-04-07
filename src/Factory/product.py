@@ -2,6 +2,7 @@ import re
 import unicodedata
 from dataclasses import asdict, dataclass
 from datetime import date
+from hashlib import md5
 from typing import Optional, Union, overload
 
 from src.custom_classes import HistoricalReleases, OrderPeriod, Release
@@ -41,25 +42,54 @@ class ProductBase:
 
     url: str
     name: str
-    series: Union[str, None]
     manufacturer: str
     category: str
+    copyright: str
     price: int
+    size: int
+    resale: bool
+    adult: bool
+    images: list[str]
+    sculptors: list[str]
+    paintworks: list[str]
     release_date: date
     release_infos: HistoricalReleases[Release]
     order_period: Optional[OrderPeriod]
-    size: int
-    scale: Union[int, None]
-    sculptors: list[str]
-    paintworks: list[str]
-    resale: bool
-    adult: bool
-    copyright: str
+    series: Optional[str]
+    scale: Optional[int]
     releaser: Optional[str]
     distributer: Optional[str]
     jan: Optional[str]
     maker_id: Optional[str]
-    images: list[str]
+
+    @property
+    def checksum(self):
+        checksum_slot = (
+            self.name,
+            self.manufacturer,
+            self.category,
+            self.copyright,
+            self.price,
+            self.size,
+            self.resale,
+            self.adult,
+            self.images,
+            self.sculptors,
+            self.paintworks,
+            self.release_date,
+            self.order_period,
+            self.series,
+            self.scale,
+            self.releaser,
+            self.distributer,
+            self.jan
+        )
+
+        m = md5()
+        for s in checksum_slot:
+            m.update(str(s).encode("utf-8"))
+
+        return m.hexdigest()
 
     def as_dict(self) -> dict:
         return asdict(self)

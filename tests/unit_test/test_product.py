@@ -48,7 +48,10 @@ def product():
 
 
 def test_product_base(product: ProductBase):
+    p = product
     assert isinstance(product.as_dict(), dict)
+    p.url = "https://somthingwrong.com"
+    assert p.checksum == product.checksum
 
 
 def test_product_data_process_mixin(mocker):
