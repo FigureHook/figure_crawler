@@ -28,6 +28,12 @@ class TestProduct:
         assert bool(product.created_at)
         assert isinstance(product.created_at, datetime)
 
+    def test_checksum_comparison(self):
+        checksum = "111"
+        product = Product.create(name="foo figure", url="www.foo.com", checksum="111")
+
+        assert product.check_checksum(checksum)
+
 
 @pytest.mark.usefixtures("session")
 class TestProductReleaseInfo:

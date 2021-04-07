@@ -67,6 +67,10 @@ class ProductReleaseInfo(PkModel):
 
 
 class Product(PkModelWithTimestamps):
+    """
+    ## Column
+    + checksum: MD5 value, one of methods to check the product should be updated.
+    """
     __tablename__ = "product"
 
     # ---native columns---
@@ -79,6 +83,7 @@ class Product(PkModelWithTimestamps):
     url = Column(String)
     jan = Column(BigInteger, unique=True)
     id_by_official = Column(String)
+    checksum = Column(String(32))
     # ---Foreign key columns---
     series_id = Column(Integer, ForeignKey("series.id"))
     manufacturer_id = Column(Integer, ForeignKey("company.id"))
@@ -113,3 +118,6 @@ class Product(PkModelWithTimestamps):
         if release_infos:
             return release_infos[0]
         return None
+
+    def check_checksum(self, checksum: str) -> bool:
+        return checksum == self.checksum
