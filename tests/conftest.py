@@ -11,7 +11,11 @@ from src.Factory import ProductBase
 def session():
     from src.database import Model, db
 
-    with db("sqlite://", echo=False) as db:
+    POSTGRES_USER = "postgres"
+    POSTGRES_PASSWORD = "try"
+    POSTGRES_DB = "figure_testing"
+
+    with db(f"postgresql+psycopg2://{POSTGRES_USER}:{POSTGRES_PASSWORD}@db:5432/{POSTGRES_DB}", echo=True) as db:
         engine = db.engine
         session = db.session
 
