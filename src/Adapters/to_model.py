@@ -6,8 +6,8 @@ __all__ = [
 ]
 
 
-class ReleaseToProductReleaseInfoModelAdapter(ProductReleaseInfo):
-    def __init__(self, release: Release) -> None:
+class ReleaseToProductReleaseInfoModelAdapter:
+    def __new__(cls, release: Release) -> None:
         price = release.price
         initial_release_date = release.release_date
         order_period_start = None
@@ -17,7 +17,7 @@ class ReleaseToProductReleaseInfoModelAdapter(ProductReleaseInfo):
             order_period_start = release.order_period.start
             order_period_end = release.order_period.end
 
-        super().__init__(
+        return ProductReleaseInfo(
             price=price,
             order_period_start=order_period_start,
             order_period_end=order_period_end,
