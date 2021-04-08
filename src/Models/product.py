@@ -22,7 +22,7 @@ class ProductOfficialImage(PkModel):
 
     url = Column(String)
     order = Column(Integer)
-    product_id = Column(Integer, ForeignKey("product.id"), nullable=False)
+    product_id = Column(Integer, ForeignKey("product.id", ondelete="CASCADE"), nullable=False)
 
     @classmethod
     def create_image_list(cls, image_urls: list[str]):
@@ -45,7 +45,7 @@ class ProductReleaseInfo(PkModel):
     delay_release_date = Column(Date)
     announced_at = Column(Date)
     release_at = Column(Date)
-    product_id = Column(Integer, ForeignKey("product.id"), nullable=False)
+    product_id = Column(Integer, ForeignKey("product.id", ondelete="CASCADE"), nullable=False)
 
     def postpone_release_date_to(self, delay_date: Union[date, datetime]):
         if not delay_date:
@@ -95,12 +95,16 @@ class Product(PkModelWithTimestamps):
         ProductReleaseInfo,
         backref="product",
         order_by="desc(ProductReleaseInfo.initial_release_date)",
+        cascade="all, delete",
+        passive_deletes=True
     )
     official_images = relationship(
         ProductOfficialImage,
         backref="product",
         order_by="ProductOfficialImage.order",
-        collection_class=ordering_list("order", count_from=1)
+        collection_class=ordering_list("order", count_from=1),
+        cascade="all, delete",
+        passive_deletes=True
     )
     sculptors = relationship(
         "Sculptor",

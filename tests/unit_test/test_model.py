@@ -45,7 +45,8 @@ class TestProductReleaseInfo:
         assert fetched_info is info
 
     def test_postpone_release_date(self):
-        info = ProductReleaseInfo.create(price=12960, initial_release_date=date(2020, 1, 1), product_id=1)
+        p = Product.create(name="foo")
+        info = ProductReleaseInfo.create(price=12960, initial_release_date=date(2020, 1, 1), product_id=p.id)
         delay_date = date(2021, 1, 1)
         info.postpone_release_date_to(delay_date)
 
@@ -290,6 +291,38 @@ class TestRelationShip:
         assert len(product.official_images) == 2
         assert image_1.order == 1
         assert image_2.order == 2
+
+    def test_images_would_be_deleted_when_product_was_deleted(self, session):
+        product = Product(name="foo")
+
+        image_1 = ProductOfficialImage(url="http://foo.com/img1.jpg")
+        image_2 = ProductOfficialImage(url="http://foo.com/img2.jpg")
+
+        product.official_images.append(image_1)
+        product.official_images.append(image_2)
+        product.save()
+        session.commit()
+
+        Product.destroy(product.id)
+        session.commit()
+
+        assert not ProductOfficialImage.all()
+
+    def test_release_info_would_be_deleted_when_product_was_deleted(self, session):
+        product = Product(name="foo")
+
+        release_1 = ProductReleaseInfo(price=100)
+        release_2 = ProductReleaseInfo(price=200)
+
+        product.release_infos.append(release_1)
+        product.release_infos.append(release_2)
+        product.save()
+        session.commit()
+
+        Product.destroy(product.id)
+        session.commit()
+
+        assert not ProductReleaseInfo.all()
 
 
 @pytest.mark.usefixtures("session")
