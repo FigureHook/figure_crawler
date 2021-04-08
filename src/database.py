@@ -1,7 +1,9 @@
 import os
 from contextlib import contextmanager
+from dataclasses import dataclass
 
 from sqlalchemy import Column, Integer, create_engine
+from sqlalchemy.engine.base import Engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy_mixins import AllFeaturesMixin
 from sqlalchemy_mixins.timestamp import TimestampsMixin
@@ -9,19 +11,10 @@ from sqlalchemy_mixins.timestamp import TimestampsMixin
 # https://stackoverflow.com/questions/12223335/sqlalchemy-creating-vs-reusing-a-session
 
 
+@dataclass(frozen=True)
 class DbSession:
-    def __init__(self, engine, session) -> None:
-        super().__init__()
-        self.__engine = engine
-        self.__session = session
-
-    @property
-    def engine(self):
-        return self.__engine
-
-    @property
-    def session(self):
-        return self.__session
+    engine: Engine
+    session: scoped_session
 
 
 @contextmanager
@@ -47,34 +40,37 @@ def db(db_url=None, echo=True):
     connection.close()
 
 
-def _unique(session, cls, hashfunc, queryfunc, constructor, arg, kw):
+class UniqueMixin:
     """
     https://github.com/sqlalchemy/sqlalchemy/wiki/UniqueObject
     """
-    cache = getattr(session, "_unique_cache", None)
-    if cache is None:
-        session._unique_cache = cache = {}
+    __abstract__ = True
 
-    hash_value = hashfunc(*arg, **kw)
-    if not hash_value:
-        return None
+    @classmethod
+    def as_unique(cls, *arg, **kw):
+        session = cls.session
+        cache = getattr(session, "_unique_cache", None)
+        if cache is None:
+            session._unique_cache = cache = {}
 
-    key = (cls, hash_value)
-    if key in cache:
-        return cache[key]
-    else:
-        with session.no_autoflush:
-            q = session.query(cls)
-            q = queryfunc(q, *arg, **kw)
-            obj = q.first()
-            if not obj:
-                obj = constructor(*arg, **kw)
-                session.add(obj)
-        cache[key] = obj
-        return obj
+        hash_value = cls.unique_hash(*arg, **kw)
+        if not hash_value:
+            return None
 
+        key = (cls, hash_value)
+        if key in cache:
+            return cache[key]
+        else:
+            with session.no_autoflush:
+                q = session.query(cls)
+                q = cls.unique_filter(q, *arg, **kw)
+                obj = q.first()
+                if not obj:
+                    obj = cls(*arg, **kw)
+                    session.add(obj)
+            cache[key] = obj
+            return obj
 
-class UniqueMixin(object):
     @classmethod
     def unique_hash(cls, *arg, **kw):
         raise NotImplementedError()
@@ -82,17 +78,6 @@ class UniqueMixin(object):
     @classmethod
     def unique_filter(cls, query, *arg, **kw):
         raise NotImplementedError()
-
-    @classmethod
-    def as_unique(cls, session, *arg, **kw):
-        return _unique(
-            session,
-            cls,
-            cls.unique_hash,
-            cls.unique_filter,
-            cls,
-            arg, kw
-        )
 
 
 class Model(AllFeaturesMixin):

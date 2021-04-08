@@ -10,11 +10,11 @@ __all__ = [
 
 class WorkerMultipleUniqueMixin(UniqueMixin):
     @classmethod
-    def multiple_as_unique(cls, session, worker_names: list[str]) -> list:
+    def multiple_as_unique(cls, worker_names: list[str]) -> list:
         workers = []
 
         for name in worker_names:
-            worker = cls.as_unique(session, name=name)
+            worker = cls.as_unique(name=name)
             workers.append(worker)
 
         return workers

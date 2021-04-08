@@ -9,8 +9,8 @@ from src.Models import (AnnouncementChecksum, Category, Company, Paintwork,
 
 
 @pytest.mark.usefixtures("session")
-def test_none_unique(session):
-    company = Company.as_unique(session, name=None)
+def test_none_unique():
+    company = Company.as_unique(name=None)
     assert not company
 
 
@@ -83,20 +83,20 @@ class TestSculptor:
         fetched_sculptor = Sculptor.get_by_id(sculptor.id)
         assert fetched_sculptor is sculptor
 
-    def test_as_unique(self, session):
-        sculptor = Sculptor.as_unique(session, name="foo")
-        same_sculptor = Sculptor.as_unique(session, name="foo")
-        another_sculptor = Sculptor.as_unique(session, name="bar")
+    def test_as_unique(self):
+        sculptor = Sculptor.as_unique(name="foo")
+        same_sculptor = Sculptor.as_unique(name="foo")
+        another_sculptor = Sculptor.as_unique(name="bar")
 
         assert sculptor is same_sculptor
         assert another_sculptor is not sculptor
         assert another_sculptor is not same_sculptor
 
-    def test_multiple_sculptors_as_unique(self, session):
+    def test_multiple_sculptors_as_unique(self):
         master = Sculptor.create(name="master")
 
         sculptors_in_text = ["master", "newbie"]
-        sculptors = Sculptor.multiple_as_unique(session, sculptors_in_text)
+        sculptors = Sculptor.multiple_as_unique(sculptors_in_text)
 
         assert isinstance(sculptors, list)
         assert len(sculptors) == len(sculptors_in_text)
@@ -111,20 +111,20 @@ class TestPaintwork:
         fetched_paintwork = Paintwork.get_by_id(paintwork.id)
         assert fetched_paintwork is paintwork
 
-    def test_as_unique(self, session):
-        paintwork = Paintwork.as_unique(session, name="foo")
-        same_paintwork = Paintwork.as_unique(session, name="foo")
-        another_paintwork = Paintwork.as_unique(session, name="bar")
+    def test_as_unique(self):
+        paintwork = Paintwork.as_unique(name="foo")
+        same_paintwork = Paintwork.as_unique(name="foo")
+        another_paintwork = Paintwork.as_unique(name="bar")
 
         assert paintwork is same_paintwork
         assert another_paintwork is not paintwork
         assert another_paintwork is not same_paintwork
 
-    def test_multiple_sculptors_as_unique(self, session):
+    def test_multiple_sculptors_as_unique(self):
         master = Paintwork.create(name="master")
 
         sculptors_in_text = ["master", "newbie"]
-        sculptors = Paintwork.multiple_as_unique(session, sculptors_in_text)
+        sculptors = Paintwork.multiple_as_unique(sculptors_in_text)
 
         assert isinstance(sculptors, list)
         assert len(sculptors) == len(sculptors_in_text)
@@ -148,10 +148,10 @@ class TestCompany:
         fetched_company = Company.get_by_id(company.id)
         assert fetched_company is company
 
-    def test_as_unique(self, session):
-        company = Company.as_unique(session, name="foo")
-        same_company = Company.as_unique(session, name="foo")
-        another_company = Company.as_unique(session, name="bar")
+    def test_as_unique(self):
+        company = Company.as_unique(name="foo")
+        same_company = Company.as_unique(name="foo")
+        another_company = Company.as_unique(name="bar")
 
         assert company is same_company
         assert another_company is not company
@@ -166,10 +166,10 @@ class TestSeries:
         fetched_series = Series.get_by_id(series.id)
         assert fetched_series is series
 
-    def test_as_unique(self, session):
-        series = Series.as_unique(session, name="Fate")
-        same_series = Series.as_unique(session, name="Fate")
-        another_series = Series.as_unique(session, name="GBF")
+    def test_as_unique(self):
+        series = Series.as_unique(name="Fate")
+        same_series = Series.as_unique(name="Fate")
+        another_series = Series.as_unique(name="GBF")
 
         assert series is same_series
         assert another_series is not series
@@ -204,7 +204,7 @@ class TestRelationShip:
         last_release = product.first().last_release()
         assert last_release is resale_info
 
-    def test_series_has_many_products(self, session):
+    def test_series_has_many_products(self):
         series = Series(name="foo")
         series.products.extend([Product(name="a"), Product(name="b")])
         series.save()
@@ -213,7 +213,7 @@ class TestRelationShip:
         assert isinstance(products, list)
         assert len(products) == 2
 
-    def test_company_has_many_products(self, session):
+    def test_company_has_many_products(self):
         company = Company(name="GSC")
         products = [Product(name="a"), Product(name="b")]
         company.released_products.extend(products)
@@ -234,7 +234,7 @@ class TestRelationShip:
         assert isinstance(d_products, list)
         assert len(d_products) == 2
 
-    def test_category_has_many_products(self, session):
+    def test_category_has_many_products(self):
         series = Category(name="figure")
         series.products.extend([Product(name="a"), Product(name="b")])
         series.save()
@@ -242,7 +242,7 @@ class TestRelationShip:
         assert isinstance(series.products, list)
         assert len(series.products) == 2
 
-    def test_worker_has_many_products(self, session):
+    def test_worker_has_many_products(self):
         paintwork = Paintwork(name="someone")
         sculptor = Sculptor(name="somebody")
         products = [Product(name="a"), Product(name="b")]
@@ -256,7 +256,7 @@ class TestRelationShip:
         assert isinstance(sculptor.products, list)
         assert len(sculptor.products) == 2
 
-    def test_product_belongs_to_many_worker(self, session):
+    def test_product_belongs_to_many_worker(self):
         product = Product(name="foo")
 
         p1 = Paintwork(name="p1")
@@ -276,7 +276,7 @@ class TestRelationShip:
         assert isinstance(product.paintworks, list)
         assert len(product.paintworks) == 2
 
-    def test_product_has_many_official_images(self, session):
+    def test_product_has_many_official_images(self):
         product = Product(name="foo")
 
         image_1 = ProductOfficialImage(url="http://foo.com/img1.jpg")
