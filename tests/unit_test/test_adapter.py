@@ -4,7 +4,7 @@ import pytest
 
 from src.Adapters import ReleaseToProductReleaseInfoModelAdapter
 from src.custom_classes import OrderPeriod, Release
-from src.Models import ProductReleaseInfo, Product
+from src.Models import Product, ProductReleaseInfo
 
 
 @pytest.mark.usefixtures("session")
