@@ -61,6 +61,7 @@ class BaseTestCase:
         expected_release_infos: list = item["expected"]["release_infos"]
         assert len(release_infos) == len(expected_release_infos)
 
+        release_infos.sort()
         expected_release_infos.sort(key=lambda r: r["release_date"].timestamp() if r["release_date"] else 0)
 
         for r, e_r in zip(release_infos, expected_release_infos):

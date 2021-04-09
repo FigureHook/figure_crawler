@@ -60,7 +60,7 @@ class HistoricalReleases(UserList):
                 return release.release_date
             return date.fromtimestamp(0)
 
-        return super().sort(key=sort_release)
+        super().sort(key=sort_release)
 
     def last(self) -> Union[Release, None]:
         if not len(self):
