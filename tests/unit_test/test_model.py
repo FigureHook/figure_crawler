@@ -324,6 +324,72 @@ class TestRelationShip:
 
         assert not ProductReleaseInfo.all()
 
+    def test_delete_product_and_association_but_not_effect_worker(self, session):
+        from src.Models.relation_table import product_sculptor_table
+        from src.Models.relation_table import product_paintwork_table
+        p = Product(name="foo")
+        master = Sculptor(name="master")
+        newbie = Paintwork(name="newbie")
+
+        p.paintworks.append(newbie)
+        p.sculptors.append(master)
+        p.save()
+        session.commit()
+
+        Product.destroy(p.id)
+        session.commit()
+
+        s_asso = session.query(product_sculptor_table).all()
+        p_asso = session.query(product_paintwork_table).all()
+        assert not s_asso
+        assert not p_asso
+        assert Sculptor.all()
+        assert Paintwork.all()
+
+    def test_delete_paintwork_and_association_but_not_effect_product(self, session):
+        from src.Models.relation_table import product_sculptor_table
+        from src.Models.relation_table import product_paintwork_table
+        p = Product(name="foo")
+        master = Sculptor(name="master")
+        newbie = Paintwork(name="newbie")
+
+        p.paintworks.append(newbie)
+        p.sculptors.append(master)
+        p.save()
+        session.commit()
+
+        Paintwork.destroy(newbie.id)
+        session.commit()
+
+        s_asso = session.query(product_sculptor_table).all()
+        p_asso = session.query(product_paintwork_table).all()
+        assert s_asso
+        assert not p_asso
+        assert Product.first()
+        assert Product.first().sculptors
+
+    def test_delete_sculptor_and_association_but_not_effect_product(self, session):
+        from src.Models.relation_table import product_sculptor_table
+        from src.Models.relation_table import product_paintwork_table
+        p = Product(name="foo")
+        master = Sculptor(name="master")
+        newbie = Paintwork(name="newbie")
+
+        p.paintworks.append(newbie)
+        p.sculptors.append(master)
+        p.save()
+        session.commit()
+
+        Sculptor.destroy(master.id)
+        session.commit()
+
+        s_asso = session.query(product_sculptor_table).all()
+        p_asso = session.query(product_paintwork_table).all()
+        assert not s_asso
+        assert p_asso
+        assert Product.first()
+        assert not Product.first().sculptors
+
 
 @pytest.mark.usefixtures("session")
 class TestAnnouncementChecksum:

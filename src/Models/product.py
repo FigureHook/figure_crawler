@@ -109,12 +109,12 @@ class Product(PkModelWithTimestamps):
     sculptors = relationship(
         "Sculptor",
         secondary=product_sculptor_table,
-        backref="products"
+        backref="products",
     )
     paintworks = relationship(
         "Paintwork",
         secondary=product_paintwork_table,
-        backref="products"
+        backref="products",
     )
 
     def last_release(self):
