@@ -4,11 +4,12 @@ import pytest
 
 from src.Adapters import ReleaseToProductReleaseInfoModelAdapter
 from src.custom_classes import OrderPeriod, Release
-from src.Models import ProductReleaseInfo
+from src.Models import ProductReleaseInfo, Product
 
 
 @pytest.mark.usefixtures("session")
 def test_Release_to_ProductReleaseInfoModel(session):
+    p = Product(name="foo")
     release = Release(
         release_date=date(2020, 1, 1),
         price=12000,
@@ -23,8 +24,8 @@ def test_Release_to_ProductReleaseInfoModel(session):
     # prevent IntegrityError from sqlalchemy
     # because the `product_id` should be NOT NULL
     # info: sqlalchemy.exc.IntegrityError: (sqlite3.IntegrityError) NOT NULL constraint failed: product_release_info.product_id
-    release_adapter.product_id = 1
-    release_adapter.save()
+    p.release_infos.append(release_adapter)
+    p.save()
     session.commit()
 
     fetched_info = ProductReleaseInfo.first()
