@@ -114,6 +114,9 @@ class ProductParser(ABC):
         if dates_len > prices_len:
             filler = make_last_element_filler(prices, len(dates))
             prices.extend(filler)
+        if prices_len > dates_len:
+            filler = make_last_element_filler(dates, len(prices))
+            dates.extend(filler)
 
         assert len(dates) == len(prices)
 

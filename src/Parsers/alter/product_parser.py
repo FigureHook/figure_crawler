@@ -62,7 +62,9 @@ class AlterProductParser(ProductParser):
     def parse_prices(self) -> List[int]:
         price_list = []
         price_text = self.spec["価格"]
-        price_text = re.findall(r"\d\S+?円", price_text)
+        is_weird_price_text = re.findall(r"税抜", price_text)
+        price_pattern = r"税抜\d\S+?円" if is_weird_price_text else r"\d\S+?円"
+        price_text = re.findall(price_pattern, price_text)
         for p in price_text:
             price = price_parse(p)
             price_list.append(price)
