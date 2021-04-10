@@ -119,7 +119,8 @@ class ProductDataProcessMixin:
         """
         for attr in self.attrs_to_be_normalized:
             attr_value = getattr(self, attr)
-            setattr(self, attr, ProductUtils.normalize_product_attr(attr_value))
+            normalized_attr_value = ProductUtils.normalize_product_attr(attr_value)
+            setattr(self, attr, normalized_attr_value)
 
 
 class Product(ProductBase, ProductDataProcessMixin):
@@ -139,21 +140,28 @@ class ProductUtils:
         if not attr_value:
             return attr_value
 
-        def normalize(value: str):
-            # full-width to half-width
-            value = unicodedata.normalize("NFKC", value)
-            # remove weird spaces
-            value = re.sub(r"\s{1,}", " ", value, 0, re.MULTILINE)
-            # replace weird quotation
-            value = re.sub(r"’", "'", value, 0)
-
-            return value
-
         if type(attr_value) is str:
-            return normalize(attr_value)
+            return _normalize(attr_value)
 
         if type(attr_value) is list:
             if all(type(v) is str for v in attr_value):
-                return list(map(normalize, attr_value))
+                return list(map(_normalize, attr_value))
 
         raise TypeError("The attribute value should be `str` or `list[str]`.")
+
+
+def _normalize(value: str):
+    # full-width to half-width
+    value = unicodedata.normalize("NFKC", value)
+    # remove weird spaces
+    value = re.sub(r"\s{1,}", " ", value, 0, re.MULTILINE)
+    # replace weird quotation
+    value = re.sub(r"’", "'", value, 0)
+    # add space before bracket
+    value = value.replace("[", "(")
+    value = value.replace("]", ")")
+    value = value.replace("{", "(")
+    value = value.replace("]", ")")
+    value = re.sub(r"(?<![\s])\(", " (", value, 0)
+
+    return value.strip()

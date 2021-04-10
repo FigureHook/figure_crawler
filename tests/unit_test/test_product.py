@@ -42,10 +42,16 @@ class TestProductTextUtils:
         text_should_be_half_width = "ＫＡＤＯＫＡＷＡ"
         text_with_duplicate_space = "too  much spaces Ver."
         text_with_weird_quotation = "hello ’there’"
+        text_with_full_width_brackets = "（Hello, there）"
+        text_with_no_space_before_bracket = "Master(HW)"
+        text_with_no_space_before_square_bracket = "Newbie[NW]"
 
         assert ProductUtils.normalize_product_attr(text_should_be_half_width) == "KADOKAWA"
         assert ProductUtils.normalize_product_attr(text_with_duplicate_space) == "too much spaces Ver."
         assert ProductUtils.normalize_product_attr(text_with_weird_quotation) == "hello 'there'"
+        assert ProductUtils.normalize_product_attr(text_with_full_width_brackets) == "(Hello, there)"
+        assert ProductUtils.normalize_product_attr(text_with_no_space_before_bracket) == "Master (HW)"
+        assert ProductUtils.normalize_product_attr(text_with_no_space_before_square_bracket) == "Newbie (NW)"
 
     def test_list_attribute_normalization(self):
         attribute_in_list = ["Ｋ", "two  space", "’quote’"]
