@@ -312,6 +312,7 @@ def make_datetime(period, locale) -> datetime:
     return datetime(*(int(x) for x in (year, month, day, hour, minute)))
 
 
+# TODO: 原型制作[:|：]
 def parse_people(people_text: str) -> List[str]:
     if re.search(r'・{2,}', people_text):
         people_text = people_text.replace("・", ".")
