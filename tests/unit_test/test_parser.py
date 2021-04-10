@@ -121,7 +121,7 @@ class BaseTestCase:
 class TestGSCParser(BaseTestCase):
     products = load_yaml("tests/test_case/gsc_products.yml")
 
-    @pytest.fixture(scope="function", params=products)
+    @pytest.fixture(scope="class", params=products)
     def item(self, request):
         return {
             "test": GSCProductParser(request.param["url"]),
