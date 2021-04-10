@@ -149,6 +149,24 @@ class TestGSCParser(BaseTestCase):
         for items in gsc_yearly:
             assert isinstance(items, list)
 
+    def test_worker_parser(self):
+        from src.Parsers.gsc.product_parser import parse_people
+        worker1 = "横田健(原型協力 DRAGON Toy)"
+        worker2 = "乙山法純(制作協力:アルター)"
+        worker3 = "川崎和史 (製作協力:ねんどろん)"
+        worker4 = "KADOKAWA(協力:レイアップ)"
+        worker5 = "ナナシ(製作協力:ねんどろん)"
+        worker6 = "ナナシ 制作協力:ねんどろん"
+        worker7 = "セイバー:市橋卓也"
+
+        assert parse_people(worker1) == ["横田健"]
+        assert parse_people(worker2) == ["乙山法純"]
+        assert parse_people(worker3) == ["川崎和史"]
+        assert parse_people(worker4) == ["KADOKAWA"]
+        assert parse_people(worker5) == ["ナナシ"]
+        assert parse_people(worker6) == ["ナナシ"]
+        assert parse_people(worker7) == ["市橋卓也"]
+
     def test_announcement_link_extractor(self):
         src = "https://www.goodsmile.info/ja/products/category/scale/announced/2020"
         links = GSCAnnouncementLinkExtractor(src).extract()

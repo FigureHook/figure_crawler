@@ -317,5 +317,27 @@ def parse_people(people_text: str) -> List[str]:
     if re.search(r'・{2,}', people_text):
         people_text = people_text.replace("・", ".")
     people = re.split(r'・|、|/', people_text)
+    people = map(
+        PeopleParser.remove_cooperation,
+        people
+    )
+    people = map(
+        PeopleParser.extract_from_part_colon_worker_pattern,
+        people
+    )
     people = list(map(str.strip, people))
     return people
+
+
+class PeopleParser:
+    @staticmethod
+    def remove_cooperation(people: str) -> str:
+        """Basically I want to parse cooperation, but GSC data is too dirty."""
+        return re.sub(r"\s?\(?.[原型形製制作]?協力.*", "", people, 1)
+
+    @staticmethod
+    def extract_from_part_colon_worker_pattern(people: str) -> str:
+        expected_pattern = re.search(r"(?<=:).+", people)
+        if expected_pattern:
+            return expected_pattern[0]
+        return people
