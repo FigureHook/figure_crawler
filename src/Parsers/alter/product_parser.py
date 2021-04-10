@@ -63,8 +63,9 @@ class AlterProductParser(ProductParser):
         price_list = []
         price_text = self.spec["価格"]
         price_text = re.findall(r"\d\S+?円", price_text)
-        for price in price_text:
-            price_list.append(price_parse(price))
+        for p in price_text:
+            price = price_parse(p)
+            price_list.append(price)
 
         return price_list
 
