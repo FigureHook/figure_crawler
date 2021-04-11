@@ -158,6 +158,7 @@ class TestGSCParser(BaseTestCase):
         worker5 = "ナナシ(製作協力:ねんどろん)"
         worker6 = "ナナシ 制作協力:ねんどろん"
         worker7 = "セイバー:市橋卓也"
+        worker8 = "鈴乃木凜彩色：eriko、GSX400S カタナ彩色：雷電"
 
         assert parse_people(worker1) == ["横田健"]
         assert parse_people(worker2) == ["乙山法純"]
@@ -166,6 +167,7 @@ class TestGSCParser(BaseTestCase):
         assert parse_people(worker5) == ["ナナシ"]
         assert parse_people(worker6) == ["ナナシ"]
         assert parse_people(worker7) == ["市橋卓也"]
+        assert parse_people(worker8) == ["eriko", "雷電"]
 
     def test_announcement_link_extractor(self):
         src = "https://www.goodsmile.info/ja/products/category/scale/announced/2020"

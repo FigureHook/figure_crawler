@@ -337,7 +337,7 @@ class PeopleParser:
 
     @staticmethod
     def extract_from_part_colon_worker_pattern(people: str) -> str:
-        expected_pattern = re.search(r"(?<=:).+", people)
+        expected_pattern = re.search(r"(?<=[:|：]).+", people)
         if expected_pattern:
             return expected_pattern[0]
         return people
