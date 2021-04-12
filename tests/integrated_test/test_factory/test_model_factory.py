@@ -9,4 +9,5 @@ from src.Models import (Category, Company, Paintwork, Product,
 
 @pytest.mark.usefixtures("product", "session")
 def test_product_model_factory(mocker: MockerFixture, product):
-    ProductModelFactory.createProduct(product)
+    p = ProductModelFactory.createProduct(product)
+    assert isinstance(p, Product)

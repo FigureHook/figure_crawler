@@ -7,7 +7,7 @@ __all__ = [
 
 
 class ReleaseToProductReleaseInfoModelAdapter:
-    def __new__(cls, release: Release) -> None:
+    def __new__(cls, release: Release) -> ProductReleaseInfo:
         price = release.price
         initial_release_date = release.release_date
         order_period_start = None

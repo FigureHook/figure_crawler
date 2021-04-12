@@ -1,6 +1,7 @@
 import os
 from contextlib import contextmanager
 from dataclasses import dataclass
+from typing import Type, TypeVar, Union
 
 from sqlalchemy import Column, Integer, create_engine
 from sqlalchemy.engine.base import Engine
@@ -40,6 +41,9 @@ def db(db_url=None, echo=True):
     connection.close()
 
 
+U = TypeVar('U')
+
+
 class UniqueMixin:
     """
     https://github.com/sqlalchemy/sqlalchemy/wiki/UniqueObject
@@ -47,7 +51,7 @@ class UniqueMixin:
     __abstract__ = True
 
     @classmethod
-    def as_unique(cls, *arg, **kw):
+    def as_unique(cls: Type[U], *arg, **kw) -> Union[U, None]:
         session = cls.session
         cache = getattr(session, "_unique_cache", None)
         if cache is None:
@@ -86,6 +90,9 @@ class Model(AllFeaturesMixin):
     __abstract__ = True
 
 
+M = TypeVar('M')
+
+
 class PkModel(Model):
     """Base model class that includes CRUD convenience methods, plus adds a 'primary key' column named ``id``."""
 
@@ -93,7 +100,7 @@ class PkModel(Model):
     id = Column(Integer, primary_key=True, autoincrement=True)
 
     @classmethod
-    def get_by_id(cls, record_id):
+    def get_by_id(cls: Type[M], record_id) -> Union[M, None]:
         """Get record by ID."""
         if any(
             (

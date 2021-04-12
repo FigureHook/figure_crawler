@@ -1,3 +1,5 @@
+from typing import List, Type
+
 from src.Adapters import ReleaseToProductReleaseInfoModelAdapter
 from src.custom_classes import Release
 from src.Models import Category, Company, Paintwork
@@ -15,7 +17,7 @@ __all__ = ["ProductModelFactory"]
 
 class ProductModelFactory:
     @staticmethod
-    def createProduct(product_dataclass: ProductBase) -> ProductModel:
+    def createProduct(product_dataclass: Type[ProductBase]) -> ProductModel:
         series = Series.as_unique(name=product_dataclass.series)
         manufacturer = Company.as_unique(name=product_dataclass.manufacturer)
         category = Category.as_unique(name=product_dataclass.category)
@@ -27,7 +29,7 @@ class ProductModelFactory:
 
         images = ProductOfficialImage.create_image_list(product_dataclass.images)
 
-        release_infos = []
+        release_infos: List[ProductReleaseInfo] = []
         for release in product_dataclass.release_infos:
             release: Release
             release_info = ReleaseToProductReleaseInfoModelAdapter(release)
@@ -58,7 +60,7 @@ class ProductModelFactory:
 
     # FIXME: how to update Product?
     @staticmethod
-    def updateProduct(session, product_dataclass: ProductBase, product_model: ProductModel):
+    def updateProduct(session, product_dataclass: Type[ProductBase], product_model: Type[ProductModel]):
         is_delay: bool = check_delay()
         is_new_release: bool = check_new_release()
         release_should_be_updated: bool = is_delay or is_new_release

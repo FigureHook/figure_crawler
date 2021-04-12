@@ -1,4 +1,5 @@
 from abc import ABC
+from typing import Callable, ClassVar, Optional
 
 from bs4 import BeautifulSoup
 
@@ -20,20 +21,20 @@ class ProductFactory(ABC):
     ### abstract product factory
     Inherit this class and implement the parser class property
     """
-    __product_parser__ = None
+    __product_parser__: ClassVar[Callable[[str, Optional[BeautifulSoup]], ProductParser]]
 
     @classmethod
     def createProduct(
             cls,
             url: str,
-            page: BeautifulSoup = None,
+            page: Optional[BeautifulSoup] = None,
             is_normalized: bool = False,
     ):
-        if not cls.__product_parser__:
+        if not getattr(cls, "__product_parser__", None):
             raise NotImplementedError(
                 f"Please inherit from {ProductFactory.__name__} and set the class attribute `__product_parser__`.")
 
-        parser: ProductParser = cls.__product_parser__(url, page)
+        parser = cls.__product_parser__(url, page)
         product = Product(
             url=url,
             name=parser.parse_name(),

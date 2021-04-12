@@ -1,3 +1,5 @@
+from typing import List, Type, TypeVar
+
 from sqlalchemy import Column, String
 
 from src.database import PkModel, UniqueMixin
@@ -7,10 +9,12 @@ __all__ = [
     "Sculptor"
 ]
 
+T = TypeVar('T')
+
 
 class WorkerMultipleUniqueMixin(UniqueMixin):
     @classmethod
-    def multiple_as_unique(cls, worker_names: list[str]) -> list:
+    def multiple_as_unique(cls: Type[T], worker_names: List[str]) -> List[T]:
         workers = []
 
         for name in worker_names:

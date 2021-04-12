@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from datetime import date
-from typing import List, Union
+from typing import List, Optional, Union
 
 from bs4 import BeautifulSoup
 
@@ -17,9 +17,9 @@ class ProductParser(ABC):
     headers = {}
     cookies = {}
 
-    def __init__(self, url: str, page: BeautifulSoup = None):
+    def __init__(self, url: str, page: Optional[BeautifulSoup] = None):
         self.__url = url
-        self.__page = page if page else get_page(url, self.headers, self.cookies)
+        self.__page = page or get_page(url, self.headers, self.cookies)
 
     @property
     def url(self):

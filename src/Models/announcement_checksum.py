@@ -1,11 +1,15 @@
-import sqlalchemy
+from typing import TypeVar, Union
+
 from sqlalchemy import Column, DateTime, Enum, String
+from sqlalchemy import event as sqlalchemy_event
 from sqlalchemy.sql import func
 
 from src.constants import SourceSite
 from src.database import Model
 
 __all__ = ["AnnouncementChecksum"]
+
+T = TypeVar('T')
 
 
 class AnnouncementChecksum(Model):
@@ -17,14 +21,14 @@ class AnnouncementChecksum(Model):
     checked_at = Column(DateTime(timezone=True), default=__datetime_callback__())
 
     @classmethod
-    def get_by_site(cls, site: SourceSite):
+    def get_by_site(cls, site: SourceSite) -> Union[T, None]:
         """Get checksum by site(Enum)"""
         if isinstance(site, SourceSite):
             return cls.query.get(site)
         return None
 
 
-@sqlalchemy.event.listens_for(AnnouncementChecksum, 'before_update', propagate=True)
+@sqlalchemy_event.listens_for(AnnouncementChecksum, 'before_update', propagate=True)
 def _receive_before_update(mapper, connection, target):
     """Listen for updates and update `updated_at` column."""
     target.checked_at = target.__datetime_callback__()
