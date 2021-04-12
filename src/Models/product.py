@@ -41,8 +41,6 @@ class ProductReleaseInfo(PkModel):
     __tablename__ = "product_release_info"
 
     price = Column(Integer)
-    order_period_start = Column(DateTime)
-    order_period_end = Column(DateTime)
     initial_release_date = Column(Date, nullable=True)
     delay_release_date = Column(Date)
     announced_at = Column(Date)
@@ -60,11 +58,10 @@ class ProductReleaseInfo(PkModel):
         if not valid_type:
             raise TypeError(f"{delay_date} is not `date` or `datetime`")
 
-        should_be_postponed = self.initial_release_date < delay_date
-        if should_be_postponed:
+        if self.initial_release_date < delay_date:
             self.delay_release_date = delay_date
 
-        if not should_be_postponed:
+        if self.initial_release_date > delay_date:
             raise ValueError(f"{delay_date} should be later than {self.initial_release_date}")
 
 
@@ -86,6 +83,8 @@ class Product(PkModelWithTimestamps):
     jan = Column(BigInteger, unique=True)
     id_by_official = Column(String)
     checksum = Column(String(32))
+    order_period_start = Column(DateTime)
+    order_period_end = Column(DateTime)
     # ---Foreign key columns---
     series_id = Column(Integer, ForeignKey("series.id"))
     manufacturer_id = Column(Integer, ForeignKey("company.id"))
@@ -119,7 +118,7 @@ class Product(PkModelWithTimestamps):
         backref="products",
     )
 
-    def last_release(self):
+    def last_release(self) -> Union[ProductReleaseInfo, None]:
         release_infos = self.release_infos
         if release_infos:
             return release_infos[0]
