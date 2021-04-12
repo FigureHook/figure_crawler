@@ -95,7 +95,7 @@ class Product(PkModelWithTimestamps):
     release_infos: list[ProductReleaseInfo] = relationship(
         ProductReleaseInfo,
         backref="product",
-        order_by="desc(ProductReleaseInfo.initial_release_date)",
+        order_by="nulls_first(asc(ProductReleaseInfo.initial_release_date))",
         cascade="all, delete",
         passive_deletes=True
     )

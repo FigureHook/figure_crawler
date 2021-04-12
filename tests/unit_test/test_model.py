@@ -205,6 +205,19 @@ class TestRelationShip:
         last_release = product.first().last_release()
         assert last_release is resale_info
 
+    def test_product_release_infos_is_nullsfirst(self, session):
+        product = Product(name="figure")
+        initial_info = ProductReleaseInfo(price=12960, initial_release_date=date(2020, 2, 12))
+        resale_info = ProductReleaseInfo(price=15800, initial_release_date=date(2021, 2, 12))
+        stall_info = ProductReleaseInfo(price=16000)
+
+        product.release_infos.extend([initial_info, resale_info, stall_info])
+        product.save()
+        session.commit()
+
+        p = Product.get_by_id(product.id)
+        assert p.release_infos[0] == stall_info
+
     def test_series_has_many_products(self):
         series = Series(name="foo")
         series.products.extend([Product(name="a"), Product(name="b")])

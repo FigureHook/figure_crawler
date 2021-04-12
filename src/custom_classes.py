@@ -51,7 +51,7 @@ class HistoricalReleases(UserList[Release]):
     """
     List[Release]
 
-    This would follow None-release-date-first rule **when sorted**.
+    This would follow None-release-date-first-with-asc rule **when sorted**.
 
     e.g.
     ```py
