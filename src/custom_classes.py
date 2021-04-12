@@ -1,7 +1,7 @@
 from collections import UserList
 from dataclasses import asdict, dataclass
 from datetime import date, datetime
-from typing import Optional, Union
+from typing import Literal, Mapping, Optional, Union
 
 
 @dataclass
@@ -16,17 +16,17 @@ class OrderPeriod:
             if end < start:
                 raise ValueError("start date shouldn't larger than end date.")
 
-    def as_dict(self):
+    def as_dict(self) -> Mapping[Literal["start", "end"], Union[datetime, None]]:
         return asdict(self)
 
     @property
     def is_available(self):
         return self._is_available(datetime.now())
 
-    def is_available_at(self, the_time: datetime) -> bool:
+    def is_available_at(self, the_time: datetime):
         return self._is_available(the_time)
 
-    def __contains__(self, the_time: datetime) -> bool:
+    def __contains__(self, the_time: datetime):
         return self._is_available(the_time)
 
     def _is_available(self, the_time: datetime) -> bool:
@@ -48,7 +48,7 @@ class Release:
         return asdict(self)
 
 
-class HistoricalReleases(UserList):
+class HistoricalReleases(UserList[Release]):
     """
     List-like class
     List[Release]
@@ -62,7 +62,7 @@ class HistoricalReleases(UserList):
 
         super().sort(key=sort_release)
 
-    def last(self) -> Union[Release, None]:
+    def last(self):
         if not len(self):
             return None
 
