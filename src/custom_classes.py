@@ -49,8 +49,18 @@ class Release:
 
 class HistoricalReleases(UserList[Release]):
     """
-    List-like class
     List[Release]
+
+    This would follow None-release-date-first rule **when sorted**.
+
+    e.g.
+    ```py
+    HistoricalReleases[
+        Release(release_date=None, price=12000),
+        Release(release_date=date(2020, 1, 1), price=10000),
+        Release(release_date=date(2020, 2, 1), price=12000)
+    ]
+    ```
     """
 
     def sort(self):
