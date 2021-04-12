@@ -38,11 +38,10 @@ class OrderPeriod:
             return self.start < the_time < self.end
 
 
-@dataclass
+@dataclass(frozen=True)
 class Release:
     release_date: Optional[date]
     price: int
-    order_period: Optional[OrderPeriod] = None
 
     def as_dict(self):
         return asdict(self)
