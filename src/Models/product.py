@@ -121,7 +121,7 @@ class Product(PkModelWithTimestamps):
     def last_release(self) -> Union[ProductReleaseInfo, None]:
         release_infos = self.release_infos
         if release_infos:
-            return release_infos[0]
+            return release_infos[-1]
         return None
 
     def check_checksum(self, checksum: str) -> bool:
