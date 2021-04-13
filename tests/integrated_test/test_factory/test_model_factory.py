@@ -140,3 +140,29 @@ class TestReleaseInfoComparater:
         )
 
         assert compare_release_infos(product_base, p_m) == ReleaseInfoStatus.NEW_RELEASE
+
+    def test_conflict(product_base):
+        product_base.release_infos = HistoricalReleases([
+            Release(date(2020, 1, 2), 12000),
+            Release(date(2023, 2, 2), 12000),
+        ])
+
+        p_m = Product.create(
+            name="foo",
+            release_infos=[
+                ProductReleaseInfo(
+                    initial_release_date=date(2020, 2, 2),
+                    price=12000
+                ),
+                ProductReleaseInfo(
+                    initial_release_date=date(2023, 2, 2),
+                    price=12000
+                ),
+                ProductReleaseInfo(
+                    initial_release_date=date(2024, 2, 2),
+                    price=12000
+                ),
+            ]
+        )
+
+        assert compare_release_infos(product_base, p_m) == ReleaseInfoStatus.CONFLICT
