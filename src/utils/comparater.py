@@ -17,7 +17,7 @@ def compare_release_infos(p_dataclass: Type[ProductBase], p_model: Type[ProductM
     same_length = len(d_ri) == len(m_ri)
 
     if is_conflicted:
-        raise ValueError("The parsed release_infos might be conflicted with release_infos in Model.")
+        return ReleaseInfoStatus.CONFLICT
 
     last_release_from_dataclass = d_ri.last()
     last_release_form_model = p_model.last_release()

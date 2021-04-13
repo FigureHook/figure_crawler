@@ -7,6 +7,7 @@ class ReleaseInfoStatus(Enum):
     DELAY = 3
     STALLED = 4
     ALTER = 5
+    CONFLICT = 6
 
 
 class SourceSite(Enum):
