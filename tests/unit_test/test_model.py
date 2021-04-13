@@ -62,6 +62,13 @@ class TestProductReleaseInfo:
         with pytest.raises(TypeError):
             info.postpone_release_date_to(1)
 
+    def test_stall_release(self):
+        p = Product.create(name="foo")
+        info = ProductReleaseInfo.create(price=12960, initial_release_date=date(2020, 1, 1), product_id=p.id)
+        info.stall()
+        assert not info.initial_release_date
+
+
 
 @pytest.mark.usefixtures("session")
 class TestProductImage:
