@@ -191,7 +191,7 @@ class TestRelationShip:
         fetched_product = Product.get_by_id(product.id)
         assert isinstance(fetched_product.release_infos, list)
         assert len(fetched_product.release_infos) == 2
-        assert fetched_product.release_infos[0] == resale_info
+        assert fetched_product.release_infos[-1] == resale_info
 
     def test_fetech_product_last_product_release_infos(self, session):
         product = Product(name="figure")
