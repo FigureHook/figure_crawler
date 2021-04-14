@@ -8,7 +8,7 @@ def check_url_host(brand_host):
             netloc = urlparse(url).netloc
 
             if netloc and not search(brand_host.value, netloc):
-                raise ValueError
+                raise ValueError("Invalid host.")
 
             init(parser, url, *args, **kwargs)
         return checker

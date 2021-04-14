@@ -1,4 +1,5 @@
 from sqlalchemy import Column, ForeignKey, Integer, Table
+
 from src.database import Model
 
 metadata = Model.metadata

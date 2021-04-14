@@ -1,8 +1,8 @@
 import pytest
 
 from src.constants import BrandHost
-from src.Factory.product import ProductUtils
 from src.utils.checker import check_url_host
+from src.utils.text_parser import price_parse
 
 mock_self = "mock"
 
@@ -22,16 +22,10 @@ def test_host(host, url):
     init(mock_self, url)
 
 
-class TestTextUtils:
-    def test_attribute_normalization(self):
-        text_should_be_half_width = "ＫＡＤＯＫＡＷＡ"
-        text_with_duplicate_space = "too  much spaces Ver."
-        text_with_weird_quotation = "hello ’there’"
+def test_price_parser():
+    price_text = "1,100,000,000"
+    price = price_parse(price_text, remove_tax=True)
+    price_with_tax = price_parse(price_text)
 
-        assert ProductUtils.normalize_product_attr(text_should_be_half_width) == "KADOKAWA"
-        assert ProductUtils.normalize_product_attr(text_with_duplicate_space) == "too much spaces Ver."
-        assert ProductUtils.normalize_product_attr(text_with_weird_quotation) == "hello 'there'"
-
-    def test_list_attribute_normalization(self):
-        attribute_in_list = ["Ｋ", "two  space", "’quote’"]
-        assert ProductUtils.normalize_product_attr(attribute_in_list) == ["K", "two space", "'quote'"]
+    assert price == 1000000000
+    assert price_with_tax == 1100000000

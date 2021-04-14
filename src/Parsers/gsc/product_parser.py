@@ -38,7 +38,7 @@ class GSCProductParser(ProductParser):
         self.detail = self._parse_detail()
         self.resale = self._parse_resale()
 
-    def _get_from_locale(self, key):
+    def _get_from_locale(self, key) -> str:
         return locale_dict[self.locale][key]
 
     def _find_detail(self, name, text):
@@ -67,14 +67,80 @@ class GSCProductParser(ProductParser):
         dates = [datetime.strptime(f[0], date_style).date() for f in found]
         return dates
 
+    def parse_release_dates(self) -> List[Union[date, None]]:
+        """
+        If the product is re-saled,
+        try to find past release-dates through `self._parse_resale_dates`.
+        """
+        date_pattern = self._get_from_locale("release_date_pattern")
+        weird_date_pattern = self._get_from_locale("weird_date_pattern")
+
+        date_text = self.detail.find(
+            "dd", {"itemprop": "releaseDate"}
+        ).text.strip()
+
+        if self.parse_resale():
+            dates = self._parse_resale_dates()
+            if dates:
+                return dates
+
+        date_list = []
+        if re.match(date_pattern, date_text):
+            for matched_date in re.finditer(date_pattern, date_text):
+                year = int(matched_date.group('year'))
+                month = int(matched_date.group('month'))
+                the_datetime = datetime(year, month, 1).date()
+                date_list.append(the_datetime)
+
+        if re.match(weird_date_pattern, date_text):
+            seasons = self._get_from_locale("seasons")
+            year = int(re.match(weird_date_pattern, date_text).group(1))
+            for season, month in seasons.items():
+                if season in date_text.lower():
+                    the_datetime = datetime(year, month, 1).date()
+                    date_list.append(the_datetime)
+
+        return date_list
+
     def _parse_resale_prices(self) -> List[int]:
         price_slot = []
         price_items = self.detail.find_all(name="dt", text=re.compile(r"販(\w|)価格"))
 
         for price_item in price_items:
             price_text = price_item.find_next("dd").text.strip()
-            price = price_parse(price_text)
+            tax_feature = self._get_from_locale("tax")
+            remove_tax = bool(re.search(f"{tax_feature}", price_text))
+            price = price_parse(price_text, remove_tax=remove_tax)
             price_slot.append(price)
+
+        return price_slot
+
+    def parse_prices(self) -> List[int]:
+        price_slot = []
+        tag = self._get_from_locale("price")
+        last_price_target = self._find_detail("dt", "^"+tag)
+
+        if last_price_target:
+            tax_feature = self._get_from_locale("tax")
+            last_price_text = last_price_target.find_next("dd").text.strip()
+            remove_tax = bool(re.search(f"{tax_feature}", last_price_text))
+            last_price = price_parse(last_price_text, remove_tax=remove_tax)
+        else:
+            last_price = None
+
+        if self.resale:
+            price_slot = self._parse_resale_prices()
+
+            if not price_slot:
+                price_slot.append(last_price)
+
+            if price_slot and last_price != price_slot[-1] and last_price:
+                price_slot.append(last_price)
+
+            return price_slot
+
+        if last_price:
+            price_slot.append(last_price)
 
         return price_slot
 
@@ -116,62 +182,7 @@ class GSCProductParser(ProductParser):
 
         return category
 
-    def parse_prices(self) -> List[int]:
-        price_slot = []
-        tag = self._get_from_locale("price")
-        last_price_target = self._find_detail("dt", "^"+tag)
-
-        if last_price_target:
-            last_price = price_parse(last_price_target.find_next("dd").text.strip())
-        else:
-            last_price = None
-
-        if self.resale:
-            price_slot = self._parse_resale_prices()
-
-            if not price_slot:
-                price_slot.append(last_price)
-
-            if price_slot and last_price != price_slot[-1] and last_price:
-                price_slot.append(last_price)
-
-            return price_slot
-
-        if last_price:
-            price_slot.append(last_price)
-
-        return price_slot
-
-    def parse_release_dates(self) -> List[date]:
-        date_pattern = self._get_from_locale("release_date_pattern")
-        weird_date_pattern = self._get_from_locale("weird_date_pattern")
-        date_text = self.detail.find(
-            "dd", {"itemprop": "releaseDate"}).text.strip()
-
-        if self.parse_resale():
-            dates = self._parse_resale_dates()
-            if dates:
-                return dates
-
-        date_list = []
-        if re.match(date_pattern, date_text):
-            for matched_date in re.finditer(date_pattern, date_text):
-                year = int(matched_date.group('year'))
-                month = int(matched_date.group('month'))
-                the_datetime = datetime(year, month, 1).date()
-                date_list.append(the_datetime)
-
-        if re.match(weird_date_pattern, date_text):
-            seasons = self._get_from_locale("seasons")
-            year = int(re.match(weird_date_pattern, date_text).group(1))
-            for season, month in seasons.items():
-                if season in date_text.lower():
-                    the_datetime = datetime(year, month, 1).date()
-                    date_list.append(the_datetime)
-
-        return date_list
-
-    def parse_sculptors(self) -> List:
+    def parse_sculptors(self) -> List[str]:
         tag = self._get_from_locale("sculptor")
         sculptor_info = self._find_detail("dt", tag)
 
@@ -243,7 +254,7 @@ class GSCProductParser(ProductParser):
     def parse_maker_id(self) -> str:
         return re.findall(r"\d+", self.url)[0]
 
-    def parse_order_period(self) -> Union[OrderPeriod, None]:
+    def parse_order_period(self) -> OrderPeriod:
         period = self.detail.select_one(".onlinedates")
 
         if not period:
@@ -259,7 +270,7 @@ class GSCProductParser(ProductParser):
             end = make_datetime(period_list[1], self.locale)
 
         if not end or not start:
-            return None
+            return OrderPeriod(None, None)
 
         return OrderPeriod(start, end)
 
@@ -271,7 +282,7 @@ class GSCProductParser(ProductParser):
 
         return bool(detaill_adult)
 
-    def parse_paintworks(self) -> List:
+    def parse_paintworks(self) -> List[str]:
         tag = self._get_from_locale("paintwork")
         paintwork_title = self._find_detail("dt", tag)
 
@@ -284,7 +295,7 @@ class GSCProductParser(ProductParser):
 
     def parse_images(self) -> List[str]:
         images_items = self.page.select(".itemImg")
-        images = [item["src"][2:] for item in images_items]
+        images = [f'https://{item["src"][2:]}' for item in images_items]
         return images
 
 
@@ -301,9 +312,32 @@ def make_datetime(period, locale) -> datetime:
     return datetime(*(int(x) for x in (year, month, day, hour, minute)))
 
 
+# TODO: 原型制作[:|：]
 def parse_people(people_text: str) -> List[str]:
     if re.search(r'・{2,}', people_text):
         people_text = people_text.replace("・", ".")
     people = re.split(r'・|、|/', people_text)
+    people = map(
+        PeopleParser.remove_cooperation,
+        people
+    )
+    people = map(
+        PeopleParser.extract_from_part_colon_worker_pattern,
+        people
+    )
     people = list(map(str.strip, people))
     return people
+
+
+class PeopleParser:
+    @staticmethod
+    def remove_cooperation(people: str) -> str:
+        """Basically I want to parse cooperation, but GSC data is too dirty."""
+        return re.sub(r"\s?\(?.[原型形製制作]?協力.*", "", people, 1)
+
+    @staticmethod
+    def extract_from_part_colon_worker_pattern(people: str) -> str:
+        expected_pattern = re.search(r"(?<=[:|：]).+", people)
+        if expected_pattern:
+            return expected_pattern[0]
+        return people

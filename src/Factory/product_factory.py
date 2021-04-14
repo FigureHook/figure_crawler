@@ -1,4 +1,5 @@
 from abc import ABC
+from typing import Callable, ClassVar, Optional
 
 from bs4 import BeautifulSoup
 
@@ -20,26 +21,29 @@ class ProductFactory(ABC):
     ### abstract product factory
     Inherit this class and implement the parser class property
     """
+    __product_parser__: ClassVar[Callable[[str, Optional[BeautifulSoup]], ProductParser]]
+
     @classmethod
     def createProduct(
             cls,
             url: str,
-            page: BeautifulSoup = None,
+            page: Optional[BeautifulSoup] = None,
             is_normalized: bool = False,
-            is_price_filled: bool = False
     ):
-        if not hasattr(cls, "parser"):
-            raise NotImplementedError("Please inherit this class and implement the parser.")
+        if not getattr(cls, "__product_parser__", None):
+            raise NotImplementedError(
+                f"Please inherit from {ProductFactory.__name__} and set the class attribute `__product_parser__`.")
 
-        parser: ProductParser = cls.parser(url, page)
+        parser = cls.__product_parser__(url, page)
         product = Product(
             url=url,
             name=parser.parse_name(),
             series=parser.parse_series(),
             manufacturer=parser.parse_manufacturer(),
             category=parser.parse_category(),
-            prices=parser.parse_prices(),
-            release_dates=parser.parse_release_dates(),
+            price=parser.parse_price(),
+            release_date=parser.parse_release_date(),
+            release_infos=parser.parse_release_infos(),
             order_period=parser.parse_order_period(),
             size=parser.parse_size(),
             scale=parser.parse_scale(),
@@ -57,17 +61,15 @@ class ProductFactory(ABC):
 
         if is_normalized:
             product.normalize_attrs()
-        if is_price_filled:
-            product.fill_prices_with_release_dates()
 
         return product
 
 
 class GSCFactory(ProductFactory):
     """Good smile company product factory"""
-    parser = GSCProductParser
+    __product_parser__ = GSCProductParser
 
 
 class AlterFactory(ProductFactory):
     """Alter product factory"""
-    parser = AlterProductParser
+    __product_parser__ = AlterProductParser

@@ -1,4 +1,5 @@
-from datetime import date
+from datetime import date, datetime
+from typing import List, Type, TypeVar, Union
 
 from sqlalchemy import (BigInteger, Boolean, Column, Date, DateTime,
                         ForeignKey, Integer, SmallInteger, String)
@@ -15,32 +16,63 @@ __all__ = [
     "Product"
 ]
 
+T = TypeVar('T')
+
 
 class ProductOfficialImage(PkModel):
     __tablename__ = "product_official_image"
 
     url = Column(String)
-    product_id = Column(Integer, ForeignKey("product.id"), nullable=False)
+    order = Column(Integer)
+    product_id = Column(Integer, ForeignKey("product.id", ondelete="CASCADE"), nullable=False)
+
+    @classmethod
+    def create_image_list(cls: Type[T], image_urls: List[str]) -> List[T]:
+        images = []
+
+        for url in image_urls:
+            image = cls(url=url)
+            images.append(image)
+
+        return images
 
 
 class ProductReleaseInfo(PkModel):
     __tablename__ = "product_release_info"
 
     price = Column(Integer)
-    order_period_start = Column(DateTime)
-    order_period_end = Column(DateTime)
     initial_release_date = Column(Date, nullable=True)
     delay_release_date = Column(Date)
     announced_at = Column(Date)
     release_at = Column(Date)
-    product_id = Column(Integer, ForeignKey("product.id"), nullable=False)
+    product_id = Column(Integer, ForeignKey("product.id", ondelete="CASCADE"), nullable=False)
 
-    def postpone_release_date_to(self, delay_date: date):
-        if delay_date and self.initial_release_date != delay_date:
+    def postpone_release_date_to(self, delay_date: Union[date, datetime]):
+        if not delay_date:
+            return
+
+        if isinstance(delay_date, datetime):
+            delay_date = delay_date.date()
+
+        valid_type = isinstance(delay_date, date)
+        if not valid_type:
+            raise TypeError(f"{delay_date} is not `date` or `datetime`")
+
+        if self.initial_release_date < delay_date:
             self.delay_release_date = delay_date
+
+        if self.initial_release_date > delay_date:
+            raise ValueError(f"{delay_date} should be later than {self.initial_release_date}")
+
+    def stall(self):
+        self.initial_release_date = None
 
 
 class Product(PkModelWithTimestamps):
+    """
+    ## Column
+    + checksum: MD5 value, one of methods to check the product should be updated.
+    """
     __tablename__ = "product"
 
     # ---native columns---
@@ -53,6 +85,9 @@ class Product(PkModelWithTimestamps):
     url = Column(String)
     jan = Column(BigInteger, unique=True)
     id_by_official = Column(String)
+    checksum = Column(String(32))
+    order_period_start = Column(DateTime)
+    order_period_end = Column(DateTime)
     # ---Foreign key columns---
     series_id = Column(Integer, ForeignKey("series.id"))
     manufacturer_id = Column(Integer, ForeignKey("company.id"))
@@ -63,19 +98,34 @@ class Product(PkModelWithTimestamps):
     release_infos: list[ProductReleaseInfo] = relationship(
         ProductReleaseInfo,
         backref="product",
-        order_by="desc(ProductReleaseInfo.initial_release_date)",
-        collection_class=ordering_list("initial_release_date")
+        order_by="nulls_first(asc(ProductReleaseInfo.initial_release_date))",
+        cascade="all, delete",
+        passive_deletes=True
     )
     official_images = relationship(
-        ProductOfficialImage, backref="product"
+        ProductOfficialImage,
+        backref="product",
+        order_by="ProductOfficialImage.order",
+        collection_class=ordering_list("order", count_from=1),
+        cascade="all, delete",
+        passive_deletes=True
     )
     sculptors = relationship(
         "Sculptor",
         secondary=product_sculptor_table,
-        backref="products"
+        backref="products",
     )
     paintworks = relationship(
         "Paintwork",
         secondary=product_paintwork_table,
-        backref="products"
+        backref="products",
     )
+
+    def last_release(self) -> Union[ProductReleaseInfo, None]:
+        release_infos = self.release_infos
+        if release_infos:
+            return release_infos[-1]
+        return None
+
+    def check_checksum(self, checksum: str) -> bool:
+        return checksum == self.checksum

@@ -1,14 +1,30 @@
-from sqlalchemy import Column, String
-from src.database import PkModel, UniqueMixin
+from typing import List, Type, TypeVar
 
+from sqlalchemy import Column, String
+
+from src.database import PkModel, UniqueMixin
 
 __all__ = [
     "Paintwork",
     "Sculptor"
 ]
 
+T = TypeVar('T')
 
-class Paintwork(UniqueMixin, PkModel):
+
+class WorkerMultipleUniqueMixin(UniqueMixin):
+    @classmethod
+    def multiple_as_unique(cls: Type[T], worker_names: List[str]) -> List[T]:
+        workers = []
+
+        for name in worker_names:
+            worker = cls.as_unique(name=name)
+            workers.append(worker)
+
+        return workers
+
+
+class Paintwork(WorkerMultipleUniqueMixin, PkModel):
     __tablename__ = "paintwork"
 
     name = Column(String, nullable=False)
@@ -22,7 +38,7 @@ class Paintwork(UniqueMixin, PkModel):
         return query.filter(Paintwork.name == name)
 
 
-class Sculptor(UniqueMixin, PkModel):
+class Sculptor(WorkerMultipleUniqueMixin, PkModel):
     __tablename__ = "sculptor"
 
     name = Column(String, nullable=False)
