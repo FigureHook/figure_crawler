@@ -21,6 +21,7 @@ en:
     summer: 6
     autumn: 9
     winter: 12
+  default_manufacturer: "Good Smile Company"
 ja:
   series: 作品名
   manufacturer: メーカー
@@ -44,6 +45,7 @@ ja:
     夏: 6
     秋: 9
     冬: 12
+  default_manufacturer: "グッドスマイルカンパニー"
 zh:
   series: 作品名稱
   manufacturer: 製造商
@@ -67,3 +69,4 @@ zh:
     夏: 6
     秋: 9
     冬: 12
+  default_manufacturer: "Good Smile Company"
