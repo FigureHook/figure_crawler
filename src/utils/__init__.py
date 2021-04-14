@@ -25,4 +25,4 @@ class RelativeUrl:
 
     @staticmethod
     def alter(path):
-        return f"http://{BrandHost.ALTER}{path}"
+        return f"https://{BrandHost.ALTER}{path}"
