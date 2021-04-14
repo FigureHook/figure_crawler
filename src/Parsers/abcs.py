@@ -7,11 +7,7 @@ from bs4 import BeautifulSoup
 from src.custom_classes import HistoricalReleases, OrderPeriod, Release
 from src.utils import get_page, make_last_element_filler
 
-Series = Union[str, None]
-WorkerList = List[Union[str, None]]
-Price = Union[int, None]
-ReleaseDate = Union[date, None]
-Company = Union[str, None]
+from ._types import Company, Price, ReleaseDate, Series, WorkerList
 
 
 class ProductParser(ABC):
