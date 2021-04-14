@@ -27,13 +27,15 @@ class SaveProductInDatabasePipeline:
             ).first()
 
             if product:
-                ProductModelFactory.updateProduct(item, product)
-                session.commit()
-                logger.info(f"Successfully update data in {item.url} to database.")
+                should_be_updated = not product.check_checksum(item.checksum)
+                if should_be_updated:
+                    product = ProductModelFactory.updateProduct(item, product)
+                    session.commit()
+                    logger.info(f"Successfully update data in {item.url} to database.")
 
             if not product:
                 try:
-                    product = ProductModelFactory.createProduct(session, item)
+                    product = ProductModelFactory.createProduct(item)
                     session.commit()
                     logger.info(f"Successfully save data in {item.url} to database.")
                 except ValueError:
