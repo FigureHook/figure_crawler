@@ -7,6 +7,12 @@ from bs4 import BeautifulSoup
 from src.custom_classes import HistoricalReleases, OrderPeriod, Release
 from src.utils import get_page, make_last_element_filler
 
+Series = Union[str, None]
+WorkerList = List[Union[str, None]]
+Price = Union[int, None]
+ReleaseDate = Union[date, None]
+Company = Union[str, None]
+
 
 class ProductParser(ABC):
     headers: ClassVar[Dict[str, Any]] = {}
@@ -25,25 +31,25 @@ class ProductParser(ABC):
         return self.__page
 
     @abstractmethod
-    def _parse_detail(self): ...
+    def _parse_detail(self) -> Any: ...
 
     @abstractmethod
     def parse_name(self) -> str: ...
 
     @abstractmethod
-    def parse_series(self) -> str: ...
+    def parse_series(self) -> Series: ...
 
     @abstractmethod
-    def parse_manufacturer(self) -> str: ...
+    def parse_manufacturer(self) -> Company: ...
 
     @abstractmethod
     def parse_category(self) -> str: ...
 
     @abstractmethod
-    def parse_sculptors(self) -> List[str]: ...
+    def parse_sculptors(self) -> WorkerList: ...
 
     @abstractmethod
-    def parse_prices(self) -> List[int]:
+    def parse_prices(self) -> List[Price]:
         """
         Try to parse historical prices
         Order of prices should be as same as release_dates.
@@ -51,7 +57,7 @@ class ProductParser(ABC):
         ...
 
     @abstractmethod
-    def parse_release_dates(self) -> List[date]:
+    def parse_release_dates(self) -> List[ReleaseDate]:
         """
         Try to parse all release-dates
         Order of release_dates should be as same as prices.
@@ -69,16 +75,16 @@ class ProductParser(ABC):
         ...
 
     @abstractmethod
-    def parse_size(self) -> int:
+    def parse_size(self) -> Union[int, None]:
         """The unit is `mm`"""
         ...
 
     @abstractmethod
-    def parse_copyright(self) -> str:
+    def parse_copyright(self) -> Union[str, None]:
         ...
 
     @abstractmethod
-    def parse_releaser(self) -> str:
+    def parse_releaser(self) -> Company:
         ...
 
     @abstractmethod
@@ -124,7 +130,7 @@ class ProductParser(ABC):
 
         return historical_releases
 
-    def parse_distributer(self) -> Union[str, None]:
+    def parse_distributer(self) -> Company:
         return None
 
     def parse_adult(self) -> bool:
@@ -133,10 +139,10 @@ class ProductParser(ABC):
     def parse_order_period(self) -> OrderPeriod:
         return OrderPeriod(None, None)
 
-    def parse_paintworks(self) -> List[str]:
+    def parse_paintworks(self) -> WorkerList:
         return []
 
-    def parse_JAN(self) -> Union[str, None]:
+    def parse_JAN(self) -> Union[int, None]:
         return None
 
     def parse_maker_id(self) -> Union[str, None]:
