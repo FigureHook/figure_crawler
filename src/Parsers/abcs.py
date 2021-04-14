@@ -91,11 +91,11 @@ class ProductParser(ABC):
     def parse_images(self) -> List[str]:
         ...
 
-    def parse_price(self) -> Union[int, None]:
+    def parse_price(self) -> Price:
         last_release = self.parse_release_infos().last()
         return last_release.price if last_release else None
 
-    def parse_release_date(self) -> Union[date, None]:
+    def parse_release_date(self) -> ReleaseDate:
         last_release = self.parse_release_infos().last()
         return last_release.release_date if last_release else None
 
