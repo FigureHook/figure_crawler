@@ -13,15 +13,13 @@ def compare_release_infos(p_dataclass: Type[ProductBase], p_model: Type[ProductM
     model_dates_set = set(r.initial_release_date for r in m_ri)
 
     is_conflicted = len(d_ri) < len(m_ri)
-    is_new_release = len(d_ri) > len(m_ri)
-    same_length = len(d_ri) == len(m_ri)
-
     if is_conflicted:
         return ReleaseInfoStatus.CONFLICT
 
     last_release_from_dataclass = d_ri.last()
     last_release_form_model = p_model.last_release()
 
+    same_length = len(d_ri) == len(m_ri)
     if same_length and last_release_form_model and last_release_from_dataclass:
         if None in (parsed_dates_set - model_dates_set):
             return ReleaseInfoStatus.STALLED
@@ -29,6 +27,7 @@ def compare_release_infos(p_dataclass: Type[ProductBase], p_model: Type[ProductM
             if last_release_from_dataclass.release_date != last_release_form_model.initial_release_date:
                 return ReleaseInfoStatus.DELAY
 
+    is_new_release = len(d_ri) > len(m_ri)
     if parsed_dates_set != model_dates_set:
         if is_new_release:
             return ReleaseInfoStatus.NEW_RELEASE

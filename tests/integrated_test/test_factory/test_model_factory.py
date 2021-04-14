@@ -6,9 +6,18 @@ from pytest_mock import MockerFixture
 from src.constants import ReleaseInfoStatus
 from src.custom_classes import HistoricalReleases, Release
 from src.Factory import ProductModelFactory
+from src.Factory.model_factory import rebuild_release_infos
 from src.Models import Product
 from src.Models.product import ProductReleaseInfo
 from src.utils.comparater import compare_release_infos
+
+
+@pytest.fixture
+def product_base():
+    class MockProductBase:
+        release_infos = []
+
+    return MockProductBase()
 
 
 @pytest.mark.usefixtures("product", "session")
@@ -25,13 +34,6 @@ class TestProdcutModelFactory:
 
 @pytest.mark.usefixtures("session")
 class TestReleaseInfoComparater:
-    @pytest.fixture
-    def product_base(self):
-        class MockProductBase:
-            release_infos = []
-
-        return MockProductBase()
-
     def test_delay(product_base):
         product_base.release_infos = HistoricalReleases([
             Release(date(2020, 2, 2), 12000)
@@ -166,3 +168,31 @@ class TestReleaseInfoComparater:
         )
 
         assert compare_release_infos(product_base, p_m) == ReleaseInfoStatus.CONFLICT
+
+
+@pytest.mark.usefixtures("session")
+def test_rebuild_release_infos(product_base):
+    product_base.release_infos = HistoricalReleases([
+        Release(date(2020, 1, 2), 13000),
+        Release(date(2023, 2, 2), 12000),
+    ])
+
+    p_m = Product.create(
+        name="foo",
+        release_infos=[
+            ProductReleaseInfo(
+                initial_release_date=date(2020, 2, 2),
+                price=12000
+            ),
+            ProductReleaseInfo(
+                initial_release_date=date(2023, 2, 2),
+                price=12000
+            ),
+        ]
+    )
+
+    rebuild_release_infos(product_base.release_infos, p_m.release_infos)
+
+    for dr, pr in zip(product_base.release_infos, p_m.release_infos):
+        assert dr.release_date == pr.initial_release_date
+        assert dr.price == pr.price

@@ -1,18 +1,18 @@
 from typing import List, Type
 
-from src.Adapters import ReleaseToProductReleaseInfoModelAdapter
-from src.custom_classes import Release
+from src.constants import ReleaseInfoStatus
+from src.custom_classes import HistoricalReleases
 from src.Models import Category, Company, Paintwork
 from src.Models import Product as ProductModel
 from src.Models import (ProductOfficialImage, ProductReleaseInfo, Sculptor,
                         Series)
+from src.utils.comparater import compare_release_infos
 
 from .product import ProductBase
 
-__all__ = ["ProductModelFactory"]
-
-
-# def
+__all__ = (
+    "ProductModelFactory",
+)
 
 
 class ProductModelFactory:
@@ -31,8 +31,7 @@ class ProductModelFactory:
 
         release_infos: List[ProductReleaseInfo] = []
         for release in product_dataclass.release_infos:
-            release: Release
-            release_info = ReleaseToProductReleaseInfoModelAdapter(release)
+            release_info = ProductReleaseInfo(price=release.price, initial_release_date=release.release_date)
             release_infos.append(release_info)
 
         product = ProductModel.create(
@@ -49,6 +48,9 @@ class ProductModelFactory:
             distributer=distributer,
             category=category,
             id_by_official=product_dataclass.maker_id,
+            checksum=product_dataclass.checksum,
+            order_period_start=product_dataclass.order_period.start,
+            order_period_end=product_dataclass.order_period.end,
             # relationship
             release_infos=release_infos,
             sculptors=sculptors,
@@ -58,30 +60,43 @@ class ProductModelFactory:
 
         return product
 
-    # FIXME: how to update Product?
     @staticmethod
-    def updateProduct(session, product_dataclass: Type[ProductBase], product_model: Type[ProductModel]):
-        is_delay: bool = check_delay()
-        is_new_release: bool = check_new_release()
-        release_should_be_updated: bool = is_delay or is_new_release
+    def updateProduct(product_dataclass: Type[ProductBase], product_model: Type[ProductModel]):
+        status = compare_release_infos(product_dataclass, product_model)
 
-        if release_should_be_updated:
-            if is_delay:
-                last_release: ProductReleaseInfo = get_last_release()
-                last_release.postpone_release_date_to(product_dataclass.release_date)
-            if is_new_release:
-                new_release = ReleaseToProductReleaseInfoModelAdapter(product_dataclass.release_infos.last())
-                product_model.release_infos.append(new_release)
-                product_model.resale = True
+        last_release_form_dataclass = product_dataclass.release_infos.last()
+        last_release_form_model = product_model.last_release()
 
-        series = Series.as_unique(session, name=product_dataclass.series)
-        manufacturer = Company.as_unique(session, name=product_dataclass.manufacturer)
-        category = Category.as_unique(session, name=product_dataclass.category)
-        releaser = Company.as_unique(session, name=product_dataclass.releaser)
-        distributer = Company.as_unique(session, name=product_dataclass.distributer)
+        if status is ReleaseInfoStatus.SAME:
+            pass
+        elif status is ReleaseInfoStatus.NEW_RELEASE:
+            product_model.release_infos.append(
+                ProductReleaseInfo(
+                    initial_release_date=last_release_form_dataclass.release_date,
+                    price=last_release_form_dataclass.price
+                )
+            )
+        elif status is ReleaseInfoStatus.DELAY:
+            new_release_date = product_dataclass.release_infos.last().release_date
+            last_release_form_model.postpone_release_date_to(new_release_date)
+        elif status is ReleaseInfoStatus.STALLED:
+            last_release_form_model.stall()
+        elif status is ReleaseInfoStatus.ALTER:
+            rebuild_release_infos(
+                product_dataclass.release_infos,
+                product_model.release_infos
+            )
+        elif status is ReleaseInfoStatus.CONFLICT:
+            raise ReleaseInfosConflictError(product_dataclass.url)
 
-        paintworks = Paintwork.multiple_as_unique(session, product_dataclass.paintworks)
-        sculptors = Sculptor.multiple_as_unique(session, product_dataclass.sculptors)
+        series = Series.as_unique(name=product_dataclass.series)
+        manufacturer = Company.as_unique(name=product_dataclass.manufacturer)
+        category = Category.as_unique(name=product_dataclass.category)
+        releaser = Company.as_unique(name=product_dataclass.releaser)
+        distributer = Company.as_unique(name=product_dataclass.distributer)
+
+        paintworks = Paintwork.multiple_as_unique(product_dataclass.paintworks)
+        sculptors = Sculptor.multiple_as_unique(product_dataclass.sculptors)
 
         product_model.update(
             url=product_dataclass.url,
@@ -97,9 +112,28 @@ class ProductModelFactory:
             distributer=distributer,
             category=category,
             id_by_official=product_dataclass.maker_id,
+            checksum=product_dataclass.checksum,
+            order_period_start=product_dataclass.order_period.start,
+            order_period_end=product_dataclass.order_period.end,
             # relationship
             sculptors=sculptors,
             paintworks=paintworks,
         )
 
-        raise NotImplementedError
+        return product_model
+
+
+def rebuild_release_infos(
+    parsed_infos: HistoricalReleases,
+    model_infos: List[ProductReleaseInfo]
+) -> List[ProductReleaseInfo]:
+    for dr, mr in zip(parsed_infos, model_infos):
+        mr.initial_release_date = dr.release_date
+        mr.price = dr.price
+    return model_infos
+
+
+class ReleaseInfosConflictError(Exception):
+    def __init__(self, url):
+        message = f"parsed release_infos were less than release_infos in Modal.({url})"
+        super().__init__(message)
