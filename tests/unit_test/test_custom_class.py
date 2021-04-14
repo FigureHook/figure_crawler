@@ -67,3 +67,9 @@ class TestOrderPeriod:
     def test_none_of_one(self):
         OrderPeriod(None, datetime(2000, 1, 1))
         OrderPeriod(datetime(2020, 1, 1), None)
+
+    def test_bool(self):
+        assert not bool(OrderPeriod(None, None))
+        assert OrderPeriod(None, datetime(2000, 1, 1))
+        assert OrderPeriod(datetime(2020, 1, 1), None)
+        assert OrderPeriod(datetime(2020, 1, 1), datetime(2022, 1, 1))

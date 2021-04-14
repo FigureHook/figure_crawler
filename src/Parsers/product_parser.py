@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from datetime import date
-from typing import List, Optional, Union
+from typing import ClassVar, Dict, List, Optional, Union
 
 from bs4 import BeautifulSoup
 
@@ -9,13 +9,8 @@ from src.utils import get_page, make_last_element_filler
 
 
 class ProductParser(ABC):
-    """
-    **important**
-    prices' order follows release dates' order
-    release dates' order is ascending.
-    """
-    headers = {}
-    cookies = {}
+    headers: ClassVar[Dict] = {}
+    cookies: ClassVar[Dict] = {}
 
     def __init__(self, url: str, page: Optional[BeautifulSoup] = None):
         self.__url = url
@@ -133,8 +128,8 @@ class ProductParser(ABC):
     def parse_adult(self) -> bool:
         return False
 
-    def parse_order_period(self) -> Union[OrderPeriod, None]:
-        return None
+    def parse_order_period(self) -> OrderPeriod:
+        return OrderPeriod(None, None)
 
     def parse_paintworks(self) -> List[str]:
         return []

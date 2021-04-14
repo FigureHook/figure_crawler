@@ -254,7 +254,7 @@ class GSCProductParser(ProductParser):
     def parse_maker_id(self) -> str:
         return re.findall(r"\d+", self.url)[0]
 
-    def parse_order_period(self) -> Union[OrderPeriod, None]:
+    def parse_order_period(self) -> OrderPeriod:
         period = self.detail.select_one(".onlinedates")
 
         if not period:
@@ -270,7 +270,7 @@ class GSCProductParser(ProductParser):
             end = make_datetime(period_list[1], self.locale)
 
         if not end or not start:
-            return None
+            return OrderPeriod(None, None)
 
         return OrderPeriod(start, end)
 

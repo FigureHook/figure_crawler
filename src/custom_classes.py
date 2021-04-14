@@ -37,6 +37,9 @@ class OrderPeriod:
         if self.start and self.end:
             return self.start < the_time < self.end
 
+    def __bool__(self):
+        return any((self.start, self.end))
+
 
 @dataclass(frozen=True)
 class Release:
