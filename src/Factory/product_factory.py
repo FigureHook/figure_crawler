@@ -5,8 +5,8 @@ from bs4 import BeautifulSoup
 
 from src.Parsers.alter import AlterProductParser
 from src.Parsers.gsc import GSCProductParser
-from src.Parsers.product_parser import ProductParser
 
+from ..Parsers.abcs import ProductParser
 from .product import Product
 
 __all__ = [

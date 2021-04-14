@@ -1,5 +1,6 @@
-from src.Parsers.announcement_parser import YearlyAnnouncement
 from src.utils import RelativeUrl, get_page
+
+from ..abcs import YearlyAnnouncement
 
 
 class AlterYearlyAnnouncement(YearlyAnnouncement):

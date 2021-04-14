@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
-from datetime import date
-from typing import ClassVar, Dict, List, Optional, Union
+from datetime import date, datetime
+from typing import Any, ClassVar, Dict, List, Optional, Union
 
 from bs4 import BeautifulSoup
 
@@ -9,8 +9,8 @@ from src.utils import get_page, make_last_element_filler
 
 
 class ProductParser(ABC):
-    headers: ClassVar[Dict] = {}
-    cookies: ClassVar[Dict] = {}
+    headers: ClassVar[Dict[str, Any]] = {}
+    cookies: ClassVar[Dict[str, Any]] = {}
 
     def __init__(self, url: str, page: Optional[BeautifulSoup] = None):
         self.__url = url
@@ -89,13 +89,15 @@ class ProductParser(ABC):
     def parse_images(self) -> List[str]:
         ...
 
-    def parse_price(self) -> int:
-        return self.parse_release_infos().last().price
+    def parse_price(self) -> Union[int, None]:
+        last_release = self.parse_release_infos().last()
+        return last_release.price if last_release else None
 
-    def parse_release_date(self) -> date:
-        return self.parse_release_infos().last().release_date
+    def parse_release_date(self) -> Union[date, None]:
+        last_release = self.parse_release_infos().last()
+        return last_release.release_date if last_release else None
 
-    def parse_release_infos(self) -> HistoricalReleases[Release]:
+    def parse_release_infos(self) -> HistoricalReleases:
         dates = self.parse_release_dates()
         prices = self.parse_prices()
 
@@ -139,3 +141,34 @@ class ProductParser(ABC):
 
     def parse_maker_id(self) -> Union[str, None]:
         return None
+
+
+class YearlyAnnouncement(ABC):
+    def __init__(self, start: int, end: int):
+        if not end:
+            end = datetime.now().year
+
+        if type(start) is not int:
+            raise TypeError("start should be 'int'.")
+
+        if type(end) is not int:
+            raise TypeError("end should be 'int'.")
+
+        if end < start:
+            raise ValueError("Cannot assign a smaller number for end.")
+
+        self.period = range(start, end+1)
+
+    @property
+    @abstractmethod
+    def base_url(self):
+        pass
+
+    @abstractmethod
+    def get_yearly_items(self, year: int) -> List[str]:
+        pass
+
+    def __iter__(self):
+        for year in self.period:
+            items = self.get_yearly_items(year)
+            yield items

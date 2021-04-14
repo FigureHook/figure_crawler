@@ -1,7 +1,8 @@
 from typing import List
 
-from src.Parsers.announcement_parser import YearlyAnnouncement
-from src.utils import get_page, RelativeUrl
+from src.utils import RelativeUrl, get_page
+
+from ..abcs import YearlyAnnouncement
 
 
 class GSCYearlyAnnouncement(YearlyAnnouncement):

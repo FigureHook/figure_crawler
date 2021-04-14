@@ -6,9 +6,10 @@ from urllib.parse import urlparse, urlunparse
 from bs4 import BeautifulSoup
 
 from src.constants import BrandHost
-from src.Parsers.product_parser import ProductParser
 from src.utils.checker import check_url_host
 from src.utils.text_parser import price_parse, scale_parse, size_parse
+
+from ..abcs import ProductParser
 
 
 class AlterProductParser(ProductParser):
