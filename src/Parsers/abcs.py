@@ -7,8 +7,6 @@ from bs4 import BeautifulSoup
 from src.custom_classes import HistoricalReleases, OrderPeriod, Release
 from src.utils import get_page, make_last_element_filler
 
-from ._types import Company, Price, ReleaseDate, Series, WorkerList
-
 
 class ProductParser(ABC):
     headers: ClassVar[Dict[str, Any]] = {}
@@ -33,19 +31,19 @@ class ProductParser(ABC):
     def parse_name(self) -> str: ...
 
     @abstractmethod
-    def parse_series(self) -> Series: ...
+    def parse_series(self) -> Union[str, None]: ...
 
     @abstractmethod
-    def parse_manufacturer(self) -> Company: ...
+    def parse_manufacturer(self) -> Union[str, None]: ...
 
     @abstractmethod
     def parse_category(self) -> str: ...
 
     @abstractmethod
-    def parse_sculptors(self) -> WorkerList: ...
+    def parse_sculptors(self) -> List[str]: ...
 
     @abstractmethod
-    def parse_prices(self) -> List[Price]:
+    def parse_prices(self) -> List[int]:
         """
         Try to parse historical prices
         Order of prices should be as same as release_dates.
@@ -53,7 +51,7 @@ class ProductParser(ABC):
         ...
 
     @abstractmethod
-    def parse_release_dates(self) -> List[ReleaseDate]:
+    def parse_release_dates(self) -> List[date]:
         """
         Try to parse all release-dates
         Order of release_dates should be as same as prices.
@@ -80,7 +78,7 @@ class ProductParser(ABC):
         ...
 
     @abstractmethod
-    def parse_releaser(self) -> Company:
+    def parse_releaser(self) -> Union[str, None]:
         ...
 
     @abstractmethod
@@ -91,11 +89,11 @@ class ProductParser(ABC):
     def parse_images(self) -> List[str]:
         ...
 
-    def parse_price(self) -> Price:
+    def parse_price(self) -> Union[int, None]:
         last_release = self.parse_release_infos().last()
         return last_release.price if last_release else None
 
-    def parse_release_date(self) -> ReleaseDate:
+    def parse_release_date(self) -> Union[date, None]:
         last_release = self.parse_release_infos().last()
         return last_release.release_date if last_release else None
 
@@ -126,7 +124,7 @@ class ProductParser(ABC):
 
         return historical_releases
 
-    def parse_distributer(self) -> Company:
+    def parse_distributer(self) -> Union[str, None]:
         return None
 
     def parse_adult(self) -> bool:
@@ -135,7 +133,7 @@ class ProductParser(ABC):
     def parse_order_period(self) -> OrderPeriod:
         return OrderPeriod(None, None)
 
-    def parse_paintworks(self) -> WorkerList:
+    def parse_paintworks(self) -> List[str]:
         return []
 
     def parse_JAN(self) -> Union[int, None]:
