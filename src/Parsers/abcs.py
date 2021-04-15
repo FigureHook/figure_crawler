@@ -25,9 +25,6 @@ class ProductParser(ABC):
         return self.__page
 
     @abstractmethod
-    def _parse_detail(self) -> Any: ...
-
-    @abstractmethod
     def parse_name(self) -> str: ...
 
     @abstractmethod
