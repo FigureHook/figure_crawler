@@ -1,9 +1,10 @@
 import re
 from datetime import date, datetime
-from typing import List, Union
+from typing import Dict, List, Union
 from urllib.parse import urlparse, urlunparse
 
 from bs4 import BeautifulSoup
+from bs4.element import Tag
 
 from src.constants import BrandHost
 from src.utils.checker import check_url_host
@@ -20,7 +21,7 @@ class AlterProductParser(ProductParser):
         self.spec = self._parse_spec()
 
     def _parse_detail(self):
-        detail = self.page.select_one("#contents")
+        detail: Union[Tag, None] = self.page.select_one("#contents")
         return detail
 
     def _parse_spec(self):
@@ -37,7 +38,7 @@ class AlterProductParser(ProductParser):
                     value = [content for content in td.contents if content.name != "br"]
                 values.append(value)
 
-        spec = dict(zip(heads, values))
+        spec: Dict[str, str] = dict(zip(heads, values))
         return spec
 
     def parse_maker_id(self) -> str:
@@ -78,7 +79,7 @@ class AlterProductParser(ProductParser):
         date_list = [datetime.strptime(date, "%Y年%m月").date() for date in matched_date]
         return date_list
 
-    def parse_scale(self):
+    def parse_scale(self) -> Union[int, None]:
         scale = scale_parse(self.spec["サイズ"])
         return scale
 
@@ -96,11 +97,11 @@ class AlterProductParser(ProductParser):
 
         return sculptors
 
-    def parse_series(self) -> str:
+    def parse_series(self) -> Union[str, None]:
         series = self.spec["作品名"]
         return series
 
-    def parse_size(self) -> int:
+    def parse_size(self) -> Union[int, None]:
         size = size_parse(self.spec["サイズ"])
         return size
 
@@ -117,7 +118,7 @@ class AlterProductParser(ProductParser):
 
         return paintworks
 
-    def parse_releaser(self) -> str:
+    def parse_releaser(self) -> Union[str, None]:
         pattern = r"：(\S.+)"
 
         the_other_releaser = self.detail.find(
@@ -133,7 +134,7 @@ class AlterProductParser(ProductParser):
 
         return releaser
 
-    def parse_distributer(self) -> str:
+    def parse_distributer(self) -> Union[str, None]:
         pattern = r"：(\S.+)"
 
         the_other_releaser = self.detail.find(
@@ -148,7 +149,7 @@ class AlterProductParser(ProductParser):
         distributer = re.search(pattern, distributer_text).group(1).strip()
         return distributer
 
-    def parse_resale(self):
+    def parse_resale(self) -> bool:
         is_resale = bool(self.page.find(class_='resale'))
         return is_resale
 
@@ -164,7 +165,7 @@ class AlterProductParser(ProductParser):
 
         return images
 
-    def parse_copyright(self) -> str:
+    def parse_copyright(self) -> Union[str, None]:
         pattern = r"(©.*)※"
         copyright_info = self.detail.select_one(".copyright").text
         copyright_ = re.search(
@@ -176,7 +177,7 @@ class AlterProductParser(ProductParser):
 
 def parse_worker(text) -> Union[List[str], str]:
     if text in ["―", "—"]:
-        return None
+        return ""
 
     plus_text = "＋"
     text = text.replace(" ", "")
