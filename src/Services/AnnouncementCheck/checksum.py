@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from datetime import datetime
 from hashlib import md5
+from typing import Optional
 
 from src.constants import GSCCategory, SourceSite
 from src.Models import AnnouncementChecksum
@@ -14,13 +15,14 @@ def calculate_checksum(target):
 
 
 class SiteChecksum(ABC):
-    __site__ = None
+    __site__: SourceSite
+    __site_checksum: Optional[AnnouncementChecksum]
 
     def __init__(self) -> None:
         if not getattr(self, "__site__"):
             raise NotImplementedError("Class attribute `__site__` should be implemented.")
 
-        self.__checksum: AnnouncementChecksum = AnnouncementChecksum.get_by_site(self.__site__)
+        self.__site_checksum = AnnouncementChecksum.get_by_site(self.__site__)
 
     @property
     def current(self):
@@ -28,7 +30,7 @@ class SiteChecksum(ABC):
 
     @property
     def previous(self):
-        return self.__checksum.checksum if self.__checksum else None
+        return self.__site_checksum.checksum if self.__site_checksum else None
 
     @property
     def is_changed(self):
@@ -44,13 +46,13 @@ class SiteChecksum(ABC):
         pass
 
     def update(self, commit=True):
-        if self.__checksum:
-            self.__checksum.update(checksum=self.current)
+        if self.__site_checksum:
+            self.__site_checksum.update(checksum=self.current)
         else:
-            self.__checksum = AnnouncementChecksum.create(site=self.__site__, checksum=self.current)
+            self.__site_checksum = AnnouncementChecksum.create(site=self.__site__, checksum=self.current)
 
         if commit:
-            self.__checksum.session.commit()
+            self.__site_checksum.session.commit()
 
         return self
 
