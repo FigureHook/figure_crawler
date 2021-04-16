@@ -1,5 +1,4 @@
 import re
-from re import search
 from typing import Any, List, Union
 from urllib.parse import urlparse
 
@@ -38,7 +37,7 @@ def check_url_host(brand_host):
         def checker(parser, url, *args, **kwargs):
             netloc = urlparse(url).netloc
 
-            if netloc and not search(brand_host.value, netloc):
+            if netloc and not re.search(brand_host.value, netloc):
                 raise ValueError("Invalid host.")
 
             init(parser, url, *args, **kwargs)
