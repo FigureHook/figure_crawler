@@ -2,7 +2,7 @@ from typing import List, Type, TypeVar
 
 from sqlalchemy import Column, String
 
-from src.database import PkModel, UniqueMixin
+from .base import PkModel, UniqueMixin
 
 __all__ = [
     "Paintwork",
@@ -12,11 +12,12 @@ __all__ = [
 T = TypeVar('T')
 
 
-class WorkerMultipleUniqueMixin(UniqueMixin):
+class WorkerMultipleUniqueMixin:
+    __abstract__ = True
+
     @classmethod
     def multiple_as_unique(cls: Type[T], worker_names: List[str]) -> List[T]:
         workers = []
-
         for name in worker_names:
             worker = cls.as_unique(name=name)
             workers.append(worker)
@@ -24,7 +25,7 @@ class WorkerMultipleUniqueMixin(UniqueMixin):
         return workers
 
 
-class Paintwork(WorkerMultipleUniqueMixin, PkModel):
+class Paintwork(WorkerMultipleUniqueMixin, UniqueMixin, PkModel):
     __tablename__ = "paintwork"
 
     name = Column(String, nullable=False)
@@ -38,7 +39,7 @@ class Paintwork(WorkerMultipleUniqueMixin, PkModel):
         return query.filter(Paintwork.name == name)
 
 
-class Sculptor(WorkerMultipleUniqueMixin, PkModel):
+class Sculptor(WorkerMultipleUniqueMixin, UniqueMixin, PkModel):
     __tablename__ = "sculptor"
 
     name = Column(String, nullable=False)

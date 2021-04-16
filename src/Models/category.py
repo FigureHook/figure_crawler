@@ -1,7 +1,7 @@
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
-from src.database import PkModel, UniqueMixin
 
+from .base import PkModel, UniqueMixin
 
 __all__ = ["Category"]
 

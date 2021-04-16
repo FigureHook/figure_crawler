@@ -1,13 +1,12 @@
 from datetime import date, datetime
-from typing import List, Type, TypeVar, Union
+from typing import List, Type, Union
 
 from sqlalchemy import (BigInteger, Boolean, Column, Date, DateTime,
                         ForeignKey, Integer, SmallInteger, String)
 from sqlalchemy.ext.orderinglist import ordering_list
 from sqlalchemy.orm import relationship
 
-from src.database import PkModel, PkModelWithTimestamps
-
+from .base import PkModel, PkModelWithTimestamps
 from .relation_table import product_paintwork_table, product_sculptor_table
 
 __all__ = [
@@ -15,8 +14,6 @@ __all__ = [
     "ProductReleaseInfo",
     "Product"
 ]
-
-T = TypeVar('T')
 
 
 class ProductOfficialImage(PkModel):
@@ -27,7 +24,7 @@ class ProductOfficialImage(PkModel):
     product_id = Column(Integer, ForeignKey("product.id", ondelete="CASCADE"), nullable=False)
 
     @classmethod
-    def create_image_list(cls: Type[T], image_urls: List[str]) -> List[T]:
+    def create_image_list(cls: Type['ProductOfficialImage'], image_urls: List[str]) -> List['ProductOfficialImage']:
         images = []
 
         for url in image_urls:
@@ -47,7 +44,7 @@ class ProductReleaseInfo(PkModel):
     release_at = Column(Date)
     product_id = Column(Integer, ForeignKey("product.id", ondelete="CASCADE"), nullable=False)
 
-    def postpone_release_date_to(self, delay_date: Union[date, datetime]):
+    def postpone_release_date_to(self, delay_date: Union[date, datetime, None]):
         if not delay_date:
             return
 
@@ -95,12 +92,12 @@ class Product(PkModelWithTimestamps):
     releaser_id = Column(Integer, ForeignKey("company.id"))
     distributer_id = Column(Integer, ForeignKey("company.id"))
     # ---relationships field---
-    release_infos: list[ProductReleaseInfo] = relationship(
+    release_infos = relationship(
         ProductReleaseInfo,
         backref="product",
         order_by="nulls_first(asc(ProductReleaseInfo.initial_release_date))",
         cascade="all, delete",
-        passive_deletes=True
+        passive_deletes=True,
     )
     official_images = relationship(
         ProductOfficialImage,

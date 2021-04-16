@@ -1,15 +1,16 @@
-from typing import TypeVar, Union
+from typing import Type, Union
 
 from sqlalchemy import Column, DateTime, Enum, String
 from sqlalchemy import event as sqlalchemy_event
 from sqlalchemy.sql import func
 
 from src.constants import SourceSite
-from src.database import Model
 
-__all__ = ["AnnouncementChecksum"]
+from .base import Model
 
-T = TypeVar('T')
+__all__ = [
+    "AnnouncementChecksum"
+]
 
 
 class AnnouncementChecksum(Model):
@@ -21,7 +22,7 @@ class AnnouncementChecksum(Model):
     checked_at = Column(DateTime(timezone=True), default=__datetime_callback__())
 
     @classmethod
-    def get_by_site(cls, site: SourceSite) -> Union[T, None]:
+    def get_by_site(cls: Type['AnnouncementChecksum'], site: SourceSite) -> Union['AnnouncementChecksum', None]:
         """Get checksum by site(Enum)"""
         if isinstance(site, SourceSite):
             return cls.query.get(site)
