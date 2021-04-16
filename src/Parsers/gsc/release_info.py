@@ -4,7 +4,8 @@ from collections import UserDict
 from datetime import date
 
 from src.constants import GSCLang
-from src.utils import RelativeUrl, get_page
+
+from ..utils import RelativeUrl, get_page
 
 
 class GSCReleaseInfo(UserDict):

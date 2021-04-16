@@ -11,10 +11,9 @@ from bs4.element import NavigableString, ResultSet, Tag
 
 from src.constants import BrandHost
 from src.custom_classes import OrderPeriod
-from src.utils.checker import check_url_host
-from src.utils.text_parser import price_parse, scale_parse, size_parse
 
 from ..abcs import ProductParser
+from ..utils import check_url_host, price_parse, scale_parse, size_parse
 
 Bs4Element = Union[Tag, NavigableString, None]
 
