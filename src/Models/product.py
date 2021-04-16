@@ -25,7 +25,7 @@ class ProductOfficialImage(PkModel):
 
     @classmethod
     def create_image_list(cls: Type['ProductOfficialImage'], image_urls: List[str]) -> List['ProductOfficialImage']:
-        images = []
+        images: List['ProductOfficialImage'] = []
 
         for url in image_urls:
             image = cls(url=url)
@@ -53,13 +53,17 @@ class ProductReleaseInfo(PkModel):
 
         valid_type = isinstance(delay_date, date)
         if not valid_type:
-            raise TypeError(f"{delay_date} is not `date` or `datetime`")
+            raise TypeError(f"{delay_date} must be `date` or `datetime`")
 
-        if self.initial_release_date < delay_date:
-            self.delay_release_date = delay_date
+        has_init_release_date = bool(self.initial_release_date)
 
-        if self.initial_release_date > delay_date:
-            raise ValueError(f"{delay_date} should be later than {self.initial_release_date}")
+        if not has_init_release_date:
+            self.update(delay_release_date=delay_date)
+        if has_init_release_date:
+            if self.initial_release_date < delay_date:
+                self.update(delay_release_date=delay_date)
+            if self.initial_release_date > delay_date:
+                raise ValueError(f"{delay_date} should be later than {self.initial_release_date}")
 
     def stall(self):
         self.initial_release_date = None
