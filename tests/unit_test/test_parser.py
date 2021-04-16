@@ -5,8 +5,8 @@ import yaml
 from _pytest.assertion.util import isiterable
 
 from src.constants import GSCCategory, GSCLang
-from src.custom_classes import HistoricalReleases, Release
 from src.Parsers.alter import AlterProductParser
+from src.Parsers.extension_class import HistoricalReleases, Release
 from src.Parsers.gsc import (GSCAnnouncementLinkExtractor, GSCProductParser,
                              GSCReleaseInfo, GSCYearlyAnnouncement)
 

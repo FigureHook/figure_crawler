@@ -4,8 +4,7 @@ from typing import Any, ClassVar, Dict, List, Optional, Union
 
 from bs4 import BeautifulSoup
 
-from src.custom_classes import HistoricalReleases, OrderPeriod, Release
-
+from .extension_class import HistoricalReleases, OrderPeriod, Release
 from .utils import get_page, make_last_element_filler
 
 

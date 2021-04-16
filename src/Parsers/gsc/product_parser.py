@@ -10,9 +10,9 @@ from bs4 import BeautifulSoup
 from bs4.element import NavigableString, ResultSet, Tag
 
 from src.constants import BrandHost
-from src.custom_classes import OrderPeriod
 
 from ..abcs import ProductParser
+from ..extension_class import OrderPeriod
 from ..utils import check_url_host, price_parse, scale_parse, size_parse
 
 Bs4Element = Union[Tag, NavigableString, None]

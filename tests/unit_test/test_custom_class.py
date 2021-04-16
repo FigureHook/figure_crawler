@@ -2,7 +2,8 @@ from datetime import date, datetime
 
 import pytest
 
-from src.custom_classes import HistoricalReleases, OrderPeriod, Release
+from src.Parsers.extension_class import (HistoricalReleases, OrderPeriod,
+                                         Release)
 
 
 def test_release_class():

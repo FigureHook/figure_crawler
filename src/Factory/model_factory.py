@@ -1,9 +1,9 @@
-from typing import List, Type
+from typing import List
 
 from src.constants import ReleaseInfoStatus
-from src.custom_classes import HistoricalReleases
+from src.Parsers.extension_class import HistoricalReleases
 from src.Models import Category, Company, Paintwork
-from src.Models import Product as ProductModel
+from src.Models import Product as Product
 from src.Models import (ProductOfficialImage, ProductReleaseInfo, Sculptor,
                         Series)
 from src.utils.comparater import compare_release_infos
@@ -17,7 +17,7 @@ __all__ = (
 
 class ProductModelFactory:
     @staticmethod
-    def createProduct(product_dataclass: Type[ProductBase]) -> ProductModel:
+    def createProduct(product_dataclass: ProductBase) -> Product:
         series = Series.as_unique(name=product_dataclass.series)
         manufacturer = Company.as_unique(name=product_dataclass.manufacturer)
         category = Category.as_unique(name=product_dataclass.category)
@@ -34,7 +34,7 @@ class ProductModelFactory:
             release_info = ProductReleaseInfo(price=release.price, initial_release_date=release.release_date)
             release_infos.append(release_info)
 
-        product = ProductModel.create(
+        product = Product.create(
             url=product_dataclass.url,
             name=product_dataclass.name,
             size=product_dataclass.size,
@@ -61,7 +61,7 @@ class ProductModelFactory:
         return product
 
     @staticmethod
-    def updateProduct(product_dataclass: Type[ProductBase], product_model: Type[ProductModel]):
+    def updateProduct(product_dataclass: ProductBase, product_model: Product):
         status = compare_release_infos(product_dataclass, product_model)
 
         last_release_form_dataclass = product_dataclass.release_infos.last()
@@ -77,7 +77,7 @@ class ProductModelFactory:
                 )
             )
         elif status is ReleaseInfoStatus.DELAY:
-            new_release_date = product_dataclass.release_infos.last().release_date
+            new_release_date = last_release_form_dataclass.release_date
             last_release_form_model.postpone_release_date_to(new_release_date)
         elif status is ReleaseInfoStatus.STALLED:
             last_release_form_model.stall()
@@ -128,8 +128,10 @@ def rebuild_release_infos(
     model_infos: List[ProductReleaseInfo]
 ) -> List[ProductReleaseInfo]:
     for dr, mr in zip(parsed_infos, model_infos):
-        mr.initial_release_date = dr.release_date
-        mr.price = dr.price
+        mr.update(
+            initial_release_date=dr.release_date,
+            price=dr.price
+        )
     return model_infos
 
 

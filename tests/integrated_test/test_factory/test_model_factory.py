@@ -4,11 +4,11 @@ import pytest
 from pytest_mock import MockerFixture
 
 from src.constants import ReleaseInfoStatus
-from src.custom_classes import HistoricalReleases, Release
 from src.Factory import ProductModelFactory
 from src.Factory.model_factory import rebuild_release_infos
 from src.Models import Product
 from src.Models.product import ProductReleaseInfo
+from src.Parsers.extension_class import HistoricalReleases, Release
 from src.utils.comparater import compare_release_infos
 
 
