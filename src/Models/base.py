@@ -1,13 +1,14 @@
-from typing import Any, AnyStr, Generic, Type, TypeVar, Union
+from typing import Any, AnyStr, Type, TypeVar, Union
 
 from sqlalchemy import Column, Integer
 from sqlalchemy_mixins import AllFeaturesMixin
 from sqlalchemy_mixins.timestamp import TimestampsMixin
 
-T = TypeVar('T')
+T = TypeVar('T', bound='Model')
+P = TypeVar('P', bound='PkModel')
 
 
-class Model(AllFeaturesMixin, Generic[T]):
+class Model(AllFeaturesMixin):
     """Base model class that includes CRUD convenience methods."""
 
     __abstract__ = True
@@ -20,7 +21,7 @@ class PkModel(Model):
     id = Column(Integer, primary_key=True, autoincrement=True)
 
     @classmethod
-    def get_by_id(cls: Type['PkModel'], record_id: Union[AnyStr, int, float, bytes]) -> Union['PkModel', None]:
+    def get_by_id(cls: Type[P], record_id: Union[AnyStr, int, float, bytes]) -> Union[P, None]:
         """Get record by ID."""
         if any(
             (

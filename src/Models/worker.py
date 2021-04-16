@@ -1,3 +1,4 @@
+from hashlib import scrypt
 from typing import List, Type, TypeVar
 
 from sqlalchemy import Column, String
