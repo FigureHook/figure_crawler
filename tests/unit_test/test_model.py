@@ -46,11 +46,15 @@ class TestProductReleaseInfo:
 
     def test_postpone_release_date(self):
         p = Product.create(name="foo")
+        b = Product.create(name="bar")
         info = ProductReleaseInfo.create(price=12960, initial_release_date=date(2020, 1, 1), product_id=p.id)
+        info_b = ProductReleaseInfo.create(price=12960, product_id=b.id)
         delay_date = date(2021, 1, 1)
         info.postpone_release_date_to(delay_date)
+        info_b.postpone_release_date_to(delay_date)
 
         assert info.delay_release_date == delay_date
+        assert info_b.delay_release_date == delay_date
 
         delay_datetime = datetime(2022, 2, 2, 12)
         info.postpone_release_date_to(delay_datetime)
@@ -67,7 +71,6 @@ class TestProductReleaseInfo:
         info = ProductReleaseInfo.create(price=12960, initial_release_date=date(2020, 1, 1), product_id=p.id)
         info.stall()
         assert not info.initial_release_date
-
 
 
 @pytest.mark.usefixtures("session")
