@@ -1,11 +1,9 @@
-from typing import Type
-
 from src.Factory.product import ProductBase
 from src.Models import Product as ProductModel
 from src.constants import ReleaseInfoStatus
 
 
-def compare_release_infos(p_dataclass: Type[ProductBase], p_model: Type[ProductModel]) -> ReleaseInfoStatus:
+def compare_release_infos(p_dataclass: ProductBase, p_model: ProductModel) -> ReleaseInfoStatus:
     p_dataclass.release_infos.sort()
     d_ri = p_dataclass.release_infos
     m_ri = p_model.release_infos

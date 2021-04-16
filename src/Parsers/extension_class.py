@@ -1,7 +1,7 @@
 from collections import UserList
 from dataclasses import asdict, dataclass
 from datetime import date, datetime
-from typing import Any, Optional
+from typing import Any, Optional, TypeVar
 
 __all__ = [
     "OrderPeriod",
@@ -57,7 +57,10 @@ class Release(AsDictable):
     price: Optional[int]
 
 
-class HistoricalReleases(UserList[Release]):
+T = TypeVar('T')
+
+
+class HistoricalReleases(UserList[T]):
     """
     List[Release]
 

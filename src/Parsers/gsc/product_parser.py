@@ -173,7 +173,7 @@ class GSCProductParser(ProductParser):
         series: str = series_targets.find_next("dd").text.strip()
         return series
 
-    def parse_manufacturer(self) -> Union[str, None]:
+    def parse_manufacturer(self) -> str:
         tag = self._get_from_locale("manufacturer")
         manufacturer_targets = self._find_detail("dt", tag)
 

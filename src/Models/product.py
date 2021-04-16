@@ -1,8 +1,8 @@
 from datetime import date, datetime
 from typing import List, Type, Union
 
-from sqlalchemy import (BigInteger, Boolean, Column, Date, DateTime,
-                        ForeignKey, Integer, SmallInteger, String)
+from sqlalchemy import (Boolean, Column, Date, DateTime, ForeignKey, Integer,
+                        SmallInteger, String)
 from sqlalchemy.ext.orderinglist import ordering_list
 from sqlalchemy.orm import relationship
 
@@ -84,7 +84,7 @@ class Product(PkModelWithTimestamps):
     adult = Column(Boolean)
     copyright = Column(String)
     url = Column(String)
-    jan = Column(BigInteger, unique=True)
+    jan = Column(String(13), unique=True)
     id_by_official = Column(String)
     checksum = Column(String(32))
     order_period_start = Column(DateTime)

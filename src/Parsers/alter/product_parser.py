@@ -1,6 +1,6 @@
 import re
 from datetime import date, datetime
-from typing import Dict, List, Union
+from typing import Dict, List, Union, Optional
 from urllib.parse import urlparse, urlunparse
 
 from bs4 import BeautifulSoup
@@ -14,7 +14,7 @@ from ..utils import check_url_host, price_parse, scale_parse, size_parse
 
 class AlterProductParser(ProductParser):
     @check_url_host(BrandHost.ALTER)
-    def __init__(self, url: str, page: BeautifulSoup = None):
+    def __init__(self, url: str, page: Optional[BeautifulSoup] = None):
         super().__init__(url, page)
         self.detail = self._parse_detail()
         self.spec = self._parse_spec()

@@ -31,7 +31,7 @@ class ProductParser(ABC):
     def parse_series(self) -> Union[str, None]: ...
 
     @abstractmethod
-    def parse_manufacturer(self) -> Union[str, None]: ...
+    def parse_manufacturer(self) -> str: ...
 
     @abstractmethod
     def parse_category(self) -> str: ...
@@ -133,7 +133,7 @@ class ProductParser(ABC):
     def parse_paintworks(self) -> List[str]:
         return []
 
-    def parse_JAN(self) -> Union[int, None]:
+    def parse_JAN(self) -> Union[str, None]:
         return None
 
     def parse_maker_id(self) -> Union[str, None]:

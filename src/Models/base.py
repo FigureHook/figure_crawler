@@ -4,7 +4,7 @@ from sqlalchemy import Column, Integer
 from sqlalchemy_mixins import AllFeaturesMixin
 from sqlalchemy_mixins.timestamp import TimestampsMixin
 
-T = TypeVar('T', bound='Model')
+T = TypeVar('T')
 
 
 class Model(AllFeaturesMixin, Generic[T]):
@@ -20,7 +20,7 @@ class PkModel(Model):
     id = Column(Integer, primary_key=True, autoincrement=True)
 
     @classmethod
-    def get_by_id(cls: Type[T], record_id: Union[AnyStr, int, float, bytes]) -> Union[T, None]:
+    def get_by_id(cls: Type['PkModel'], record_id: Union[AnyStr, int, float, bytes]) -> Union['PkModel', None]:
         """Get record by ID."""
         if any(
             (

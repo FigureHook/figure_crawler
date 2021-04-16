@@ -5,7 +5,8 @@ from datetime import date
 from hashlib import md5
 from typing import Callable, Optional, Union, overload
 
-from src.Parsers.extension_class import HistoricalReleases, OrderPeriod, Release
+from src.Parsers.extension_class import (HistoricalReleases, OrderPeriod,
+                                         Release)
 
 __all__ = [
     "ProductBase",
@@ -44,17 +45,17 @@ class ProductBase:
     name: str
     manufacturer: str
     category: str
-    copyright: str
-    price: int
-    size: int
     resale: bool
     adult: bool
     images: list[str]
     sculptors: list[str]
     paintworks: list[str]
-    release_date: date
     release_infos: HistoricalReleases[Release]
+    copyright: Optional[str]
+    price: Optional[int]
+    release_date: Optional[date]
     order_period: Optional[OrderPeriod]
+    size: Optional[int]
     series: Optional[str]
     scale: Optional[int]
     releaser: Optional[str]
@@ -112,7 +113,7 @@ class ProductDataProcessMixin:
         "distributer",
     ]
 
-    def normalize_attrs(self: ProductBase) -> None:
+    def normalize_attrs(self) -> None:
         """
         ## normalize string attributes or string in list attributes
         + full-width (alphabet, notation) to half-width.
