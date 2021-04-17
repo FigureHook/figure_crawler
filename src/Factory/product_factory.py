@@ -1,12 +1,11 @@
 from abc import ABC
-from typing import Type, ClassVar, Optional
+from typing import ClassVar, Optional, Type
 
 from bs4 import BeautifulSoup
 
-from src.Parsers.alter import AlterProductParser
-from src.Parsers.gsc import GSCProductParser
-
 from ..Parsers.abcs import ProductParser
+from ..Parsers.alter import AlterProductParser
+from ..Parsers.gsc import GSCProductParser
 from .product import Product
 
 __all__ = [

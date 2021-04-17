@@ -114,7 +114,7 @@ class ProductParser(ABC):
 
         assert len(dates) == len(prices)
 
-        historical_releases = HistoricalReleases()
+        historical_releases: HistoricalReleases[Release] = HistoricalReleases()
         for d, p in zip(dates, prices):
             release = Release(release_date=d, price=p)
             historical_releases.append(release)

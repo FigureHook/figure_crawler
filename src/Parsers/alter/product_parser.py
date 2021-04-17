@@ -1,13 +1,12 @@
 import re
 from datetime import date, datetime
-from typing import Dict, List, Union, Optional
+from typing import Dict, List, Optional, Union
 from urllib.parse import urlparse, urlunparse
 
 from bs4 import BeautifulSoup
 from bs4.element import Tag
 
-from src.constants import BrandHost
-
+from ...constants import BrandHost
 from ..abcs import ProductParser
 from ..utils import check_url_host, price_parse, scale_parse, size_parse
 
@@ -106,13 +105,12 @@ class AlterProductParser(ProductParser):
 
     def parse_paintworks(self) -> List[str]:
         paintwork_texts = self.spec["彩色"]
-        paintworks = []
+        paintworks: List[str] = []
         for p in paintwork_texts:
             paintwork = parse_worker(p)
-            the_type = type(paintwork)
-            if the_type is list:
+            if isinstance(paintwork, list):
                 paintworks.extend(paintwork)
-            if paintwork and the_type is str:
+            if paintwork and isinstance(paintwork, str):
                 paintworks.append(paintwork)
 
         return paintworks

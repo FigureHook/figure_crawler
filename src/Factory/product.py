@@ -3,10 +3,9 @@ import unicodedata
 from dataclasses import asdict, dataclass
 from datetime import date
 from hashlib import md5
-from typing import Callable, Optional, Union, overload
+from typing import Callable, Optional, Union
 
-from src.Parsers.extension_class import (HistoricalReleases, OrderPeriod,
-                                         Release)
+from ..Parsers.extension_class import HistoricalReleases, OrderPeriod, Release
 
 __all__ = [
     "ProductBase",
@@ -50,11 +49,11 @@ class ProductBase:
     images: list[str]
     sculptors: list[str]
     paintworks: list[str]
+    order_period: OrderPeriod
     release_infos: HistoricalReleases[Release]
     copyright: Optional[str]
     price: Optional[int]
     release_date: Optional[date]
-    order_period: Optional[OrderPeriod]
     size: Optional[int]
     series: Optional[str]
     scale: Optional[int]
@@ -139,16 +138,6 @@ class Product(ProductBase, ProductDataProcessMixin):
 
 
 class ProductUtils:
-
-    @overload
-    def normalize_product_attr(attr_value: str) -> str: ...
-    @overload
-    def normalize_product_attr(attr_value: list[str]) -> list[str]: ...
-    @overload
-    def normalize_worker_attr(attr_value: str) -> str: ...
-    @overload
-    def normalize_worker_attr(attr_value: list[str]) -> list[str]: ...
-
     @staticmethod
     def normalize_product_attr(attr_value: Union[str, list[str]]):
         return _normalize(attr_value, _general_normalize)
@@ -162,10 +151,10 @@ def _normalize(attr_value: Union[str, list[str]], normalize_func: Callable[[str]
     if not attr_value:
         return attr_value
 
-    if type(attr_value) is str:
+    if isinstance(attr_value, str):
         return normalize_func(attr_value)
 
-    if type(attr_value) is list:
+    if isinstance(attr_value, list):
         if all(type(v) is str for v in attr_value):
             return list(map(normalize_func, attr_value))
 

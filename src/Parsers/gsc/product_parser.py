@@ -9,8 +9,7 @@ import yaml
 from bs4 import BeautifulSoup
 from bs4.element import NavigableString, ResultSet, Tag
 
-from src.constants import BrandHost
-
+from ...constants import BrandHost
 from ..abcs import ProductParser
 from ..extension_class import OrderPeriod
 from ..utils import check_url_host, price_parse, scale_parse, size_parse
@@ -114,7 +113,7 @@ class GSCProductParser(ProductParser):
         return date_list
 
     def _parse_resale_prices(self) -> List[int]:
-        price_slot = []
+        price_slot: List[int] = []
         price_items = self.detail.find_all(name="dt", text=re.compile(r"販(\w|)価格"))
 
         for price_item in price_items:
@@ -122,12 +121,13 @@ class GSCProductParser(ProductParser):
             tax_feature = self._get_from_locale("tax")
             remove_tax = bool(re.search(f"{tax_feature}", price_text))
             price = price_parse(price_text, remove_tax=remove_tax)
-            price_slot.append(price)
+            if price:
+                price_slot.append(price)
 
         return price_slot
 
     def parse_prices(self) -> List[int]:
-        price_slot = []
+        price_slot: List[int] = []
         tag = self._get_from_locale("price")
         last_price_target = self._find_detail("dt", f"^{tag}")
 
