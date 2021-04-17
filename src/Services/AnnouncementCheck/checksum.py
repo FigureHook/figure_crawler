@@ -3,8 +3,9 @@ from datetime import datetime
 from hashlib import md5
 from typing import Optional
 
-from src.constants import GSCCategory, SourceSite
+from src.constants import SourceSite
 from src.Models import AnnouncementChecksum
+from src.Parsers.constants import GSCCategory
 from src.Parsers.gsc import GSCYearlyAnnouncement
 
 __all__ = ["GSCChecksum", "SiteChecksum"]

@@ -9,8 +9,8 @@ import yaml
 from bs4 import BeautifulSoup
 from bs4.element import NavigableString, ResultSet, Tag
 
-from ...constants import BrandHost
 from ..abcs import ProductParser
+from ..constants import BrandHost
 from ..extension_class import OrderPeriod
 from ..utils import check_url_host, price_parse, scale_parse, size_parse
 

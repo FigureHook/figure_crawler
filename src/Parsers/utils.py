@@ -5,7 +5,7 @@ from urllib.parse import urlparse
 import requests as rq
 from bs4 import BeautifulSoup
 
-from ..constants import BrandHost
+from .constants import BrandHost
 
 
 def make_last_element_filler(target_list: List[Any], desired_length: int) -> List[Any]:

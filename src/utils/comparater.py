@@ -1,13 +1,13 @@
+from src.constants import ReleaseInfoStatus
 from src.Factory.product import ProductBase
 from src.Models import Product as ProductModel
-from src.constants import ReleaseInfoStatus
 
 
 def compare_release_infos(p_dataclass: ProductBase, p_model: ProductModel) -> ReleaseInfoStatus:
     p_dataclass.release_infos.sort()
     d_ri = p_dataclass.release_infos
     m_ri = p_model.release_infos
-    parsed_dates_set = set((r.release_date for r in d_ri))
+    parsed_dates_set = set(r.release_date for r in d_ri)
     model_dates_set = set(r.initial_release_date for r in m_ri)
 
     is_conflicted = len(d_ri) < len(m_ri)

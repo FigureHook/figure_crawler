@@ -34,7 +34,7 @@ class TestProdcutModelFactory:
 
 @pytest.mark.usefixtures("session")
 class TestReleaseInfoComparater:
-    def test_delay(product_base):
+    def test_delay(self, product_base):
         product_base.release_infos = HistoricalReleases([
             Release(date(2020, 2, 2), 12000)
         ])
@@ -50,7 +50,7 @@ class TestReleaseInfoComparater:
         )
         assert compare_release_infos(product_base, p_m) == ReleaseInfoStatus.DELAY
 
-    def test_same(product_base):
+    def test_same(self, product_base):
         product_base.release_infos = HistoricalReleases([
             Release(None, 12000),
             Release(date(2020, 2, 2), 12000),
@@ -76,7 +76,7 @@ class TestReleaseInfoComparater:
 
         assert compare_release_infos(product_base, p_m) == ReleaseInfoStatus.SAME
 
-    def test_stalled(product_base):
+    def test_stalled(self, product_base):
         product_base.release_infos = HistoricalReleases([
             Release(None, 12000),
             Release(date(2020, 2, 2), 12000),
@@ -98,7 +98,7 @@ class TestReleaseInfoComparater:
 
         assert compare_release_infos(product_base, p_m) == ReleaseInfoStatus.STALLED
 
-    def test_alter(product_base):
+    def test_alter(self, product_base):
         product_base.release_infos = HistoricalReleases([
             Release(date(2020, 1, 2), 12000),
             Release(date(2023, 2, 2), 12000),
@@ -120,7 +120,7 @@ class TestReleaseInfoComparater:
 
         assert compare_release_infos(product_base, p_m) == ReleaseInfoStatus.ALTER
 
-    def test_new_release(product_base):
+    def test_new_release(self, product_base):
         product_base.release_infos = HistoricalReleases([
             Release(date(2020, 1, 2), 12000),
             Release(date(2023, 2, 2), 12000),
@@ -143,7 +143,7 @@ class TestReleaseInfoComparater:
 
         assert compare_release_infos(product_base, p_m) == ReleaseInfoStatus.NEW_RELEASE
 
-    def test_conflict(product_base):
+    def test_conflict(self, product_base):
         product_base.release_infos = HistoricalReleases([
             Release(date(2020, 1, 2), 12000),
             Release(date(2023, 2, 2), 12000),

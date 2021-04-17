@@ -3,7 +3,7 @@ import re
 from collections import UserDict
 from datetime import date
 
-from ...constants import GSCLang
+from ..constants import GSCLang
 from ..utils import RelativeUrl, get_page
 
 

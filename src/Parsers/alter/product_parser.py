@@ -6,8 +6,8 @@ from urllib.parse import urlparse, urlunparse
 from bs4 import BeautifulSoup
 from bs4.element import Tag
 
-from ...constants import BrandHost
 from ..abcs import ProductParser
+from ..constants import BrandHost
 from ..utils import check_url_host, price_parse, scale_parse, size_parse
 
 
