@@ -1,8 +1,7 @@
 import pytest
 
-from src.constants import BrandHost
-from src.utils.checker import check_url_host
-from src.utils.text_parser import price_parse
+from src.Parsers.constants import BrandHost
+from src.Parsers.utils import check_url_host, price_parse
 
 mock_self = "mock"
 

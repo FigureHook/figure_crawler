@@ -3,7 +3,7 @@ import random
 import pytest
 from faker import Faker
 
-from src.custom_classes import HistoricalReleases, OrderPeriod, Release
+from src.Parsers.extension_class import HistoricalReleases, OrderPeriod, Release
 from src.Factory import ProductBase
 
 

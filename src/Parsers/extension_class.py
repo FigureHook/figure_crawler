@@ -1,11 +1,22 @@
 from collections import UserList
 from dataclasses import asdict, dataclass
 from datetime import date, datetime
-from typing import Literal, Mapping, Optional, Union
+from typing import Any, Optional, TypeVar
+
+__all__ = [
+    "OrderPeriod",
+    "Release",
+    "HistoricalReleases"
+]
+
+
+class AsDictable:
+    def as_dict(self):
+        return asdict(self)
 
 
 @dataclass
-class OrderPeriod:
+class OrderPeriod(AsDictable):
     start: Optional[datetime] = None
     end: Optional[datetime] = None
 
@@ -15,9 +26,6 @@ class OrderPeriod:
         if start and end:
             if end < start:
                 raise ValueError("start date shouldn't larger than end date.")
-
-    def as_dict(self) -> Mapping[Literal["start", "end"], Union[datetime, None]]:
-        return asdict(self)
 
     @property
     def is_available(self):
@@ -30,27 +38,29 @@ class OrderPeriod:
         return self._is_available(the_time)
 
     def _is_available(self, the_time: datetime) -> bool:
-        if not self.start:
-            return the_time < self.end
-        if not self.end:
-            return the_time > self.start
-        if self.start and self.end:
-            return self.start < the_time < self.end
+        is_available = True
+        if not self.start and self.end:
+            is_available = the_time < self.end
+        elif not self.end and self.start:
+            is_available = the_time > self.start
+        elif self.start and self.end:
+            is_available = self.start < the_time < self.end
+        return is_available
 
     def __bool__(self):
         return any((self.start, self.end))
 
 
 @dataclass(frozen=True)
-class Release:
+class Release(AsDictable):
     release_date: Optional[date]
-    price: int
-
-    def as_dict(self):
-        return asdict(self)
+    price: Optional[int]
 
 
-class HistoricalReleases(UserList[Release]):
+T = TypeVar('T')
+
+
+class HistoricalReleases(UserList[T]):
     """
     List[Release]
 
@@ -66,7 +76,7 @@ class HistoricalReleases(UserList[Release]):
     ```
     """
 
-    def sort(self):
+    def sort(self, *args: Any, **kwds: Any) -> None:
         def sort_release(release: Release):
             if isinstance(release.release_date, date):
                 return release.release_date

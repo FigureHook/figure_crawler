@@ -1,25 +1,25 @@
 import re
 from datetime import date, datetime
-from typing import List, Union
+from typing import Dict, List, Optional, Union
 from urllib.parse import urlparse, urlunparse
 
 from bs4 import BeautifulSoup
+from bs4.element import Tag
 
-from src.constants import BrandHost
-from src.Parsers.product_parser import ProductParser
-from src.utils.checker import check_url_host
-from src.utils.text_parser import price_parse, scale_parse, size_parse
+from ..abcs import ProductParser
+from ..constants import BrandHost
+from ..utils import check_url_host, price_parse, scale_parse, size_parse
 
 
 class AlterProductParser(ProductParser):
     @check_url_host(BrandHost.ALTER)
-    def __init__(self, url: str, page: BeautifulSoup = None):
+    def __init__(self, url: str, page: Optional[BeautifulSoup] = None):
         super().__init__(url, page)
         self.detail = self._parse_detail()
         self.spec = self._parse_spec()
 
     def _parse_detail(self):
-        detail = self.page.select_one("#contents")
+        detail: Union[Tag, None] = self.page.select_one("#contents")
         return detail
 
     def _parse_spec(self):
@@ -36,7 +36,7 @@ class AlterProductParser(ProductParser):
                     value = [content for content in td.contents if content.name != "br"]
                 values.append(value)
 
-        spec = dict(zip(heads, values))
+        spec: Dict[str, str] = dict(zip(heads, values))
         return spec
 
     def parse_maker_id(self) -> str:
@@ -60,14 +60,15 @@ class AlterProductParser(ProductParser):
         return "アルター"
 
     def parse_prices(self) -> List[int]:
-        price_list = []
+        price_list: List[int] = []
         price_text = self.spec["価格"]
         is_weird_price_text = re.findall(r"税抜", price_text)
         price_pattern = r"税抜\d\S+?円" if is_weird_price_text else r"\d\S+?円"
         price_text = re.findall(price_pattern, price_text)
         for p in price_text:
             price = price_parse(p)
-            price_list.append(price)
+            if price:
+                price_list.append(price)
 
         return price_list
 
@@ -77,7 +78,7 @@ class AlterProductParser(ProductParser):
         date_list = [datetime.strptime(date, "%Y年%m月").date() for date in matched_date]
         return date_list
 
-    def parse_scale(self):
+    def parse_scale(self) -> Union[int, None]:
         scale = scale_parse(self.spec["サイズ"])
         return scale
 
@@ -95,28 +96,27 @@ class AlterProductParser(ProductParser):
 
         return sculptors
 
-    def parse_series(self) -> str:
+    def parse_series(self) -> Union[str, None]:
         series = self.spec["作品名"]
         return series
 
-    def parse_size(self) -> int:
+    def parse_size(self) -> Union[int, None]:
         size = size_parse(self.spec["サイズ"])
         return size
 
     def parse_paintworks(self) -> List[str]:
         paintwork_texts = self.spec["彩色"]
-        paintworks = []
+        paintworks: List[str] = []
         for p in paintwork_texts:
             paintwork = parse_worker(p)
-            the_type = type(paintwork)
-            if the_type is list:
+            if isinstance(paintwork, list):
                 paintworks.extend(paintwork)
-            if paintwork and the_type is str:
+            if paintwork and isinstance(paintwork, str):
                 paintworks.append(paintwork)
 
         return paintworks
 
-    def parse_releaser(self) -> str:
+    def parse_releaser(self) -> Union[str, None]:
         pattern = r"：(\S.+)"
 
         the_other_releaser = self.detail.find(
@@ -132,7 +132,7 @@ class AlterProductParser(ProductParser):
 
         return releaser
 
-    def parse_distributer(self) -> str:
+    def parse_distributer(self) -> Union[str, None]:
         pattern = r"：(\S.+)"
 
         the_other_releaser = self.detail.find(
@@ -147,7 +147,7 @@ class AlterProductParser(ProductParser):
         distributer = re.search(pattern, distributer_text).group(1).strip()
         return distributer
 
-    def parse_resale(self):
+    def parse_resale(self) -> bool:
         is_resale = bool(self.page.find(class_='resale'))
         return is_resale
 
@@ -163,7 +163,7 @@ class AlterProductParser(ProductParser):
 
         return images
 
-    def parse_copyright(self) -> str:
+    def parse_copyright(self) -> Union[str, None]:
         pattern = r"(©.*)※"
         copyright_info = self.detail.select_one(".copyright").text
         copyright_ = re.search(
@@ -175,7 +175,7 @@ class AlterProductParser(ProductParser):
 
 def parse_worker(text) -> Union[List[str], str]:
     if text in ["―", "—"]:
-        return None
+        return ""
 
     plus_text = "＋"
     text = text.replace(" ", "")

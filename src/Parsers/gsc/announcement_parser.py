@@ -1,11 +1,17 @@
-from typing import List
+from typing import List, Optional
 
-from src.Parsers.announcement_parser import YearlyAnnouncement
-from src.utils import get_page, RelativeUrl
+from ..abcs import YearlyAnnouncement
+from ..utils import RelativeUrl, get_page
 
 
 class GSCYearlyAnnouncement(YearlyAnnouncement):
-    def __init__(self, category: str, start=2006, end=None, lang="ja") -> None:
+    def __init__(
+        self,
+        category: str,
+        start: int = 2006,
+        end: Optional[int] = None,
+        lang: str = "ja"
+    ) -> None:
         super().__init__(start, end)
         self._base_url = make_base_url(category, lang)
 

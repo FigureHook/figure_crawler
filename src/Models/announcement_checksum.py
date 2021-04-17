@@ -4,8 +4,7 @@ from sqlalchemy import Column, DateTime, Enum, String
 from sqlalchemy import event as sqlalchemy_event
 from sqlalchemy.sql import func
 
-from src.constants import SourceSite
-
+from ..constants import SourceSite
 from .base import Model
 
 __all__ = [

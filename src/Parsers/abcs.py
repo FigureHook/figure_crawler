@@ -1,16 +1,16 @@
 from abc import ABC, abstractmethod
-from datetime import date
-from typing import ClassVar, Dict, List, Optional, Union
+from datetime import date, datetime
+from typing import Any, ClassVar, Dict, List, Optional, Union
 
 from bs4 import BeautifulSoup
 
-from src.custom_classes import HistoricalReleases, OrderPeriod, Release
-from src.utils import get_page, make_last_element_filler
+from .extension_class import HistoricalReleases, OrderPeriod, Release
+from .utils import get_page, make_last_element_filler
 
 
 class ProductParser(ABC):
-    headers: ClassVar[Dict] = {}
-    cookies: ClassVar[Dict] = {}
+    headers: ClassVar[Dict[str, Any]] = {}
+    cookies: ClassVar[Dict[str, Any]] = {}
 
     def __init__(self, url: str, page: Optional[BeautifulSoup] = None):
         self.__url = url
@@ -25,13 +25,10 @@ class ProductParser(ABC):
         return self.__page
 
     @abstractmethod
-    def _parse_detail(self): ...
-
-    @abstractmethod
     def parse_name(self) -> str: ...
 
     @abstractmethod
-    def parse_series(self) -> str: ...
+    def parse_series(self) -> Union[str, None]: ...
 
     @abstractmethod
     def parse_manufacturer(self) -> str: ...
@@ -69,16 +66,16 @@ class ProductParser(ABC):
         ...
 
     @abstractmethod
-    def parse_size(self) -> int:
+    def parse_size(self) -> Union[int, None]:
         """The unit is `mm`"""
         ...
 
     @abstractmethod
-    def parse_copyright(self) -> str:
+    def parse_copyright(self) -> Union[str, None]:
         ...
 
     @abstractmethod
-    def parse_releaser(self) -> str:
+    def parse_releaser(self) -> Union[str, None]:
         ...
 
     @abstractmethod
@@ -89,13 +86,15 @@ class ProductParser(ABC):
     def parse_images(self) -> List[str]:
         ...
 
-    def parse_price(self) -> int:
-        return self.parse_release_infos().last().price
+    def parse_price(self) -> Union[int, None]:
+        last_release = self.parse_release_infos().last()
+        return last_release.price if last_release else None
 
-    def parse_release_date(self) -> date:
-        return self.parse_release_infos().last().release_date
+    def parse_release_date(self) -> Union[date, None]:
+        last_release = self.parse_release_infos().last()
+        return last_release.release_date if last_release else None
 
-    def parse_release_infos(self) -> HistoricalReleases[Release]:
+    def parse_release_infos(self) -> HistoricalReleases:
         dates = self.parse_release_dates()
         prices = self.parse_prices()
 
@@ -115,7 +114,7 @@ class ProductParser(ABC):
 
         assert len(dates) == len(prices)
 
-        historical_releases = HistoricalReleases()
+        historical_releases: HistoricalReleases[Release] = HistoricalReleases()
         for d, p in zip(dates, prices):
             release = Release(release_date=d, price=p)
             historical_releases.append(release)
@@ -139,3 +138,34 @@ class ProductParser(ABC):
 
     def parse_maker_id(self) -> Union[str, None]:
         return None
+
+
+class YearlyAnnouncement(ABC):
+    def __init__(self, start: int, end: Optional[int]):
+        if not end:
+            end = datetime.now().year
+
+        if type(start) is not int:
+            raise TypeError("start should be 'int'.")
+
+        if type(end) is not int:
+            raise TypeError("end should be 'int'.")
+
+        if end < start:
+            raise ValueError("Cannot assign a smaller number for end.")
+
+        self.period = range(start, end+1)
+
+    @property
+    @abstractmethod
+    def base_url(self):
+        pass
+
+    @abstractmethod
+    def get_yearly_items(self, year: int) -> List[str]:
+        pass
+
+    def __iter__(self):
+        for year in self.period:
+            items = self.get_yearly_items(year)
+            yield items

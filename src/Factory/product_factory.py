@@ -1,12 +1,11 @@
 from abc import ABC
-from typing import Callable, ClassVar, Optional
+from typing import ClassVar, Optional, Type
 
 from bs4 import BeautifulSoup
 
-from src.Parsers.alter import AlterProductParser
-from src.Parsers.gsc import GSCProductParser
-from src.Parsers.product_parser import ProductParser
-
+from ..Parsers.abcs import ProductParser
+from ..Parsers.alter import AlterProductParser
+from ..Parsers.gsc import GSCProductParser
 from .product import Product
 
 __all__ = [
@@ -21,7 +20,7 @@ class ProductFactory(ABC):
     ### abstract product factory
     Inherit this class and implement the parser class property
     """
-    __product_parser__: ClassVar[Callable[[str, Optional[BeautifulSoup]], ProductParser]]
+    __product_parser__: ClassVar[Type[ProductParser]]
 
     @classmethod
     def createProduct(
