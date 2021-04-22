@@ -34,7 +34,7 @@ class ProductOfficialImage(PkModel):
         return images
 
 
-class ProductReleaseInfo(PkModel):
+class ProductReleaseInfo(PkModelWithTimestamps):
     __tablename__ = "product_release_info"
 
     price = Column(Integer)
