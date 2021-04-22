@@ -4,7 +4,7 @@ from ..constants import ReleaseInfoStatus
 from ..Models import Category, Company, Paintwork
 from ..Models import Product as Product
 from ..Models import ProductOfficialImage, ProductReleaseInfo, Sculptor, Series
-from ..Parsers.extension_class import HistoricalReleases
+from ..Parsers.extension_class import HistoricalReleases, Release
 from ..utils.comparater import compare_release_infos
 from .product import ProductBase
 
@@ -122,7 +122,7 @@ class ProductModelFactory:
 
 
 def rebuild_release_infos(
-    parsed_infos: HistoricalReleases,
+    parsed_infos: HistoricalReleases[Release],
     model_infos: List[ProductReleaseInfo]
 ) -> List[ProductReleaseInfo]:
     for dr, mr in zip(parsed_infos, model_infos):
