@@ -25,7 +25,7 @@ class OrderPeriod(AsDictable):
         end = self.end
         if start and end:
             if end < start:
-                raise ValueError("start date shouldn't larger than end date.")
+                raise ValueError(f"start_datetime {start} shouldn't later than end_datetime {end}.")
 
     @property
     def is_available(self):
