@@ -51,12 +51,12 @@ class ProductBase:
     paintworks: list[str]
     order_period: OrderPeriod
     release_infos: HistoricalReleases[Release]
-    copyright: Optional[str]
-    price: Optional[int]
     release_date: Optional[date]
+    price: Optional[int]
     size: Optional[int]
-    series: Optional[str]
     scale: Optional[int]
+    series: Optional[str]
+    copyright: Optional[str]
     releaser: Optional[str]
     distributer: Optional[str]
     jan: Optional[str]
@@ -110,6 +110,8 @@ class ProductDataProcessMixin:
         "manufacturer",
         "releaser",
         "distributer",
+        "paintworks",
+        "sculptors"
     ]
 
     def normalize_attrs(self) -> None:
@@ -121,14 +123,11 @@ class ProductDataProcessMixin:
         ## normalize attributes `paintworks` and `sculptors`
         + replace all brackets to round bracket
         """
-        for attr in self.__attrs_to_be_normalized__ + self.__worker_attrs__:
+        for attr in self.__attrs_to_be_normalized__:
             attr_value = getattr(self, attr)
             normalized_attr_value = ProductUtils.normalize_product_attr(attr_value)
-            setattr(self, attr, normalized_attr_value)
-
-        for attr in self.__worker_attrs__:
-            attr_value = getattr(self, attr)
-            normalized_attr_value = ProductUtils.normalize_worker_attr(attr_value)
+            if attr in self.__worker_attrs__:
+                normalized_attr_value = ProductUtils.normalize_worker_attr(normalized_attr_value)
             setattr(self, attr, normalized_attr_value)
 
 
@@ -147,18 +146,16 @@ class ProductUtils:
         return _normalize(attr_value, _worker_normalize)
 
 
-def _normalize(attr_value: Union[str, list[str]], normalize_func: Callable[[str], str]) -> Union[str, list[str]]:
-    if not attr_value:
-        return attr_value
+NormalizeFunc = Callable[[str], str]
 
+
+def _normalize(attr_value: Union[str, list[str]], normalize_func: NormalizeFunc) -> Union[str, list[str]]:
     if isinstance(attr_value, str):
         return normalize_func(attr_value)
-
     if isinstance(attr_value, list):
-        if all(type(v) is str for v in attr_value):
-            return list(map(normalize_func, attr_value))
+        return [normalize_func(v) for v in attr_value]
 
-    raise TypeError("The attribute value should be `str` or `list[str]`.")
+    raise TypeError(f"attr_value {attr_value} should be `str` or `list[str]`")
 
 
 def _general_normalize(value: str) -> str:
