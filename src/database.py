@@ -1,6 +1,7 @@
 import os
 from contextlib import contextmanager
 from dataclasses import dataclass
+from typing import ClassVar, Optional
 
 from sqlalchemy import create_engine
 from sqlalchemy.engine.base import Engine
@@ -15,6 +16,41 @@ from .Models.base import Model
 class DbSession:
     engine: Engine
     session: scoped_session
+
+
+class PostgreSQLDB:
+    _instance = None
+
+    _engine: ClassVar[Optional[Engine]] = None
+    _db_url = os.environ.get("DB_URL")
+    _Session = None
+
+    def __new__(cls):
+        if not cls._instance:
+            cls._engine = create_engine(cls._db_url)
+            cls._Session = sessionmaker(cls._engine)
+            cls._instance = super().__new__(cls)
+        return cls._instance
+
+    @property
+    def engine(self):
+        return self._engine
+
+    @property
+    def Session(self):
+        return self._Session
+
+
+@contextmanager
+def pgsql_session():
+    pgsql = PostgreSQLDB()
+    with pgsql.Session.begin() as session:
+
+        Model.set_session(session)
+
+        yield session
+
+        Model.set_session(None)
 
 
 @contextmanager
