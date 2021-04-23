@@ -47,6 +47,7 @@ class ProductModelFactory:
             category=category,
             id_by_official=product_dataclass.maker_id,
             checksum=product_dataclass.checksum,
+            jan=product_dataclass.jan,
             order_period_start=product_dataclass.order_period.start,
             order_period_end=product_dataclass.order_period.end,
             # relationship
@@ -126,10 +127,8 @@ def rebuild_release_infos(
     model_infos: List[ProductReleaseInfo]
 ) -> List[ProductReleaseInfo]:
     for dr, mr in zip(parsed_infos, model_infos):
-        mr.update(
-            initial_release_date=dr.release_date,
-            price=dr.price
-        )
+        mr.update(price=dr.price)
+        mr.postpone_release_date_to(dr.release_date)
     return model_infos
 
 

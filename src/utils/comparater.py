@@ -31,25 +31,28 @@ def compare_release_infos(p_dataclass: ProductBase, p_model: ProductModel) -> Re
     parsed_dates_set = set(r.release_date for r in d_ri)
     model_dates_set = set(r.initial_release_date for r in m_ri)
 
+    # The parsed data is always newer than data in model.
+    # Therefore the release_infos shouldn't less than release_infos in model.
     is_conflicted = len(d_ri) < len(m_ri)
+    is_same_length = len(d_ri) == len(m_ri)
+    is_new_release = len(d_ri) > len(m_ri)
+
     if is_conflicted:
         return ReleaseInfoStatus.CONFLICT
 
-    last_release_from_dataclass = d_ri.last()
-    last_release_form_model = p_model.last_release()
-
-    same_length = len(d_ri) == len(m_ri)
-    if same_length and last_release_form_model and last_release_from_dataclass:
+    if is_same_length and parsed_dates_set and model_dates_set:
         if None in (parsed_dates_set - model_dates_set):
             return ReleaseInfoStatus.STALLED
-        if last_release_from_dataclass.release_date:
+
+        if parsed_dates_set != model_dates_set:
+            if is_new_release:
+                return ReleaseInfoStatus.NEW_RELEASE
+
+            last_release_from_dataclass = d_ri.last()
+            last_release_form_model = p_model.last_release()
             if last_release_from_dataclass.release_date != last_release_form_model.initial_release_date:
                 return ReleaseInfoStatus.DELAY
 
-    is_new_release = len(d_ri) > len(m_ri)
-    if parsed_dates_set != model_dates_set:
-        if is_new_release:
-            return ReleaseInfoStatus.NEW_RELEASE
-        return ReleaseInfoStatus.ALTER
+            return ReleaseInfoStatus.ALTER
 
     return ReleaseInfoStatus.SAME
