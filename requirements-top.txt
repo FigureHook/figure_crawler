@@ -3,6 +3,7 @@ lxml
 requests
 psycopg2
 SQLAlchemy
+sqlalchemy2-stubs
 PyYAML
 flake8
 alembic
