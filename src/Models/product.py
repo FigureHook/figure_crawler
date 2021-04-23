@@ -66,7 +66,7 @@ class ProductReleaseInfo(PkModelWithTimestamps):
                 raise ValueError(f"{delay_date} should be later than {self.initial_release_date}")
 
     def stall(self):
-        self.initial_release_date = None
+        self.update(initial_release_date=None, delay_release_date=None)
 
 
 class Product(PkModelWithTimestamps):
