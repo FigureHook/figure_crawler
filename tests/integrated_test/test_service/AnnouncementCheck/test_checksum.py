@@ -1,6 +1,7 @@
 import pytest
 
-from src.Services.AnnouncementCheck.checksum import GSCChecksum, SiteChecksum
+from src.Services.AnnouncementCheck.checksum import (AlterChecksum,
+                                                     GSCChecksum, SiteChecksum)
 
 
 @pytest.mark.usefixtures("session")
@@ -16,6 +17,8 @@ class BaseTestChecksum:
         assert hasattr(site_checksum, "current")
         assert hasattr(site_checksum, "previous")
         assert hasattr(site_checksum, "is_changed")
+        assert hasattr(site_checksum, "feature")
+        assert isinstance(site_checksum.feature, frozenset)
 
     def test_checksum_generation(self):
         site_checksum: SiteChecksum = self.__checksum_class__()
@@ -34,7 +37,6 @@ class BaseTestChecksum:
 class TestGSC(BaseTestChecksum):
     __checksum_class__ = GSCChecksum
 
-    def test_feature(self):
-        site_checksum: GSCChecksum = self.__checksum_class__()
-        assert hasattr(site_checksum, "feature")
-        assert isinstance(site_checksum.feature, list)
+
+class TestAlter(BaseTestChecksum):
+    __checksum_class__ = AlterChecksum

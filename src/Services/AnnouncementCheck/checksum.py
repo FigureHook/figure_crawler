@@ -7,8 +7,13 @@ from src.constants import SourceSite
 from src.Models import AnnouncementChecksum
 from src.Parsers.constants import GSCCategory
 from src.Parsers.gsc import GSCYearlyAnnouncement
+from src.Parsers.utils import get_page
 
-__all__ = ["GSCChecksum", "SiteChecksum"]
+__all__ = [
+    "GSCChecksum",
+    "AlterChecksum",
+    "SiteChecksum",
+]
 
 
 def calculate_checksum(target):
@@ -20,10 +25,15 @@ class SiteChecksum(ABC):
     __site_checksum: Optional[AnnouncementChecksum]
 
     def __init__(self) -> None:
-        if not getattr(self, "__site__"):
+        if not hasattr(self, "__site__"):
             raise NotImplementedError("Class attribute `__site__` should be implemented.")
 
         self.__site_checksum = AnnouncementChecksum.get_by_site(self.__site__)
+        self._feature = self._extract_feature()
+
+    @property
+    def feature(self):
+        return self._feature
 
     @property
     def current(self):
@@ -37,42 +47,36 @@ class SiteChecksum(ABC):
     def is_changed(self):
         return self.current != self.previous
 
-    @property
-    @abstractmethod
-    def feature(self):
-        pass
-
-    @abstractmethod
     def _generate_checksum(self):
-        pass
+        return calculate_checksum(self.feature)
 
-    def update(self, commit=True):
+    def update(self):
         if self.__site_checksum:
             self.__site_checksum.update(checksum=self.current)
         else:
             self.__site_checksum = AnnouncementChecksum.create(site=self.__site__, checksum=self.current)
 
-        if commit:
-            self.__site_checksum.session.commit()
-
-        return self
+    @staticmethod
+    @abstractmethod
+    def _extract_feature() -> frozenset[str]: ...
 
 
 class GSCChecksum(SiteChecksum):
     __site__ = SourceSite.GSC
 
-    def __init__(self) -> None:
-        super().__init__()
-        self._feature = self._extract_feature()
-
-    @property
-    def feature(self):
-        return self._feature
-
-    def _extract_feature(self):
+    @staticmethod
+    def _extract_feature() -> frozenset[str]:
         gsc_annuounce = GSCYearlyAnnouncement(GSCCategory.SCALE)
         product_links = gsc_annuounce.get_yearly_items(datetime.now().year)
-        return product_links
+        return frozenset(product_links)
 
-    def _generate_checksum(self):
-        return calculate_checksum(self.feature)
+
+class AlterChecksum(SiteChecksum):
+    __site__ = SourceSite.ALTER
+
+    @staticmethod
+    def _extract_feature() -> frozenset[str]:
+        page = get_page("https://www.alter-web.jp/products/")
+        p_links = page.select(".page > .imgs > figure > a")
+        product_links = frozenset(p["href"] for p in p_links)
+        return product_links
