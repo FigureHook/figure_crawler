@@ -100,13 +100,18 @@ class TestReleaseInfoComparater:
 
     def test_alter(self, product_base):
         product_base.release_infos = HistoricalReleases([
-            Release(date(2020, 1, 2), 12000),
+            Release(date(2019, 1, 2), 12000),
+            Release(date(2020, 5, 2), 12000),
             Release(date(2023, 2, 2), 12000),
         ])
 
         p_m = Product.create(
             name="foo",
             release_infos=[
+                ProductReleaseInfo(
+                    initial_release_date=date(2019, 2, 2),
+                    price=12000
+                ),
                 ProductReleaseInfo(
                     initial_release_date=date(2020, 2, 2),
                     price=12000
@@ -173,13 +178,18 @@ class TestReleaseInfoComparater:
 @pytest.mark.usefixtures("session")
 def test_rebuild_release_infos(product_base):
     product_base.release_infos = HistoricalReleases([
-        Release(date(2020, 1, 2), 13000),
+        Release(date(2019, 11, 2), 13000),
+        Release(date(2020, 3, 2), 13000),
         Release(date(2023, 2, 2), 12000),
     ])
 
     p_m = Product.create(
         name="foo",
         release_infos=[
+            ProductReleaseInfo(
+                initial_release_date=date(2019, 12, 2),
+                price=12000
+            ),
             ProductReleaseInfo(
                 initial_release_date=date(2020, 2, 2),
                 price=12000
@@ -193,6 +203,9 @@ def test_rebuild_release_infos(product_base):
 
     rebuild_release_infos(product_base.release_infos, p_m.release_infos)
 
-    for dr, pr in zip(product_base.release_infos, p_m.release_infos):
-        assert dr.release_date == pr.initial_release_date
-        assert dr.price == pr.price
+    for dr, mr in zip(product_base.release_infos, p_m.release_infos):
+        if mr.delay_release_date:
+            assert dr.release_date == mr.delay_release_date
+        else:
+            assert dr.release_date == mr.initial_release_date
+        assert dr.price == mr.price

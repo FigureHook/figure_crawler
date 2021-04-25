@@ -128,7 +128,11 @@ def rebuild_release_infos(
 ) -> List[ProductReleaseInfo]:
     for dr, mr in zip(parsed_infos, model_infos):
         mr.update(price=dr.price)
-        mr.postpone_release_date_to(dr.release_date)
+        if dr.release_date:
+            if dr.release_date < mr.initial_release_date:
+                mr.update(initial_release_date=dr.release_date)
+            else:
+                mr.postpone_release_date_to(dr.release_date)
     return model_infos
 
 

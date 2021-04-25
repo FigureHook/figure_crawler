@@ -125,10 +125,11 @@ class ProductDataProcessMixin:
         """
         for attr in self.__attrs_to_be_normalized__:
             attr_value = getattr(self, attr)
-            normalized_attr_value = ProductUtils.normalize_product_attr(attr_value)
-            if attr in self.__worker_attrs__:
-                normalized_attr_value = ProductUtils.normalize_worker_attr(normalized_attr_value)
-            setattr(self, attr, normalized_attr_value)
+            if attr_value is not None:
+                normalized_attr_value = ProductUtils.normalize_product_attr(attr_value)
+                if attr in self.__worker_attrs__:
+                    normalized_attr_value = ProductUtils.normalize_worker_attr(normalized_attr_value)
+                setattr(self, attr, normalized_attr_value)
 
 
 class Product(ProductBase, ProductDataProcessMixin):
@@ -150,6 +151,8 @@ NormalizeFunc = Callable[[str], str]
 
 
 def _normalize(attr_value: Union[str, list[str]], normalize_func: NormalizeFunc) -> Union[str, list[str]]:
+    if not attr_value:
+        return attr_value
     if isinstance(attr_value, str):
         return normalize_func(attr_value)
     if isinstance(attr_value, list):

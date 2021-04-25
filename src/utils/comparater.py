@@ -44,15 +44,15 @@ def compare_release_infos(p_dataclass: ProductBase, p_model: ProductModel) -> Re
         if None in (parsed_dates_set - model_dates_set):
             return ReleaseInfoStatus.STALLED
 
-        if parsed_dates_set != model_dates_set:
-            if is_new_release:
-                return ReleaseInfoStatus.NEW_RELEASE
+    if parsed_dates_set != model_dates_set:
+        if is_new_release:
+            return ReleaseInfoStatus.NEW_RELEASE
 
-            last_release_from_dataclass = d_ri.last()
-            last_release_form_model = p_model.last_release()
-            if last_release_from_dataclass.release_date != last_release_form_model.initial_release_date:
-                return ReleaseInfoStatus.DELAY
+        last_release_from_dataclass = d_ri.last()
+        last_release_form_model = p_model.last_release()
+        if last_release_from_dataclass.release_date != last_release_form_model.initial_release_date:
+            return ReleaseInfoStatus.DELAY
 
-            return ReleaseInfoStatus.ALTER
+        return ReleaseInfoStatus.ALTER
 
     return ReleaseInfoStatus.SAME
