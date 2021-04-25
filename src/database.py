@@ -22,11 +22,13 @@ class PostgreSQLDB:
     _instance = None
 
     _engine: ClassVar[Optional[Engine]] = None
-    _db_url = os.environ.get("DB_URL")
+    _db_url = os.environ.get("DB_URL", None)
     _Session = None
 
     def __new__(cls):
         if not cls._instance:
+            if not cls._db_url:
+                raise ValueError("Please set environment variable `DB_URL`")
             cls._engine = create_engine(cls._db_url)
             cls._Session = sessionmaker(cls._engine)
             cls._instance = super().__new__(cls)
