@@ -30,7 +30,7 @@ class PostgreSQLDB:
             if not cls._db_url:
                 raise ValueError("Please set environment variable `DB_URL`")
             cls._engine = create_engine(cls._db_url)
-            cls._Session = sessionmaker(cls._engine)
+            cls._Session = sessionmaker(cls._engine, future=True)
             cls._instance = super().__new__(cls)
         return cls._instance
 
@@ -52,7 +52,7 @@ def pgsql_session():
 
         yield session
 
-        Model.set_session(None)
+    Model.set_session(None)
 
 
 @contextmanager
