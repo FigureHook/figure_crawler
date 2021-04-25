@@ -15,15 +15,14 @@ def session():
     POSTGRES_PASSWORD = "try"
     POSTGRES_DB = "figure_testing"
 
-    with db(f"postgresql+psycopg2://{POSTGRES_USER}:{POSTGRES_PASSWORD}@db:5432/{POSTGRES_DB}", echo=True) as db:
-        engine = db.engine
-        session = db.session
+    with db(f"postgresql+psycopg2://{POSTGRES_USER}:{POSTGRES_PASSWORD}@db:5432/{POSTGRES_DB}", echo=True) as d:
+        engine = d.engine
+        session = d.session
 
         Model.metadata.create_all(bind=engine)
 
         yield session
 
-    session.close()
     Model.metadata.drop_all(bind=engine)
 
 
