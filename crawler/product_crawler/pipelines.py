@@ -3,13 +3,10 @@
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 
-
-import os
 from typing import Union
+import logging
 
-from scrapy.exceptions import DropItem
-
-from src.database import db
+from src.database import pgsql_session
 from src.Factory.model_factory import ProductModelFactory
 from src.Factory.product import Product as product_dataclass
 from src.Models import Product
@@ -17,10 +14,7 @@ from src.Models import Product
 
 class SaveProductInDatabasePipeline:
     def process_item(self, item: product_dataclass, spider):
-        logger = spider.logger
-
-        with db(os.environ["DB_URL"], echo=False) as d:
-            session = d.session
+        with pgsql_session():
             product: Union[Product, None] = Product.query.filter_by(
                 name=item.name,
                 id_by_official=item.maker_id
@@ -30,16 +24,10 @@ class SaveProductInDatabasePipeline:
                 should_be_updated = not product.check_checksum(item.checksum)
                 if should_be_updated:
                     product = ProductModelFactory.updateProduct(item, product)
-                    session.commit()
-                    logger.info(f"Successfully update data in {item.url} to database.")
+                    spider.log(f"Successfully update data in {item.url} to database.", logging.INFO)
 
             if not product:
-                try:
-                    product = ProductModelFactory.createProduct(item)
-                    session.commit()
-                    logger.info(f"Successfully save data in {item.url} to database.")
-                except ValueError:
-                    logger.error(f"Failed to save data in {item.url} to database.")
-                    raise DropItem
+                product = ProductModelFactory.createProduct(item)
+                spider.log(f"Successfully save data in {item.url} to database.", logging.INFO)
 
         return item
