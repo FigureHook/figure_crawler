@@ -3,27 +3,33 @@ import random
 import pytest
 from faker import Faker
 
-from src.Parsers.extension_class import HistoricalReleases, OrderPeriod, Release
 from src.Factory import ProductBase
+from src.Parsers.extension_class import (HistoricalReleases, OrderPeriod,
+                                         Release)
 
 
 @pytest.fixture()
 def session():
-    from src.database import Model, db
-
+    import os
     POSTGRES_USER = "postgres"
     POSTGRES_PASSWORD = "try"
     POSTGRES_DB = "figure_testing"
+    os.environ["DB_URL"] = f"postgresql+psycopg2://{POSTGRES_USER}:{POSTGRES_PASSWORD}@db:5432/{POSTGRES_DB}"
 
-    with db(f"postgresql+psycopg2://{POSTGRES_USER}:{POSTGRES_PASSWORD}@db:5432/{POSTGRES_DB}", echo=False) as d:
-        engine = d.engine
-        session = d.session
+    from sqlalchemy.orm import Session
 
-        Model.metadata.create_all(bind=engine)
+    from src.database import PostgreSQLDB
+    from src.Models.base import Model
 
+    pgsql = PostgreSQLDB()
+
+    with Session(pgsql.engine) as session:
+        Model.set_session(session)
+        Model.metadata.create_all(bind=pgsql.engine)
         yield session
 
-    Model.metadata.drop_all(bind=engine)
+    Model.set_session(None)
+    Model.metadata.drop_all(bind=pgsql.engine)
 
 
 @pytest.fixture()
