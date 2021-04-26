@@ -40,8 +40,12 @@ def fetch_alter_newest_year() -> Union[int, None]:
     page = get_page("http://www.alter-web.jp/products/")
     year_selection = page.select_one("#changeY")
     year_options = year_selection.select("option")
-    if year_options:
-        newest_year = year_options[0]["value"]
-        if newest_year.isdigit():
-            return int(newest_year)
+    years = []
+    for option in year_options:
+        year: str = option["value"]
+        if year.isdigit():
+            years.append(int(year))
+
+    if years:
+        return max(years)
     return None
