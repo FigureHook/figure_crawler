@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from datetime import date, datetime
-from typing import Any, ClassVar, Dict, List, Optional, Union
+from typing import ClassVar, Dict, List, Optional, Union
 
 from bs4 import BeautifulSoup
 
@@ -9,8 +9,8 @@ from .utils import get_page, make_last_element_filler
 
 
 class ProductParser(ABC):
-    headers: ClassVar[Dict[str, Any]] = {}
-    cookies: ClassVar[Dict[str, Any]] = {}
+    headers: ClassVar[Dict[str, str]] = {}
+    cookies: ClassVar[Dict[str, str]] = {}
 
     def __init__(self, url: str, page: Optional[BeautifulSoup] = None):
         self.__url = url
