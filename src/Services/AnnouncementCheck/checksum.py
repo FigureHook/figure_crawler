@@ -5,9 +5,9 @@ from typing import Optional
 
 from src.constants import SourceSite
 from src.Models import AnnouncementChecksum
+from src.Parsers.alter import AlterYearlyAnnouncement
 from src.Parsers.constants import GSCCategory
 from src.Parsers.gsc import GSCYearlyAnnouncement
-from src.Parsers.utils import get_page
 
 __all__ = [
     "GSCChecksum",
@@ -76,7 +76,6 @@ class AlterChecksum(SiteChecksum):
 
     @staticmethod
     def _extract_feature() -> frozenset[str]:
-        page = get_page("https://www.alter-web.jp/products/")
-        p_links = page.select(".page > .imgs > figure > a")
-        product_links = frozenset(p["href"] for p in p_links)
-        return product_links
+        alter_announce = AlterYearlyAnnouncement()
+        prodcut_links = alter_announce.get_yearly_items(max(alter_announce.period))
+        return frozenset(prodcut_links)
