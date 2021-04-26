@@ -11,10 +11,7 @@ from src.Parsers.extension_class import (HistoricalReleases, OrderPeriod,
 @pytest.fixture()
 def session():
     import os
-    POSTGRES_USER = "postgres"
-    POSTGRES_PASSWORD = "try"
-    POSTGRES_DB = "figure_testing"
-    os.environ["DB_URL"] = f"postgresql+psycopg2://{POSTGRES_USER}:{POSTGRES_PASSWORD}@db:5432/{POSTGRES_DB}"
+    os.environ["MODE"] = "test"
 
     from sqlalchemy.orm import Session
 
