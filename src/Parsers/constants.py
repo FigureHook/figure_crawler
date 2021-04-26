@@ -15,6 +15,7 @@ class GSCCategory(str, Enum):
 
 
 class AlterCategory(str, Enum):
+    ALL = "products "
     FIGURE = "figure"
     ALTAIR = "altair"
     COLLABO = "collabo"
