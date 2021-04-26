@@ -4,8 +4,8 @@ import pytest
 import yaml
 from _pytest.assertion.util import isiterable
 
-from src.Parsers.alter import AlterProductParser
-from src.Parsers.constants import GSCCategory, GSCLang
+from src.Parsers.alter import AlterProductParser, AlterYearlyAnnouncement, AlterAnnouncementLinkExtractor
+from src.Parsers.constants import AlterCategory, GSCCategory, GSCLang
 from src.Parsers.extension_class import HistoricalReleases, Release
 from src.Parsers.gsc import (GSCAnnouncementLinkExtractor, GSCProductParser,
                              GSCReleaseInfo, GSCYearlyAnnouncement)
@@ -142,6 +142,7 @@ class TestGSCParser(BaseTestCase):
 
         assert isiterable(gsc_yearly)
         for items in gsc_yearly:
+            assert items
             assert isinstance(items, list)
 
     def test_worker_parser(self):
@@ -169,6 +170,7 @@ class TestGSCParser(BaseTestCase):
         page = get_page(src)
         links = GSCAnnouncementLinkExtractor.extract(page)
         assert isinstance(links, list)
+        assert links
 
 
 class TestAlterParser(BaseTestCase):
@@ -183,6 +185,24 @@ class TestAlterParser(BaseTestCase):
 
     def test_order_period(self, item):
         pytest.skip("Alter doesn't provide order_period.")
+
+    def test_announcement(self):
+        alter_yearly = AlterYearlyAnnouncement(
+            AlterCategory.FIGURE,
+            start=2020
+        )
+
+        assert isiterable(alter_yearly)
+        for items in alter_yearly:
+            assert items
+            assert isinstance(items, list)
+
+    def test_announcement_link_extractor(self):
+        src = "http://www.alter-web.jp/figure/?yy=2014&mm="
+        page = get_page(src)
+        links = AlterAnnouncementLinkExtractor.extract(page)
+        assert links
+        assert isinstance(links, list)
 
 
 class TestParserUtils:
