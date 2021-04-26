@@ -156,11 +156,6 @@ class YearlyAnnouncement(ABC):
 
         self.period = range(start, end+1)
 
-    @property
-    @abstractmethod
-    def base_url(self):
-        pass
-
     @abstractmethod
     def get_yearly_items(self, year: int) -> List[str]:
         pass

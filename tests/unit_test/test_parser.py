@@ -9,6 +9,7 @@ from src.Parsers.constants import GSCCategory, GSCLang
 from src.Parsers.extension_class import HistoricalReleases, Release
 from src.Parsers.gsc import (GSCAnnouncementLinkExtractor, GSCProductParser,
                              GSCReleaseInfo, GSCYearlyAnnouncement)
+from src.Parsers.utils import get_page
 
 
 def load_yaml(path):
@@ -165,7 +166,8 @@ class TestGSCParser(BaseTestCase):
 
     def test_announcement_link_extractor(self):
         src = "https://www.goodsmile.info/ja/products/category/scale/announced/2020"
-        links = GSCAnnouncementLinkExtractor(src).extract()
+        page = get_page(src)
+        links = GSCAnnouncementLinkExtractor.extract(page)
         assert isinstance(links, list)
 
 
