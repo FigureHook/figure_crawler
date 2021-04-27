@@ -1,5 +1,7 @@
 import os
 
+db_url = os.getenv("DB_URL")
+
 
 class Config(object):
     """Base config, uses staging database server."""
@@ -8,13 +10,16 @@ class Config(object):
     SECRET_KEY = os.urandom(32)
     DISCORD_CLIENT_ID = os.environ.get("DISCORD_CLIENT_ID")
     DISCORD_CLIENT_SECRET = os.environ.get("DISCORD_CLIENT_SECRET")
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    # @property
+    # def REMEMBER_COOKIE_DOMAIN(self):
+    #     return f".{self.SERVER_NAME}"
 
     @property
-    def REMEMBER_COOKIE_DOMAIN(self):
-        return f".{self.SERVER_NAME}"
-    # @property
-    # def DATABASE_URI(self):         # Note: all caps
-    #     return "mysql://user@{}/foo".format(self.DB_SERVER)
+    def SQLALCHEMY_DATABASE_URI(self):
+        db_url = os.getenv("DB_URL")
+        return f"postgresql+psycopg2://{db_url}"
 
 
 class ProductionConfig(Config):
