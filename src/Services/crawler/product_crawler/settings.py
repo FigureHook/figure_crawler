@@ -100,7 +100,7 @@ DOWNLOADER_MIDDLEWARES = {
     'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware': 110,
 }
 
-PROXY_LIST = '/app/crawler/proxy-list.txt'
+PROXY_LIST = '/app/src/Services/crawler/proxy-list.txt'
 PROXY_MODE = 0
 
 
