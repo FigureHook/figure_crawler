@@ -5,7 +5,7 @@ import pytest
 from src.constants import SourceSite
 from src.Models import (AnnouncementChecksum, Category, Company, Paintwork,
                         Product, ProductOfficialImage, ProductReleaseInfo,
-                        Sculptor, Series)
+                        Sculptor, Series, Webhook)
 
 
 @pytest.mark.usefixtures("session")
@@ -437,3 +437,12 @@ class TestAnnouncementChecksum:
 
     def test_pk_is_enum(self):
         assert not AnnouncementChecksum.get_by_site(1)
+
+
+@pytest.mark.usefixtures("session")
+class TestWebhook:
+    def test_get_by_channel_id(self):
+        w = Webhook.create(channel_id="123357805", url="https://web.hook")
+        fetched_w = Webhook.get_by_channel_id(w.channel_id)
+
+        assert fetched_w is w
