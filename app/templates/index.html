@@ -7,7 +7,6 @@
 </head>
 <body>
     <form action="https://discord.com/api/oauth2/authorize" method="get">
-        {{ form.csrf_token() }}
         {{ form.response_type() }}
         {{ form.client_id() }}
         {{ form.scope() }}

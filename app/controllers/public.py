@@ -9,6 +9,6 @@ blueprint = Blueprint("public", __name__)
 def home():
     """Home page"""
     form = SubscriptionForm(
-        redirect_uri="http://127.0.0.1:5000/webhook"
+        redirect_uri="http://127.0.0.1:8000/webhook"
     )
     return render_template("index.html", form=form)

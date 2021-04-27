@@ -13,7 +13,8 @@ from .config import config
 def create_app(config_name=os.environ.get("FLASK_ENV")):
     """App factory"""
     app = Flask(__name__)
-    app.config.from_object(config[config_name])
+    app.config.from_object(config[config_name]())
+    register_context_callbacks(app)
     register_extensions(app)
     register_blueprints(app)
     return app
@@ -37,6 +38,7 @@ def register_extensions(app: Flask):
     cors.init_app(app)
     csrf.init_app(app)
     db.init_app(app)
+    # session.init_app(app)
 
 
 def register_blueprints(app):

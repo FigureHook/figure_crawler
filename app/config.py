@@ -1,7 +1,5 @@
 import os
 
-db_url = os.getenv("DB_URL")
-
 
 class Config(object):
     """Base config, uses staging database server."""
