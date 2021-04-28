@@ -1,17 +1,19 @@
+from sqlalchemy import Boolean, Column, String
+from sqlalchemy_mixins import TimestampsMixin
+
 from .base import Model
-from sqlalchemy import Column, String, SmallInteger
 
 __all__ = [
     "Webhook"
 ]
 
 
-class Webhook(Model):
+class Webhook(Model, TimestampsMixin):
     __tablename__ = "webhook"
     channel_id = Column(String, primary_key=True)
     id = Column(String)
     token = Column(String)
-    status_code = Column(SmallInteger)
+    is_successed = Column(Boolean)
 
     @classmethod
     def get_by_channel_id(cls, channel_id: str) -> 'Webhook':
