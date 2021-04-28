@@ -431,7 +431,7 @@ class TestAnnouncementChecksum:
         )
         session.commit()
 
-        site_checksum: AnnouncementChecksum = AnnouncementChecksum.get_by_site(SourceSite.GSC)
+        site_checksum = AnnouncementChecksum.get_by_site(SourceSite.GSC)
         assert site_checksum.checksum == checksum
         assert isinstance(site_checksum.checked_at, datetime)
 
@@ -442,7 +442,7 @@ class TestAnnouncementChecksum:
 @pytest.mark.usefixtures("session")
 class TestWebhook:
     def test_get_by_channel_id(self):
-        w = Webhook.create(channel_id="123357805", url="https://web.hook")
+        w = Webhook.create(channel_id="123357805", id="asdfasdf", token="asdfasdf")
         fetched_w = Webhook.get_by_channel_id(w.channel_id)
 
         assert fetched_w is w
