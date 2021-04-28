@@ -1,5 +1,5 @@
 from .base import Model
-from sqlalchemy import Column, String, SmallInteger, Integer
+from sqlalchemy import Column, String, SmallInteger
 
 __all__ = [
     "Webhook"
@@ -9,7 +9,7 @@ __all__ = [
 class Webhook(Model):
     __tablename__ = "webhook"
     channel_id = Column(String, primary_key=True)
-    id = Column(Integer)
+    id = Column(String)
     token = Column(String)
     status_code = Column(SmallInteger)
 
