@@ -18,7 +18,7 @@ class AnnouncementChecksum(Model):
     site = Column(Enum(SourceSite), primary_key=True)
     checksum = Column(String)
     checked_at = Column(
-        DateTime(timezone=True),
+        DateTime,
         default=__datetime_callback__(),
         onupdate=__datetime_callback__()
     )
