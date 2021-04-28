@@ -11,7 +11,7 @@ __all__ = [
 class Webhook(Model, TimestampsMixin):
     __tablename__ = "webhook"
     channel_id = Column(String, primary_key=True)
-    id = Column(String)
+    id = Column(String, unique=True)
     token = Column(String)
     is_successed = Column(Boolean)
 
