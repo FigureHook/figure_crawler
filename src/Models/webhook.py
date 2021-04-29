@@ -13,7 +13,7 @@ class Webhook(Model, TimestampsMixin):
     channel_id = Column(String, primary_key=True)
     id = Column(String, unique=True, nullable=False)
     token = Column(String, nullable=False)
-    is_successed = Column(Boolean)
+    is_existed = Column(Boolean)
 
     @classmethod
     def get_by_channel_id(cls, channel_id: str) -> 'Webhook':
