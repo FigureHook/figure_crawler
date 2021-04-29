@@ -17,7 +17,6 @@ class SourceSite(Enum):
 
 class ProcessorID(Enum):
     DISCORD_HOOKER = 1
-    GSC_NEW_ANNOUN_CRAWLER = 2
 
 
 class ProcessorType(Enum):
@@ -28,4 +27,4 @@ class ProcessorType(Enum):
 class ProcessorStatus(Enum):
     SUCCESS = 1
     WARNING = 2
-    FAILED = 4
+    FAILED = 3

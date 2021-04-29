@@ -2,11 +2,8 @@
 #
 # Please refer to the documentation for information on how to create and manage
 # your spiders.
-import logging
 from datetime import date
-from pprint import pformat
 
-import feedparser
 import scrapy
 from bs4 import BeautifulSoup
 from scrapy.linkextractors import LinkExtractor
@@ -22,56 +19,6 @@ def gsc_product_link_extractor(res):
     return LinkExtractor(
         restrict_css=".hitItem:not(.shimeproduct) > .hitBox > a"
     ).extract_links(res)
-
-
-class GSCHourlyCheck(CrawlSpider):
-    name = "gsc_hourly"
-    allowed_domains = [BrandHost.GSC]
-    feed_product_links: set[str]
-    announced_product_links: set[str]
-
-    def __init__(self, *a, **kw):
-        self.feed_product_links = set()
-        self.announced_product_links = set()
-        super().__init__(*a, **kw)
-
-    def start_requests(self):
-        yield scrapy.Request("https://www.goodsmile.info/ja.atom", callback=self.parse)
-
-    def parse(self, response, **kwargs):
-        rss_raw = response.text
-        feed = feedparser.parse(rss_raw)
-        for entry in feed["entries"]:
-            product_link = entry["link"]
-            if "product" in product_link:
-                if isinstance(product_link, str):
-                    self.feed_product_links.add(product_link)
-        yield scrapy.Request(
-            "https://www.goodsmile.info/ja/products/category/scale/announced",
-            callback=self.parse_announcement
-        )
-
-    def parse_announcement(self, response):
-        announced_links = gsc_product_link_extractor(response)
-        for link in announced_links:
-            self.announced_product_links.add(link.url)
-
-        newly_announced_links = self.announced_product_links & self.feed_product_links
-        self.log(
-            f"Detected newly announced product links:\n{pformat(list(newly_announced_links))}",
-            logging.INFO
-        )
-        for product_link in newly_announced_links:
-            yield scrapy.Request(
-                product_link,
-                callback=self.parse_product
-            )
-
-    def parse_product(self, response):
-        self.log(f"Parsing {response.url}...", logging.INFO)
-        page = BeautifulSoup(response.text, "lxml")
-        product = GSCFactory.createProduct(response.url, page=page, is_normalized=True)
-        yield product
 
 
 class GSCProductSpider(CrawlSpider):

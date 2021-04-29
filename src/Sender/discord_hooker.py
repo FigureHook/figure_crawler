@@ -56,6 +56,7 @@ class DiscordHooker:
             self._stats_plusone("webhook_sending_count/404")
             return False
         except HTTPException:
+            self.status = ProcessorStatus.WARNING
             self._stats_plusone("webhook_sending_count/failed")
         except Exception as e:
             print(e)
