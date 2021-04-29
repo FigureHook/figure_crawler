@@ -1,8 +1,10 @@
-from typing import Any
-from discord import Embed, Webhook
-from discord.errors import HTTPException
-from src.constants import ProcessorStatus
 from datetime import datetime
+from typing import Any
+
+from discord import Embed, Webhook
+from discord.errors import HTTPException, NotFound
+
+from src.constants import ProcessorStatus
 
 
 class DiscordHooker:
@@ -27,32 +29,46 @@ class DiscordHooker:
         self._update_stats("webhook_sending_count", 0)
         self._update_stats("webhook_sending_count/success", 0)
         self._update_stats("webhook_sending_count/failed", 0)
+        self._update_stats("webhook_sending_count/404", 0)
         self.webhook_status = {}
-        self.status = ProcessorStatus.FAILED
+        self.status = ProcessorStatus.SUCCESS
 
     def send(self):
         self._update_stats("start_time", datetime.utcnow())
         for webhook in self.webhooks:
-            is_successed = True
+            webhook_status = []
             for embeds_batch in self.embeds_batches:
-                try:
-                    self._stats_plusone("webhook_sending_count")
-                    webhook.send(embeds=embeds_batch)
-                    self._stats_plusone("webhook_sending_count/success")
-                except HTTPException:
-                    is_successed = False
-                    self._stats_plusone("webhook_sending_count/failed")
+                # once the webhook is not found, stop sending remaining batch.
+                if not webhook_status or any(webhook_status):
+                    status = self._send(webhook, embeds_batch)
+                    webhook_status.append(status)
 
-            self.webhook_status[str(webhook.id)] = is_successed
+            self.webhook_status[str(webhook.id)] = any(webhook_status)
 
-        self.status = ProcessorStatus.SUCCESS
         self._update_stats("finish_time", datetime.utcnow())
+
+    def _send(self, webhook: Webhook, embeds: list[Embed]):
+        try:
+            self._stats_plusone("webhook_sending_count")
+            webhook.send(embeds=embeds)
+            self._stats_plusone("webhook_sending_count/success")
+        except NotFound:
+            self._stats_plusone("webhook_sending_count/404")
+            return False
+        except HTTPException:
+            self._stats_plusone("webhook_sending_count/failed")
+        except Exception as e:
+            print(e)
+            self.status = ProcessorStatus.FAILED
+            self._stats_plusone("webhook_sending_count/failed")
+        finally:
+            return True
 
     def _update_stats(self, key, value):
         self.stats[key] = value
 
     def _stats_plusone(self, key):
-        stats_value = self.stats[key]
+        stats_value = self.stats.get(key)
         if isinstance(stats_value, int):
             self.stats[key] += 1
 
