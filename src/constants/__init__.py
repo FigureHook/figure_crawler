@@ -13,18 +13,3 @@ class ReleaseInfoStatus(Enum):
 class SourceSite(Enum):
     GSC = 1
     ALTER = 2
-
-
-class ProcessorID(Enum):
-    DISCORD_HOOKER = 1
-
-
-class ProcessorType(Enum):
-    CRAWLER = 1
-    SENDER = 2
-
-
-class ProcessorStatus(Enum):
-    SUCCESS = 1
-    WARNING = 2
-    FAILED = 3

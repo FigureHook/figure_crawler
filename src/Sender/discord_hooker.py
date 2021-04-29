@@ -4,8 +4,6 @@ from typing import Any
 from discord import Embed, Webhook
 from discord.errors import HTTPException, NotFound
 
-from src.constants import ProcessorStatus
-
 
 class DiscordHooker:
     batch_size = 10
@@ -14,7 +12,6 @@ class DiscordHooker:
     embeds_batches: list[list[Embed]]
     webhook_status: dict[str, bool]
     stats: dict[str, Any]
-    status: ProcessorStatus
 
     def __init__(self, webhooks: list[Webhook], embeds: list[Embed]) -> None:
         embeds_count = len(embeds)
@@ -31,7 +28,6 @@ class DiscordHooker:
         self._update_stats("webhook_sending_count/failed", 0)
         self._update_stats("webhook_sending_count/404", 0)
         self.webhook_status = {}
-        self.status = ProcessorStatus.SUCCESS
 
     def send(self):
         self._update_stats("start_time", datetime.utcnow())
@@ -56,11 +52,9 @@ class DiscordHooker:
             self._stats_plusone("webhook_sending_count/404")
             return False
         except HTTPException:
-            self.status = ProcessorStatus.WARNING
             self._stats_plusone("webhook_sending_count/failed")
         except Exception as e:
             print(e)
-            self.status = ProcessorStatus.FAILED
             self._stats_plusone("webhook_sending_count/failed")
         finally:
             return True
