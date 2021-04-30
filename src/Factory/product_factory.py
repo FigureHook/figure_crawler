@@ -1,3 +1,4 @@
+from collections import namedtuple
 import re
 from abc import ABC
 from pprint import pformat
@@ -88,13 +89,17 @@ class GeneralFactory:
     @staticmethod
     def detect_factory(url: str) -> Union[Type[ProductFactory], None]:
         netloc = urlparse(url).netloc
+        SupportingFactory = namedtuple('SupportingFactory', ["hostname", "factory"])
+        supporting_factories = [
+            SupportingFactory(BrandHost.GSC, GSCFactory),
+            SupportingFactory(BrandHost.ALTER, AlterFactory)
+        ]
         if not netloc:
             raise ValueError(f"Failed to parse hostname from provided url({url})")
         if netloc:
-            if is_from_this_host(netloc, BrandHost.GSC):
-                return GSCFactory
-            if is_from_this_host(netloc, BrandHost.ALTER):
-                return AlterFactory
+            for supporting_factory in supporting_factories:
+                if is_from_this_host(netloc, supporting_factory.hostname):
+                    return supporting_factory.factory
         return None
 
 
