@@ -3,7 +3,8 @@ from dataclasses import is_dataclass
 import pytest
 from pytest_mock import MockerFixture
 
-from src.Factory import AlterFactory, GSCFactory, ProductFactory
+from src.Factory import (AlterFactory, GeneralFactory, GSCFactory,
+                         ProductFactory)
 from src.Factory.product import Product
 
 
@@ -14,8 +15,8 @@ class TestABCFactory:
 
 
 class FactoryTestBase:
-    factory: ProductFactory = None
-    product_url = None
+    factory: ProductFactory
+    product_url: str
 
     def test_product_creation(self):
         p = self.factory.createProduct(self.product_url)
@@ -36,3 +37,24 @@ class TestGSCFactory(FactoryTestBase):
 class TestAlterFactory(FactoryTestBase):
     factory = AlterFactory
     product_url = "https://www.alter-web.jp/products/261/"
+
+
+class TestGeneralFactory:
+    def test_factory_detection(self):
+        with pytest.raises(ValueError):
+            GeneralFactory.detect_factory("htpa:.afdsj")
+        google = GeneralFactory.detect_factory("https://www.google.com/")
+        assert not google
+        g_f = GeneralFactory.detect_factory("https://www.goodsmile.info/ja/product/10753/")
+        assert g_f is GSCFactory
+        a_f = GeneralFactory.detect_factory("https://www.alter-web.jp/products/261/")
+        assert a_f is AlterFactory
+
+    def test_product_creation(self, mocker: MockerFixture):
+        mocker.patch.object(ProductFactory, "createProduct", return_value=True)
+        assert GeneralFactory.createProduct("https://www.goodsmile.info/ja/product/10753/")
+
+    def test_provide_unsupported_url(self, mocker: MockerFixture):
+        mocker.patch.object(GeneralFactory, "detect_factory", return_value=None)
+        with pytest.raises(ValueError):
+            assert GeneralFactory.createProduct("https://sshop.com/product/AVC222/")

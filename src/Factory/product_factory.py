@@ -1,17 +1,22 @@
+import re
 from abc import ABC
-from typing import ClassVar, Optional, Type
+from pprint import pformat
+from typing import ClassVar, Optional, Type, Union
+from urllib.parse import urlparse
 
 from bs4 import BeautifulSoup
 
 from ..Parsers.abcs import ProductParser
 from ..Parsers.alter import AlterProductParser
+from ..Parsers.constants import BrandHost
 from ..Parsers.gsc import GSCProductParser
 from .product import Product
 
 __all__ = [
     "ProductFactory",
+    "GeneralFactory",
     "GSCFactory",
-    "AlterFactory"
+    "AlterFactory",
 ]
 
 
@@ -62,6 +67,40 @@ class ProductFactory(ABC):
             product.normalize_attrs()
 
         return product
+
+
+class GeneralFactory:
+    @classmethod
+    def createProduct(
+            cls,
+            url: str,
+            page: Optional[BeautifulSoup] = None,
+            is_normalized: bool = False,
+    ):
+        factory = cls.detect_factory(url)
+        if not factory:
+            supported_hosts = [host.value for host in BrandHost]
+            raise ValueError(
+                f"Couldn't detect any factory for provided url({url})\nCurrent supported hostnames: {pformat(supported_hosts)}"
+            )
+        return factory.createProduct(url, page, is_normalized)
+
+    @staticmethod
+    def detect_factory(url: str) -> Union[Type[ProductFactory], None]:
+        netloc = urlparse(url).netloc
+        if not netloc:
+            raise ValueError(f"Failed to parse hostname from provided url({url})")
+        if netloc:
+            if is_from_this_host(netloc, BrandHost.GSC):
+                return GSCFactory
+            if is_from_this_host(netloc, BrandHost.ALTER):
+                return AlterFactory
+        return None
+
+
+def is_from_this_host(netloc: str, host: str):
+    result = re.search(host, netloc)
+    return bool(result)
 
 
 class GSCFactory(ProductFactory):
