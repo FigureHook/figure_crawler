@@ -8,3 +8,4 @@ from .product import *
 from .series import *
 from .webhook import *
 from .worker import *
+from .task import *

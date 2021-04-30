@@ -13,3 +13,7 @@ class ReleaseInfoStatus(Enum):
 class SourceSite(Enum):
     GSC = 1
     ALTER = 2
+
+
+class PeriodicTask(Enum):
+    NEWS_PUSH = 1
