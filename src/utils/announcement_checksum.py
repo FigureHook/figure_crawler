@@ -8,7 +8,7 @@ import requests as rq
 from src.constants import SourceSite
 from src.Models import AnnouncementChecksum
 from src.Parsers.alter.announcecment_parser import fetch_alter_newest_year
-from src.Parsers.constants import AlterCategory, GSCCategory
+from src.Parsers.constants import AlterCategory, GSCCategory, GSCLang
 from src.Parsers.utils import RelativeUrl
 
 __all__ = [
@@ -68,8 +68,9 @@ class GSCChecksum(SiteChecksum):
 
     @staticmethod
     def _extract_feature() -> bytes:
-        url = RelativeUrl.gsc(f"/products/category/{GSCCategory.SCALE}/announced/{datetime.now().year}")
+        url = RelativeUrl.gsc(f"/{GSCLang.JAPANESE}/products/category/{GSCCategory.SCALE}/announced/{datetime.now().year}")
         response = rq.get(url)
+        response.raise_for_status()
         return response.content
 
 
@@ -81,4 +82,5 @@ class AlterChecksum(SiteChecksum):
         year = fetch_alter_newest_year()
         url = RelativeUrl.alter(f"/{AlterCategory.ALL}/?yy={year}")
         response = rq.get(url)
+        response.raise_for_status()
         return response.content
