@@ -18,3 +18,6 @@ class Task(Model):
         default=__datetime_callback__(),
         onupdate=__datetime_callback__()
     )
+
+    def update(self):
+        return super().update(executed_at=self.__datetime_callback__())
