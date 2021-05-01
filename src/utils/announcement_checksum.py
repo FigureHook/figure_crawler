@@ -3,11 +3,13 @@ from datetime import datetime
 from hashlib import md5
 from typing import Optional
 
+import requests as rq
+
 from src.constants import SourceSite
 from src.Models import AnnouncementChecksum
-from src.Parsers.alter import AlterYearlyAnnouncement
-from src.Parsers.constants import GSCCategory
-from src.Parsers.gsc import GSCYearlyAnnouncement
+from src.Parsers.alter.announcecment_parser import fetch_alter_newest_year
+from src.Parsers.constants import AlterCategory, GSCCategory
+from src.Parsers.utils import RelativeUrl
 
 __all__ = [
     "GSCChecksum",
@@ -58,24 +60,25 @@ class SiteChecksum(ABC):
 
     @staticmethod
     @abstractmethod
-    def _extract_feature() -> frozenset[str]: ...
+    def _extract_feature() -> bytes: ...
 
 
 class GSCChecksum(SiteChecksum):
     __site__ = SourceSite.GSC
 
     @staticmethod
-    def _extract_feature() -> frozenset[str]:
-        gsc_annuounce = GSCYearlyAnnouncement(GSCCategory.SCALE)
-        product_links = gsc_annuounce.get_yearly_items(datetime.now().year)
-        return frozenset(product_links)
+    def _extract_feature() -> bytes:
+        url = RelativeUrl.gsc(f"/products/category/{GSCCategory.SCALE}/announced/{datetime.now().year}")
+        response = rq.get(url)
+        return response.content
 
 
 class AlterChecksum(SiteChecksum):
     __site__ = SourceSite.ALTER
 
     @staticmethod
-    def _extract_feature() -> frozenset[str]:
-        alter_announce = AlterYearlyAnnouncement()
-        prodcut_links = alter_announce.get_yearly_items(max(alter_announce.period))
-        return frozenset(prodcut_links)
+    def _extract_feature() -> bytes:
+        year = fetch_alter_newest_year()
+        url = RelativeUrl.alter(f"/{AlterCategory.ALL}/?yy={year}")
+        response = rq.get(url)
+        return response.content
