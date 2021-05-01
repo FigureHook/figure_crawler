@@ -32,7 +32,8 @@ def make_newly_release_embeds_after(time: datetime):
             "price",
             "release_date",
             "image_url",
-        ])
+        ]
+    )
 
     new_releases = Product.query.\
         join(Product.series).\
