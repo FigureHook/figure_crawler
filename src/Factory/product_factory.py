@@ -1,6 +1,6 @@
-from collections import namedtuple
 import re
 from abc import ABC
+from collections import namedtuple
 from pprint import pformat
 from typing import ClassVar, Optional, Type, Union
 from urllib.parse import urlparse
