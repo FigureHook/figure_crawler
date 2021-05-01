@@ -9,8 +9,8 @@
 
 BOT_NAME = 'product_crawler'
 
-SPIDER_MODULES = ['product_crawler.spiders']
-NEWSPIDER_MODULE = 'product_crawler.spiders'
+SPIDER_MODULES = ['src.Services.crawler.product_crawler.spiders']
+NEWSPIDER_MODULE = 'src.Services.crawler.product_crawler.spiders'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
@@ -64,7 +64,7 @@ ROBOTSTXT_OBEY = False
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
     # 'product_crawler.pipelines.ProductDataProcessingPipeline': 300,
-    'product_crawler.pipelines.SaveProductInDatabasePipeline': 400,
+    'src.Services.crawler.product_crawler.pipelines.SaveProductInDatabasePipeline': 400,
     # 'gsc_crawler.pipelines.OrderPeriodFillingPipeline': 500
 }
 
