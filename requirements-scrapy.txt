@@ -1,0 +1,17 @@
+beautifulsoup4
+lxml
+requests
+PyYAML
+
+# orm
+sqlalchemy_mixins
+psycopg2
+SQLAlchemy
+
+# scrapy
+scrapyd
+scrapy_proxies
+scrapy
+
+# customized source
+git+https://github.com/iamumairayub/scrapyd-client.git

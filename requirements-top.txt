@@ -1,22 +1,32 @@
 beautifulsoup4
 lxml
 requests
-psycopg2
-SQLAlchemy
-sqlalchemy2-stubs
 PyYAML
-flake8
-alembic
-pytest
-pytest-mock
-scrapy
-scrapy_proxies
-sqlalchemy_mixins
-faker
 feedparser
-celery[librabbitmq]
 discord.py
 aiohttp
+
+# orm
+sqlalchemy_mixins
+psycopg2
+SQLAlchemy
+
+# scrapy
+scrapyd
+scrapy_proxies
+scrapy
+git+https://github.com/iamumairayub/scrapyd-client.git
+
+# celery
+celery[librabbitmq]
+
+# dev
+faker
+pytest
+pytest-mock
+flake8
+alembic
+sqlalchemy2-stubs
 
 # flask-related
 flask
