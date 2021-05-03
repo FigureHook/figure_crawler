@@ -11,6 +11,7 @@ def test_release_class():
 
     assert hasattr(r1, "release_date")
     assert hasattr(r1, "price")
+    assert hasattr(r1, "announced_at")
 
 
 def test_release_info_class():

@@ -53,6 +53,7 @@ class OrderPeriod(AsDictable):
 
 @dataclass(frozen=True)
 class Release(AsDictable):
+    announced_at: Optional[date]
     release_date: Optional[date]
     price: Optional[int]
 
