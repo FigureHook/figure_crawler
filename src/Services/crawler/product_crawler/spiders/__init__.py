@@ -97,3 +97,17 @@ class AlterProductSpider(CrawlSpider):
         page = BeautifulSoup(response.text, "lxml")
         product = AlterFactory.createProduct(response.url, page=page, is_normalized=True)
         yield product
+
+
+class GSCRecentProductSpider(GSCProductSpider):
+    name = "gsc_recent"
+
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(begin_year=date.today().year, *args, **kwargs)
+
+
+class AlterRecentProductSpider(AlterProductSpider):
+    name = "alter_recent"
+
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(category=AlterCategory.ALL, begin_year=date.today().year, *args, **kwargs)
