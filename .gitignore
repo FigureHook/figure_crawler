@@ -12,3 +12,10 @@ src/*.env
 *.log
 logs/
 *.sql
+celerybeat-schedule
+*.pid
+*.drawio
+eggs/
+build/
+dbs/
+*.egg-info/
