@@ -51,11 +51,11 @@ class OrderPeriod(AsDictable):
         return any((self.start, self.end))
 
 
-@dataclass(frozen=True)
+@dataclass
 class Release(AsDictable):
-    announced_at: Optional[date]
     release_date: Optional[date]
     price: Optional[int]
+    announced_at: Optional[date] = None
 
 
 T = TypeVar('T')

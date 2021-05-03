@@ -29,7 +29,11 @@ class ProductModelFactory:
 
         release_infos: List[ProductReleaseInfo] = []
         for release in product_dataclass.release_infos:
-            release_info = ProductReleaseInfo(price=release.price, initial_release_date=release.release_date)
+            release_info = ProductReleaseInfo(
+                price=release.price,
+                initial_release_date=release.release_date,
+                announced_at=release.announced_at
+            )
             release_infos.append(release_info)
 
         product = Product.create(
@@ -72,7 +76,8 @@ class ProductModelFactory:
             product_model.release_infos.append(
                 ProductReleaseInfo(
                     initial_release_date=last_release_form_dataclass.release_date,
-                    price=last_release_form_dataclass.price
+                    price=last_release_form_dataclass.price,
+                    announced_at=last_release_form_dataclass.announced_at
                 )
             )
         elif status is ReleaseInfoStatus.DELAY:
