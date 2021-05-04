@@ -6,14 +6,11 @@ services:
             dockerfile: DockerFile
         image: figure_crawler
         container_name: crawler
-        environment:
-            - PYTHONPATH=$PYTHONPATH:/app
         env_file:
-            - src/.env
+            - .env
         volumes:
-            - .:/app
-        working_dir: /app
-        command: ["./.sh/python_init.sh"]
+            - .:${WORKDIR}
+        working_dir: ${WORKDIR}
         stdin_open: true
         tty: true
         depends_on:
@@ -23,7 +20,7 @@ services:
         restart: always
         container_name: db
         env_file:
-            - src/.env
+            - .env
         ports:
             - 5432:5432
         volumes:
@@ -33,7 +30,7 @@ services:
         restart: always
         container_name: rabbit
         env_file:
-            - src/.env
+            - .env
         ports:
             - 5672:5672
     scrapy:
@@ -43,7 +40,7 @@ services:
         container_name: scrapy
         restart: always
         env_file:
-            - src/db.env
+            - db.env
         depends_on:
             - db
         ports:
