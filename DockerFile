@@ -1,5 +1,7 @@
 FROM python:3.9-buster
 
-WORKDIR /app
+WORKDIR /workspace
 
-CMD sh .sh/python_init.sh
+COPY requirements*.txt .
+COPY .sh/python_init.sh .
+RUN sh python_init.sh
