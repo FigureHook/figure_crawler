@@ -25,6 +25,7 @@ faker
 pytest
 pytest-mock
 flake8
+autopep8
 alembic
 sqlalchemy2-stubs
 
