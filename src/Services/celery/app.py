@@ -9,13 +9,12 @@ from src.constants import PeriodicTask
 from src.database import pgsql_session
 from src.Models import Task, Webhook
 from src.Sender.discord_hooker import DiscordHooker
+from src.Services.celery.celeryconfig import Config
 from src.utils.announcement_checksum import (AlterChecksum, GSCChecksum,
                                              SiteChecksum)
 from src.utils.data_access import (make_discord_webhooks,
                                    make_newly_release_embeds_after)
 from src.utils.scrapyd_api import schedule_spider
-
-from .celeryconfig import Config
 
 app = Celery("celery")
 app.config_from_object(Config)

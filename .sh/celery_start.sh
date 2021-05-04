@@ -1,3 +1,3 @@
 #!/bin/bash
-cd /app/src/Services/celery
+cd ${WORKDIR}/src/Services/celery
 celery -A app worker -B --loglevel=INFO

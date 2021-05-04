@@ -1,0 +1,13 @@
+FROM python:3.9-buster
+
+ENV WORKDIR=/workspace
+ENV PYTHONPATH=${PYTHONPATH}:${WORKDIR}
+WORKDIR ${WORKDIR}
+
+COPY src ${WORKDIR}/src
+WORKDIR ${WORKDIR}/src/Services/celery
+RUN apt update && apt install git
+RUN pip install -r requirements-celery.txt
+
+CMD celery -A app worker -B --loglevel=INFO
+ENTRYPOINT celery -A app worker -B --loglevel=INFO
