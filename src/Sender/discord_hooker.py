@@ -54,6 +54,7 @@ class DiscordHooker:
         except HTTPException:
             self._stats_plusone("webhook_sending_count/failed")
         except Exception as e:
+            # FIXME: how to log the error?
             print(e)
             self._stats_plusone("webhook_sending_count/failed")
         finally:
