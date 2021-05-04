@@ -1,49 +1,64 @@
-version: '3'
+version: "3"
 services:
-    crawler:
-        build:
-            context: .
-            dockerfile: DockerFile
-        image: figure_crawler
-        container_name: crawler
-        env_file:
-            - .env
-        volumes:
-            - .:${WORKDIR}
-        working_dir: ${WORKDIR}
-        stdin_open: true
-        tty: true
-        depends_on:
-            - db
-    db:
-        image: postgres:13.1
-        restart: always
-        container_name: db
-        env_file:
-            - .env
-        ports:
-            - 5432:5432
-        volumes:
-            - ./data:/var/lib/postgresql/data
-    rabbitmq:
-        image: rabbitmq:3.8.14
-        restart: always
-        container_name: rabbit
-        env_file:
-            - .env
-        ports:
-            - 5672:5672
-    scrapy:
-        build:
-            context: .
-            dockerfile: DockerFile.scrapy
-        container_name: scrapy
-        restart: always
-        env_file:
-            - db.env
-        depends_on:
-            - db
-        ports:
-            - 6800:6800
-        volumes:
-            - ./logs:/app/src/Services/crawler/logs
+  crawler:
+    build:
+      context: .
+      dockerfile: DockerFile
+    image: figure_crawler
+    container_name: crawler
+    environment:
+      - WORKDIR=/workspace
+    env_file:
+      - .env
+    volumes:
+      - .:${WORKDIR}
+    working_dir: ${WORKDIR}
+    stdin_open: true
+    tty: true
+    depends_on:
+      - db
+  db:
+    image: postgres:13.1
+    restart: always
+    container_name: db
+    env_file:
+      - .env
+    ports:
+      - 5432:5432
+    volumes:
+      - ./data:/var/lib/postgresql/data
+  rabbitmq:
+    image: rabbitmq:3.8.14
+    restart: always
+    container_name: rabbit
+    env_file:
+      - .env
+    ports:
+      - 5672:5672
+  scrapy:
+    build:
+      context: .
+      dockerfile: DockerFile.scrapy
+    container_name: scrapy
+    restart: always
+    env_file:
+      - db.env
+    depends_on:
+      - db
+    ports:
+      - 6800:6800
+    volumes:
+      - ./logs:/workspace/src/Services/crawler/logs
+  celery:
+    build:
+      context: .
+      dockerfile: DockerFile.celery
+    container_name: celery
+    restart: always
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - rabbitmq
+    volumes:
+      - ./logs:/workspace/src/Services/celery/logs

@@ -100,10 +100,10 @@ DOWNLOADER_MIDDLEWARES = {
     'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware': 110,
 }
 
-PROXY_LIST = '/app/src/Services/crawler/proxy-list.txt'
+PROXY_LIST = '/workspace/src/Services/crawler/proxy-list.txt'
 PROXY_MODE = 0
 
 
 # logger settings
-LOG_FILE = '/app/logs/crawler.log'
+LOG_FILE = '/workspace/logs/crawler.log'
 LOG_LEVEL = 'INFO'
