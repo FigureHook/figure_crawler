@@ -36,3 +36,17 @@ services:
             - src/.env
         ports:
             - 5672:5672
+    scrapy:
+        build:
+            context: .
+            dockerfile: DockerFile.scrapy
+        container_name: scrapy
+        restart: always
+        env_file:
+            - src/db.env
+        depends_on:
+            - db
+        ports:
+            - 6800:6800
+        volumes:
+            - ./logs:/app/src/Services/crawler/logs

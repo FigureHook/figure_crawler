@@ -1,0 +1,13 @@
+FROM python:3.9-buster
+
+ENV WORKDIR=/app
+ENV PYTHONPATH=${PYTHONPATH}:${WORKDIR}
+WORKDIR ${WORKDIR}
+
+COPY . ${WORKDIR}
+WORKDIR ${WORKDIR}/src/Services/crawler
+RUN apt update && apt install git
+RUN pip install -r requirements-scrapy.txt
+
+EXPOSE 6800
+CMD scrapyd
