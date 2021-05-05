@@ -9,10 +9,10 @@ from typing import Union
 
 from scrapy.spiders.crawl import CrawlSpider
 
-from src.database import pgsql_session
-from src.Factory.model_factory import ProductModelFactory
-from src.Factory.product import Product as product_dataclass
-from src.Models import Product
+from database import pgsql_session
+from Factory.model_factory import ProductModelFactory
+from Factory.product import Product as product_dataclass
+from Models import Product
 
 
 class SaveProductInDatabasePipeline:
