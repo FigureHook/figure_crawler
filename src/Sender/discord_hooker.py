@@ -14,12 +14,12 @@ class DiscordHooker:
     stats: dict[str, Any]
 
     def __init__(self, webhooks: list[Webhook], embeds: list[Embed]) -> None:
-        embeds_count = len(embeds)
+        self.embeds_count = len(embeds)
         self.webhooks = webhooks
         self.embeds_batches = process_embeds(embeds, batch_size=self.batch_size)
         self.stats = {}
         embed_batch_count = len(self.embeds_batches)
-        self._update_stats("embed_count", embeds_count)
+        self._update_stats("embed_count", self.embeds_count)
         self._update_stats("embed_batch_size", self.batch_size)
         self._update_stats("embed_batch_count", embed_batch_count)
         self._update_stats("webhook_count", len(webhooks))
@@ -31,15 +31,17 @@ class DiscordHooker:
 
     def send(self):
         self._update_stats("start_time", datetime.utcnow())
-        for webhook in self.webhooks:
+        if not self.embeds_count:
+            return
+        for embeds_batch in self.embeds_batches:
             webhook_status = []
-            for embeds_batch in self.embeds_batches:
+            for webhook in self.webhooks:
                 # once the webhook is not found, stop sending remaining batch.
                 if (not webhook_status or any(webhook_status)) and embeds_batch:
                     status = self._send(webhook, embeds_batch)
                     webhook_status.append(status)
 
-            self.webhook_status[str(webhook.id)] = any(webhook_status)
+                self.webhook_status[str(webhook.id)] = any(webhook_status)
 
         self._update_stats("finish_time", datetime.utcnow())
 
