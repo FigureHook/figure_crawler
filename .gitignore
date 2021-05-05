@@ -7,7 +7,7 @@ playground/
 data/
 .devcontainer/
 *.sqlite
-src/*.env
+*.env
 *.csv
 *.log
 logs/
