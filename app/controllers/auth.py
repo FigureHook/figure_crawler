@@ -5,7 +5,7 @@ from flask import Blueprint, request
 from flask.helpers import url_for
 from werkzeug.utils import redirect
 
-from src.Models import Webhook
+from Models import Webhook
 
 blueprint = Blueprint("auth", __name__)
 API_ENDPOINT = "https://discord.com/api/v8"

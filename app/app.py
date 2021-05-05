@@ -5,7 +5,7 @@ from flask import Flask
 
 from app.controllers import auth, public
 from app.extension import cors, csrf, db
-from src.Models.base import Model
+from Models.base import Model
 
 from .config import config
 
