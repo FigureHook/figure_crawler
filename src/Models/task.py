@@ -1,7 +1,9 @@
-from .base import Model
-from sqlalchemy import Column, Enum, DateTime
+from sqlalchemy import Column, DateTime, Enum
 from sqlalchemy.sql import func
-from ..constants import PeriodicTask
+
+from constants import PeriodicTask
+
+from .base import Model
 
 __all__ = [
     "Task"

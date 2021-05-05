@@ -1,11 +1,12 @@
 from typing import List
 
-from ..constants import ReleaseInfoStatus
-from ..Models import Category, Company, Paintwork
-from ..Models import Product as Product
-from ..Models import ProductOfficialImage, ProductReleaseInfo, Sculptor, Series
-from ..Parsers.extension_class import HistoricalReleases, Release
-from ..utils.comparater import compare_release_infos
+from constants import ReleaseInfoStatus
+from Models import Category, Company, Paintwork
+from Models import Product as Product
+from Models import ProductOfficialImage, ProductReleaseInfo, Sculptor, Series
+from Parsers.extension_class import HistoricalReleases, Release
+from utils.comparater import compare_release_infos
+
 from .product import ProductBase
 
 __all__ = (

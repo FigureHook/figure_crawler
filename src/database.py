@@ -6,7 +6,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.engine.base import Engine
 from sqlalchemy.orm import sessionmaker
 
-from .Models.base import Model
+from Models.base import Model
 
 # https://stackoverflow.com/questions/12223335/sqlalchemy-creating-vs-reusing-a-session
 

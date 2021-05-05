@@ -7,10 +7,11 @@ from urllib.parse import urlparse
 
 from bs4 import BeautifulSoup
 
-from ..Parsers.abcs import ProductParser
-from ..Parsers.alter import AlterProductParser
-from ..Parsers.constants import BrandHost
-from ..Parsers.gsc import GSCProductParser
+from Parsers.abcs import ProductParser
+from Parsers.alter import AlterProductParser
+from Parsers.constants import BrandHost
+from Parsers.gsc import GSCProductParser
+
 from .product import Product
 
 __all__ = [

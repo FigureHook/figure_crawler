@@ -5,11 +5,11 @@ from typing import Optional
 
 import requests as rq
 
-from src.constants import SourceSite
-from src.Models import AnnouncementChecksum
-from src.Parsers.alter.announcecment_parser import fetch_alter_newest_year
-from src.Parsers.constants import AlterCategory, GSCCategory, GSCLang
-from src.Parsers.utils import RelativeUrl
+from constants import SourceSite
+from Models import AnnouncementChecksum
+from Parsers.alter.announcecment_parser import fetch_alter_newest_year
+from Parsers.constants import AlterCategory, GSCCategory, GSCLang
+from Parsers.utils import RelativeUrl
 
 __all__ = [
     "GSCChecksum",

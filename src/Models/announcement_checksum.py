@@ -3,7 +3,8 @@ from typing import Type, Union
 from sqlalchemy import Column, DateTime, Enum, String
 from sqlalchemy.sql import func
 
-from ..constants import SourceSite
+from constants import SourceSite
+
 from .base import Model
 
 __all__ = [

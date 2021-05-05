@@ -5,7 +5,7 @@ from datetime import date
 from hashlib import md5
 from typing import Callable, Optional, Union
 
-from ..Parsers.extension_class import HistoricalReleases, OrderPeriod, Release
+from Parsers.extension_class import HistoricalReleases, OrderPeriod, Release
 
 __all__ = [
     "ProductBase",

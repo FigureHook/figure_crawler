@@ -3,9 +3,9 @@ from datetime import date, datetime
 
 from discord import Colour, Embed, Webhook, WebhookAdapter
 
-from src.Models import (Company, Product, ProductOfficialImage,
-                        ProductReleaseInfo, Series)
-from src.Models import Webhook as WebhookModel
+from Models import (Company, Product, ProductOfficialImage, ProductReleaseInfo,
+                    Series)
+from Models import Webhook as WebhookModel
 
 
 def make_discord_webhooks(webhook_adapter: WebhookAdapter) -> list[Webhook]:

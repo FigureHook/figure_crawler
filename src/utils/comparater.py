@@ -1,9 +1,9 @@
 from typing import List
 
-from src.constants import ReleaseInfoStatus
-from src.Factory.product import ProductBase
-from src.Models import Product as ProductModel
-from src.Models import ProductReleaseInfo
+from constants import ReleaseInfoStatus
+from Factory.product import ProductBase
+from Models import Product as ProductModel
+from Models import ProductReleaseInfo
 
 
 def compare_release_infos(p_dataclass: ProductBase, p_model: ProductModel) -> ReleaseInfoStatus:
