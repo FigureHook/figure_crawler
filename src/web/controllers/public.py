@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template
 
-from app.forms import SubscriptionForm
+from web.forms import SubscriptionForm
 
 blueprint = Blueprint("public", __name__)
 

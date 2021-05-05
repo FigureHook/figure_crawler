@@ -3,9 +3,9 @@ import os
 
 from flask import Flask
 
-from app.controllers import auth, public
-from app.extension import cors, csrf, db
 from Models.base import Model
+from web.controllers import auth, public
+from web.extension import cors, csrf, db
 
 from .config import config
 
