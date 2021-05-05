@@ -19,7 +19,7 @@ class TestProduct:
     def test_get_by_id(self):
         product = Product.create(name="foo figure", url="www.foo.com")
 
-        fetched_product = Product.get_by_id(product.id)
+        fetched_product = Product.get_by_id(product.id)  # type: ignore
         assert fetched_product is product
 
     def test_created_at_default_is_datetime(self):
@@ -41,7 +41,7 @@ class TestProductReleaseInfo:
         p = Product(name="foo")
         info = ProductReleaseInfo.create(price=12960, product=p, initial_release_date=date.today())
 
-        fetched_info = ProductReleaseInfo.get_by_id(info.id)
+        fetched_info = ProductReleaseInfo.get_by_id(info.id)  # type: ignore
         assert fetched_info is info
 
     def test_postpone_release_date(self):
@@ -64,7 +64,7 @@ class TestProductReleaseInfo:
             info.postpone_release_date_to(date(1999, 1, 1))
 
         with pytest.raises(TypeError):
-            info.postpone_release_date_to(1)
+            info.postpone_release_date_to(1)  # type: ignore
 
     def test_stall_release(self):
         p = Product.create(name="foo")
@@ -446,3 +446,8 @@ class TestWebhook:
         fetched_w = Webhook.get_by_channel_id(w.channel_id)
 
         assert fetched_w is w
+
+    def test_lang_validation(self):
+        Webhook.create(channel_id="123357805", id="asdfasdf", token="asdfasdf", lang="en")
+        with pytest.raises(AssertionError):
+            Webhook.create(channel_id="12311357805", id="asdfsasdf", token="asdfassdf", lang="fr")
