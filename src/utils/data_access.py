@@ -43,7 +43,7 @@ def make_newly_release_embeds_after(time: datetime):
         filter(
             ProductReleaseInfo.created_at > time,
             ProductOfficialImage.order == 1,
-            ProductReleaseInfo.initial_release_date > date.today()
+            ProductReleaseInfo.announced_at > date.today()
         ).with_entities(
             Product.name,
             Product.url,
