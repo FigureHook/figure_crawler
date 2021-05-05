@@ -3,13 +3,13 @@ from datetime import date
 import pytest
 from pytest_mock import MockerFixture
 
-from src.constants import ReleaseInfoStatus
-from src.Factory import ProductModelFactory
-from src.Factory.model_factory import rebuild_release_infos
-from src.Models import Product
-from src.Models.product import ProductReleaseInfo
-from src.Parsers.extension_class import HistoricalReleases, Release
-from src.utils.comparater import compare_release_infos
+from constants import ReleaseInfoStatus
+from Factory import ProductModelFactory
+from Factory.model_factory import rebuild_release_infos
+from Models import Product
+from Models.product import ProductReleaseInfo
+from Parsers.extension_class import HistoricalReleases, Release
+from utils.comparater import compare_release_infos
 
 
 @pytest.fixture

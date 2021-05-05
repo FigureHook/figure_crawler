@@ -1,4 +1,4 @@
-from src.Sender.discord_hooker import process_embeds, DiscordHooker
+from Sender.discord_hooker import process_embeds, DiscordHooker
 from discord import Webhook, RequestsWebhookAdapter
 from discord.embeds import Embed
 

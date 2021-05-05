@@ -1,7 +1,7 @@
 import pytest
 from discord import RequestsWebhookAdapter, Webhook
 
-from src.utils.data_access import make_discord_webhooks
+from utils.data_access import make_discord_webhooks
 
 
 @pytest.mark.usefixtures("session")

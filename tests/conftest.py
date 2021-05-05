@@ -3,9 +3,8 @@ import random
 import pytest
 from faker import Faker
 
-from src.Factory import ProductBase
-from src.Parsers.extension_class import (HistoricalReleases, OrderPeriod,
-                                         Release)
+from Factory import ProductBase
+from Parsers.extension_class import HistoricalReleases, OrderPeriod, Release
 
 
 @pytest.fixture()
@@ -15,8 +14,8 @@ def session():
 
     from sqlalchemy.orm import Session
 
-    from src.database import PostgreSQLDB
-    from src.Models.base import Model
+    from database import PostgreSQLDB
+    from Models.base import Model
 
     pgsql = PostgreSQLDB()
 

@@ -2,10 +2,10 @@ from datetime import date, datetime
 
 import pytest
 
-from src.constants import SourceSite
-from src.Models import (AnnouncementChecksum, Category, Company, Paintwork,
-                        Product, ProductOfficialImage, ProductReleaseInfo,
-                        Sculptor, Series, Webhook)
+from constants import SourceSite
+from Models import (AnnouncementChecksum, Category, Company, Paintwork,
+                    Product, ProductOfficialImage, ProductReleaseInfo,
+                    Sculptor, Series, Webhook)
 
 
 @pytest.mark.usefixtures("session")
@@ -348,8 +348,8 @@ class TestRelationShip:
         assert not ProductReleaseInfo.all()
 
     def test_delete_product_and_association_but_not_effect_worker(self, session):
-        from src.Models.relation_table import (product_paintwork_table,
-                                               product_sculptor_table)
+        from Models.relation_table import (product_paintwork_table,
+                                           product_sculptor_table)
         p = Product(name="foo")
         master = Sculptor(name="master")
         newbie = Paintwork(name="newbie")
@@ -370,8 +370,8 @@ class TestRelationShip:
         assert Paintwork.all()
 
     def test_delete_paintwork_and_association_but_not_effect_product(self, session):
-        from src.Models.relation_table import (product_paintwork_table,
-                                               product_sculptor_table)
+        from Models.relation_table import (product_paintwork_table,
+                                           product_sculptor_table)
         p = Product(name="foo")
         master = Sculptor(name="master")
         newbie = Paintwork(name="newbie")
@@ -392,8 +392,8 @@ class TestRelationShip:
         assert Product.first().sculptors
 
     def test_delete_sculptor_and_association_but_not_effect_product(self, session):
-        from src.Models.relation_table import (product_paintwork_table,
-                                               product_sculptor_table)
+        from Models.relation_table import (product_paintwork_table,
+                                           product_sculptor_table)
         p = Product(name="foo")
         master = Sculptor(name="master")
         newbie = Paintwork(name="newbie")

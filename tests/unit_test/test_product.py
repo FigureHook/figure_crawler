@@ -1,6 +1,6 @@
 import pytest
 
-from src.Factory import ProductBase, ProductDataProcessMixin, ProductUtils
+from Factory import ProductBase, ProductDataProcessMixin, ProductUtils
 
 
 @pytest.mark.usefixtures("product")
