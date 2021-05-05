@@ -8,11 +8,12 @@ services:
     container_name: crawler
     environment:
       - WORKDIR=/workspace
+      - PYTHONPATH=/workspace:/workspace/src/Services/celery
     env_file:
       - .env
     volumes:
-      - .:${WORKDIR}
-    working_dir: ${WORKDIR}
+      - .:/workspace
+    working_dir: /workspace
     stdin_open: true
     tty: true
     depends_on:
@@ -35,30 +36,3 @@ services:
       - .env
     ports:
       - 5672:5672
-  scrapy:
-    build:
-      context: .
-      dockerfile: DockerFile.scrapy
-    container_name: scrapy
-    restart: always
-    env_file:
-      - db.env
-    depends_on:
-      - db
-    ports:
-      - 6800:6800
-    volumes:
-      - ./logs:/workspace/src/Services/crawler/logs
-  celery:
-    build:
-      context: .
-      dockerfile: DockerFile.celery
-    container_name: celery
-    restart: always
-    env_file:
-      - .env
-    depends_on:
-      - db
-      - rabbitmq
-    volumes:
-      - ./logs:/workspace/src/Services/celery/logs
