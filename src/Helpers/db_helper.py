@@ -3,10 +3,10 @@ from datetime import date, datetime
 
 from discord import Colour, Embed, Webhook, WebhookAdapter
 
+from Adapters.webhook_adapter import DiscordWebhookAdapter
 from Models import (Company, Product, ProductOfficialImage, ProductReleaseInfo,
                     Series)
 from Models import Webhook as WebhookModel
-
 from utils.decorators import ensure_session
 
 
@@ -17,11 +17,7 @@ class DiscordHelper:
         discord_webhooks: list[Webhook] = []
         webhooks: list[WebhookModel] = WebhookModel.all()
         for webhook in webhooks:
-            discord_webhook = Webhook.partial(
-                webhook.id,
-                webhook.token,
-                adapter=webhook_adapter
-            )
+            discord_webhook = DiscordWebhookAdapter(webhook, webhook_adapter)
             discord_webhooks.append(discord_webhook)
         return discord_webhooks
 
