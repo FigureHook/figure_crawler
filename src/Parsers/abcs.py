@@ -101,14 +101,14 @@ class ProductParser(ABC):
         dates_len = len(dates)
         prices_len = len(prices)
 
-        if not prices_len:
+        if not prices:
             prices = [None] * dates_len
-        if not dates_len:
+        elif not dates:
             dates = [None] * prices_len
-        if dates_len > prices_len:
+        elif dates_len > prices_len:
             filler = make_last_element_filler(prices, len(dates))
             prices.extend(filler)
-        if prices_len > dates_len:
+        elif prices_len > dates_len:
             filler = make_last_element_filler(dates, len(prices))
             dates.extend(filler)
 
