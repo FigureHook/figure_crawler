@@ -1,9 +1,9 @@
 from typing import List
 
 from constants import ReleaseInfoStatus
-from Factory.product import ProductBase
 from Models import Product as ProductModel
 from Models import ProductReleaseInfo
+from Parsers.product import ProductBase
 
 
 def compare_release_infos(p_dataclass: ProductBase, p_model: ProductModel) -> ReleaseInfoStatus:

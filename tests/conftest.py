@@ -3,8 +3,8 @@ import random
 import pytest
 from faker import Faker
 
-from Factory import ProductBase
 from Parsers.extension_class import HistoricalReleases, OrderPeriod, Release
+from Parsers.product import ProductBase
 
 
 @pytest.fixture()

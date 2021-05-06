@@ -1,6 +1,6 @@
 import pytest
 
-from Factory import ProductBase, ProductDataProcessMixin, ProductUtils
+from Parsers.product import ProductBase, ProductDataProcessMixin, ProductUtils
 
 
 @pytest.mark.usefixtures("product")
@@ -63,5 +63,5 @@ class TestProductTextUtils:
 
     def test_attribute_normalization_with_exception(self):
         with pytest.raises(TypeError):
-            ProductUtils.normalize_product_attr(1)
-            ProductUtils.normalize_product_attr([1, 2, 3])
+            ProductUtils.normalize_product_attr(1)  # type: ignore
+            ProductUtils.normalize_product_attr([1, 2, 3])  # type: ignore

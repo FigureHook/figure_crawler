@@ -3,9 +3,9 @@ from dataclasses import is_dataclass
 import pytest
 from pytest_mock import MockerFixture
 
-from Factory import (AlterFactory, GeneralFactory, GSCFactory,
-                         ProductFactory)
-from Factory.product import Product
+from Parsers.factory import (AlterFactory, GeneralFactory, GSCFactory,
+                             ProductFactory)
+from Parsers.product import Product
 
 
 class TestABCFactory:

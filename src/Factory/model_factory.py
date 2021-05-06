@@ -5,9 +5,8 @@ from Models import Category, Company, Paintwork
 from Models import Product as Product
 from Models import ProductOfficialImage, ProductReleaseInfo, Sculptor, Series
 from Parsers.extension_class import HistoricalReleases, Release
+from Parsers.product import ProductBase
 from utils.comparater import compare_release_infos
-
-from .product import ProductBase
 
 __all__ = (
     "ProductModelFactory",
