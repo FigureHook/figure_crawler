@@ -1,11 +1,13 @@
 import re
 import unicodedata
-from dataclasses import asdict, dataclass
+from dataclasses import dataclass
 from datetime import date
 from hashlib import md5
 from typing import Callable, Optional, Union
 
 from Parsers.extension_class import HistoricalReleases, OrderPeriod, Release
+
+from .utils import AsDictable
 
 __all__ = [
     "ProductBase",
@@ -15,7 +17,7 @@ __all__ = [
 
 
 @dataclass
-class ProductBase:
+class ProductBase(AsDictable):
     __slots__ = (
         "url",
         "name",
@@ -90,9 +92,6 @@ class ProductBase:
             m.update(str(s).encode("utf-8"))
 
         return m.hexdigest()
-
-    def as_dict(self) -> dict:
-        return asdict(self)
 
     def __str__(self):
         return f"[{self.manufacturer}] {self.name} {self.category}"

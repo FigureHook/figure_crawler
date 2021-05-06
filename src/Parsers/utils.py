@@ -1,4 +1,5 @@
 import re
+from dataclasses import asdict
 from typing import Any, List, Union
 from urllib.parse import urlparse
 
@@ -6,6 +7,11 @@ import requests as rq
 from bs4 import BeautifulSoup
 
 from .constants import BrandHost
+
+
+class AsDictable:
+    def as_dict(self):
+        return asdict(self)
 
 
 def make_last_element_filler(target_list: List[Any], desired_length: int) -> List[Any]:

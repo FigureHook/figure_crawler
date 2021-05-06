@@ -1,18 +1,15 @@
 from collections import UserList
-from dataclasses import asdict, dataclass
+from dataclasses import dataclass
 from datetime import date, datetime
 from typing import Any, Optional, TypeVar
+
+from .utils import AsDictable
 
 __all__ = [
     "OrderPeriod",
     "Release",
     "HistoricalReleases"
 ]
-
-
-class AsDictable:
-    def as_dict(self):
-        return asdict(self)
 
 
 @dataclass
