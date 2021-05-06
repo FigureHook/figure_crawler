@@ -1,5 +1,5 @@
 from datetime import date, datetime
-from typing import List, Type, Union
+from typing import List, TypeVar, Union
 
 from sqlalchemy import (Boolean, Column, Date, DateTime, ForeignKey, Integer,
                         SmallInteger, String)
@@ -15,6 +15,8 @@ __all__ = [
     "Product"
 ]
 
+T = TypeVar('T')
+
 
 class ProductOfficialImage(PkModel):
     __tablename__ = "product_official_image"
@@ -24,8 +26,8 @@ class ProductOfficialImage(PkModel):
     product_id = Column(Integer, ForeignKey("product.id", ondelete="CASCADE"), nullable=False)
 
     @classmethod
-    def create_image_list(cls: Type['ProductOfficialImage'], image_urls: List[str]) -> List['ProductOfficialImage']:
-        images: List['ProductOfficialImage'] = []
+    def create_image_list(cls: T, image_urls: List[str]) -> List[T]:
+        images: list[T] = []
 
         for url in image_urls:
             image = cls(url=url)
