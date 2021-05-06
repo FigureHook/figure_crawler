@@ -5,12 +5,11 @@ from discord import RequestsWebhookAdapter
 
 from constants import PeriodicTask
 from database import pgsql_session
+from Helpers.db_helper import DiscordHelper
 from Models import Task, Webhook
 from Sender.discord_hooker import DiscordHooker
 from utils.announcement_checksum import (AlterChecksum, GSCChecksum,
                                          SiteChecksum)
-from utils.data_access import (make_discord_webhooks,
-                               make_newly_release_embeds_after)
 from utils.scrapyd_api import schedule_spider
 
 from .celery import app
@@ -22,8 +21,8 @@ def news_push():
     with pgsql_session():
         this_task = Task.query.get(PeriodicTask.NEWS_PUSH)
         adapter = RequestsWebhookAdapter()
-        discord_webhooks = make_discord_webhooks(adapter)
-        embeds = make_newly_release_embeds_after(this_task.executed_at)
+        discord_webhooks = DiscordHelper.make_discord_webhooks(adapter)
+        embeds = DiscordHelper.make_new_release_embeds_after(this_task.executed_at)
         this_task.update()
         hooker = DiscordHooker(discord_webhooks, embeds=embeds)
         hooker.send()
