@@ -4,20 +4,22 @@ from typing import Any
 from discord import Embed, Webhook
 from discord.errors import HTTPException, NotFound
 
+from .abcs import Sender
 
-class DiscordHooker:
+
+class DiscordHooker(Sender):
     batch_size = 10
 
     webhooks: list[Webhook]
     embeds_batches: list[list[Embed]]
     webhook_status: dict[str, bool]
-    stats: dict[str, Any]
+    _stats: dict[str, Any]
 
     def __init__(self, webhooks: list[Webhook], embeds: list[Embed]) -> None:
         self.embeds_count = len(embeds)
         self.webhooks = webhooks
         self.embeds_batches = process_embeds(embeds, batch_size=self.batch_size)
-        self.stats = {}
+        self._stats = {}
         embed_batch_count = len(self.embeds_batches)
         self._update_stats("embed_count", self.embeds_count)
         self._update_stats("embed_batch_size", self.batch_size)
@@ -28,6 +30,10 @@ class DiscordHooker:
         self._update_stats("webhook_sending_count/failed", 0)
         self._update_stats("webhook_sending_count/404", 0)
         self.webhook_status = {}
+
+    @property
+    def stats(self):
+        return self._stats
 
     def send(self):
         self._update_stats("start_time", datetime.utcnow())
