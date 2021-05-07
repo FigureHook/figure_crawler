@@ -1,6 +1,8 @@
+import os
+
 from scrapyd_client.lib import get_spiders, schedule
 
-SCRAPYD_URL = "http://scrapy:6800"
+SCRAPYD_URL = os.getenv("SCRAPYD_URL", "http://127.0.0.1:6800")
 SCRAPY_PROJECT_NAME = "product_crawler"
 
 
