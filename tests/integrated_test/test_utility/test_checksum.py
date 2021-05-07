@@ -1,7 +1,7 @@
 import pytest
 
 from utils.announcement_checksum import (AlterChecksum, GSCChecksum,
-                                             SiteChecksum)
+                                         SiteChecksum)
 
 
 @pytest.mark.usefixtures("session")
