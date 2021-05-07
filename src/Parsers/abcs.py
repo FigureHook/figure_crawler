@@ -3,6 +3,7 @@ from datetime import date, datetime
 from typing import ClassVar, Dict, List, Optional, Union
 
 from bs4 import BeautifulSoup
+from pytz import timezone
 
 from .extension_class import HistoricalReleases, OrderPeriod, Release
 from .utils import get_page, make_last_element_filler
@@ -143,7 +144,7 @@ class ProductParser(ABC):
 class YearlyAnnouncement(ABC):
     def __init__(self, start: int, end: Optional[int]):
         if not end:
-            end = datetime.now().year
+            end = datetime.now().replace(tzinfo=timezone('Asia/Tokyo')).year
 
         if type(start) is not int:
             raise TypeError("start should be 'int'.")
