@@ -1,5 +1,5 @@
 from collections import namedtuple
-from typing import Iterable
+from typing import Iterable, Type
 
 from discord import RequestsWebhookAdapter
 
@@ -46,9 +46,11 @@ def check_new_release():
             CheckingPair(GSCChecksum, "gsc_recent")
         ]
         for checking_pair in sites_to_check:
-            checksum: SiteChecksum = checking_pair.checksum_cls()
+            checksum_cls: Type[SiteChecksum] = checking_pair.checksum_cls
+            spider = checking_pair.spider_name
+            checksum = checksum_cls()
             if checksum.is_changed:
-                response = schedule_spider(checking_pair.spider_name)
+                response = schedule_spider(spider)
                 scheduled_jobs.append(response)
                 checksum.update()
     return scheduled_jobs
