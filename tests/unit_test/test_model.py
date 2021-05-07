@@ -91,7 +91,7 @@ class TestSculptor:
     def test_get_by_id(self):
         sculptor = Sculptor.create(name="foo")
 
-        fetched_sculptor = Sculptor.get_by_id(sculptor.id)
+        fetched_sculptor = Sculptor.get_by_id(sculptor.id)  # type: ignore
         assert fetched_sculptor is sculptor
 
     def test_as_unique(self):
@@ -119,7 +119,7 @@ class TestPaintwork:
     def test_get_by_id(self):
         paintwork = Paintwork.create(name="foo")
 
-        fetched_paintwork = Paintwork.get_by_id(paintwork.id)
+        fetched_paintwork = Paintwork.get_by_id(paintwork.id)  # type: ignore
         assert fetched_paintwork is paintwork
 
     def test_as_unique(self):
@@ -147,7 +147,7 @@ class TestCategory:
     def test_get_by_id(self):
         category = Category.create(name="Figure")
 
-        fetched_category = Category.get_by_id(category.id)
+        fetched_category = Category.get_by_id(category.id)  # type: ignore
         assert fetched_category is category
 
 
@@ -156,7 +156,7 @@ class TestCompany:
     def test_get_by_id(self):
         company = Company.create(name="foo")
 
-        fetched_company = Company.get_by_id(company.id)
+        fetched_company = Company.get_by_id(company.id)  # type: ignore
         assert fetched_company is company
 
     def test_as_unique(self):
@@ -174,7 +174,7 @@ class TestSeries:
     def test_get_by_id(self):
         series = Series.create(name="Fate")
 
-        fetched_series = Series.get_by_id(series.id)
+        fetched_series = Series.get_by_id(series.id)  # type: ignore
         assert fetched_series is series
 
     def test_as_unique(self):
@@ -198,7 +198,7 @@ class TestRelationShip:
         product.save()
         session.commit()
 
-        fetched_product = Product.get_by_id(product.id)
+        fetched_product = Product.get_by_id(product.id)  # type: ignore
         assert isinstance(fetched_product.release_infos, list)
         assert len(fetched_product.release_infos) == 2
         assert fetched_product.release_infos[-1] == resale_info
@@ -225,7 +225,7 @@ class TestRelationShip:
         product.save()
         session.commit()
 
-        p = Product.get_by_id(product.id)
+        p = Product.get_by_id(product.id)  # type: ignore
         assert p.release_infos[0] == stall_info
 
     def test_series_has_many_products(self):
@@ -436,14 +436,14 @@ class TestAnnouncementChecksum:
         assert isinstance(site_checksum.checked_at, datetime)
 
     def test_pk_is_enum(self):
-        assert not AnnouncementChecksum.get_by_site(1)
+        assert not AnnouncementChecksum.get_by_site(1)  # type: ignore
 
 
 @pytest.mark.usefixtures("session")
 class TestWebhook:
     def test_get_by_channel_id(self):
         w = Webhook.create(channel_id="123357805", id="asdfasdf", token="asdfasdf")
-        fetched_w = Webhook.get_by_channel_id(w.channel_id)
+        fetched_w = Webhook.get_by_channel_id(w.channel_id)  # type: ignore
 
         assert fetched_w is w
 

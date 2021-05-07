@@ -1,5 +1,5 @@
 from datetime import date, datetime
-from typing import List, TypeVar, Union
+from typing import Union
 
 from sqlalchemy import (Boolean, Column, Date, DateTime, ForeignKey, Integer,
                         SmallInteger, String)
@@ -15,8 +15,6 @@ __all__ = [
     "Product"
 ]
 
-T = TypeVar('T')
-
 
 class ProductOfficialImage(PkModel):
     __tablename__ = "product_official_image"
@@ -26,11 +24,11 @@ class ProductOfficialImage(PkModel):
     product_id = Column(Integer, ForeignKey("product.id", ondelete="CASCADE"), nullable=False)
 
     @classmethod
-    def create_image_list(cls: T, image_urls: List[str]) -> List[T]:
-        images: list[T] = []
+    def create_image_list(cls: 'ProductOfficialImage', image_urls: list[str]) -> list['ProductOfficialImage']:
+        images = []
 
         for url in image_urls:
-            image = cls(url=url)
+            image = cls.create(url=url)
             images.append(image)
 
         return images
@@ -95,9 +93,15 @@ class Product(PkModelWithTimestamps):
     order_period_end = Column(DateTime(timezone=True))
     # ---Foreign key columns---
     series_id = Column(Integer, ForeignKey("series.id"))
-    manufacturer_id = Column(Integer, ForeignKey("company.id"))
+    series = relationship("Series", backref="products")
+
     category_id = Column(Integer, ForeignKey("category.id"))
+    category = relationship("Category", backref="products")
+
+    manufacturer_id = Column(Integer, ForeignKey("company.id"))
+
     releaser_id = Column(Integer, ForeignKey("company.id"))
+
     distributer_id = Column(Integer, ForeignKey("company.id"))
     # ---relationships field---
     release_infos = relationship(
