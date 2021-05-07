@@ -1,5 +1,5 @@
 from collections import namedtuple
-from datetime import date, datetime
+from datetime import datetime
 
 from discord import Colour, Embed, Webhook, WebhookAdapter
 
@@ -44,7 +44,8 @@ class DiscordHelper:
             filter(
                 ProductReleaseInfo.created_at > time,
                 ProductOfficialImage.order == 1,
-                ProductReleaseInfo.announced_at > date.today()
+                # ensure fetched data parsed by new release checking parser
+                ProductReleaseInfo.announced_at.isnot(None)
             ).with_entities(
                 Product.name,
                 Product.url,
