@@ -1,3 +1,3 @@
 #!/bin/bash
-cd ${WORKDIR}/src/Services/celery
-celery -A app worker -B --loglevel=INFO
+cd src/Services/celery
+celery -A basic_task worker -B --loglevel=INFO
