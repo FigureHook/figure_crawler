@@ -27,7 +27,7 @@ class PostgreSQLDB:
             if not db_url:
                 raise ValueError("Please ensure environment vairable `TEST_DB_URL` or `DB_URL` is set.")
 
-            cls._engine = create_engine(f"postgresql+psycopg2://{db_url}")
+            cls._engine = create_engine(f"postgresql+psycopg2://{db_url}", echo=False)
             cls._Session = sessionmaker(cls._engine, future=True)
             cls._instance = super().__new__(cls)
         return cls._instance
