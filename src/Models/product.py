@@ -28,7 +28,7 @@ class ProductOfficialImage(PkModel):
         images = []
 
         for url in image_urls:
-            image = ProductOfficialImage(url=url)  # type: ignore
+            image = ProductOfficialImage(url=url)
             images.append(image)
 
         return images
