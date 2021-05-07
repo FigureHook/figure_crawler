@@ -4,13 +4,13 @@
 # See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 
 import logging
-from datetime import date
 from typing import Union
 
 from scrapy.spiders.crawl import CrawlSpider
 
 from database import pgsql_session
 from Factory.model_factory import ProductModelFactory
+from Helpers.datetime_helper import DatetimeHelper
 from Models import Product
 from Parsers.product import Product as product_dataclass
 
@@ -22,7 +22,8 @@ class SaveProductInDatabasePipeline:
             if new_keyword in spider.name:
                 last_release = item.release_infos.last()
                 if last_release:
-                    last_release.announced_at = date.today()
+                    if not last_release.announced_at:
+                        last_release.announced_at = DatetimeHelper.today()
         with pgsql_session():
             product: Union[Product, None] = Product.query.filter_by(
                 name=item.name,
