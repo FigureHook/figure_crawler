@@ -99,10 +99,28 @@ class Product(PkModelWithTimestamps):
     category = relationship("Category", backref="products")
 
     manufacturer_id = Column(Integer, ForeignKey("company.id"))
+    manufacturer = relationship(
+        "Company",
+        backref="made_products",
+        primaryjoin="Product.manufacturer_id == Company.id",
+        lazy="joined"
+    )
 
     releaser_id = Column(Integer, ForeignKey("company.id"))
+    releaser = relationship(
+        "Company",
+        backref="released_products",
+        primaryjoin="Product.releaser_id == Company.id",
+        lazy="joined"
+    )
 
     distributer_id = Column(Integer, ForeignKey("company.id"))
+    distributer = relationship(
+        "Company",
+        backref="distributed_products",
+        primaryjoin="Product.distributer_id == Company.id",
+        lazy="joined"
+    )
     # ---relationships field---
     release_infos = relationship(
         ProductReleaseInfo,
