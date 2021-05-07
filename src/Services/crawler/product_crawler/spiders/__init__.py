@@ -9,8 +9,8 @@ from bs4 import BeautifulSoup
 from scrapy.linkextractors import LinkExtractor
 from scrapy.spiders import CrawlSpider
 
-from Factory import AlterFactory, GSCFactory
 from Parsers.constants import AlterCategory, BrandHost, GSCCategory, GSCLang
+from Parsers.factory import AlterFactory, GSCFactory
 from Parsers.utils import RelativeUrl
 
 

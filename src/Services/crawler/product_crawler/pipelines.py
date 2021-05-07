@@ -11,8 +11,8 @@ from scrapy.spiders.crawl import CrawlSpider
 
 from database import pgsql_session
 from Factory.model_factory import ProductModelFactory
-from Factory.product import Product as product_dataclass
 from Models import Product
+from Parsers.product import Product as product_dataclass
 
 
 class SaveProductInDatabasePipeline:
