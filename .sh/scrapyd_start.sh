@@ -7,14 +7,17 @@ SPIDER_PROJECT_DIR=src/Services/crawler
 # fi
 
 # clean old stuffs
-cd ${SPIDER_PROJECT_DIR} || exit 1
-rm -r ${EGGS_DIR}/$p
+cd $SPIDER_PROJECT_DIR || exit 1
+
+if [ -d "$EGGS_DIR" ]; then
+    rm -r $EGGS_DIR/$p
+fi
 
 SPIDER_PROJECTS=$(python get_deployable_project.py)
 for p in $SPIDER_PROJECTS;
     do
-        mkdir -p ${EGGSDIR}/$p
-        scrapyd-deploy --build-egg ${EGGSDIR}/$p/$(date +%s).egg
+        mkdir -p $EGGS_DIR/$p
+        scrapyd-deploy --build-egg $EGGS_DIR/$p/$(date +%s).egg
     done
 
 scrapyd
