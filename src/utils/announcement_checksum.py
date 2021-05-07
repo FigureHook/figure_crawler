@@ -1,11 +1,11 @@
 from abc import ABC, abstractmethod
-from datetime import datetime
 from hashlib import md5
 from typing import Optional
 
 import requests as rq
 
 from constants import SourceSite
+from Helpers.datetime_helper import DatetimeHelper
 from Models import AnnouncementChecksum
 from Parsers.alter.announcecment_parser import fetch_alter_newest_year
 from Parsers.constants import AlterCategory, GSCCategory, GSCLang
@@ -68,7 +68,8 @@ class GSCChecksum(SiteChecksum):
 
     @staticmethod
     def _extract_feature() -> bytes:
-        url = RelativeUrl.gsc(f"/{GSCLang.JAPANESE}/products/category/{GSCCategory.SCALE}/announced/{datetime.now().year}")
+        url = RelativeUrl.gsc(
+            f"/{GSCLang.JAPANESE}/products/category/{GSCCategory.SCALE}/announced/{DatetimeHelper.today().year}")
         response = rq.get(url)
         response.raise_for_status()
         return response.content
