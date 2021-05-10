@@ -93,10 +93,18 @@ class Product(PkModelWithTimestamps):
     order_period_end = Column(DateTime(timezone=True))
     # ---Foreign key columns---
     series_id = Column(Integer, ForeignKey("series.id"))
-    series = relationship("Series", backref="products")
+    series = relationship(
+        "Series",
+        backref="products",
+        lazy="joined",
+    )
 
     category_id = Column(Integer, ForeignKey("category.id"))
-    category = relationship("Category", backref="products")
+    category = relationship(
+        "Category",
+        backref="products",
+        lazy="joined",
+    )
 
     manufacturer_id = Column(Integer, ForeignKey("company.id"))
     manufacturer = relationship(
@@ -141,11 +149,13 @@ class Product(PkModelWithTimestamps):
         "Sculptor",
         secondary=product_sculptor_table,
         backref="products",
+        lazy="joined",
     )
     paintworks = relationship(
         "Paintwork",
         secondary=product_paintwork_table,
         backref="products",
+        lazy="joined",
     )
 
     def last_release(self) -> Union[ProductReleaseInfo, None]:
