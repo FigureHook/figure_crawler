@@ -5,6 +5,7 @@ PyYAML
 feedparser
 discord.py
 aiohttp
+Babel
 
 # orm
 sqlalchemy_mixins

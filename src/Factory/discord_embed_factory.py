@@ -1,6 +1,7 @@
-from discord import Embed, Colour
 from datetime import date
-import locale
+
+from babel.dates import format_date
+from discord import Colour, Embed
 
 embed_templates = {
     "en": {
@@ -9,7 +10,8 @@ embed_templates = {
         "price": "Price",
         "release_date": "Release Date",
         "sculptors": "Sculptors",
-        "paintworks": "Paintworks"
+        "paintworks": "Paintworks",
+        "date_format": "MMM, yyyy"
     },
     "ja": {
         "maker": "メーカー",
@@ -17,16 +19,24 @@ embed_templates = {
         "price": "価格",
         "release_date": "発売時期",
         "sculptors": "原型制作",
-        "paintworks": "彩色"
+        "paintworks": "彩色",
+        "date_format": "yyyy MMM",
     },
-    "zh": {
+    "zh-TW": {
         "maker": "製造商",
         "series": "作品名稱",
         "price": "價格",
         "release_date": "發售日期",
         "sculptors": "原型製作",
-        "paintworks": "色彩"
+        "paintworks": "色彩",
+        "date_format": "yyyy MMM",
     },
+}
+
+locale_mapping = {
+    "en": "en",
+    "ja": "ja",
+    "zh-TW": "zh"
 }
 
 
@@ -44,7 +54,9 @@ class DiscordEmbedFactory:
         paintworks: list[str],
         template_lang: str = 'en'
     ):
-        release_date_text = release_date.strftime("%Y年%m月")
+        locale = locale_mapping.get(template_lang, "en")
+        date_format = embed_templates[template_lang]["date_format"]
+        release_date_text = format_date(release_date, date_format, locale=locale)
         embed = Embed(title=name, type="rich", url=url, colour=Colour.red())
         embed.set_image(url=image)
         embed.add_field(
