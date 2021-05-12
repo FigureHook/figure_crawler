@@ -16,4 +16,5 @@ def test_discord_new_release_embed_creation():
         release_date=date(2020, 2, 2),
         is_adult=False,
     )
+    embed.localized_with("ja")
     assert isinstance(embed, Embed)
