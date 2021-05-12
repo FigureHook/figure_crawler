@@ -41,11 +41,10 @@ locale_mapping = {
 
 
 class NewReleaseEmbed(Embed):
-    colour = Colour.red()
-
     _is_nsfw: bool
 
     def __init__(self, **kwargs):
+        kwargs.setdefault("colour", Colour.red())
         super().__init__(**kwargs)
         self._is_nsfw = kwargs.get("is_nsfw", False)
 
@@ -58,13 +57,12 @@ class NewReleaseEmbed(Embed):
         embed = self.copy()
         for f in embed._fields:
             key = f["name"]
+            f["name"] = embed_templates[lang].get(key, key)
             if key == "release_date":
                 locale = locale_mapping.get(lang, "en")
                 date_format = embed_templates[lang]["date_format"]
                 release_date = datetime.strptime(f["value"], "%Y-%m-%d").date()
                 f["value"] = str(format_date(release_date, date_format, locale=locale))
-            else:
-                f["value"] = embed_templates[lang].get(key, key)
 
         return embed
 
@@ -84,9 +82,9 @@ class DiscordEmbedFactory:
         embed = NewReleaseEmbed(title=name, type="rich", url=url, is_nsfw=is_adult)
         embed.set_image(url=image)
         embed.add_field(
-            name="maker", value=maker, inline=True
+            name="maker", value=maker, inline=False
         ).add_field(
-            name="series", value=series, inline=True
+            name="series", value=series, inline=False
         ).add_field(
             name="price", value=f"JPY {price:,}", inline=True
         ).add_field(
