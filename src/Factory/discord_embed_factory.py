@@ -40,6 +40,20 @@ locale_mapping = {
 }
 
 
+class NewReleaseEmbed(Embed):
+    colour = Colour.red()
+
+    _is_nsfw: bool
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self._is_nsfw = kwargs.get("is_nsfw", False)
+
+    @property
+    def is_nsfw(self):
+        return self._is_nsfw
+
+
 class DiscordEmbedFactory:
     @staticmethod
     def create_new_release(
@@ -50,14 +64,13 @@ class DiscordEmbedFactory:
         price: int,
         image: str,
         release_date: date,
-        sculptors: list[str],
-        paintworks: list[str],
+        is_adult: bool,
         template_lang: str = 'en'
     ):
         locale = locale_mapping.get(template_lang, "en")
         date_format = embed_templates[template_lang]["date_format"]
         release_date_text = format_date(release_date, date_format, locale=locale)
-        embed = Embed(title=name, type="rich", url=url, colour=Colour.red())
+        embed = NewReleaseEmbed(title=name, type="rich", url=url, is_nsfw=is_adult)
         embed.set_image(url=image)
         embed.add_field(
             name=embed_templates[template_lang]["maker"], value=maker, inline=True
@@ -67,9 +80,5 @@ class DiscordEmbedFactory:
             name=embed_templates[template_lang]["price"], value=f"JPY {price:,}", inline=True
         ).add_field(
             name=embed_templates[template_lang]["release_date"], value=release_date_text, inline=True
-        ).add_field(
-            name=embed_templates[template_lang]["sculptors"], value=sculptors, inline=True
-        ).add_field(
-            name=embed_templates[template_lang]["paintworks"], value=paintworks, inline=True
         )
         return embed
