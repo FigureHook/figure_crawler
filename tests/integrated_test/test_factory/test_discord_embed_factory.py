@@ -14,7 +14,6 @@ def test_discord_new_release_embed_creation():
         price=12980,
         image="https://img.com/kappa/jpg",
         release_date=date(2020, 2, 2),
-        sculptors=["master", "newbie"],
-        paintworks=["master", "newbie"]
+        is_adult=False,
     )
     assert isinstance(embed, Embed)
