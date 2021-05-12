@@ -55,7 +55,8 @@ class NewReleaseEmbed(Embed):
 
     def localized_with(self, lang: str):
         """lang: en, ja, zh-TW"""
-        for f in self._fields:
+        embed = self.copy()
+        for f in embed._fields:
             key = f["name"]
             if key == "release_date":
                 locale = locale_mapping.get(lang, "en")
@@ -64,6 +65,8 @@ class NewReleaseEmbed(Embed):
                 f["value"] = str(format_date(release_date, date_format, locale=locale))
             else:
                 f["value"] = embed_templates[lang].get(key, key)
+
+        return embed
 
 
 class DiscordEmbedFactory:
