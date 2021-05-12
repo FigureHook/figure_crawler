@@ -4,7 +4,8 @@ from discord import RequestsWebhookAdapter, Webhook
 from discord.embeds import Embed
 from pytest_mock import MockerFixture
 
-from Sender.discord_hooker import (DiscordHooker, DiscordHookerStats, process_embeds)
+from Sender.discord_hooker import (DiscordHooker, DiscordHookerStats,
+                                   process_embeds)
 
 
 def test_embeds_processor():
@@ -16,16 +17,17 @@ def test_embeds_processor():
 
 
 def test_hooker_sending(mocker: MockerFixture):
-    mock_send = mocker.patch.object(Webhook, "send", return_value=True)
-    embeds = [Embed() for _ in range(15)]
+    mock_send = mocker.patch.object(DiscordHooker, "_send", return_value=True)
+    embeds = [Embed() for _ in range(100)]
     webhooks = [
         Webhook.partial("123", "asdf", adapter=RequestsWebhookAdapter()),
         Webhook.partial("121233", "asasdfadf", adapter=RequestsWebhookAdapter())
     ]
 
-    hooker = DiscordHooker(webhooks, embeds=embeds)
-    hooker.send()
-    assert mock_send.call_count == 4
+    hooker = DiscordHooker()
+    for webhook in webhooks:
+        hooker.send(webhook, embeds)
+    assert mock_send.call_count == 20
 
 
 def test_hooker_stats():

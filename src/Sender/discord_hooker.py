@@ -77,40 +77,32 @@ class DiscordHookerStats(UserDict):
 class DiscordHooker(Sender):
     batch_size = 10
 
-    webhooks: list[Webhook]
-    embeds_batches: list[list[Embed]]
-    webhook_status: dict[str, bool]
     _stats: DiscordHookerStats
 
-    def __init__(self, webhooks: list[Webhook], embeds: list[Embed], stats: DiscordHookerStats = None) -> None:
-        self.embeds_count = len(embeds)
-        self.embeds_batches = process_embeds(embeds, batch_size=self.batch_size)
+    def __init__(self, stats: DiscordHookerStats = None) -> None:
         if stats:
             self._stats = stats
         if not stats:
             self._stats = DiscordHookerStats()
-        self.webhooks = webhooks
         self.webhook_status = {}
 
     @property
     def stats(self):
         return self._stats
 
-    def send(self):
-        self.stats.start_time = datetime.utcnow()
-        if not self.embeds_count:
+    def send(self, webhook: Webhook, embeds: list[Embed]):
+        if not embeds:
             return
-        for embeds_batch in self.embeds_batches:
-            webhook_status = []
-            for webhook in self.webhooks:
-                # once the webhook is not found, stop sending remaining batch.
-                if (not webhook_status or any(webhook_status)) and embeds_batch:
-                    status = self._send(webhook, embeds_batch)
-                    webhook_status.append(status)
 
-                self.webhook_status[str(webhook.id)] = any(webhook_status)
+        embeds_batch = process_embeds(embeds.copy(), self.batch_size)
+        webhook_status = []
+        for batch in embeds_batch:
+            # once the webhook is not found, stop sending remaining batch.
+            if (not webhook_status or all(webhook_status)) and batch:
+                status = self._send(webhook, batch)
+                webhook_status.append(status)
 
-        self.stats.finish_time = datetime.utcnow()
+        self.webhook_status[str(webhook.id)] = all(webhook_status)
 
     def _send(self, webhook: Webhook, embeds: list[Embed]):
         try:
