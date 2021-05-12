@@ -1,17 +1,12 @@
-from collections import namedtuple
 from datetime import datetime
 
-from discord import Colour, Embed, Webhook, WebhookAdapter
 from sqlalchemy import select
 from sqlalchemy.engine.row import Row
 from sqlalchemy.orm.session import Session
 from sqlalchemy.sql.expression import and_, literal_column
 
-from Adapters.webhook_adapter import DiscordWebhookAdapter
 from Models import (Company, Product, ProductOfficialImage, ProductReleaseInfo,
                     Series)
-from Models import Webhook as WebhookModel
-from utils.decorators import ensure_session
 
 
 class ReleaseHelper:
@@ -57,15 +52,3 @@ class ReleaseHelper:
 
         releases = session.execute(stmt).all()
         return releases
-
-
-class DiscordHelper:
-    @staticmethod
-    @ensure_session
-    def make_discord_webhooks(webhook_adapter: WebhookAdapter):
-        discord_webhooks: list[Webhook] = []
-        webhooks: list[WebhookModel] = WebhookModel.all()
-        for webhook in webhooks:
-            discord_webhook = DiscordWebhookAdapter(webhook, webhook_adapter)
-            discord_webhooks.append(discord_webhook)
-        return discord_webhooks
