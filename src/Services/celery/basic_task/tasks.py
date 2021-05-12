@@ -1,13 +1,16 @@
 from collections import namedtuple
-from typing import Iterable, Type
+from typing import Type
 
 from discord import RequestsWebhookAdapter
 
 from constants import PeriodicTask
 from database import pgsql_session
-from Helpers.db_helper import DiscordHelper
-from Models import Task, Webhook
-from Sender.discord_hooker import DiscordHooker
+from Dispatchers.discord_hook_dispatcher import \
+    DiscordNewReleaeEmbedsDispatcher
+from Factory.discord_embed_factory import DiscordEmbedFactory, NewReleaseEmbed
+from Helpers.db_helper import ReleaseHelper
+from Models import Task
+from Models import Webhook as WebhookModel
 from utils.announcement_checksum import (AlterChecksum, GSCChecksum,
                                          SiteChecksum)
 from utils.scrapyd_api import schedule_spider
@@ -18,22 +21,29 @@ from .celery import app
 @app.task
 def news_push():
     this_task: Task
-    with pgsql_session():
+    with pgsql_session() as session:
         this_task = Task.query.get(PeriodicTask.NEWS_PUSH)
-        adapter = RequestsWebhookAdapter()
-        discord_webhooks = DiscordHelper.make_discord_webhooks(adapter)
-        embeds = DiscordHelper.make_new_release_embeds_after(this_task.executed_at)
+        new_releases = ReleaseHelper.fetch_new_releases(session, this_task.executed_at)  # type: ignore
+        raw_embeds: list[NewReleaseEmbed] = []
+        for r in new_releases:
+            embed = DiscordEmbedFactory.create_new_release(
+                name=r.name,
+                url=r.url,
+                series=r.series,
+                maker=r.maker,
+                price=r.price,
+                image=r.image_url,
+                release_date=r.release_date,
+                is_adult=r.is_adult
+            )
+            raw_embeds.append(embed)
         this_task.update()
-        hooker = DiscordHooker(discord_webhooks, embeds=embeds)
-        hooker.send()
 
-        webhooks: Iterable[Webhook] = Webhook.all()
-        for webhook in webhooks:
-            is_existed = hooker.webhook_status.get(webhook.id)
-            if is_existed is not None:
-                webhook.update(is_existed=is_existed)
-
-    return hooker.stats
+        webhooks: list[WebhookModel] = WebhookModel.all()
+        webhook_adapter = RequestsWebhookAdapter()
+        dispatcher = DiscordNewReleaeEmbedsDispatcher(webhooks, raw_embeds, webhook_adapter)
+        dispatcher.dispatch()
+    return dispatcher.stats
 
 
 @app.task
