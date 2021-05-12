@@ -4,8 +4,7 @@ from discord import RequestsWebhookAdapter, Webhook
 from discord.embeds import Embed
 from pytest_mock import MockerFixture
 
-from Sender.discord_hooker import (DiscordHooker, DiscordHookerStats,
-                                   process_embeds)
+from Sender.discord_hooker import (DiscordHooker, DiscordHookerStats, process_embeds)
 
 
 def test_embeds_processor():
@@ -30,7 +29,7 @@ def test_hooker_sending(mocker: MockerFixture):
 
 
 def test_hooker_stats():
-    stats = DiscordHookerStats(10, 10, 1, 100)
+    stats = DiscordHookerStats()
     start_time = datetime.now()
     stats.start_time = start_time
     stats.sending_success()

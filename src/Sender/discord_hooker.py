@@ -9,14 +9,11 @@ from .abcs import Sender
 
 
 class DiscordHookerStats(UserDict):
-    def __init__(self, embed_count: int, embed_batch_size: int, embed_batch_count: int, webhook_count: int) -> None:
+    def __init__(self) -> None:
         init_data = {
             "start_time": None,
-            "finish_time": None,
-            "embed_count": embed_count,
-            "embed_batch_size": embed_batch_size,
-            "embed_batch_count": embed_batch_count,
-            "webhook_count": webhook_count,
+            # "finish_time": None,
+            # "webhook_count": 0,
             "webhook_sending_count": 0,
             "webhook_sending_count/success": 0,
             "webhook_sending_count/failed": 0,
@@ -24,21 +21,9 @@ class DiscordHookerStats(UserDict):
         }
         super().__init__(init_data)
 
-    @property
-    def embed_count(self):
-        return self.data["embed_count"]
-
-    @property
-    def embed_batch_size(self):
-        return self.data["embed_batch_size"]
-
-    @property
-    def embed_batch_count(self):
-        return self.data["embed_batch_count"]
-
-    @property
-    def webhook_count(self):
-        return self.data["webhook_count"]
+    # @property
+    # def webhook_count(self):
+    #     return self.data["webhook_count"]
 
     @property
     def sending_count(self):
@@ -103,7 +88,7 @@ class DiscordHooker(Sender):
         if stats:
             self._stats = stats
         if not stats:
-            self._stats = DiscordHookerStats(len(embeds), self.batch_size, len(self.embeds_batches), len(webhooks))
+            self._stats = DiscordHookerStats()
         self.webhooks = webhooks
         self.webhook_status = {}
 
