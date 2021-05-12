@@ -16,7 +16,7 @@ from utils.decorators import ensure_session
 
 class ReleaseHelper:
     @staticmethod
-    def fetch_new_releases(session: Session, return_statement: bool = False) -> list[Row]:
+    def fetch_new_releases(session: Session, time: datetime) -> list[Row]:
         """fetch new releases to push.
 
         return list of Row with
@@ -28,7 +28,7 @@ class ReleaseHelper:
             ProductReleaseInfo.price.label('price'),
             ProductReleaseInfo.initial_release_date.label('release_date')
         ).where(
-            ProductReleaseInfo.created_at > datetime(2021, 5, 1),
+            ProductReleaseInfo.created_at > time,
             # ensure fetched data parsed by new release checking parser
             ProductReleaseInfo.announced_at.isnot(None)
         ).cte("release_info")

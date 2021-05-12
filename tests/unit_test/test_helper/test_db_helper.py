@@ -1,3 +1,4 @@
+from datetime import datetime
 import pytest
 from discord import RequestsWebhookAdapter, Webhook
 
@@ -15,4 +16,5 @@ class TestDiscorHelper:
 
 @pytest.mark.usefixtures("session")
 def test_release_helper(session):
-    ReleaseHelper.fetch_new_releases(session)
+    # TODO:more test case
+    ReleaseHelper.fetch_new_releases(session, datetime(2021, 5, 1))
