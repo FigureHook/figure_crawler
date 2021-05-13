@@ -21,3 +21,4 @@ dbs/
 *.egg-info/
 dumps/
 drawio/
+redis_data/
