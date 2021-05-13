@@ -1,23 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Figure noti</title>
 </head>
+
 <body>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul class=flashes>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
     <form method="post">
-    <!-- <form action="https://discord.com/api/oauth2/authorize" method="get"> -->
-        {{ form.response_type() }}
-        {{ form.client_id() }}
-        {{ form.scope() }}
-        {{ form.redirect_uri() }}
-        {{ form.is_nsfw() }}
-        {{ form.language() }}
-        {{ form.csrf_token() }}
-        <button type="submit">
-            Hook!
-        </button>
+        {{ form.is_nsfw }}
+        {{ form.language }}
+        {{ form.csrf_token }}
+        {{ form.submit }}
     </form>
 </body>
+
 </html>

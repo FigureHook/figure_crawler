@@ -1,7 +1,5 @@
-import os
-
 from flask_wtf import FlaskForm
-from wtforms import BooleanField, HiddenField, SelectField, ValidationError
+from wtforms import BooleanField, SelectField, SubmitField, ValidationError
 
 from Helpers.general_helper import DataHelper
 
@@ -15,17 +13,14 @@ def validate_language(form, field: SelectField):
 
 
 class SubscriptionForm(FlaskForm):
-    response_type = HiddenField(default="code")
-    client_id = HiddenField(default=os.getenv("DISCORD_CLIENT_ID"))
-    scope = HiddenField(default="webhook.incoming")
-    redirect_uri = HiddenField()
     is_nsfw = BooleanField("nsfw")
     language = SelectField(
         "language",
         choices=[
-            ('zh-TW', '繁體中文'),
             ('en', 'English'),
+            ('zh-TW', '繁體中文'),
             ('ja', '日本語')
         ],
         validators=[validate_language]
     )
+    submit = SubmitField("submit")
