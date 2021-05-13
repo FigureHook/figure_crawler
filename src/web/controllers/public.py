@@ -1,5 +1,5 @@
 import os
-from base64 import b64encode
+from base64 import urlsafe_b64encode
 from os import urandom
 
 from flask import (Blueprint, flash, redirect, render_template, request,
@@ -28,7 +28,7 @@ def home():
 
     if request.method == 'POST':
         if form.validate_on_submit():
-            state = b64encode(urandom(12)).decode('utf-8')
+            state = urlsafe_b64encode(urandom(12)).decode('utf-8')
             session['state'] = state
             location = discord_redirect_url(state)
 

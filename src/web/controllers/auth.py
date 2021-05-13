@@ -37,6 +37,10 @@ def save_webhook_info(channel_id, _id, token, **kwargs):
     the_hook.session.commit()
 
 
+def check_state(state):
+    return session['state'] == state
+
+
 @blueprint.route("/webhook", methods=["GET"])
 def webhook():
     args = request.args.to_dict()
@@ -44,7 +48,8 @@ def webhook():
     r = exchange_token(args["code"])
     state = args["state"]
 
-    if r.status_code == 200 and session['state'] == state:
+    # TODO: log error (webhook limit reached issue)
+    if r.status_code == 200 and check_state(state):
         webhook_response = r.json()
         webhook_channel_id = webhook_response["webhook"]["channel_id"]
         webhook_id = webhook_response["webhook"]["id"]
