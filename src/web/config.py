@@ -35,6 +35,11 @@ class TestingConfig(Config):
     WTF_CSRF_ENABLED = False
     SECRET_KEY = "test"
 
+    @property
+    def SQLALCHEMY_DATABASE_URI(self):
+        db_url = os.getenv("TEST_DB_URL")
+        return f"postgresql+psycopg2://{db_url}"
+
 
 config = {
     "production": ProductionConfig,
