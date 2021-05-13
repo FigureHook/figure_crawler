@@ -18,7 +18,7 @@ def exchange_token(code):
         "client_secret": os.getenv("DISCORD_CLIENT_SECRET"),
         "grant_type": "authorization_code",
         "code": code,
-        "redirect_uri": url_for("public.home", _external=True)
+        "redirect_uri": url_for("auth.webhook", _external=True)
     }
     headers = {
         "Content-Type": "application/x-www-form-urlencoded"
