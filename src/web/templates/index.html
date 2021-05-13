@@ -6,11 +6,15 @@
     <title>Figure noti</title>
 </head>
 <body>
-    <form action="https://discord.com/api/oauth2/authorize" method="get">
+    <form method="post">
+    <!-- <form action="https://discord.com/api/oauth2/authorize" method="get"> -->
         {{ form.response_type() }}
         {{ form.client_id() }}
         {{ form.scope() }}
         {{ form.redirect_uri() }}
+        {{ form.is_nsfw() }}
+        {{ form.language() }}
+        {{ form.csrf_token() }}
         <button type="submit">
             Hook!
         </button>
