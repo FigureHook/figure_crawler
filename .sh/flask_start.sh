@@ -1,3 +1,3 @@
 #!/bin/bash
-cd ${WORKDIR}
-gunicorn wsgi:app
+
+gunicorn src.wsgi:app
