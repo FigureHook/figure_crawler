@@ -5,7 +5,7 @@ from flask import Flask
 
 from Models.base import Model
 from web.controllers import auth, public
-from web.extension import cors, csrf, db
+from web.extension import cors, csrf, db, session
 
 from .config import config
 
@@ -35,10 +35,10 @@ def register_extensions(app: Flask):
     """Register Flask extensions."""
     # login_manager.init_app(app)
     # oauth.init_app(app)
+    session.init_app(app)
     cors.init_app(app)
     csrf.init_app(app)
     db.init_app(app)
-    # session.init_app(app)
 
 
 def register_blueprints(app):

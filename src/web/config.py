@@ -1,14 +1,22 @@
 import os
+from base64 import b64encode
+from os import urandom
+import redis
 
 
 class Config(object):
     """Base config, uses staging database server."""
     DEBUG = False
     TESTING = False
-    SECRET_KEY = os.urandom(32)
+    SECRET_KEY = b64encode(urandom(32)).decode('utf-8')
     DISCORD_CLIENT_ID = os.environ.get("DISCORD_CLIENT_ID")
     DISCORD_CLIENT_SECRET = os.environ.get("DISCORD_CLIENT_SECRET")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SESSION_TYPE = 'redis'
+    SESSION_PERMANENT = False
+    SESSION_USE_SIGNER = True
+    SESSION_COOKIE_SECURE = True
+    SESSION_REDIS = redis.from_url('redis://redis:6379')
 
     # @property
     # def REMEMBER_COOKIE_DOMAIN(self):
