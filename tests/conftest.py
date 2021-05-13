@@ -7,6 +7,23 @@ from Parsers.extension_class import HistoricalReleases, OrderPeriod, Release
 from Parsers.product import ProductBase
 
 
+@pytest.fixture(scope='session')
+def app():
+    import os
+    os.environ["MODE"] = "test"
+    from Models.base import Model
+    from web.app import create_app
+    from database import PostgreSQLDB
+
+    app = create_app("test")
+    pgsql = PostgreSQLDB()
+    Model.metadata.create_all(pgsql.engine)
+
+    yield app
+
+    Model.metadata.drop_all(pgsql.engine)
+
+
 @pytest.fixture()
 def session():
     import os
