@@ -12,8 +12,8 @@ class DiscordHookerStats(UserDict):
     def __init__(self) -> None:
         init_data = {
             "start_time": None,
-            # "finish_time": None,
-            # "webhook_count": 0,
+            "finish_time": None,
+            "webhook_count": 0,
             "webhook_sending_count": 0,
             "webhook_sending_count/success": 0,
             "webhook_sending_count/failed": 0,
@@ -21,9 +21,9 @@ class DiscordHookerStats(UserDict):
         }
         super().__init__(init_data)
 
-    # @property
-    # def webhook_count(self):
-    #     return self.data["webhook_count"]
+    @property
+    def webhook_count(self):
+        return self.data["webhook_count"]
 
     @property
     def sending_count(self):
@@ -45,18 +45,19 @@ class DiscordHookerStats(UserDict):
     def start_time(self):
         return self.data["start_time"]
 
-    @start_time.setter
-    def start_time(self, time: datetime):
-        if not self.start_time:
-            self.data["start_time"] = time
-
     @property
     def finish_time(self):
         return self.data["finish_time"]
 
-    @finish_time.setter
-    def finish_time(self, time: datetime):
-        self.data["finish_time"] = time
+    def start(self):
+        if not self.start_time:
+            self.data["start_time"] = datetime.utcnow()
+
+    def finish(self):
+        self.data["finish_time"] = datetime.utcnow()
+
+    def webhook_count_plusone(self):
+        self.data["webhook_count"] += 1
 
     def _sending_count_plusone(self):
         self.data["webhook_sending_count"] += 1
@@ -94,6 +95,8 @@ class DiscordHooker(Sender):
         if not embeds:
             return
 
+        self.stats.webhook_count_plusone()
+        self.stats.start()
         embeds_batch = process_embeds(embeds.copy(), self.batch_size)
         webhook_status = []
         for batch in embeds_batch:
@@ -103,20 +106,25 @@ class DiscordHooker(Sender):
                 webhook_status.append(status)
 
         self.webhook_status[str(webhook.id)] = all(webhook_status)
+        self.stats.finish()
 
     def _send(self, webhook: Webhook, embeds: list[Embed]):
         try:
             webhook.send(embeds=embeds)
             self._stats.sending_success()
+
         except NotFound:
             self._stats.sending_404()
             return False
+
         except HTTPException:
             self._stats.sending_failed()
+
         except Exception as e:
             # FIXME: how to log the error?
             print(e)
             self._stats.sending_failed()
+
         finally:
             return True
 

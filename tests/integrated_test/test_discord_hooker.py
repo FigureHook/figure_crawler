@@ -33,16 +33,17 @@ def test_hooker_sending(mocker: MockerFixture):
 def test_hooker_stats():
     stats = DiscordHookerStats()
     start_time = datetime.now()
-    stats.start_time = start_time
+    stats.start()
+    start_time = stats.start_time
     stats.sending_success()
     assert stats.sending_success_count == 1
-    stats.start_time = datetime.now()
+    stats.start()
     stats.sending_failed()
-    stats.finish_time = datetime.now()
+    stats.finish()
     assert stats.sending_failed_count == 1
     stats.sending_404()
-    finish_time = datetime.now()
-    stats.finish_time = finish_time
+    stats.finish()
+    finish_time = stats.finish_time
     assert stats.sending_404_count == 1
     assert stats.sending_count == 3
     assert stats.start_time == start_time
