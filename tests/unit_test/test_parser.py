@@ -113,6 +113,11 @@ class BaseTestCase:
         assert type(images) is list
         assert item["expected"]["images"] in images
 
+    def test_thumbnail(self, item):
+        thumbnail = item["test"].parse_thumbnail()
+        assert isinstance(thumbnail, str)
+        assert thumbnail == item["expected"]["thumbnail"]
+
 
 class TestGSCParser(BaseTestCase):
     products = load_yaml("tests/test_case/gsc_products.yml")
