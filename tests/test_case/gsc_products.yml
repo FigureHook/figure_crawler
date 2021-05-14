@@ -48,7 +48,7 @@
   - SunYaMing
   series: 'A-Z:'
   size: 250
-  thumbnail: ''
+  thumbnail: http://images.goodsmile.info/cgm/images/product/20191113/8978/65177/medium/fb0bf5ab90cbc0082e1127e3ca91dd9e.jpg
   url: https://www.goodsmile.info/ja/product/8978
 - JAN: null
   adult: false
@@ -74,7 +74,7 @@
   - 間崎祐介
   series: Fate/Grand Order
   size: 280
-  thumbnail: ''
+  thumbnail: http://images.goodsmile.info/cgm/images/product/20200624/9683/71244/medium/5b5da6ddc11880433d64c674e8d86f44.jpg
   url: https://www.goodsmile.info/ja/product/9683
 - JAN: null
   adult: false
@@ -100,7 +100,7 @@
   - のぶた（リボルブ）
   series: 劇場版Fate/stay night [Heaven's Feel]
   size: 275
-  thumbnail: ''
+  thumbnail: http://images.goodsmile.info/cgm/images/product/20200318/9361/68610/medium/d2e96f23dd8c649c8e8c741ebb7d7f74.jpg
   url: https://www.goodsmile.info/ja/product/9361
 - JAN: null
   adult: true
@@ -151,7 +151,7 @@
   - jarel
   series: RWBY(ルビー)
   size: 170
-  thumbnail: ''
+  thumbnail: http://images.goodsmile.info/cgm/images/product/20200731/9888/72842/medium/7f0a7f51f2fe16edfb59c24010e9080b.jpg
   url: https://www.goodsmile.info/ja/product/9888
 - JAN: null
   adult: false
@@ -178,7 +178,7 @@
   - threezero
   series: BUMBLEBEE（バンブルビー）
   size: 480
-  thumbnail: ''
+  thumbnail: http://images.goodsmile.info/cgm/images/product/20200626/9709/71431/medium/af24fad8ffbf4af1eff25c93a78994d8.jpg
   url: https://www.goodsmile.info/ja/product/9709
 - JAN: null
   adult: false
@@ -202,7 +202,7 @@
   sculptor: []
   series: 鋼の錬金術師 FULLMETAL ALCHEMIST
   size: 155
-  thumbnail: ''
+  thumbnail: http://images.goodsmile.info/cgm/images/product/20200907/10021/74016/medium/243822a5bd46eb175dfbc98e7feafbbe.jpg
   url: https://www.goodsmile.info/ja/product/10021
 - JAN: null
   adult: false
@@ -227,7 +227,7 @@
   - FREEing
   series: こどものじかん
   size: 190
-  thumbnail: ''
+  thumbnail: http://images.goodsmile.info/cgm/images/product/20091023/2171/5887/medium/3e7eb57656651f5a15d943038ef50fcd.jpg
   url: https://www.goodsmile.info/ja/product/2171
 - JAN: null
   adult: false
@@ -253,7 +253,7 @@
   - 工藤祐司（マックスファクトリー）
   series: 空の境界
   size: null
-  thumbnail: ''
+  thumbnail: http://images.goodsmile.info/cgm/images/product/20091023/2138/5755/medium/0eb7efe720ccea9fd567a4d4905b0ba5.jpg
   url: https://www.goodsmile.info/ja/product/2138
 - JAN: null
   adult: false
@@ -283,7 +283,7 @@
   - iTANDi
   series: ダンガンロンパ 希望の学園と絶望の高校生 The Animation
   size: 150
-  thumbnail: ''
+  thumbnail: http://images.goodsmile.info/cgm/images/product/20140120/4198/27710/medium/a69e81f414d7e534fe8eb8c910ff2fc4.jpg
   url: https://www.goodsmile.info/ja/product/4198
 - JAN: null
   adult: false
@@ -313,7 +313,7 @@
   - iTANDi
   series: 'Danganronpa: Kibou no Gakuen to Zetsubou no Koukousei The Animation'
   size: 150
-  thumbnail: ''
+  thumbnail: http://images.goodsmile.info/cgm/images/product/20140120/4198/27710/medium/a69e81f414d7e534fe8eb8c910ff2fc4.jpg
   url: https://www.goodsmile.info/en/product/4198
 - JAN: null
   adult: false
@@ -342,7 +342,7 @@
   - ゆうこ～ん(knead)
   series: Re:ゼロから始める異世界生活
   size: 225
-  thumbnail: ''
+  thumbnail: http://images.goodsmile.info/cgm/images/product/20170210/6256/43793/medium/46973d9d0e5ae2baa27dc63cfb1fe598.jpg
   url: https://www.goodsmile.info/ja/product/6256
 - JAN: null
   adult: false
@@ -370,7 +370,7 @@
   - デザインココ
   series: キャラクター・ボーカル・シリーズ01 初音ミク
   size: 170
-  thumbnail: ''
+  thumbnail: http://images.goodsmile.info/cgm/images/product/20190212/8067/58185/medium/642b8b6cdfad86f8ec5ce48c8448f009.jpg
   url: https://www.goodsmile.info/ja/product/8067
 - JAN: null
   adult: false
@@ -396,7 +396,7 @@
   - モワノー
   series: 超次元ゲイム ネプテューヌ ～ねぷのなつやすみ～
   size: 250
-  thumbnail: ''
+  thumbnail: http://images.goodsmile.info/cgm/images/product/20191210/9066/65909/medium/8c41601ae7ff56a731b88430ed960205.jpg
   url: https://www.goodsmile.info/ja/product/9066
 - JAN: null
   adult: false
@@ -421,7 +421,7 @@
   - プラスティックマニア
   series: 刀剣乱舞-ONLINE-
   size: 1800
-  thumbnail: ''
+  thumbnail: http://images.goodsmile.info/cgm/images/product/20180919/7619/54686/medium/a418ee9846138ea781d5aa6613d0e3e7.jpg
   url: https://www.goodsmile.info/ja/product/7619
 - JAN: null
   adult: false
@@ -446,7 +446,7 @@
   - アストレイズ
   series: SSSS.GRIDMAN
   size: 210
-  thumbnail: ''
+  thumbnail: http://images.goodsmile.info/cgm/images/product/20191204/9052/65765/medium/7a7dd4aa7c0b890f8b9272fba2035a40.jpg
   url: https://www.goodsmile.info/ja/product/9052
 - JAN: null
   adult: false
@@ -476,7 +476,7 @@
   - iTANDi
   series: ライザのアトリエ ～常闇の女王と秘密の隠れ家～
   size: 240
-  thumbnail: ''
+  thumbnail: http://images.goodsmile.info/cgm/images/product/20190925/8841/65326/medium/5b2fad5ffa7857cf4bd2e8514250b0bd.jpg
   url: https://www.goodsmile.info/ja/product/8841
 - JAN: null
   adult: false
@@ -502,7 +502,7 @@
   - あきもふ
   series: DF
   size: 250
-  thumbnail: ''
+  thumbnail: http://images.goodsmile.info/cgm/images/product/20200707/9734/71746/medium/25ce6fccef10be466efcc3c676b5aeab.jpg
   url: https://www.goodsmile.info/ja/product/9734
 - JAN: null
   adult: false
@@ -527,7 +527,7 @@
   - Fio（ReplyFrom...）
   series: 僕は友達が少ない
   size: 215
-  thumbnail: ''
+  thumbnail: http://images.goodsmile.info/cgm/images/product/20120729/3629/19752/medium/b824044b745f1cd6ef31dced3b4d5f02.jpg
   url: https://www.goodsmile.info/ja/product/3629
 - JAN: null
   adult: false
@@ -559,7 +559,7 @@
   - あきもふ
   series: ゼノブレイド2
   size: 210
-  thumbnail: ''
+  thumbnail: http://images.goodsmile.info/cgm/images/product/20171220/6966/49538/medium/d8175bcab59faa4f3748168279cba2e9.jpg
   url: https://www.goodsmile.info/ja/product/6966
 - JAN: null
   adult: false
@@ -585,7 +585,7 @@
   - デザインココ
   series: デート・ア・ライブ
   size: 155
-  thumbnail: ''
+  thumbnail: http://images.goodsmile.info/cgm/images/product/20200131/9250/67413/medium/804a5ffe1132adb6dce72b2e271ec3b3.jpg
   url: https://www.goodsmile.info/ja/product/9250
 - JAN: null
   adult: false
@@ -611,5 +611,5 @@
   - Chilmiru
   series: オーディンスフィア レイヴスラシル
   size: 250
-  thumbnail: ''
+  thumbnail: http://images.goodsmile.info/cgm/images/product/20180424/7236/51673/medium/a7b017b3455ac47778439f07e888e7d0.jpg
   url: https://www.goodsmile.info/ja/product/7236/
