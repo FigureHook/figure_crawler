@@ -91,6 +91,9 @@ class Product(PkModelWithTimestamps):
     checksum = Column(String(32))
     order_period_start = Column(DateTime(timezone=True))
     order_period_end = Column(DateTime(timezone=True))
+    thumbnail = Column(String)
+    og_image = Column(String)
+
     # ---Foreign key columns---
     series_id = Column(Integer, ForeignKey("series.id"))
     series = relationship(
