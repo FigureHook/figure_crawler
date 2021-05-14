@@ -22,7 +22,7 @@
   - みさいる
   series: Fate/Grand Order
   size: 370
-  thumbnail: ''
+  thumbnail: null
   url: http://www.alter-web.jp/products/261/
 - JAN: null
   adult: false
@@ -52,7 +52,7 @@
   - のぶた（リボルブ）
   series: ヱヴァンゲリヲン新劇場版：Q
   size: 230
-  thumbnail: ''
+  thumbnail: null
   url: http://www.alter-web.jp/products/119/
 - JAN: null
   adult: false
@@ -78,7 +78,7 @@
   - 竜人
   series: To LOVEる -とらぶる- ダークネス
   size: 240
-  thumbnail: ''
+  thumbnail: null
   url: http://www.alter-web.jp/products/477/
 - JAN: null
   adult: false
@@ -104,7 +104,7 @@
   - 本宮あまと
   series: 百花繚乱
   size: 270
-  thumbnail: ''
+  thumbnail: null
   url: http://www.alter-web.jp/products/22/
 - JAN: null
   adult: false
@@ -133,7 +133,7 @@
   - 田中冬志
   series: アズールレーン
   size: 270
-  thumbnail: ''
+  thumbnail: null
   url: http://www.alter-web.jp/products/264/
 - JAN: null
   adult: false
@@ -162,7 +162,7 @@
   - ウサギ
   series: 超次元ゲイム ネプテューヌ
   size: 350
-  thumbnail: ''
+  thumbnail: null
   url: http://www.alter-web.jp/products/181/
 - JAN: null
   adult: false
@@ -188,7 +188,7 @@
   - i-con（藍色空色）
   series: オーディンスフィア レイヴスラシル
   size: 240
-  thumbnail: ''
+  thumbnail: null
   url: http://www.alter-web.jp/products/196/
 - JAN: null
   adult: false
@@ -216,7 +216,7 @@
   - 橋本涼
   series: Fate/stay night
   size: 220
-  thumbnail: ''
+  thumbnail: null
   url: http://www.alter-web.jp/products/47/
 - JAN: null
   adult: false
@@ -241,7 +241,7 @@
   - 齊藤史樹
   series: ペルソナ４
   size: 220
-  thumbnail: ''
+  thumbnail: null
   url: http://www.alter-web.jp/products/389/
 - JAN: null
   adult: false
@@ -268,7 +268,7 @@
   - 田中冬志
   series: 百花繚乱
   size: 280
-  thumbnail: ''
+  thumbnail: null
   url: http://www.alter-web.jp/products/146/
 - JAN: null
   adult: false
@@ -296,5 +296,5 @@
   - みうらおさみ
   series: ゆるキャン△
   size: 150
-  thumbnail: ''
+  thumbnail: null
   url: http://www.alter-web.jp/products/252/
