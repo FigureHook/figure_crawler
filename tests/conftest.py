@@ -79,7 +79,8 @@ def product():
         distributer=fake.company(),
         jan=fake.jan13(),
         maker_id=str(random.randint(1, 1000)),
-        images=[fake.uri() for _ in range(5)]
+        images=[fake.uri() for _ in range(5)],
+        thumbnail=fake.uri()
     )
 
     return p
