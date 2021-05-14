@@ -115,7 +115,8 @@ class BaseTestCase:
 
     def test_thumbnail(self, item):
         thumbnail = item["test"].parse_thumbnail()
-        assert isinstance(thumbnail, str)
+        if thumbnail:
+            assert isinstance(thumbnail, str)
         assert thumbnail == item["expected"]["thumbnail"]
 
 
