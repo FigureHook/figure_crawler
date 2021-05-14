@@ -140,6 +140,9 @@ class ProductParser(ABC):
     def parse_maker_id(self) -> Union[str, None]:
         return None
 
+    def parse_thumbnail(self) -> Union[str, None]:
+        return None
+
 
 class YearlyAnnouncement(ABC):
     def __init__(self, start: int, end: Optional[int]):
