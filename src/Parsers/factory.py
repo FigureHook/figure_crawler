@@ -62,7 +62,8 @@ class ProductFactory(ABC):
             distributer=parser.parse_distributer(),
             jan=parser.parse_JAN(),
             maker_id=parser.parse_maker_id(),
-            images=parser.parse_images()
+            images=parser.parse_images(),
+            thumbnail=parser.parse_thumbnail()
         )
 
         if is_normalized:
