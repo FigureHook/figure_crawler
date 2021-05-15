@@ -54,6 +54,8 @@ class ProductModelFactory:
             jan=product_dataclass.jan,
             order_period_start=product_dataclass.order_period.start,
             order_period_end=product_dataclass.order_period.end,
+            thumbnail=product_dataclass.thumbnail,
+            og_image=product_dataclass.og_image,
             # relationship
             release_infos=release_infos,
             sculptors=sculptors,
@@ -119,6 +121,8 @@ class ProductModelFactory:
             checksum=product_dataclass.checksum,
             order_period_start=product_dataclass.order_period.start,
             order_period_end=product_dataclass.order_period.end,
+            thumbnail=product_dataclass.thumbnail,
+            og_image=product_dataclass.og_image,
             # relationship
             sculptors=sculptors,
             paintworks=paintworks,
