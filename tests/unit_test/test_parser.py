@@ -119,6 +119,12 @@ class BaseTestCase:
             assert isinstance(thumbnail, str)
         assert thumbnail == item["expected"]["thumbnail"]
 
+    def test_og_image(self, item):
+        og_image = item["test"].parse_og_image()
+        if og_image:
+            assert isinstance(og_image, str)
+        assert og_image == item["expected"]["og_image"]
+
 
 class TestGSCParser(BaseTestCase):
     products = load_yaml("tests/test_case/gsc_products.yml")

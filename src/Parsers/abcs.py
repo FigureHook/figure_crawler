@@ -141,10 +141,14 @@ class ProductParser(ABC):
         return None
 
     def parse_thumbnail(self) -> Union[str, None]:
-        return None
+        meta_thumbnail = self.page.select_one("meta[name='thumbnail']")
+        thumbnail = meta_thumbnail["content"] if meta_thumbnail else None
+        return thumbnail
 
     def parse_og_image(self) -> Union[str, None]:
-        return None
+        meta_og_image = self.page.find("meta", property="og:image")
+        og_image = meta_og_image["content"] if meta_og_image else None
+        return og_image
 
 
 class YearlyAnnouncement(ABC):

@@ -311,12 +311,6 @@ class GSCProductParser(ProductParser):
         images = [f'https://{item["src"][2:]}' for item in images_items]
         return images
 
-    def parse_thumbnail(self) -> Union[str, None]:
-        meta_thumbnail = self.page.select_one("meta[name='thumbnail']")
-        thumbnail = meta_thumbnail["content"] if meta_thumbnail else None
-
-        return thumbnail
-
 
 def make_datetime(period: Match[str], locale: str) -> datetime:
     year = period.group('year')
