@@ -40,7 +40,8 @@ class ProductBase(AsDictable):
         "jan",
         "maker_id",
         "images",
-        "thumbnail"
+        "thumbnail",
+        "og_image"
     )
 
     url: str
@@ -65,6 +66,7 @@ class ProductBase(AsDictable):
     jan: Optional[str]
     maker_id: Optional[str]
     thumbnail: Optional[str]
+    og_image: Optional[str]
 
     @property
     def checksum(self):

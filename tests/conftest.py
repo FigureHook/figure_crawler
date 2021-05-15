@@ -80,7 +80,8 @@ def product():
         jan=fake.jan13(),
         maker_id=str(random.randint(1, 1000)),
         images=[fake.uri() for _ in range(5)],
-        thumbnail=fake.uri()
+        thumbnail=fake.uri(),
+        og_image=fake.uri(),
     )
 
     return p
