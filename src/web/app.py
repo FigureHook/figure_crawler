@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 import os
 
-from flask import Flask
+from flask import Flask, request
 
 from Models.base import Model
 from web.controllers import auth, public
-from web.extension import cors, csrf, db, session
+from web.extension import babel, cors, csrf, db, session
 
 from .config import config
 
@@ -39,6 +39,11 @@ def register_extensions(app: Flask):
     cors.init_app(app)
     csrf.init_app(app)
     db.init_app(app)
+    babel.init_app(app)
+
+    @babel.localeselector
+    def get_locale():
+        return request.accept_languages.best_match(['en', 'ja', 'zh'], default='en')
 
 
 def register_blueprints(app):

@@ -18,7 +18,9 @@
     {% endif %}
     {% endwith %}
     <form method="post">
+        {{ form.is_nsfw.label }}
         {{ form.is_nsfw }}
+        {{ form.language.label }}
         {{ form.language }}
         {{ form.csrf_token }}
         {{ form.submit }}

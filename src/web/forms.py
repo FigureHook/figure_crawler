@@ -1,3 +1,4 @@
+from flask_babel import lazy_gettext
 from flask_wtf import FlaskForm
 from wtforms import BooleanField, SelectField, SubmitField, ValidationError
 
@@ -13,9 +14,9 @@ def validate_language(form, field: SelectField):
 
 
 class SubscriptionForm(FlaskForm):
-    is_nsfw = BooleanField("nsfw")
+    is_nsfw = BooleanField(lazy_gettext('subform.label.nsfw'))
     language = SelectField(
-        "language",
+        lazy_gettext('subform.label.language'),
         choices=[
             ('en', 'English'),
             ('zh-TW', '繁體中文'),
