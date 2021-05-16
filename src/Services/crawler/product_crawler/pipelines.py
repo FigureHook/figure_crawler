@@ -31,7 +31,12 @@ class SaveProductInDatabasePipeline:
             ).first()
 
             if product:
-                should_be_updated = not product.check_checksum(item.checksum)
+                should_be_updated = any(
+                    (
+                        not product.check_checksum(item.checksum),
+                        spider.force_update
+                    )
+                )
                 if should_be_updated:
                     product = ProductModelFactory.updateProduct(item, product)
                     spider.log(f"Successfully update data in {item.url} to database.", logging.INFO)

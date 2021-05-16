@@ -30,6 +30,7 @@ class GSCProductSpider(CrawlSpider):
             category=GSCCategory.SCALE,
             begin_year=2006,
             end_year=None,
+            force_update=False,
             *args,
             **kwargs) -> None:
         super().__init__(*args, **kwargs)
@@ -41,6 +42,11 @@ class GSCProductSpider(CrawlSpider):
         self.end_year = int(end_year)
         self.lang = lang
         self.category = category
+        self._force_update = force_update
+
+    @property
+    def force_update(self):
+        return self._force_update
 
     def start_requests(self):
         period = range(self.begin_year, self.end_year+1)
@@ -70,6 +76,7 @@ class AlterProductSpider(CrawlSpider):
             category=AlterCategory.FIGURE,
             begin_year=2005,
             end_year=None,
+            force_update=False,
             *args,
             **kwargs) -> None:
         super().__init__(*args, **kwargs)
@@ -80,6 +87,11 @@ class AlterProductSpider(CrawlSpider):
         self.begin_year = int(begin_year)
         self.end_year = int(end_year)
         self.category = category
+        self._force_update = force_update
+
+    @property
+    def force_update(self):
+        return self._force_update
 
     def start_requests(self):
         period = range(self.begin_year, self.end_year+1)
