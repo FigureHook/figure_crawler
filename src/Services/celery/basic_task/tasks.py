@@ -26,15 +26,18 @@ def news_push():
         new_releases = ReleaseHelper.fetch_new_releases(session, this_task.executed_at)  # type: ignore
         raw_embeds: list[NewReleaseEmbed] = []
         for r in new_releases:
+            is_lazy_og_image = r.thumbnail == r.og_image
+            image = r.image_url if is_lazy_og_image else r.og_image
             embed = DiscordEmbedFactory.create_new_release(
                 name=r.name,
                 url=r.url,
                 series=r.series,
                 maker=r.maker,
                 price=r.price,
-                image=r.image_url,
+                image=image,
                 release_date=r.release_date,
-                is_adult=r.is_adult
+                is_adult=r.is_adult,
+                thumbnail=r.thumbnail
             )
             raw_embeds.append(embed)
         this_task.update()
