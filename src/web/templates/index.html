@@ -6,6 +6,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Figure noti</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
+  <style type="text/css">
+    html {
+      background-color: hsl(0, 0%, 15%);
+    }
+  </style>
 </head>
 
 <body>
@@ -19,15 +24,15 @@
   {% endif %}
   {% endwith %}
   <section class="section">
-    <div class="container">
-      <h1 class="title has-text-centered">FigureHook</h1>
+    <div class="container has-text-white">
+      <h1 class="title has-text-centered has-text-white">FigureHook</h1>
       <div class="columns">
-        <div class="column is-half is-offset-one-quarter">
-          <h3 class="subtitle is-4">Webhook {{ gettext('preferences') }}</h2>
+        <div class="column is-half is-offset-one-quarter has-text-white">
+          <h3 class="subtitle is-4 has-text-white">Webhook {{ gettext('preferences') }}</h2>
             <form class="form" method="post">
               {{ form.csrf_token }}
               <div class="field">
-                {{ form.language.label(class_='label') }}
+                {{ form.language.label(class_='label has-text-white') }}
                 <div class="control">
                   {{ form.language }}
                 </div>
@@ -51,15 +56,15 @@
       </div>
       <div class="columns">
         <div class="column is-half">
-          <div class="card">
+          <div class="card has-background-dark">
             <div class="card-header">
               <div class="card-header-title">
-                <h3 class="subtitle is-3">{{ gettext('Features') }}</h3>
+                <h3 class="subtitle is-3 has-text-white">{{ gettext('Features') }}</h3>
               </div>
             </div>
             <div class="card-content">
-              <div class="content">
-                <ul>
+              <div class="content has-text-white">
+                <ul class="mt-0">
                   <li>
                     <p class="is-size-4 mb-0 has-text-weight-bold"">{{ gettext('New product feed') }}</p>
                       {{ gettext('Push messages when new products announced.') }}<br>
@@ -78,15 +83,15 @@
           </div>
         </div>
         <div class="column is-half">
-          <div class="card">
+          <div class="card has-background-dark">
             <div class="card-header">
               <div class="card-header-title">
-                <h3 class="subtitle is-3">{{ gettext('FAQ') }}</h3>
+                <h3 class="subtitle is-3 has-text-white">{{ gettext('FAQ') }}</h3>
               </div>
             </div>
             <div class="card-content">
-              <div class="content">
-                <ul>
+              <div class="content has-text-white">
+                <ul class="mt-0">
                   <li>
                     <p class="is-size-4 mb-0 has-text-weight-bold"">{{ gettext('What is a webhook?') }}</p>
                     {{ gettext('Webhook is a safe way to let the application send messages to your channel.') }}<br>
