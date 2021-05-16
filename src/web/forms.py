@@ -24,4 +24,4 @@ class SubscriptionForm(FlaskForm):
         ],
         validators=[validate_language]
     )
-    submit = SubmitField("submit")
+    submit = SubmitField(lazy_gettext("Subscribe !"))
