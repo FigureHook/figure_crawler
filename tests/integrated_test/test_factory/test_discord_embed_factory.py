@@ -15,6 +15,7 @@ def test_discord_new_release_embed_creation():
         image="https://img.com/kappa/jpg",
         release_date=date(2020, 2, 2),
         is_adult=False,
+        thumbnail="http://img.com/thumbnail.jpg"
     )
     embed.localized_with("ja")
     assert isinstance(embed, Embed)

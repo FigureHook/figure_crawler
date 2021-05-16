@@ -77,10 +77,12 @@ class DiscordEmbedFactory:
         price: int,
         image: str,
         release_date: date,
+        thumbnail: str,
         is_adult: bool,
     ):
         embed = NewReleaseEmbed(title=name, type="rich", url=url, is_nsfw=is_adult)
         embed.set_image(url=image)
+        embed.set_thumbnail(url=thumbnail)
         embed.add_field(
             name="maker", value=maker, inline=False
         ).add_field(

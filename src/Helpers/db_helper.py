@@ -16,7 +16,7 @@ class ReleaseHelper:
 
         return list of Row with
 
-        `_fields('name', 'url', 'is_adult', 'series', 'maker', 'price', 'release_date')`
+        `_fields('name', 'url', 'is_adult', 'series', 'maker', 'price', 'release_date', 'image_url', 'thumbnail', 'og_image')`
         """
         r = select(
             ProductReleaseInfo.product_id,
@@ -36,7 +36,9 @@ class ReleaseHelper:
             Company.name.label("maker"),
             literal_column("release_info.price").label("price"),
             literal_column("release_info.release_date").label("release_date"),
-            ProductOfficialImage.url.label("image_url")
+            ProductOfficialImage.url.label("image_url"),
+            Product.thumbnail.label("thumbnail"),
+            Product.og_image.label("og_image"),
         ).select_from(
             Product
         ).join(
