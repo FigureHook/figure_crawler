@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-05-16 17:05+0000\n"
+"POT-Creation-Date: 2021-05-16 20:09+0000\n"
 "PO-Revision-Date: 2021-05-16 10:30+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ja\n"
@@ -18,15 +18,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
 
-#: forms.py:17
+#: forms.py:25
 msgid "NSFW"
 msgstr "成人向け"
 
-#: forms.py:19
+#: forms.py:27
 msgid "Language"
 msgstr "言語"
 
-#: forms.py:27
+#: forms.py:31
 msgid "Subscribe !"
 msgstr "購読する！"
 
@@ -71,8 +71,8 @@ msgid "Push messages when the products release date was confirmed."
 msgstr "出荷メッセージを送る"
 
 #: templates/index.html:84
-msgid "Info"
-msgstr ""
+msgid "FAQ"
+msgstr "よくある質問"
 
 #: templates/index.html:91
 msgid "What is a webhook?"
@@ -103,4 +103,3 @@ msgstr "購読取り消しはどうすればいいですか？"
 #: templates/index.html:101
 msgid "Edit channel > Integration > Webhook > Delete Webhook"
 msgstr "チャンネルの編集 > 連携サービス > ウェブフック > ウェブフックを削除"
-

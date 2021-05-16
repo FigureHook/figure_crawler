@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-05-16 17:05+0000\n"
+"POT-Creation-Date: 2021-05-16 20:09+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,15 +17,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
 
-#: forms.py:17
+#: forms.py:25
 msgid "NSFW"
 msgstr ""
 
-#: forms.py:19
+#: forms.py:27
 msgid "Language"
 msgstr ""
 
-#: forms.py:27
+#: forms.py:31
 msgid "Subscribe !"
 msgstr ""
 
@@ -70,7 +70,7 @@ msgid "Push messages when the products release date was confirmed."
 msgstr ""
 
 #: templates/index.html:84
-msgid "Info"
+msgid "FAQ"
 msgstr ""
 
 #: templates/index.html:91
