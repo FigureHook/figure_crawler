@@ -35,9 +35,7 @@
               <div class="field">
                 <!-- {{ form.is_nsfw.label(class_='label checkbox') }} -->
                 <div class="control">
-                  {{ form.is_nsfw }}
-                  {{ gettext('Including') }}&nbsp;<strong>{{ gettext('NSFW') }}&nbsp;</strong>{{
-                  gettext('products information') }}
+                  {{ form.is_nsfw }}{{ form.is_nsfw.label(class_='ml-2 has-text-weight-bold') }}
                 </div>
               </div>
               <div class="field is-grouped">
@@ -67,11 +65,11 @@
                       {{ gettext('Push messages when new products announced.') }}<br>
                   </li>
                   <li>
-                    <p class=" is-size-4">{{ gettext('Postponement feed (WIP)') }}</p>
+                    <p class=" is-size-4">{{ gettext('Postponement feed') }} (WIP)</p>
                     {{ gettext('Push messages when products were postponed.') }}
                   </li>
                   <li>
-                    <p class="is-size-4">{{ gettext('Release feed (WIP)') }}</p>
+                    <p class="is-size-4">{{ gettext('Release feed') }} (WIP)</p>
                     {{ gettext('Push messages when the products release date was confirmed.') }}
                   </li>
                 </ul>
