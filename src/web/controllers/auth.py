@@ -46,9 +46,11 @@ def check_state(state):
 def webhook():
     args = request.args.to_dict()
 
+    if "error" in args:
+        return redirect(url_for("public.home"))
+
     r = exchange_token(args["code"])
     state = args["state"]
-
     # TODO: log error (webhook limit reached issue)
     if r.status_code == 200 and check_state(state):
         webhook_response = r.json()
