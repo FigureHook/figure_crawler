@@ -7,22 +7,30 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-05-16 09:32+0000\n"
-"PO-Revision-Date: 2021-05-16 18:08+0800\n"
+"POT-Creation-Date: 2021-05-16 10:21+0000\n"
+"PO-Revision-Date: 2021-05-16 10:30+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
 "Language-Team: zh <LL@li.org>\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Plural-Forms: nplurals=1; plural=0\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
-"Last-Translator: \n"
-"X-Generator: Poedit 2.4.3\n"
 
 #: forms.py:17
-msgid "subform.label.nsfw"
+msgid "NSFW"
 msgstr "成人向"
 
 #: forms.py:19
-msgid "subform.label.language"
+msgid "Language"
 msgstr "語言"
+
+#: controllers/auth.py:60
+msgid "Hooking success!"
+msgstr "Webhook 成鉤了!"
+
+#: controllers/auth.py:62
+msgid "Webhook authorization failed."
+msgstr "Webhook 認證失敗"
+

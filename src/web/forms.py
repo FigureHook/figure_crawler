@@ -14,9 +14,9 @@ def validate_language(form, field: SelectField):
 
 
 class SubscriptionForm(FlaskForm):
-    is_nsfw = BooleanField(lazy_gettext('subform.label.nsfw'))
+    is_nsfw = BooleanField(lazy_gettext('NSFW'))
     language = SelectField(
-        lazy_gettext('subform.label.language'),
+        lazy_gettext('Language'),
         choices=[
             ('en', 'English'),
             ('zh-TW', '繁體中文'),

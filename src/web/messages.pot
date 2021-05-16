@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-05-16 09:32+0000\n"
+"POT-Creation-Date: 2021-05-16 10:21+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,10 +18,18 @@ msgstr ""
 "Generated-By: Babel 2.9.1\n"
 
 #: forms.py:17
-msgid "subform.label.nsfw"
+msgid "NSFW"
 msgstr ""
 
 #: forms.py:19
-msgid "subform.label.language"
+msgid "Language"
+msgstr ""
+
+#: controllers/auth.py:60
+msgid "Hooking success!"
+msgstr ""
+
+#: controllers/auth.py:62
+msgid "Webhook authorization failed."
 msgstr ""
 
