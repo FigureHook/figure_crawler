@@ -25,16 +25,20 @@
   {% endwith %}
   <section class="section">
     <div class="container has-text-white">
-      <h1 class="title has-text-centered has-text-white">FigureHook</h1>
       <div class="columns">
-        <div class="column is-half is-offset-one-quarter has-text-white">
+        <div class="column is-half has-text-white">
+          <h1 class="title has-text-centered has-text-white">FigureHook</h1>
+        </div>
+        <div class="column is-half has-text-white">
           <h3 class="subtitle is-4 has-text-white">Webhook {{ gettext('preferences') }}</h2>
             <form class="form" method="post">
               {{ form.csrf_token }}
               <div class="field">
                 {{ form.language.label(class_='label has-text-white') }}
                 <div class="control">
-                  {{ form.language }}
+                  <div class="select">
+                    {{ form.language }}
+                  </div>
                 </div>
               </div>
               <div class="field">
@@ -50,9 +54,6 @@
               </div>
             </form>
         </div>
-      </div>
-      <div class="columns">
-
       </div>
       <div class="columns">
         <div class="column is-half">

@@ -25,6 +25,7 @@ def test_webhook_auth(client, mocker: MockerFixture):
 
     with client.session_transaction() as session:
         session['webhook_setting'] = {}
+        session['entry_uri'] = '/zh'
 
     r = client.get(
         url_for('auth.webhook'),

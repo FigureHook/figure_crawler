@@ -63,4 +63,4 @@ def webhook():
     else:
         flash(gettext("Webhook authorization failed."))
 
-    return redirect(url_for("public.home"))
+    return redirect(session['entry_uri'])

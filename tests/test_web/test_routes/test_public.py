@@ -3,7 +3,7 @@ from flask import url_for
 
 def subscribe(client, is_nsfw: bool, language: str):
     return client.post(
-        url_for('public.home'),
+        url_for('public.subscribe', locale='en'),
         data=dict({
             "is_nsfw": is_nsfw,
             "language": language
@@ -12,7 +12,7 @@ def subscribe(client, is_nsfw: bool, language: str):
 
 
 def test_home_get(client):
-    r = client.get(url_for('public.home'))
+    r = client.get(url_for('public.root'), follow_redirects=True)
     assert r.status_code == 200
 
 

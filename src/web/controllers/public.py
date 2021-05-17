@@ -6,12 +6,12 @@ from flask import (Blueprint, flash, redirect, render_template, request,
                    session, url_for)
 from flask_babel import get_locale
 
-from web.forms import SubscriptionForm, language_choices
+from web.forms import SubscriptionForm
 
 blueprint = Blueprint("public", __name__)
 
 
-def discord_redirect_url(state):
+def discord_auth_uri_with_state(state):
     base_uri = "https://discord.com/api/oauth2/authorize"
     redirect_uri = url_for('auth.webhook', _external=True)
     client_id = os.getenv('DISCORD_CLIENT_ID')
@@ -20,30 +20,34 @@ def discord_redirect_url(state):
     )
 
 
-@blueprint.route("/", methods=('GET', 'POST'))  # type: ignore
-def home():
+@blueprint.route("/")
+def root():
     """Home page"""
-    form = SubscriptionForm()
     locale = get_locale()
-    default_lang_choice = language_choices().get(str(locale))
-    form.language.default = default_lang_choice[0]
-    form.process()
+    return redirect(url_for('public.subscribe', locale=str(locale)))
+
+
+@blueprint.route("/<locale>", methods=('GET', 'POST'))  # type: ignore
+def subscribe(locale):
+    form = SubscriptionForm()
 
     if request.method == 'GET':
         return render_template("index.html", form=form)
 
     if request.method == 'POST':
         if form.validate_on_submit():
+            session['entry_uri'] = request.path
+
             state = urlsafe_b64encode(urandom(12)).decode('utf-8')
             session['state'] = state
-            location = discord_redirect_url(state)
+            discord_auth_uri = discord_auth_uri_with_state(state)
 
             session['webhook_setting'] = {
                 'is_nsfw': form.is_nsfw.data,
                 'lang': form.language.data
             }
 
-            return redirect(location)
+            return redirect(discord_auth_uri)
 
         flash("wtf are you doing?")
         return render_template("index.html", form=form, error="WTF?")
