@@ -6,7 +6,7 @@ from flask import (Blueprint, flash, redirect, render_template, request,
                    session, url_for)
 from flask_babel import get_locale
 
-from web.forms import SubscriptionForm
+from web.forms import SubscriptionForm, locale_language_choice
 
 blueprint = Blueprint("public", __name__)
 
@@ -30,6 +30,7 @@ def root():
 @blueprint.route("/<locale>", methods=('GET', 'POST'))  # type: ignore
 def subscribe(locale):
     form = SubscriptionForm()
+    form.language.default = locale_language_choice[locale]
 
     if request.method == 'GET':
         return render_template("index.html", form=form)
