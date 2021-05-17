@@ -23,8 +23,8 @@ def discord_auth_uri_with_state(state):
 @blueprint.route("/", methods=('GET', 'POST'))  # type: ignore
 def home():
     locale = get_locale()
-    form = SubscriptionForm()
-    form.language.default = locale_language_choice[str(locale)]
+    default_lang = locale_language_choice[str(locale)][0]
+    form = SubscriptionForm(language=default_lang)
 
     if request.method == 'GET':
         return render_template("index.html", form=form)
