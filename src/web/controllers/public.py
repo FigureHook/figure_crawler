@@ -20,17 +20,11 @@ def discord_auth_uri_with_state(state):
     )
 
 
-@blueprint.route("/")
-def root():
-    """Home page"""
+@blueprint.route("/", methods=('GET', 'POST'))  # type: ignore
+def home():
     locale = get_locale()
-    return redirect(url_for('public.subscribe', locale=str(locale)))
-
-
-@blueprint.route("/<locale>", methods=('GET', 'POST'))  # type: ignore
-def subscribe(locale):
     form = SubscriptionForm()
-    form.language.default = locale_language_choice[locale]
+    form.language.default = locale_language_choice[str(locale)]
 
     if request.method == 'GET':
         return render_template("index.html", form=form)
