@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-05-16 20:09+0000\n"
+"POT-Creation-Date: 2021-05-17 19:59+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,15 +17,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
 
-#: forms.py:25
+#: forms.py:24
 msgid "NSFW"
 msgstr ""
 
-#: forms.py:27
+#: forms.py:26
 msgid "Language"
 msgstr ""
 
-#: forms.py:31
+#: forms.py:30
 msgid "Subscribe !"
 msgstr ""
 
@@ -37,69 +37,73 @@ msgstr ""
 msgid "Webhook authorization failed."
 msgstr ""
 
-#: templates/index.html:26
+#: controllers/public.py:47
+msgid "Form validation failed."
+msgstr ""
+
+#: templates/index.html:35
 msgid "preferences"
 msgstr ""
 
-#: templates/index.html:57
+#: templates/index.html:65
 msgid "Features"
 msgstr ""
 
-#: templates/index.html:64
+#: templates/index.html:72
 msgid "New product feed"
 msgstr ""
 
-#: templates/index.html:65
+#: templates/index.html:73
 msgid "Push messages when new products announced."
 msgstr ""
 
-#: templates/index.html:68
+#: templates/index.html:76
 msgid "Postponement feed"
 msgstr ""
 
-#: templates/index.html:69
+#: templates/index.html:77
 msgid "Push messages when products were postponed."
 msgstr ""
 
-#: templates/index.html:72
+#: templates/index.html:80
 msgid "Release feed"
 msgstr ""
 
-#: templates/index.html:73
+#: templates/index.html:81
 msgid "Push messages when the products release date was confirmed."
 msgstr ""
 
-#: templates/index.html:84
+#: templates/index.html:92
 msgid "FAQ"
 msgstr ""
 
-#: templates/index.html:91
+#: templates/index.html:99
 msgid "What is a webhook?"
 msgstr ""
 
-#: templates/index.html:92
+#: templates/index.html:100
 msgid ""
 "Webhook is a safe way to let the application send messages to your "
 "channel."
 msgstr ""
 
-#: templates/index.html:93
+#: templates/index.html:101
 msgid "No need to worry about permissions and you can delete it at any time."
 msgstr ""
 
-#: templates/index.html:96
+#: templates/index.html:104
 msgid "How do I change the subscription?"
 msgstr ""
 
-#: templates/index.html:97
+#: templates/index.html:105
 msgid "Unsubscribe it and subscribe again with new preferences."
 msgstr ""
 
-#: templates/index.html:100
+#: templates/index.html:108
 msgid "How do I unsubscribe?"
 msgstr ""
 
-#: templates/index.html:101
+#: templates/index.html:109
 msgid "Edit channel > Integration > Webhook > Delete Webhook"
 msgstr ""
 

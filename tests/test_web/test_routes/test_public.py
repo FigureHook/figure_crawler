@@ -21,4 +21,4 @@ def test_subscribe(client):
     assert r.status_code == 302
 
     r = subscribe(client, True, "fr")
-    assert b'flashes' in r.data
+    assert b'message is-danger' in r.data

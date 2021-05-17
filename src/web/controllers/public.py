@@ -4,7 +4,7 @@ from os import urandom
 
 from flask import (Blueprint, flash, redirect, render_template, request,
                    session, url_for)
-from flask_babel import get_locale
+from flask_babel import get_locale, gettext
 
 from web.forms import SubscriptionForm, locale_language_choice
 
@@ -44,5 +44,5 @@ def home():
 
             return redirect(discord_auth_uri)
 
-        flash("wtf are you doing?")
-        return render_template("index.html", form=form, error="WTF?")
+        flash(gettext("Form validation failed."), 'danger')
+        return render_template("index.html", form=form)

@@ -59,8 +59,8 @@ def webhook():
         webhook_token = webhook_response["webhook"]["token"]
         webhook_setting = session['webhook_setting']
         save_webhook_info(webhook_channel_id, webhook_id, webhook_token, **webhook_setting)
-        flash(gettext("Hooking success!"))
+        flash(gettext("Hooking success!"), 'success')
     else:
-        flash(gettext("Webhook authorization failed."))
+        flash(gettext("Webhook authorization failed."), 'warning')
 
     return redirect(session['entry_uri'])

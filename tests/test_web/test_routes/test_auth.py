@@ -34,7 +34,7 @@ def test_webhook_auth(client, mocker: MockerFixture):
     )
 
     assert r.status_code == 200
-    assert b'flashes' in r.data
+    assert b'message is-success' in r.data
 
     MockAuthReponse.status = 400
     r = client.get(
@@ -44,4 +44,4 @@ def test_webhook_auth(client, mocker: MockerFixture):
     )
 
     assert r.status_code == 200
-    assert b'flashes' in r.data
+    assert b'message is-warning' in r.data

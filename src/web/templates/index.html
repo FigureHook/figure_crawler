@@ -14,17 +14,19 @@
 </head>
 
 <body>
-  {% with messages = get_flashed_messages() %}
-  {% if messages %}
-  <ul class=flashes>
-    {% for message in messages %}
-    <li>{{ message }}</li>
-    {% endfor %}
-  </ul>
-  {% endif %}
-  {% endwith %}
   <section class="section">
     <div class="container has-text-white">
+      {% with messages = get_flashed_messages(with_categories=True) %}
+      {% if messages %}
+      {% for category, message in messages %}
+      <article class="message is-{{ category }}">
+        <div class="message-body">
+          {{ message }}
+        </div>
+      </article>
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
       <div class="columns">
         <div class="column is-half has-text-white">
           <h1 class="title has-text-centered has-text-white">FigureHook</h1>
