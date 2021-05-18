@@ -4,7 +4,7 @@ from Sender.discord_hooker import DiscordHooker
 # !!FIXME: lack of test
 
 
-class DiscordNewReleaeEmbedsDispatcher:
+class DiscordNewReleaseEmbedsDispatcher:
     def __init__(self, webhooks, raw_embeds, adapter) -> None:
         self.embeds_cache = {}
         self.webhooks = webhooks
