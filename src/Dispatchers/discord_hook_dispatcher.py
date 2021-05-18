@@ -12,16 +12,20 @@ class DiscordNewReleaeEmbedsDispatcher:
         self.adapter = adapter
         self.hooker = DiscordHooker()
 
+    @property
+    def webhook_status(self):
+        return self.hooker.webhook_status
+
+    @property
+    def stats(self):
+        return self.hooker.stats
+
     def dispatch(self):
         for webhook in self.webhooks:
             cache_key = cache_key = (webhook.lang, webhook.is_nsfw)
             discord_webhook = DiscordWebhookAdapter(webhook, self.adapter)
             embeds = self._get_embeds_from_cache(cache_key)
             self.hooker.send(discord_webhook, embeds)
-
-    @property
-    def stats(self):
-        return self.hooker.stats
 
     def _get_embeds_from_cache(self, key):
         embeds = self.embeds_cache.get(key, [])
