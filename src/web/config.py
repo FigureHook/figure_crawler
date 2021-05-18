@@ -6,21 +6,13 @@ import redis
 
 class Config(object):
     """Base config, uses staging database server."""
-    DEBUG = False
-    TESTING = False
-    SECRET_KEY = b64encode(urandom(32)).decode('utf-8')
     DISCORD_CLIENT_ID = os.environ.get("DISCORD_CLIENT_ID")
     DISCORD_CLIENT_SECRET = os.environ.get("DISCORD_CLIENT_SECRET")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SESSION_TYPE = 'redis'
-    SESSION_PERMANENT = False
     SESSION_USE_SIGNER = True
     SESSION_COOKIE_SECURE = True
-    SESSION_REDIS = redis.from_url('redis://redis:6379')
-
-    # @property
-    # def REMEMBER_COOKIE_DOMAIN(self):
-    #     return f".{self.SERVER_NAME}"
+    SESSION_REDIS = redis.from_url(f"redis://{os.environ.get('REDIS_URL')}")
 
     @property
     def SQLALCHEMY_DATABASE_URI(self):
@@ -30,12 +22,19 @@ class Config(object):
 
 class ProductionConfig(Config):
     """Uses production database server."""
+    DEBUG = False
+    TESTING = False
+    SERVER_NAME = os.environ.get("FLASK_SERVER_NAME")
+    SECRET_KEY = os.environ.get("FLASK_SECRET_KEY")
+    PERMANENT_SESSION_LIFETIME = 3600
 
 
 class DevelopmentConfig(Config):
     # SERVER_NAME = "127.0.0.1:5000"
-    CORS_ORIGINS = "*"
     DEBUG = True
+    CORS_ORIGINS = "*"
+    SECRET_KEY = b64encode(urandom(32)).decode('utf-8')
+    SESSION_PERMANENT = False
 
 
 class TestingConfig(Config):
