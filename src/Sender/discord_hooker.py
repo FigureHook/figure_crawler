@@ -125,8 +125,7 @@ class DiscordHooker(Sender):
             print(e)
             self._stats.sending_failed()
 
-        finally:
-            return True
+        return True
 
 
 def process_embeds(embeds: list[Any], batch_size: int = 10) -> list[list[Any]]:

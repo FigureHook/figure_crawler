@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from discord import RequestsWebhookAdapter, Webhook
+from discord import RequestsWebhookAdapter, Webhook, NotFound
 from discord.embeds import Embed
 from pytest_mock import MockerFixture
 
@@ -17,17 +17,30 @@ def test_embeds_processor():
 
 
 def test_hooker_sending(mocker: MockerFixture):
-    mock_send = mocker.patch.object(DiscordHooker, "_send", return_value=True)
+    class MockResponse:
+        status = 404
+        reason = 'Not found'
+
+    mock_send = mocker.patch.object(Webhook, "send")
     embeds = [Embed() for _ in range(100)]
+
     webhooks = [
-        Webhook.partial("123", "asdf", adapter=RequestsWebhookAdapter()),
-        Webhook.partial("121233", "asasdfadf", adapter=RequestsWebhookAdapter())
+        (Webhook.partial("123", "asdf", adapter=RequestsWebhookAdapter()), None),
+        (Webhook.partial("121233", "asasdfadf", adapter=RequestsWebhookAdapter()), NotFound(MockResponse, '404')),
+        (Webhook.partial("1211324233", "asasdfadf", adapter=RequestsWebhookAdapter()), None)
     ]
 
     hooker = DiscordHooker()
-    for webhook in webhooks:
+
+    for webhook, side_effect in webhooks:
+        mock_send.side_effect = side_effect
         hooker.send(webhook, embeds)
-    assert mock_send.call_count == 20
+
+    assert mock_send.call_count == 21
+
+    for webhook, side_effect in webhooks:
+        is_existed = not bool(side_effect)
+        assert is_existed is hooker.webhook_status.get(str(webhook.id))
 
 
 def test_hooker_stats():
