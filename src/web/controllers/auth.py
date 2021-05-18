@@ -52,12 +52,12 @@ def webhook():
 
     r = exchange_token(args["code"])
     state = args["state"]
-    # TODO: log error (webhook limit reached issue)
+
     if r.status_code == 200 and check_state(state):
         webhook_response = r.json()
-        webhook_channel_id = webhook_response["webhook"]["channel_id"]
-        webhook_id = webhook_response["webhook"]["id"]
-        webhook_token = webhook_response["webhook"]["token"]
+        webhook_channel_id = webhook_response['webhook']['channel_id']
+        webhook_id = webhook_response['webhook']["id"]
+        webhook_token = webhook_response['webhook']['token']
         webhook_setting = session['webhook_setting']
         save_webhook_info(webhook_channel_id, webhook_id, webhook_token, **webhook_setting)
         send_new_hook_notification.apply_async(kwargs={
@@ -66,6 +66,10 @@ def webhook():
             'msg': gettext("FigureHook hooked on this channel.")
         })
         flash(gettext("Hooking success!"), 'success')
+    if r.status_code == 400:
+        error = r.json()
+        if error['code'] == 30007:
+            flash(error['message'], 'danger')
     else:
         flash(gettext("Webhook authorization failed."), 'warning')
 
