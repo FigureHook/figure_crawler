@@ -19,3 +19,8 @@ def test_discord_new_release_embed_creation():
     )
     embed.localized_with("ja")
     assert isinstance(embed, Embed)
+
+
+def test_new_hook_notification_creation():
+    embed = DiscordEmbedFactory.create_new_hook_notification(msg="Hello")
+    assert isinstance(embed, Embed)

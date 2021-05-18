@@ -93,3 +93,9 @@ class DiscordEmbedFactory:
             name="release_date", value=release_date, inline=True
         )
         return embed
+
+    @staticmethod
+    def create_new_hook_notification(msg: str):
+        embed = Embed(title=msg, colour=Colour(0x00B5FF))
+
+        return embed
