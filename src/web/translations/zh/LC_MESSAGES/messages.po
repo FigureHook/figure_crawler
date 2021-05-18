@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-05-17 19:59+0000\n"
+"POT-Creation-Date: 2021-05-18 19:30+0000\n"
 "PO-Revision-Date: 2021-05-16 10:30+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -30,11 +30,15 @@ msgstr "語言"
 msgid "Subscribe !"
 msgstr "訂閱 !"
 
-#: controllers/auth.py:62
+#: controllers/auth.py:66
+msgid "FigureHook hooked on this channel."
+msgstr "FigureHook 鉤在這個頻道了"
+
+#: controllers/auth.py:68
 msgid "Hooking success!"
 msgstr "Webhook 成鉤了!"
 
-#: controllers/auth.py:64
+#: controllers/auth.py:70
 msgid "Webhook authorization failed."
 msgstr "Webhook 授權認證失敗"
 

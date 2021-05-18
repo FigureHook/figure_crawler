@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-05-17 19:59+0000\n"
+"POT-Creation-Date: 2021-05-18 19:30+0000\n"
 "PO-Revision-Date: 2021-05-16 10:30+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ja\n"
@@ -30,11 +30,15 @@ msgstr "言語"
 msgid "Subscribe !"
 msgstr "購読する！"
 
-#: controllers/auth.py:62
+#: controllers/auth.py:66
+msgid "FigureHook hooked on this channel."
+msgstr "FigureHook　はこのチャンネルにかかる"
+
+#: controllers/auth.py:68
 msgid "Hooking success!"
 msgstr "Webhook を作成しました！"
 
-#: controllers/auth.py:64
+#: controllers/auth.py:70
 msgid "Webhook authorization failed."
 msgstr "Webhook 認証失敗しました"
 

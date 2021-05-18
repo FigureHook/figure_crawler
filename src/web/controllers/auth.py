@@ -1,11 +1,12 @@
 import os
 
 import requests as rq
+from basic_task.tasks import send_new_hook_notification
 from flask import Blueprint, flash, request
 from flask.globals import session
 from flask.helpers import url_for
-from werkzeug.utils import redirect
 from flask_babel import gettext
+from werkzeug.utils import redirect
 
 from Models import Webhook
 
@@ -59,6 +60,11 @@ def webhook():
         webhook_token = webhook_response["webhook"]["token"]
         webhook_setting = session['webhook_setting']
         save_webhook_info(webhook_channel_id, webhook_id, webhook_token, **webhook_setting)
+        send_new_hook_notification.apply_async(kwargs={
+            'webhook_id': webhook_id,
+            'webhook_token': webhook_token,
+            'msg': gettext("FigureHook hooked on this channel.")
+        })
         flash(gettext("Hooking success!"), 'success')
     else:
         flash(gettext("Webhook authorization failed."), 'warning')
