@@ -2,11 +2,12 @@ from collections import namedtuple
 from typing import Type
 
 from discord import RequestsWebhookAdapter
+from sqlalchemy.sql import update
 
 from constants import PeriodicTask
 from database import pgsql_session
 from Dispatchers.discord_hook_dispatcher import \
-    DiscordNewReleaeEmbedsDispatcher
+    DiscordNewReleaseEmbedsDispatcher
 from Factory.discord_embed_factory import DiscordEmbedFactory, NewReleaseEmbed
 from Helpers.db_helper import ReleaseHelper
 from Models import Task
@@ -44,8 +45,12 @@ def news_push():
 
         webhooks: list[WebhookModel] = WebhookModel.all()
         webhook_adapter = RequestsWebhookAdapter()
-        dispatcher = DiscordNewReleaeEmbedsDispatcher(webhooks, raw_embeds, webhook_adapter)
+        dispatcher = DiscordNewReleaseEmbedsDispatcher(webhooks, raw_embeds, webhook_adapter)
         dispatcher.dispatch()
+
+        for webhook_id, is_existed in dispatcher.webhook_status.items():
+            update(WebhookModel).where(WebhookModel.id == webhook_id).values(is_existed=is_existed)
+
     return dispatcher.stats
 
 
