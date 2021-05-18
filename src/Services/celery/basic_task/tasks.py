@@ -1,7 +1,7 @@
 from collections import namedtuple
 from typing import Type
 
-from discord import RequestsWebhookAdapter
+from discord import RequestsWebhookAdapter, Webhook
 from sqlalchemy.sql import update
 
 from constants import PeriodicTask
@@ -12,6 +12,7 @@ from Factory.discord_embed_factory import DiscordEmbedFactory, NewReleaseEmbed
 from Helpers.db_helper import ReleaseHelper
 from Models import Task
 from Models import Webhook as WebhookModel
+from Sender.discord_hooker import DiscordHooker
 from utils.announcement_checksum import (AlterChecksum, GSCChecksum,
                                          SiteChecksum)
 from utils.scrapyd_api import schedule_spider
@@ -72,3 +73,13 @@ def check_new_release():
                 scheduled_jobs.append(response)
                 checksum.update()
     return scheduled_jobs
+
+
+@app.task
+def send_new_hook_notification(webhook_id, webhook_token, msg):
+    adapter = RequestsWebhookAdapter()
+    embed = DiscordEmbedFactory.create_new_hook_notification(msg)
+    webhook = Webhook.partial(webhook_id, webhook_token, adapter=adapter)
+    hooker = DiscordHooker()
+    hooker.send(webhook, [embed])
+    return hooker.stats
