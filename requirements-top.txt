@@ -39,6 +39,7 @@ flask-login
 Flask-Cors
 Flask-WTF
 Flask-SQLAlchemy
+Flask-Babel
 WTForms
 Authlib
 loginpass
