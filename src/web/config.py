@@ -22,8 +22,6 @@ class Config(object):
 
 class ProductionConfig(Config):
     """Uses production database server."""
-    DEBUG = False
-    TESTING = False
     SERVER_NAME = os.environ.get("FLASK_SERVER_NAME")
     SECRET_KEY = os.environ.get("FLASK_SECRET_KEY")
     PERMANENT_SESSION_LIFETIME = 3600
@@ -31,14 +29,12 @@ class ProductionConfig(Config):
 
 class DevelopmentConfig(Config):
     # SERVER_NAME = "127.0.0.1:5000"
-    DEBUG = True
     CORS_ORIGINS = "*"
     SECRET_KEY = b64encode(urandom(32)).decode('utf-8')
     SESSION_PERMANENT = False
 
 
 class TestingConfig(Config):
-    DEBUG = True
     WTF_CSRF_ENABLED = False
     SECRET_KEY = "test"
 
