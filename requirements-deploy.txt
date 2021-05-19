@@ -1,0 +1,38 @@
+beautifulsoup4
+lxml
+requests
+PyYAML
+feedparser
+discord.py
+aiohttp
+Babel
+redis
+
+# orm
+sqlalchemy_mixins
+psycopg2
+SQLAlchemy
+
+# scrapy
+scrapyd
+scrapy_proxies
+scrapy
+git+https://github.com/iamumairayub/scrapyd-client.git
+
+# celery
+celery[librabbitmq]
+
+# flask-related
+flask
+Flask-Session
+flask-login
+Flask-Cors
+Flask-WTF
+Flask-SQLAlchemy
+Flask-Babel
+WTForms
+Authlib
+loginpass
+
+#wsgi server
+gunicorn
