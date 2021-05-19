@@ -27,6 +27,13 @@ class ProductionConfig(Config):
     PERMANENT_SESSION_LIFETIME = 3600
 
 
+class StagingConfig(Config):
+    """Uses production database server."""
+    SERVER_NAME = os.environ.get("FLASK_SERVER_NAME")
+    SECRET_KEY = os.environ.get("FLASK_SECRET_KEY")
+    PERMANENT_SESSION_LIFETIME = 3600
+
+
 class DevelopmentConfig(Config):
     SECRET_KEY = b64encode(urandom(32)).decode('utf-8')
     SESSION_PERMANENT = False
@@ -45,5 +52,6 @@ class TestingConfig(Config):
 config = {
     "production": ProductionConfig,
     "development": DevelopmentConfig,
-    "test": TestingConfig
+    "test": TestingConfig,
+    "staging": StagingConfig
 }
