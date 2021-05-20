@@ -1,5 +1,6 @@
 #!/bin/bash
 
-cd src/web
-pybabel compile -d translations
+/bin/sh .sh/babel_compile.sh
+
+cd src
 gunicorn -w 2 -b 0.0.0.0:8000 wsgi:app
