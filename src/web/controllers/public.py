@@ -27,7 +27,7 @@ def home():
     form = SubscriptionForm(language=default_lang)
 
     if request.method == 'GET':
-        return render_template("index.html", form=form)
+        return render_template("index.html", form=form, lang=str(locale))
 
     if request.method == 'POST':
         if form.validate_on_submit():
@@ -45,4 +45,4 @@ def home():
             return redirect(discord_auth_uri)
 
         flash(gettext("Form validation failed."), 'danger')
-        return render_template("index.html", form=form)
+        return render_template("index.html", form=form, lang=str(locale))

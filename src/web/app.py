@@ -1,7 +1,12 @@
 # -*- coding: utf-8 -*-
+from web.utils import get_maintenance_time
 import os
+from distutils.util import strtobool
 
 from flask import Flask, request
+from flask.helpers import make_response
+from flask.templating import render_template
+from flask_babel import get_locale
 
 from Models.base import Model
 from web.controllers import auth, public
@@ -21,6 +26,21 @@ def create_app(config_name=os.environ.get("FLASK_ENV")):
 
 
 def register_context_callbacks(app: Flask):
+    @app.before_request
+    def check_maintenance():
+        maintenance_flag = request.headers.get('X-In-Maintenance', '0')
+        is_in_maintenance = strtobool(maintenance_flag)  # type: ignore
+        if is_in_maintenance:
+            retry_after = get_maintenance_time()
+            response = make_response(
+                render_template(
+                    '503.html',
+                    lang=str(get_locale())
+                ), 503)
+
+            response.headers['Retry-After'] = retry_after
+            return response
+
     @app.before_request
     def set_model_session():
         Model.set_session(db.session)
