@@ -28,5 +28,5 @@ class AnnouncementChecksum(Model):
     def get_by_site(cls: Type['AnnouncementChecksum'], site: SourceSite) -> Union['AnnouncementChecksum', None]:
         """Get checksum by site(Enum)"""
         if isinstance(site, SourceSite):
-            return cls.query.get(site)
+            return cls.query.where(cls.site == site).scalar()
         return None
