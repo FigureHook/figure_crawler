@@ -7,7 +7,7 @@ SPIDER_PROJECT_DIR=src/Services/crawler
 # fi
 
 # set proxy-list path
-export PROXY_LIST=$(readlink -f $(find / -name proxy-list.txt))
+export PROXY_LIST=$(readlink -f $(find . -name proxy-list.txt))
 
 # clean old stuffs
 cd $SPIDER_PROJECT_DIR || exit 1
