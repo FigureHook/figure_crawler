@@ -10,7 +10,7 @@ redis
 
 # orm
 sqlalchemy_mixins
-psycopg2
+psycopg2-binary
 SQLAlchemy
 
 # scrapy
