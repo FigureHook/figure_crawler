@@ -66,11 +66,11 @@ def webhook():
             'msg': gettext("FigureHook hooked on this channel.")
         })
         flash(gettext("Hooking success!"), 'success')
-    elif r.status_code == 400:
+    elif r.status_code >= 400:
         error = r.json()
-        if error['code'] == 30007:
-            flash(error['message'], 'danger')
-    else:
+        if 'code' in error:
+            if error['code'] == 30007:
+                flash(error['message'], 'danger')
         flash(gettext("Webhook authorization failed."), 'warning')
 
     return redirect(session['entry_uri'])
