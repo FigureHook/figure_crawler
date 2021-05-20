@@ -24,7 +24,7 @@ from .celery import app
 def news_push():
     this_task: Task
     with pgsql_session() as session:
-        this_task = Task.query.get(PeriodicTask.NEWS_PUSH)
+        this_task = session.query(Task).where(Task.name == PeriodicTask.NEWS_PUSH).scalar()
         new_releases = ReleaseHelper.fetch_new_releases(session, this_task.executed_at)  # type: ignore
         raw_embeds: list[NewReleaseEmbed] = []
         for r in new_releases:
