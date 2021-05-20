@@ -1,6 +1,6 @@
 import os
 from contextlib import contextmanager
-from typing import ClassVar, Optional
+from typing import Optional
 
 from sqlalchemy import create_engine
 from sqlalchemy.engine.base import Engine
@@ -12,25 +12,20 @@ from Models.base import Model
 
 
 class PostgreSQLDB:
-    _instance = None
+    _engine: Optional[Engine]
+    _Session: sessionmaker
 
-    _engine: ClassVar[Optional[Engine]] = None
-    _Session = None
+    def __init__(self):
+        if os.getenv("MODE") == "test":
+            db_url = os.getenv("TEST_DB_URL")
+        else:
+            db_url = os.getenv("DB_URL")
 
-    def __new__(cls) -> 'PostgreSQLDB':
-        if not cls._instance:
-            if os.getenv("MODE") == "test":
-                db_url = os.getenv("TEST_DB_URL")
-            else:
-                db_url = os.getenv("DB_URL")
+        if not db_url:
+            raise ValueError("Please ensure environment vairable `TEST_DB_URL` or `DB_URL` is set.")
 
-            if not db_url:
-                raise ValueError("Please ensure environment vairable `TEST_DB_URL` or `DB_URL` is set.")
-
-            cls._engine = create_engine(f"postgresql+psycopg2://{db_url}", echo=False)
-            cls._Session = sessionmaker(cls._engine, future=True)
-            cls._instance = super().__new__(cls)
-        return cls._instance
+        self._engine = create_engine(f"postgresql+psycopg2://{db_url}", echo=False, future=True)
+        self._Session = sessionmaker(self._engine)
 
     @property
     def engine(self):
