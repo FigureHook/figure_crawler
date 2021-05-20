@@ -66,7 +66,7 @@ def webhook():
             'msg': gettext("FigureHook hooked on this channel.")
         })
         flash(gettext("Hooking success!"), 'success')
-    if r.status_code == 400:
+    elif r.status_code == 400:
         error = r.json()
         if error['code'] == 30007:
             flash(error['message'], 'danger')
