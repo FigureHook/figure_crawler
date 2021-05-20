@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-05-18 19:30+0000\n"
+"POT-Creation-Date: 2021-05-20 18:38+0000\n"
 "PO-Revision-Date: 2021-05-16 10:30+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -38,7 +38,7 @@ msgstr "FigureHook 鉤在這個頻道了"
 msgid "Hooking success!"
 msgstr "Webhook 成鉤了!"
 
-#: controllers/auth.py:70
+#: controllers/auth.py:74
 msgid "Webhook authorization failed."
 msgstr "Webhook 授權認證失敗"
 
@@ -46,6 +46,14 @@ msgstr "Webhook 授權認證失敗"
 #, fuzzy
 msgid "Form validation failed."
 msgstr "表格驗證失敗"
+
+#: templates/503.html:20
+msgid "503 It's maintenance time!"
+msgstr "503 維修中"
+
+#: templates/503.html:21
+msgid "We will be right back."
+msgstr "馬上回來"
 
 #: templates/index.html:35
 msgid "preferences"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-05-18 19:30+0000\n"
+"POT-Creation-Date: 2021-05-20 18:38+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -37,12 +37,20 @@ msgstr ""
 msgid "Hooking success!"
 msgstr ""
 
-#: controllers/auth.py:70
+#: controllers/auth.py:74
 msgid "Webhook authorization failed."
 msgstr ""
 
 #: controllers/public.py:47
 msgid "Form validation failed."
+msgstr ""
+
+#: templates/503.html:20
+msgid "503 It's maintenance time!"
+msgstr ""
+
+#: templates/503.html:21
+msgid "We will be right back."
 msgstr ""
 
 #: templates/index.html:35
