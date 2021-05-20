@@ -1,3 +1,5 @@
+import os
+
 # Scrapy settings for gsc_crawler project
 #
 # For simplicity, this file contains only settings considered important or
@@ -100,7 +102,10 @@ DOWNLOADER_MIDDLEWARES = {
     'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware': 110,
 }
 
-PROXY_LIST = '/workspace/src/Services/crawler/proxy-list.txt'
+PROXY_LIST = os.getenv(
+    'PROXY_LIST',
+    '/figure_hook/src/Services/crawler/proxy-list.txt'
+)
 PROXY_MODE = 0
 
 
