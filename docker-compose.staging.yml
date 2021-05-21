@@ -1,0 +1,61 @@
+version: "3"
+services:
+  nginx:
+    image: nginx:stable-alpine
+    container_name: nginx-staging
+    environment:
+      - FLASK_URL=web:8000
+      - NGINX_PORT=80
+    env_file:
+      - deploy.env
+    ports:
+      - 8080:80
+    volumes:
+      - ./nginx/staging_templates:/etc/nginx/templates
+      - ./flags:/flags
+  web:
+    image: figure_hook:staging
+    container_name: web
+    env_file:
+      - deploy.env
+    command: ["/bin/sh", ".sh/flask_start.sh"]
+    depends_on:
+      - celery
+    volumes:
+      - .:/figure_hook
+    working_dir: /figure_hook
+  celery:
+    image: figure_hook:staging
+    container_name: celery
+    env_file:
+      - deploy.env
+    entrypoint: ["/bin/sh", ".sh/celery_start.sh"]
+    volumes:
+      - .:/figure_hook
+    working_dir: /figure_hook
+    depends_on:
+      - scrapy
+      - rabbitmq
+  scrapy:
+    image: figure_hook:staging
+    container_name: scrapy
+    ports:
+      - 6800:6800
+    env_file:
+      - deploy.env
+    volumes:
+      - .:/figure_hook
+    working_dir: /figure_hook
+    entrypoint: ["/bin/sh", ".sh/scrapyd_start.sh"]
+  rabbitmq:
+    image: rabbitmq:3.8.14
+    restart: always
+    container_name: rabbitmq
+    env_file:
+      - deploy.env
+  redis:
+    image: redis:alpine
+    restart: always
+    container_name: redis_staging
+    volumes:
+      - ./redis_data:/data
