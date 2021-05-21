@@ -7,13 +7,11 @@ services:
     image: figure_crawler
     container_name: crawler
     environment:
-      - WORKDIR=/workspace
       - PYTHONPATH=/workspace/src:/workspace/src/Services/celery
     env_file:
       - .env
     volumes:
       - .:/workspace
-      - ./flags:/flags
     working_dir: /workspace
     stdin_open: true
     tty: true
@@ -49,6 +47,7 @@ services:
     image: nginx:stable-alpine
     container_name: nginx
     environment:
+      - FLASK_URL=crawler:8000
       - NGINX_HOST=figurehook.com
       - NGINX_PORT=80
     ports:
@@ -56,3 +55,5 @@ services:
     volumes:
       - ./nginx/development_templates:/etc/nginx/templates
       - ./flags:/flags
+    depends_on:
+      - crawler
