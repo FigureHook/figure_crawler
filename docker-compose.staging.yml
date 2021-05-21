@@ -23,6 +23,7 @@ services:
       - celery
     volumes:
       - .:/figure_hook
+      - ./flags:/flags
     working_dir: /figure_hook
   celery:
     image: figure_hook:staging
