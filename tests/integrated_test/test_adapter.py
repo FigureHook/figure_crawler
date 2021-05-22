@@ -1,7 +1,7 @@
 from discord import RequestsWebhookAdapter, Webhook
 
-from Adapters.webhook_adapter import DiscordWebhookAdapter
-from Models import Webhook as WebhookModel
+from figure_hook.Adapters.webhook_adapter import DiscordWebhookAdapter
+from figure_hook.Models import Webhook as WebhookModel
 
 
 def test_webhook_adapter():

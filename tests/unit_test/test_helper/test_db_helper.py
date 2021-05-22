@@ -2,7 +2,7 @@ from datetime import datetime
 
 import pytest
 
-from Helpers.db_helper import ReleaseHelper
+from figure_hook.Helpers.db_helper import ReleaseHelper
 
 
 @pytest.mark.usefixtures("session")

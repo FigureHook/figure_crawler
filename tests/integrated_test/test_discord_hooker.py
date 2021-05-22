@@ -4,7 +4,7 @@ from discord import RequestsWebhookAdapter, Webhook, NotFound
 from discord.embeds import Embed
 from pytest_mock import MockerFixture
 
-from Sender.discord_hooker import (DiscordHooker, DiscordHookerStats,
+from figure_hook.Sender.discord_hooker import (DiscordHooker, DiscordHookerStats,
                                    process_embeds)
 
 

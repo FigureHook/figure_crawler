@@ -2,8 +2,8 @@ from datetime import date, datetime
 
 import pytest
 
-from constants import SourceSite
-from Models import (AnnouncementChecksum, Category, Company, Paintwork,
+from figure_hook.constants import SourceSite
+from figure_hook.Models import (AnnouncementChecksum, Category, Company, Paintwork,
                     Product, ProductOfficialImage, ProductReleaseInfo,
                     Sculptor, Series, Webhook)
 

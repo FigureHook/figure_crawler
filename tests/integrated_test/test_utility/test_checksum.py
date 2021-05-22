@@ -1,6 +1,6 @@
 import pytest
 
-from utils.announcement_checksum import (AlterChecksum, GSCChecksum,
+from figure_hook.utils.announcement_checksum import (AlterChecksum, GSCChecksum,
                                          SiteChecksum)
 
 

@@ -1,6 +1,6 @@
 import pytest
 
-from Parsers.product import ProductBase, ProductDataProcessMixin, ProductUtils
+from figure_hook.Parsers.product import ProductBase, ProductDataProcessMixin, ProductUtils
 
 
 @pytest.mark.usefixtures("product")

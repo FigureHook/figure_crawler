@@ -4,12 +4,12 @@ from typing import Optional
 
 import requests as rq
 
-from constants import SourceSite
-from Helpers.datetime_helper import DatetimeHelper
-from Models import AnnouncementChecksum
-from Parsers.alter.announcecment_parser import fetch_alter_newest_year
-from Parsers.constants import AlterCategory, GSCCategory, GSCLang
-from Parsers.utils import RelativeUrl
+from figure_hook.constants import SourceSite
+from figure_hook.Helpers.datetime_helper import DatetimeHelper
+from figure_hook.Models import AnnouncementChecksum
+from figure_hook.Parsers.alter.announcecment_parser import fetch_alter_newest_year
+from figure_hook.Parsers.constants import AlterCategory, GSCCategory, GSCLang
+from figure_hook.Parsers.utils import RelativeUrl
 
 __all__ = [
     "GSCChecksum",

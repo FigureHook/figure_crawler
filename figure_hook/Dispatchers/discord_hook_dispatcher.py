@@ -1,5 +1,5 @@
-from Adapters.webhook_adapter import DiscordWebhookAdapter
-from Sender.discord_hooker import DiscordHooker
+from figure_hook.Adapters.webhook_adapter import DiscordWebhookAdapter
+from figure_hook.Sender.discord_hooker import DiscordHooker
 
 # !!FIXME: lack of test
 

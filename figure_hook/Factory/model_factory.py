@@ -1,12 +1,13 @@
 from typing import List
 
-from constants import ReleaseInfoStatus
-from Models import Category, Company, Paintwork
-from Models import Product as Product
-from Models import ProductOfficialImage, ProductReleaseInfo, Sculptor, Series
-from Parsers.extension_class import HistoricalReleases, Release
-from Parsers.product import ProductBase
-from utils.comparater import compare_release_infos
+from figure_hook.constants import ReleaseInfoStatus
+from figure_hook.Models import Category, Company, Paintwork
+from figure_hook.Models import Product as Product
+from figure_hook.Models import (ProductOfficialImage, ProductReleaseInfo,
+                                Sculptor, Series)
+from figure_hook.Parsers.extension_class import HistoricalReleases, Release
+from figure_hook.Parsers.product import ProductBase
+from figure_hook.utils.comparater import compare_release_infos
 
 __all__ = (
     "ProductModelFactory",

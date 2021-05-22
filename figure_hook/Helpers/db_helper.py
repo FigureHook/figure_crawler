@@ -5,8 +5,8 @@ from sqlalchemy.engine.row import Row
 from sqlalchemy.orm.session import Session
 from sqlalchemy.sql.expression import and_, literal_column
 
-from Models import (Company, Product, ProductOfficialImage, ProductReleaseInfo,
-                    Series)
+from figure_hook.Models import (Company, Product, ProductOfficialImage,
+                                ProductReleaseInfo, Series)
 
 
 class ReleaseHelper:

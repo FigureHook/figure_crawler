@@ -7,10 +7,10 @@ from urllib.parse import urlparse
 
 from bs4 import BeautifulSoup
 
-from Parsers.abcs import ProductParser
-from Parsers.alter import AlterProductParser
-from Parsers.constants import BrandHost
-from Parsers.gsc import GSCProductParser
+from figure_hook.Parsers.abcs import ProductParser
+from figure_hook.Parsers.alter import AlterProductParser
+from figure_hook.Parsers.constants import BrandHost
+from figure_hook.Parsers.gsc import GSCProductParser
 
 from .product import Product
 

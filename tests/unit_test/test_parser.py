@@ -4,13 +4,13 @@ import pytest
 import yaml
 from _pytest.assertion.util import isiterable
 
-from Parsers.alter import (AlterAnnouncementLinkExtractor, AlterProductParser,
+from figure_hook.Parsers.alter import (AlterAnnouncementLinkExtractor, AlterProductParser,
                            AlterYearlyAnnouncement)
-from Parsers.constants import AlterCategory, GSCCategory, GSCLang
-from Parsers.extension_class import HistoricalReleases, Release
-from Parsers.gsc import (GSCAnnouncementLinkExtractor, GSCProductParser,
+from figure_hook.Parsers.constants import AlterCategory, GSCCategory, GSCLang
+from figure_hook.Parsers.extension_class import HistoricalReleases, Release
+from figure_hook.Parsers.gsc import (GSCAnnouncementLinkExtractor, GSCProductParser,
                          GSCReleaseInfo, GSCYearlyAnnouncement)
-from Parsers.utils import get_page
+from figure_hook.Parsers.utils import get_page
 
 
 def load_yaml(path):

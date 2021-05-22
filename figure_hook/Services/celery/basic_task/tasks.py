@@ -4,18 +4,19 @@ from typing import Type
 from discord import RequestsWebhookAdapter, Webhook
 from sqlalchemy.sql import update
 
-from constants import PeriodicTask
-from database import pgsql_session
-from Dispatchers.discord_hook_dispatcher import \
+from figure_hook.constants import PeriodicTask
+from figure_hook.database import pgsql_session
+from figure_hook.Dispatchers.discord_hook_dispatcher import \
     DiscordNewReleaseEmbedsDispatcher
-from Factory.discord_embed_factory import DiscordEmbedFactory, NewReleaseEmbed
-from Helpers.db_helper import ReleaseHelper
-from Models import Task
-from Models import Webhook as WebhookModel
-from Sender.discord_hooker import DiscordHooker
-from utils.announcement_checksum import (AlterChecksum, GSCChecksum,
-                                         SiteChecksum)
-from utils.scrapyd_api import schedule_spider
+from figure_hook.Factory.discord_embed_factory import (DiscordEmbedFactory,
+                                                       NewReleaseEmbed)
+from figure_hook.Helpers.db_helper import ReleaseHelper
+from figure_hook.Models import Task
+from figure_hook.Models import Webhook as WebhookModel
+from figure_hook.Sender.discord_hooker import DiscordHooker
+from figure_hook.utils.announcement_checksum import (AlterChecksum,
+                                                     GSCChecksum, SiteChecksum)
+from figure_hook.utils.scrapyd_api import schedule_spider
 
 from .celery import app
 

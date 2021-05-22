@@ -2,7 +2,7 @@ from datetime import date
 
 from discord import Embed
 
-from Factory.discord_embed_factory import DiscordEmbedFactory
+from figure_hook.Factory.discord_embed_factory import DiscordEmbedFactory
 
 
 def test_discord_new_release_embed_creation():

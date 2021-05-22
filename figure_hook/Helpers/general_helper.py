@@ -1,4 +1,4 @@
-from Models import Webhook
+from figure_hook.Models import Webhook
 
 
 class DataHelper:
