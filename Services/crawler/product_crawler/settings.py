@@ -11,8 +11,8 @@ import os
 
 BOT_NAME = 'product_crawler'
 
-SPIDER_MODULES = ['Services.crawler.product_crawler.spiders']
-NEWSPIDER_MODULE = 'Services.crawler.product_crawler.spiders'
+SPIDER_MODULES = ['product_crawler.spiders']
+NEWSPIDER_MODULE = 'product_crawler.spiders'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
@@ -66,7 +66,7 @@ ROBOTSTXT_OBEY = False
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
     # 'product_crawler.pipelines.ProductDataProcessingPipeline': 300,
-    'Services.crawler.product_crawler.pipelines.SaveProductInDatabasePipeline': 400,
+    'product_crawler.pipelines.SaveProductInDatabasePipeline': 400,
     # 'gsc_crawler.pipelines.OrderPeriodFillingPipeline': 500
 }
 
@@ -104,7 +104,7 @@ DOWNLOADER_MIDDLEWARES = {
 
 PROXY_LIST = os.getenv(
     'PROXY_LIST',
-    '/figure_hook/src/Services/crawler/proxy-list.txt'
+    '/workspace/Services/crawler/proxy-list.txt'
 )
 PROXY_MODE = 0
 
