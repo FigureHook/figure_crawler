@@ -32,7 +32,6 @@ def test_maintenance(client, mocker: MockerFixture):
             'X-In-Maintenance': 1
         }
     )
-    mocker.patch('web.utils.get_maintenance_time', return_value="Wed, 21 Oct 2015 07:28:00 GMT")
     assert r.status_code == 503
     assert b'503' in r.data
     assert 'Retry-After' in r.headers
