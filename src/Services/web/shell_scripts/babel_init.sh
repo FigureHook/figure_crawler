@@ -1,7 +1,6 @@
 #!/bin/bash
 
 SUPPORT_LANGS=(ja zh)
-cd src/web
 
 for lang in ${SUPPORT_LANGS[@]};
     do
