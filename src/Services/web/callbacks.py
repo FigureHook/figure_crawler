@@ -1,4 +1,3 @@
-
 from distutils.util import strtobool
 
 from flask import request
@@ -9,7 +8,21 @@ from flask_babel import get_locale
 from Models.base import Model
 
 from .extension import db
-from .utils import get_maintenance_time
+
+__all__ = [
+    "check_maintenance",
+    "set_model_session",
+    "unset_model_session"
+]
+
+
+def get_maintenance_time():
+    try:
+        with open('/flags/maintenance.on', 'r') as f:
+            retry_after = f.readline().strip()
+        return retry_after
+    except FileNotFoundError:
+        return '3600'
 
 
 def check_maintenance():
