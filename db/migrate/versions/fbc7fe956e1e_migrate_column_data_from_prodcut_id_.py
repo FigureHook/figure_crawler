@@ -8,8 +8,8 @@ Create Date: 2021-05-15 08:26:53.552511
 import sqlalchemy as sa
 from alembic import op
 
-from Models.relation_table import (product_paintwork_table,
-                                   product_sculptor_table)
+from figure_hook.Models.relation_table import (product_paintwork_table,
+                                               product_sculptor_table)
 
 # revision identifiers, used by Alembic.
 revision = 'fbc7fe956e1e'
