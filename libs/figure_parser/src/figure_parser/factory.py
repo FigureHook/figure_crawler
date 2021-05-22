@@ -6,11 +6,10 @@ from typing import ClassVar, Optional, Type, Union
 from urllib.parse import urlparse
 
 from bs4 import BeautifulSoup
-
-from figure_hook.Parsers.abcs import ProductParser
-from figure_hook.Parsers.alter import AlterProductParser
-from figure_hook.Parsers.constants import BrandHost
-from figure_hook.Parsers.gsc import GSCProductParser
+from figure_parser.abcs import ProductParser
+from figure_parser.alter import AlterProductParser
+from figure_parser.constants import BrandHost
+from figure_parser.gsc import GSCProductParser
 
 from .product import Product
 

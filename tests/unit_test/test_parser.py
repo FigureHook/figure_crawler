@@ -4,15 +4,15 @@ import pytest
 import yaml
 from _pytest.assertion.util import isiterable
 
-from figure_hook.Parsers.alter import (AlterAnnouncementLinkExtractor,
+from figure_parser.alter import (AlterAnnouncementLinkExtractor,
                                        AlterProductParser,
                                        AlterYearlyAnnouncement)
-from figure_hook.Parsers.constants import AlterCategory, GSCCategory, GSCLang
-from figure_hook.Parsers.extension_class import HistoricalReleases, Release
-from figure_hook.Parsers.gsc import (GSCAnnouncementLinkExtractor,
+from figure_parser.constants import AlterCategory, GSCCategory, GSCLang
+from figure_parser.extension_class import HistoricalReleases, Release
+from figure_parser.gsc import (GSCAnnouncementLinkExtractor,
                                      GSCProductParser, GSCReleaseInfo,
                                      GSCYearlyAnnouncement)
-from figure_hook.Parsers.utils import get_page
+from figure_parser.utils import get_page
 
 
 def load_yaml(path):
@@ -161,7 +161,7 @@ class TestGSCParser(BaseTestCase):
             assert isinstance(items, list)
 
     def test_worker_parser(self):
-        from figure_hook.Parsers.gsc.product_parser import parse_people
+        from figure_parser.gsc.product_parser import parse_people
         worker1 = "横田健(原型協力 DRAGON Toy)"
         worker2 = "乙山法純(制作協力:アルター)"
         worker3 = "川崎和史 (製作協力:ねんどろん)"

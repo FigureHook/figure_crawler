@@ -2,8 +2,6 @@ from collections import namedtuple
 from typing import Type
 
 from discord import RequestsWebhookAdapter, Webhook
-from sqlalchemy.sql import update
-
 from figure_hook.constants import PeriodicTask
 from figure_hook.database import pgsql_session
 from figure_hook.Dispatchers.discord_hook_dispatcher import \
@@ -17,6 +15,7 @@ from figure_hook.Sender.discord_hooker import DiscordHooker
 from figure_hook.utils.announcement_checksum import (AlterChecksum,
                                                      GSCChecksum, SiteChecksum)
 from figure_hook.utils.scrapyd_api import schedule_spider
+from sqlalchemy.sql import update
 
 from .celery import app
 

@@ -8,7 +8,7 @@ from figure_hook.Factory import ProductModelFactory
 from figure_hook.Factory.model_factory import rebuild_release_infos
 from figure_hook.Models import Product
 from figure_hook.Models.product import ProductReleaseInfo
-from figure_hook.Parsers.extension_class import HistoricalReleases, Release
+from figure_parser.extension_class import HistoricalReleases, Release
 from figure_hook.utils.comparater import compare_release_infos
 
 

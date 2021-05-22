@@ -3,7 +3,7 @@ from typing import List
 from figure_hook.constants import ReleaseInfoStatus
 from figure_hook.Models import Product as ProductModel
 from figure_hook.Models import ProductReleaseInfo
-from figure_hook.Parsers.product import ProductBase
+from figure_parser.product import ProductBase
 
 
 def compare_release_infos(p_dataclass: ProductBase, p_model: ProductModel) -> ReleaseInfoStatus:

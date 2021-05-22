@@ -7,9 +7,9 @@ import requests as rq
 from figure_hook.constants import SourceSite
 from figure_hook.Helpers.datetime_helper import DatetimeHelper
 from figure_hook.Models import AnnouncementChecksum
-from figure_hook.Parsers.alter.announcecment_parser import fetch_alter_newest_year
-from figure_hook.Parsers.constants import AlterCategory, GSCCategory, GSCLang
-from figure_hook.Parsers.utils import RelativeUrl
+from figure_parser.alter.announcecment_parser import fetch_alter_newest_year
+from figure_parser.constants import AlterCategory, GSCCategory, GSCLang
+from figure_parser.utils import RelativeUrl
 
 __all__ = [
     "GSCChecksum",

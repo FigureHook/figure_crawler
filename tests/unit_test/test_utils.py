@@ -1,7 +1,7 @@
 import pytest
 
-from figure_hook.Parsers.constants import BrandHost
-from figure_hook.Parsers.utils import check_url_host, price_parse
+from figure_parser.constants import BrandHost
+from figure_parser.utils import check_url_host, price_parse
 
 mock_self = "mock"
 

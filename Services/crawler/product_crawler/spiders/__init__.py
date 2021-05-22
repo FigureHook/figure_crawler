@@ -9,9 +9,9 @@ from bs4 import BeautifulSoup
 from scrapy.linkextractors import LinkExtractor
 from scrapy.spiders import CrawlSpider
 
-from figure_hook.Parsers.constants import AlterCategory, BrandHost, GSCCategory, GSCLang
-from figure_hook.Parsers.factory import AlterFactory, GSCFactory
-from figure_hook.Parsers.utils import RelativeUrl
+from figure_parser.constants import AlterCategory, BrandHost, GSCCategory, GSCLang
+from figure_parser.factory import AlterFactory, GSCFactory
+from figure_parser.utils import RelativeUrl
 
 
 def gsc_product_link_extractor(res):

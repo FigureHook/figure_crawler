@@ -5,8 +5,8 @@ from unittest.mock import MagicMock
 import pytest
 from faker import Faker
 
-from figure_hook.Parsers.extension_class import HistoricalReleases, OrderPeriod, Release
-from figure_hook.Parsers.product import ProductBase
+from figure_parser.extension_class import HistoricalReleases, OrderPeriod, Release
+from figure_parser.product import ProductBase
 
 os.environ['POSTGRES_DATABASE'] = "figure_testing"
 os.environ['FLASK_ENV'] = "test"
