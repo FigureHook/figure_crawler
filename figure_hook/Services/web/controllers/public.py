@@ -6,7 +6,8 @@ from flask import (Blueprint, flash, redirect, render_template, request,
                    session, url_for)
 from flask_babel import get_locale, gettext
 
-from Services.web.forms import SubscriptionForm, locale_language_choice
+from figure_hook.Services.web.forms import (SubscriptionForm,
+                                            locale_language_choice)
 
 blueprint = Blueprint("public", __name__)
 

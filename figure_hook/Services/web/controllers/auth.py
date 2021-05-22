@@ -1,18 +1,58 @@
 import os
 
 import requests as rq
-from basic_task.tasks import send_new_hook_notification
 from flask import Blueprint, flash, request
 from flask.globals import session
 from flask.helpers import url_for
 from flask_babel import gettext
 from werkzeug.utils import redirect
 
-from Models import Webhook
+from figure_hook.Models import Webhook
+from figure_hook.Services.celery.basic_task.tasks import \
+    send_new_hook_notification
 
 blueprint = Blueprint("auth", __name__)
 
 API_ENDPOINT = "https://discord.com/api/v8"
+
+
+@blueprint.route("/webhook", methods=["GET"])
+def webhook():
+    args = request.args.to_dict()
+
+    if "error" in args:
+        return redirect(url_for("public.home"))
+
+    r = exchange_token(args["code"])
+    state = args["state"]
+
+    if r.status_code == 200 and check_state(state):
+        webhook_response = r.json()
+        webhook_channel_id = webhook_response['webhook']['channel_id']
+        webhook_id = webhook_response['webhook']["id"]
+        webhook_token = webhook_response['webhook']['token']
+        webhook_setting = session['webhook_setting']
+        save_webhook_info(webhook_channel_id, webhook_id, webhook_token, **webhook_setting)
+
+        send_hook_noti(webhook_id, webhook_token)
+        flash(gettext("Hooking success!"), 'success')
+
+    elif r.status_code >= 400:
+        error = r.json()
+        if 'code' in error:
+            if error['code'] == 30007:
+                flash(error['message'], 'danger')
+        flash(gettext("Webhook authorization failed."), 'warning')
+
+    return redirect(session['entry_uri'])
+
+
+def send_hook_noti(webhook_id, webhook_token):
+    send_new_hook_notification.apply_async(kwargs={
+        'webhook_id': webhook_id,
+        'webhook_token': webhook_token,
+        'msg': gettext("FigureHook hooked on this channel.")
+    })
 
 
 def exchange_token(code):
@@ -41,36 +81,3 @@ def save_webhook_info(channel_id, _id, token, **kwargs):
 
 def check_state(state):
     return session['state'] == state
-
-
-@blueprint.route("/webhook", methods=["GET"])
-def webhook():
-    args = request.args.to_dict()
-
-    if "error" in args:
-        return redirect(url_for("public.home"))
-
-    r = exchange_token(args["code"])
-    state = args["state"]
-
-    if r.status_code == 200 and check_state(state):
-        webhook_response = r.json()
-        webhook_channel_id = webhook_response['webhook']['channel_id']
-        webhook_id = webhook_response['webhook']["id"]
-        webhook_token = webhook_response['webhook']['token']
-        webhook_setting = session['webhook_setting']
-        save_webhook_info(webhook_channel_id, webhook_id, webhook_token, **webhook_setting)
-        send_new_hook_notification.apply_async(kwargs={
-            'webhook_id': webhook_id,
-            'webhook_token': webhook_token,
-            'msg': gettext("FigureHook hooked on this channel.")
-        })
-        flash(gettext("Hooking success!"), 'success')
-    elif r.status_code >= 400:
-        error = r.json()
-        if 'code' in error:
-            if error['code'] == 30007:
-                flash(error['message'], 'danger')
-        flash(gettext("Webhook authorization failed."), 'warning')
-
-    return redirect(session['entry_uri'])

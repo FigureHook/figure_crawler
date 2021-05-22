@@ -159,7 +159,7 @@ class TestGSCParser(BaseTestCase):
             assert isinstance(items, list)
 
     def test_worker_parser(self):
-        from Parsers.gsc.product_parser import parse_people
+        from figure_hook.Parsers.gsc.product_parser import parse_people
         worker1 = "横田健(原型協力 DRAGON Toy)"
         worker2 = "乙山法純(制作協力:アルター)"
         worker3 = "川崎和史 (製作協力:ねんどろん)"
