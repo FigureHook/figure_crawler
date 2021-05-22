@@ -3,12 +3,11 @@ import os
 
 from flask import Flask, request
 
-from web.callbacks import (check_maintenance, set_model_session,
-                           unset_model_session)
-from web.controllers import auth, public
-from web.extension import babel, cors, csrf, db, session
-
+from .callbacks import (check_maintenance, set_model_session,
+                        unset_model_session)
 from .config import config
+from .controllers import auth, public
+from .extension import babel, cors, csrf, db, session
 
 
 def create_app(config_name=os.environ.get("FLASK_ENV")):

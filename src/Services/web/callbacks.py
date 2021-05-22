@@ -7,8 +7,9 @@ from flask.templating import render_template
 from flask_babel import get_locale
 
 from Models.base import Model
-from web.extension import db
-from web.utils import get_maintenance_time
+
+from .extension import db
+from .utils import get_maintenance_time
 
 
 def check_maintenance():
