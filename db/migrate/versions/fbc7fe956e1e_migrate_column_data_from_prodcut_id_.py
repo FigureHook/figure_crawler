@@ -7,7 +7,6 @@ Create Date: 2021-05-15 08:26:53.552511
 """
 import sqlalchemy as sa
 from alembic import op
-
 from figure_hook.Models.relation_table import (product_paintwork_table,
                                                product_sculptor_table)
 

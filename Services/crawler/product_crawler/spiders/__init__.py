@@ -6,12 +6,12 @@ from datetime import date
 
 import scrapy
 from bs4 import BeautifulSoup
-from scrapy.linkextractors import LinkExtractor
-from scrapy.spiders import CrawlSpider
-
-from figure_parser.constants import AlterCategory, BrandHost, GSCCategory, GSCLang
+from figure_parser.constants import (AlterCategory, BrandHost, GSCCategory,
+                                     GSCLang)
 from figure_parser.factory import AlterFactory, GSCFactory
 from figure_parser.utils import RelativeUrl
+from scrapy.linkextractors import LinkExtractor
+from scrapy.spiders import CrawlSpider
 
 
 def gsc_product_link_extractor(res):

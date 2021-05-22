@@ -6,13 +6,12 @@
 import logging
 from typing import Union
 
-from scrapy.spiders.crawl import CrawlSpider
-
 from figure_hook.database import pgsql_session
 from figure_hook.Factory.model_factory import ProductModelFactory
 from figure_hook.Helpers.datetime_helper import DatetimeHelper
 from figure_hook.Models import Product
 from figure_parser.product import Product as product_dataclass
+from scrapy.spiders.crawl import CrawlSpider
 
 
 class SaveProductInDatabasePipeline:

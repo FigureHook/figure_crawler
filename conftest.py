@@ -4,8 +4,8 @@ from unittest.mock import MagicMock
 
 import pytest
 from faker import Faker
-
-from figure_parser.extension_class import HistoricalReleases, OrderPeriod, Release
+from figure_parser.extension_class import (HistoricalReleases, OrderPeriod,
+                                           Release)
 from figure_parser.product import ProductBase
 
 os.environ['POSTGRES_DATABASE'] = "figure_testing"
@@ -18,6 +18,7 @@ def app():
     callbacks.get_maintenance_time = MagicMock(return_value="Wed, 21 Oct 2015 07:28:00 GMT")
     from figure_hook.database import PostgreSQLDB
     from figure_hook.Models.base import Model
+
     from Services.web.app import create_app
 
     app = create_app("test")
@@ -31,10 +32,9 @@ def app():
 
 @pytest.fixture()
 def session():
-    from sqlalchemy.orm import Session
-
     from figure_hook.database import PostgreSQLDB
     from figure_hook.Models.base import Model
+    from sqlalchemy.orm import Session
 
     pgsql = PostgreSQLDB()
 

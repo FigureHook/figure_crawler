@@ -1,11 +1,11 @@
 from datetime import datetime
 
-from discord import RequestsWebhookAdapter, Webhook, NotFound
+from discord import NotFound, RequestsWebhookAdapter, Webhook
 from discord.embeds import Embed
+from figure_hook.Sender.discord_hooker import (DiscordHooker,
+                                               DiscordHookerStats,
+                                               process_embeds)
 from pytest_mock import MockerFixture
-
-from figure_hook.Sender.discord_hooker import (DiscordHooker, DiscordHookerStats,
-                                   process_embeds)
 
 
 def test_embeds_processor():

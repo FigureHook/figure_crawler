@@ -5,8 +5,8 @@ from datetime import date
 from hashlib import md5
 from typing import Callable, Optional, Union
 
-from figure_parser.extension_class import (HistoricalReleases,
-                                                 OrderPeriod, Release)
+from figure_parser.extension_class import (HistoricalReleases, OrderPeriod,
+                                           Release)
 
 from .utils import AsDictable
 

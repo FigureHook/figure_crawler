@@ -1,11 +1,10 @@
 from datetime import date, datetime
 
 import pytest
-
 from figure_hook.constants import SourceSite
-from figure_hook.Models import (AnnouncementChecksum, Category, Company, Paintwork,
-                                Product, ProductOfficialImage, ProductReleaseInfo,
-                                Sculptor, Series, Webhook)
+from figure_hook.Models import (AnnouncementChecksum, Category, Company,
+                                Paintwork, Product, ProductOfficialImage,
+                                ProductReleaseInfo, Sculptor, Series, Webhook)
 
 
 @pytest.mark.usefixtures("session")

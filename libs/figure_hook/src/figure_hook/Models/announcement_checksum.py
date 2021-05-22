@@ -1,9 +1,8 @@
 from typing import Type, Union
 
+from figure_hook.constants import SourceSite
 from sqlalchemy import Column, DateTime, Enum, String
 from sqlalchemy.sql import func
-
-from figure_hook.constants import SourceSite
 
 from .base import Model
 

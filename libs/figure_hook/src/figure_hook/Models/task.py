@@ -1,7 +1,6 @@
+from figure_hook.constants import PeriodicTask
 from sqlalchemy import Column, DateTime, Enum
 from sqlalchemy.sql import func
-
-from figure_hook.constants import PeriodicTask
 
 from .base import Model
 

@@ -1,5 +1,4 @@
 from discord import Webhook, WebhookAdapter
-
 from figure_hook.Models import Webhook as WebhookModel
 
 

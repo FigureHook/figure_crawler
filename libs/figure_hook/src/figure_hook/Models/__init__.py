@@ -6,6 +6,6 @@ from .category import *
 from .company import *
 from .product import *
 from .series import *
+from .task import *
 from .webhook import *
 from .worker import *
-from .task import *

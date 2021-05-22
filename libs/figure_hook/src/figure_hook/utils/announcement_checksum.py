@@ -3,7 +3,6 @@ from hashlib import md5
 from typing import Optional
 
 import requests as rq
-
 from figure_hook.constants import SourceSite
 from figure_hook.Helpers.datetime_helper import DatetimeHelper
 from figure_hook.Models import AnnouncementChecksum

@@ -1,13 +1,13 @@
 import os
 
 import requests as rq
+from figure_hook.Models import Webhook
 from flask import Blueprint, flash, request
 from flask.globals import session
 from flask.helpers import url_for
 from flask_babel import gettext
 from werkzeug.utils import redirect
 
-from figure_hook.Models import Webhook
 from Services.celery.basic_task.tasks import send_new_hook_notification
 
 blueprint = Blueprint("auth", __name__)

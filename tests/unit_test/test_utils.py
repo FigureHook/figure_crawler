@@ -1,5 +1,4 @@
 import pytest
-
 from figure_parser.constants import BrandHost
 from figure_parser.utils import check_url_host, price_parse
 

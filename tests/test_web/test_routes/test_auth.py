@@ -1,5 +1,5 @@
-from pytest_mock import MockerFixture
 from flask import url_for
+from pytest_mock import MockerFixture
 
 
 def test_webhook_auth(client, mocker: MockerFixture):

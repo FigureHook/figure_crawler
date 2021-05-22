@@ -3,15 +3,12 @@ from datetime import date, datetime
 import pytest
 import yaml
 from _pytest.assertion.util import isiterable
-
 from figure_parser.alter import (AlterAnnouncementLinkExtractor,
-                                       AlterProductParser,
-                                       AlterYearlyAnnouncement)
+                                 AlterProductParser, AlterYearlyAnnouncement)
 from figure_parser.constants import AlterCategory, GSCCategory, GSCLang
 from figure_parser.extension_class import HistoricalReleases, Release
-from figure_parser.gsc import (GSCAnnouncementLinkExtractor,
-                                     GSCProductParser, GSCReleaseInfo,
-                                     GSCYearlyAnnouncement)
+from figure_parser.gsc import (GSCAnnouncementLinkExtractor, GSCProductParser,
+                               GSCReleaseInfo, GSCYearlyAnnouncement)
 from figure_parser.utils import get_page
 
 

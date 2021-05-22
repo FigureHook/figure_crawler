@@ -1,15 +1,14 @@
 from datetime import date
 
 import pytest
-from pytest_mock import MockerFixture
-
 from figure_hook.constants import ReleaseInfoStatus
 from figure_hook.Factory import ProductModelFactory
 from figure_hook.Factory.model_factory import rebuild_release_infos
 from figure_hook.Models import Product
 from figure_hook.Models.product import ProductReleaseInfo
-from figure_parser.extension_class import HistoricalReleases, Release
 from figure_hook.utils.comparater import compare_release_infos
+from figure_parser.extension_class import HistoricalReleases, Release
+from pytest_mock import MockerFixture
 
 
 @pytest.fixture

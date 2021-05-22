@@ -1,7 +1,6 @@
 from datetime import date
 
 from discord import Embed
-
 from figure_hook.Factory.discord_embed_factory import DiscordEmbedFactory
 
 

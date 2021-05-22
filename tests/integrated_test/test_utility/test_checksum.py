@@ -1,7 +1,6 @@
 import pytest
-
-from figure_hook.utils.announcement_checksum import (AlterChecksum, GSCChecksum,
-                                         SiteChecksum)
+from figure_hook.utils.announcement_checksum import (AlterChecksum,
+                                                     GSCChecksum, SiteChecksum)
 
 
 @pytest.mark.usefixtures("session")

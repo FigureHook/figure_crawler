@@ -1,8 +1,8 @@
 from datetime import date, datetime
 
 import pytest
-
-from figure_parser.extension_class import HistoricalReleases, OrderPeriod, Release
+from figure_parser.extension_class import (HistoricalReleases, OrderPeriod,
+                                           Release)
 
 
 def test_release_class():

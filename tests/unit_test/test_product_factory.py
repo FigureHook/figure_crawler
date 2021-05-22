@@ -1,11 +1,10 @@
 from dataclasses import is_dataclass
 
 import pytest
-from pytest_mock import MockerFixture
-
 from figure_parser.factory import (AlterFactory, GeneralFactory, GSCFactory,
-                             ProductFactory)
+                                   ProductFactory)
 from figure_parser.product import Product
+from pytest_mock import MockerFixture
 
 
 class TestABCFactory:

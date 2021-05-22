@@ -7,10 +7,9 @@ Create Date: 2021-05-15 07:14:44.381991
 """
 import sqlalchemy as sa
 from alembic import op
-from sqlalchemy import orm
-
 from figure_hook.Models.relation_table import (product_paintwork_table,
                                                product_sculptor_table)
+from sqlalchemy import orm
 
 # revision identifiers, used by Alembic.
 revision = 'dc7042a9ce99'

@@ -1,8 +1,7 @@
+from figure_hook.Helpers.general_helper import DataHelper
 from flask_babel import lazy_gettext
 from flask_wtf import FlaskForm
 from wtforms import BooleanField, SelectField, SubmitField, ValidationError
-
-from figure_hook.Helpers.general_helper import DataHelper
 
 
 def validate_language(form, field: SelectField):

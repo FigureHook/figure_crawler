@@ -1,7 +1,6 @@
 from datetime import datetime
 
 import pytest
-
 from figure_hook.Helpers.db_helper import ReleaseHelper
 
 

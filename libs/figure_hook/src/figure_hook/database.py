@@ -2,11 +2,10 @@ import os
 from contextlib import contextmanager
 from typing import Optional
 
+from figure_hook.Models.base import Model
 from sqlalchemy import create_engine
 from sqlalchemy.engine.base import Engine
 from sqlalchemy.orm import sessionmaker
-
-from figure_hook.Models.base import Model
 
 # https://stackoverflow.com/questions/12223335/sqlalchemy-creating-vs-reusing-a-session
 
