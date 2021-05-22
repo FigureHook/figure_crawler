@@ -8,11 +8,11 @@ from typing import Union
 
 from scrapy.spiders.crawl import CrawlSpider
 
-from database import pgsql_session
-from Factory.model_factory import ProductModelFactory
-from Helpers.datetime_helper import DatetimeHelper
-from Models import Product
-from Parsers.product import Product as product_dataclass
+from figure_hook.database import pgsql_session
+from figure_hook.Factory.model_factory import ProductModelFactory
+from figure_hook.Helpers.datetime_helper import DatetimeHelper
+from figure_hook.Models import Product
+from figure_hook.Parsers.product import Product as product_dataclass
 
 
 class SaveProductInDatabasePipeline:

@@ -19,10 +19,10 @@ def test_webhook_auth(client, mocker: MockerFixture):
                 }
             }
 
-    mocker.patch('figure_hook.Services.web.controllers.auth.exchange_token', return_value=MockAuthReponse())
-    mocker.patch('figure_hook.Services.web.controllers.auth.save_webhook_info', return_value=True)
-    mocker.patch('figure_hook.Services.web.controllers.auth.check_state', return_value=True)
-    mocker.patch('figure_hook.Services.web.controllers.auth.send_hook_noti')
+    mocker.patch('Services.web.controllers.auth.exchange_token', return_value=MockAuthReponse())
+    mocker.patch('Services.web.controllers.auth.save_webhook_info', return_value=True)
+    mocker.patch('Services.web.controllers.auth.check_state', return_value=True)
+    mocker.patch('Services.web.controllers.auth.send_hook_noti')
 
     with client.session_transaction() as session:
         session['webhook_setting'] = {}

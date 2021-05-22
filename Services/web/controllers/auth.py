@@ -8,8 +8,7 @@ from flask_babel import gettext
 from werkzeug.utils import redirect
 
 from figure_hook.Models import Webhook
-from figure_hook.Services.celery.basic_task.tasks import \
-    send_new_hook_notification
+from Services.celery.basic_task.tasks import send_new_hook_notification
 
 blueprint = Blueprint("auth", __name__)
 
