@@ -11,7 +11,10 @@ from Models import *
 config = context.config
 
 section = config.config_ini_section
-config.set_section_option(section, "DB_URL", os.environ.get("DB_URL"))
+config.set_section_option(section, "POSTGRES_DATABASE", os.environ.get("POSTGRES_DATABASE"))
+config.set_section_option(section, "POSTGRES_PASSWORD", os.environ.get("POSTGRES_PASSWORD"))
+config.set_section_option(section, "POSTGRES_USER", os.environ.get("POSTGRES_USER"))
+config.set_section_option(section, "POSTGRES_URL", os.environ.get("POSTGRES_URL"))
 
 
 # Interpret the config file for Python logging.
