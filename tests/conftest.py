@@ -14,8 +14,8 @@ os.environ['FLASK_ENV'] = "test"
 
 @pytest.fixture(scope='session')
 def app():
-    from Services.web import utils
-    utils.get_maintenance_time = MagicMock(return_value="Wed, 21 Oct 2015 07:28:00 GMT")
+    from Services.web import callbacks
+    callbacks.get_maintenance_time = MagicMock(return_value="Wed, 21 Oct 2015 07:28:00 GMT")
     from database import PostgreSQLDB
     from Models.base import Model
     from Services.web.app import create_app
