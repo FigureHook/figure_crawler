@@ -10,7 +10,6 @@ SPIDER_PROJECT_DIR=src/Services/crawler
 export PROXY_LIST=$(readlink -f $(find . -name proxy-list.txt))
 
 # clean old stuffs
-cd $SPIDER_PROJECT_DIR || exit 1
 
 if [ -d "$EGGS_DIR" ]; then
     rm -r $EGGS_DIR/$p
