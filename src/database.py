@@ -16,15 +16,15 @@ class PostgreSQLDB:
     _Session: sessionmaker
 
     def __init__(self):
-        if os.getenv("MODE") == "test":
-            db_url = os.getenv("TEST_DB_URL")
-        else:
-            db_url = os.getenv("DB_URL")
-
-        if not db_url:
-            raise ValueError("Please ensure environment vairable `TEST_DB_URL` or `DB_URL` is set.")
-
-        self._engine = create_engine(f"postgresql+psycopg2://{db_url}", echo=False, future=True)
+        db_url = os.getenv("POSTGRES_URL")
+        db_user = os.getenv('POSTGRES_USER')
+        db_pw = os.getenv('POSTGRES_PASSWORD')
+        database = os.getenv('POSTGRES_DATABASE')
+        self._engine = create_engine(
+            f"postgresql+psycopg2://{db_user}:{db_pw}@{db_url}/{database}",
+            echo=False,
+            future=True
+        )
         self._Session = sessionmaker(self._engine)
 
     @property
