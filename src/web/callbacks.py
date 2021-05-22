@@ -23,6 +23,7 @@ def check_maintenance():
             ), 503)
 
         response.headers['Retry-After'] = retry_after
+        return response
 
 
 def set_model_session():
