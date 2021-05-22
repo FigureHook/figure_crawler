@@ -4,12 +4,14 @@ import pytest
 import yaml
 from _pytest.assertion.util import isiterable
 
-from figure_hook.Parsers.alter import (AlterAnnouncementLinkExtractor, AlterProductParser,
-                           AlterYearlyAnnouncement)
+from figure_hook.Parsers.alter import (AlterAnnouncementLinkExtractor,
+                                       AlterProductParser,
+                                       AlterYearlyAnnouncement)
 from figure_hook.Parsers.constants import AlterCategory, GSCCategory, GSCLang
 from figure_hook.Parsers.extension_class import HistoricalReleases, Release
-from figure_hook.Parsers.gsc import (GSCAnnouncementLinkExtractor, GSCProductParser,
-                         GSCReleaseInfo, GSCYearlyAnnouncement)
+from figure_hook.Parsers.gsc import (GSCAnnouncementLinkExtractor,
+                                     GSCProductParser, GSCReleaseInfo,
+                                     GSCYearlyAnnouncement)
 from figure_hook.Parsers.utils import get_page
 
 
