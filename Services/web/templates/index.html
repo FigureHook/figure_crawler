@@ -29,7 +29,7 @@
       {% endwith %}
       <div class="columns">
         <div class="column is-half has-text-white">
-          <h1 class="title has-text-centered has-text-white">FigureHook</h1>
+          <h1 class="title has-text-centered has-text-white">FigureHook<sub class="is-size-6">BETA</sub></h1>
         </div>
         <div class="column is-half has-text-white">
           <h3 class="subtitle is-4 has-text-white">Webhook {{ gettext('preferences') }}</h2>
@@ -44,7 +44,6 @@
                 </div>
               </div>
               <div class="field">
-                <!-- {{ form.is_nsfw.label(class_='label checkbox') }} -->
                 <div class="control">
                   {{ form.is_nsfw }}{{ form.is_nsfw.label(class_='ml-2 has-text-weight-bold') }}
                 </div>
