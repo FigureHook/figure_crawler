@@ -16,8 +16,11 @@ class Config(object):
 
     @property
     def SQLALCHEMY_DATABASE_URI(self):
-        db_url = os.getenv("DB_URL")
-        return f"postgresql+psycopg2://{db_url}"
+        db_url = os.getenv("POSTGRES_URL")
+        db_user = os.getenv('POSTGRES_USER')
+        db_pw = os.getenv('POSTGRES_PASSWORD')
+        database = os.getenv('POSTGRES_DATABASE')
+        return f"postgresql+psycopg2://{db_user}:{db_pw}@{db_url}/{database}"
 
 
 class ProductionConfig(Config):
