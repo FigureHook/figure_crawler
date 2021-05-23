@@ -6,3 +6,7 @@ if test -f "$FILE"; then
 else
     pip install -r requirements.txt
 fi
+
+pip install -e libs/figure_hook
+pip install -e libs/figure_parser
+pip install -e Services/celery

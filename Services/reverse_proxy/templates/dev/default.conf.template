@@ -1,14 +1,24 @@
-upstream flask {
-    server ${FLASK_URL};
+upstream app {
+    server crawler:8000;
 }
 
 server {
-    listen  ${NGINX_PORT};
-    server_name  ${NGINX_HOST};
+    listen 80;
+    server_name localhost;
+
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}
+
+server {
+    listen 443 ssl;
+    server_name localhost;
+
+    root   /usr/share/nginx/html;
 
     gzip on;
     gzip_disable "msie6";
-
     gzip_vary on;
     gzip_proxied any;
     gzip_comp_level 6;
@@ -17,7 +27,10 @@ server {
     gzip_min_length 0;
     gzip_types text/plain application/javascript text/css text/xml application/xml application/xml+rss text/javascript application/vnd.ms-fontobject application/x-font-ttf font/opentype;
 
-    root   /usr/share/nginx/html;
+    ######## SSL #########
+    ssl_certificate       /run/secrets/site_cert;
+    ssl_certificate_key   /run/secrets/site_key;
+    ######################
 
     if (-f /flags/service.off) {
         return 503;
@@ -35,7 +48,7 @@ server {
         if (-f /flags/maintenance.on) {
             set $maintenance 1;
         }
-        proxy_pass http://flask;
+        proxy_pass http://app;
 
         proxy_redirect     off;
 

@@ -1,0 +1,3 @@
+FROM nginx:stable-alpine
+
+COPY templates/dev/default.conf.template /etc/nginx/templates/default.conf.template

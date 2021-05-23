@@ -1,14 +1,13 @@
 import os
 
 import requests as rq
+from basic_task.tasks import send_new_hook_notification
 from figure_hook.Models import Webhook
 from flask import Blueprint, flash, request
 from flask.globals import session
 from flask.helpers import url_for
 from flask_babel import gettext
 from werkzeug.utils import redirect
-
-from Services.celery.basic_task.tasks import send_new_hook_notification
 
 blueprint = Blueprint("auth", __name__)
 
@@ -60,7 +59,7 @@ def exchange_token(code):
         "client_secret": os.getenv("DISCORD_CLIENT_SECRET"),
         "grant_type": "authorization_code",
         "code": code,
-        "redirect_uri": url_for("auth.webhook", _external=True)
+        "redirect_uri": url_for("auth.webhook", _external=True, _scheme='https')
     }
     headers = {
         "Content-Type": "application/x-www-form-urlencoded"

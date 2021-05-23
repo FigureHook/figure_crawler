@@ -6,14 +6,14 @@ from flask import (Blueprint, flash, redirect, render_template, request,
                    session, url_for)
 from flask_babel import get_locale, gettext
 
-from Services.web.forms import SubscriptionForm, locale_language_choice
+from ..forms import SubscriptionForm, locale_language_choice
 
 blueprint = Blueprint("public", __name__)
 
 
 def discord_auth_uri_with_state(state):
     base_uri = "https://discord.com/api/oauth2/authorize"
-    redirect_uri = url_for('auth.webhook', _external=True)
+    redirect_uri = url_for('auth.webhook', _external=True, _scheme='https')
     client_id = os.getenv('DISCORD_CLIENT_ID')
     return "{}?response_type=code&client_id={}&scope=webhook.incoming&redirect_uri={}&state={}".format(
         base_uri, client_id, redirect_uri, state

@@ -1,0 +1,99 @@
+upstream flask {
+    server ${FLASK_URL};
+}
+
+server {
+    listen 80;
+    server_name ${FLASK_SERVER_NAME} www.${FLASK_SERVER_NAME};
+
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}
+
+server {
+    listen 443 ssl;
+    server_name ${FLASK_SERVER_NAME} www.${FLASK_SERVER_NAME};
+
+    root   /usr/share/nginx/html;
+
+    gzip on;
+    gzip_disable "msie6";
+    gzip_vary on;
+    gzip_proxied any;
+    gzip_comp_level 6;
+    gzip_buffers 16 8k;
+    gzip_http_version 1.1;
+    gzip_min_length 0;
+    gzip_types text/plain application/javascript text/css text/xml application/xml application/xml+rss text/javascript application/vnd.ms-fontobject application/x-font-ttf font/opentype;
+
+    ######## SSL #########
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_certificate /etc/letsencrypt/live/${FLASK_SERVER_NAME}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/${FLASK_SERVER_NAME}/privkey.pem;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+
+    location /.well-known/acme-challenge/ {
+        root /var/www/certbot;
+    }
+    ######################
+
+    if (-f /flags/service.off) {
+        return 503;
+    }
+
+    error_page 503 @service_down_page;
+
+    location @service_down_page {
+        root /flags/;
+        rewrite ^(.*)$ /503.html break;
+    }
+
+    location / {
+        set $maintenance 0;
+        if (-f /flags/maintenance.on) {
+            set $maintenance 1;
+        }
+        proxy_pass http://flask;
+
+        proxy_redirect     off;
+
+        proxy_set_header   Host             $http_host;
+        proxy_set_header   X-Real-IP        $remote_addr;
+        proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
+        proxy_set_header   X-In-Maintenance $maintenance;
+    }
+
+
+    error_page 404 /404.html;
+    error_page 500 502 504 /50x.html;
+
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+
+    location ~* \.(?:manifest|appcache|html?|xml|json)$ {
+        expires -1;
+        # access_log logs/static.log; # I don't usually include a static log
+    }
+
+    # Feed
+    location ~* \.(?:rss|atom)$ {
+        expires 1h;
+        add_header Cache-Control "public";
+    }
+
+    # Media: images, icons, video, audio, HTC
+    location ~* \.(?:jpg|jpeg|gif|png|ico|cur|gz|svg|svgz|mp4|ogg|ogv|webm|htc)$ {
+        expires 1M;
+        access_log off;
+        add_header Cache-Control "public";
+    }
+
+    # CSS and Javascript
+    location ~* \.(?:css|js)$ {
+        expires 1y;
+        access_log off;
+        add_header Cache-Control "public";
+    }
+}
