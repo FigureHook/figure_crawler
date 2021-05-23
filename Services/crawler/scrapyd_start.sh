@@ -1,6 +1,6 @@
 #!/bin/bash
 EGGS_DIR=eggs
-SPIDER_PROJECT_DIR=src/Services/crawler
+# SPIDER_PROJECT_DIR=src/Services/crawler
 # if [[ ! ${SERVICE_DIR+x} ]]; then
 #     echo "envrionment variable SPIDER_APP_DIR is unset."
 #     exit 1
