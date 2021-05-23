@@ -9,6 +9,10 @@ setup(
     package_dir={"": "src"},
     packages=find_packages("src"),
     python_requires=">=3.6",
+    include_package_data=True,
+    package_data={
+        "": ["**/*.yml"]
+    },
     install_requires=[
         "beautifulsoup4>=4.9.3",
         "lxml>=4.6.3",
