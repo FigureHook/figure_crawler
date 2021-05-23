@@ -24,3 +24,5 @@ drawio/
 redis_data/
 *.mo
 dist/
+*.crt
+*.key
