@@ -41,6 +41,7 @@ class StagingConfig(Config):
 class DevelopmentConfig(Config):
     SECRET_KEY = b64encode(urandom(32)).decode('utf-8')
     SESSION_PERMANENT = False
+    TEMPLATES_AUTO_RELOAD = True
 
 
 class TestingConfig(Config):
@@ -49,8 +50,11 @@ class TestingConfig(Config):
 
     @property
     def SQLALCHEMY_DATABASE_URI(self):
-        db_url = os.getenv("TEST_DB_URL")
-        return f"postgresql+psycopg2://{db_url}"
+        db_url = os.getenv("POSTGRES_URL")
+        db_user = os.getenv('POSTGRES_USER')
+        db_pw = os.getenv('POSTGRES_PASSWORD')
+        database = 'figure_testing'
+        return f"postgresql+psycopg2://{db_user}:{db_pw}@{db_url}/{database}"
 
 
 config = {
