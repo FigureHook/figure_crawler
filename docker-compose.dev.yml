@@ -5,7 +5,6 @@ services:
       context: .
       dockerfile: DockerFile
     image: figure_crawler
-    container_name: crawler
     env_file:
       - .env
     volumes:
@@ -22,7 +21,6 @@ services:
   db:
     image: postgres:13.1
     restart: always
-    container_name: db
     environment:
       - POSTGRES_DB=${POSTGRES_DATABASE}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
@@ -38,7 +36,6 @@ services:
   rabbitmq:
     image: rabbitmq:3.8.14
     restart: always
-    container_name: rabbit
     environment:
       - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
       - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
@@ -47,7 +44,6 @@ services:
   redis:
     image: redis:alpine
     restart: always
-    container_name: redis
     networks:
       - backend
   reverse_proxy:
