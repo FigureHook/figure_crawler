@@ -50,8 +50,6 @@ services:
     build:
       context: Services/reverse_proxy
       dockerfile: DockerFile.dev
-    environment:
-      - NGINX_MODE=dev
     ports:
       - 80:80
       - 443:443

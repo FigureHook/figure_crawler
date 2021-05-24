@@ -7,7 +7,6 @@ services:
     container_name: reverse_proxy
     restart: always
     environment:
-      - NGINX_MODE=production
       - APP_PORT=8000
       - APP_SERVICE=web_app
       - FLASK_SERVER_NAME=${FLASK_SERVER_NAME}
@@ -24,6 +23,7 @@ services:
     secrets:
       - site_cert
       - site_key
+      - dhparam
   web_app:
     build:
       context: .
@@ -96,7 +96,6 @@ services:
     restart: always
     networks:
       - backend
-
 
 networks:
   frontend:
