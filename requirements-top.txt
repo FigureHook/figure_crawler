@@ -45,4 +45,4 @@ Authlib
 loginpass
 
 #wsgi server
-gunicorn
+gunicorn[gevent]
