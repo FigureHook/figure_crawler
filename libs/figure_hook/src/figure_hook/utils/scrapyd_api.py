@@ -11,11 +11,14 @@ def schedule_spiders():
     schedule_status = []
     for spider in spiders:
         if "recent" in spider:
-            response = schedule(SCRAPYD_URL, SCRAPY_PROJECT_NAME, spider)
+            response = schedule_spider(spider)
             schedule_status.append(response)
     return schedule_status
 
 
 def schedule_spider(spider_name):
-    response = schedule(SCRAPYD_URL, SCRAPY_PROJECT_NAME, spider_name)
+    try:
+        response = schedule(SCRAPYD_URL, SCRAPY_PROJECT_NAME, spider_name)
+    except ConnectionRefusedError:
+        return None
     return response
