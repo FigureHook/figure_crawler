@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-05-20 18:38+0000\n"
+"POT-Creation-Date: 2021-05-24 09:23+0000\n"
 "PO-Revision-Date: 2021-05-16 10:30+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -18,27 +18,27 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
 
-#: forms.py:24
+#: forms.py:23
 msgid "NSFW"
 msgstr "成人向"
 
-#: forms.py:26
+#: forms.py:25
 msgid "Language"
 msgstr "語言"
 
-#: forms.py:30
+#: forms.py:29
 msgid "Subscribe !"
 msgstr "訂閱 !"
 
-#: controllers/auth.py:66
+#: controllers/auth.py:36
 msgid "FigureHook hooked on this channel."
 msgstr "FigureHook 鉤在這個頻道了"
 
-#: controllers/auth.py:68
+#: controllers/auth.py:40
 msgid "Hooking success!"
 msgstr "Webhook 成鉤了!"
 
-#: controllers/auth.py:74
+#: controllers/auth.py:47
 msgid "Webhook authorization failed."
 msgstr "Webhook 授權認證失敗"
 
@@ -59,65 +59,65 @@ msgstr "馬上回來"
 msgid "preferences"
 msgstr "偏好設定"
 
-#: templates/index.html:65
+#: templates/index.html:64
 msgid "Features"
 msgstr "功能"
 
-#: templates/index.html:72
+#: templates/index.html:71
 msgid "New product feed"
 msgstr "新品通知"
 
-#: templates/index.html:73
+#: templates/index.html:72
 msgid "Push messages when new products announced."
 msgstr "當新商品公布時推送訊息"
 
-#: templates/index.html:76
+#: templates/index.html:75
 msgid "Postponement feed"
 msgstr "延期通知"
 
-#: templates/index.html:77
+#: templates/index.html:76
 msgid "Push messages when products were postponed."
 msgstr "當商品延期時推送訊息"
 
-#: templates/index.html:80
+#: templates/index.html:79
 msgid "Release feed"
 msgstr "出貨通知"
 
-#: templates/index.html:81
+#: templates/index.html:80
 msgid "Push messages when the products release date was confirmed."
 msgstr "當商品出貨時推送訊息"
 
-#: templates/index.html:92
+#: templates/index.html:91
 msgid "FAQ"
 msgstr "常見疑問"
 
-#: templates/index.html:99
+#: templates/index.html:98
 msgid "What is a webhook?"
 msgstr "什麼是 Webhook?"
 
-#: templates/index.html:100
+#: templates/index.html:99
 msgid ""
 "Webhook is a safe way to let the application send messages to your "
 "channel."
 msgstr "Webhook 是一個安全的方式讓應用程式傳送訊息到頻道，"
 
-#: templates/index.html:101
+#: templates/index.html:100
 msgid "No need to worry about permissions and you can delete it at any time."
 msgstr "不需要擔心權限設定並且可以隨時刪除。"
 
-#: templates/index.html:104
+#: templates/index.html:103
 msgid "How do I change the subscription?"
 msgstr "如何變更訂閱?"
 
-#: templates/index.html:105
+#: templates/index.html:104
 msgid "Unsubscribe it and subscribe again with new preferences."
 msgstr "取消訂閱後用新的偏好設定再次訂閱。"
 
-#: templates/index.html:108
+#: templates/index.html:107
 msgid "How do I unsubscribe?"
 msgstr "如何取消訂閱?"
 
-#: templates/index.html:109
+#: templates/index.html:108
 msgid "Edit channel > Integration > Webhook > Delete Webhook"
 msgstr "編輯頻道 > 整合 > Webhook > 刪除 Webhook"
 

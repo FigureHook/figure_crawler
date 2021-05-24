@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-05-20 18:38+0000\n"
+"POT-Creation-Date: 2021-05-24 09:23+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,27 +17,27 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
 
-#: forms.py:24
+#: forms.py:23
 msgid "NSFW"
 msgstr ""
 
-#: forms.py:26
+#: forms.py:25
 msgid "Language"
 msgstr ""
 
-#: forms.py:30
+#: forms.py:29
 msgid "Subscribe !"
 msgstr ""
 
-#: controllers/auth.py:66
+#: controllers/auth.py:36
 msgid "FigureHook hooked on this channel."
 msgstr ""
 
-#: controllers/auth.py:68
+#: controllers/auth.py:40
 msgid "Hooking success!"
 msgstr ""
 
-#: controllers/auth.py:74
+#: controllers/auth.py:47
 msgid "Webhook authorization failed."
 msgstr ""
 
@@ -57,65 +57,65 @@ msgstr ""
 msgid "preferences"
 msgstr ""
 
-#: templates/index.html:65
+#: templates/index.html:64
 msgid "Features"
 msgstr ""
 
-#: templates/index.html:72
+#: templates/index.html:71
 msgid "New product feed"
 msgstr ""
 
-#: templates/index.html:73
+#: templates/index.html:72
 msgid "Push messages when new products announced."
 msgstr ""
 
-#: templates/index.html:76
+#: templates/index.html:75
 msgid "Postponement feed"
 msgstr ""
 
-#: templates/index.html:77
+#: templates/index.html:76
 msgid "Push messages when products were postponed."
 msgstr ""
 
-#: templates/index.html:80
+#: templates/index.html:79
 msgid "Release feed"
 msgstr ""
 
-#: templates/index.html:81
+#: templates/index.html:80
 msgid "Push messages when the products release date was confirmed."
 msgstr ""
 
-#: templates/index.html:92
+#: templates/index.html:91
 msgid "FAQ"
 msgstr ""
 
-#: templates/index.html:99
+#: templates/index.html:98
 msgid "What is a webhook?"
 msgstr ""
 
-#: templates/index.html:100
+#: templates/index.html:99
 msgid ""
 "Webhook is a safe way to let the application send messages to your "
 "channel."
 msgstr ""
 
-#: templates/index.html:101
+#: templates/index.html:100
 msgid "No need to worry about permissions and you can delete it at any time."
 msgstr ""
 
-#: templates/index.html:104
+#: templates/index.html:103
 msgid "How do I change the subscription?"
 msgstr ""
 
-#: templates/index.html:105
+#: templates/index.html:104
 msgid "Unsubscribe it and subscribe again with new preferences."
 msgstr ""
 
-#: templates/index.html:108
+#: templates/index.html:107
 msgid "How do I unsubscribe?"
 msgstr ""
 
-#: templates/index.html:109
+#: templates/index.html:108
 msgid "Edit channel > Integration > Webhook > Delete Webhook"
 msgstr ""
 
