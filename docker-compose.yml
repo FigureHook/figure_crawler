@@ -7,12 +7,15 @@ services:
     container_name: reverse_proxy
     restart: always
     environment:
-      - FLASK_URL=web_app:8000
+      - NGINX_MODE=production
+      - APP_PORT=8000
+      - APP_SERVICE=web_app
       - FLASK_SERVER_NAME=${FLASK_SERVER_NAME}
     ports:
       - 80:80
       - 443:443
     volumes:
+      - ./achme-challenge:/var/www/certbot
       - ./flags:/flags
     depends_on:
       - web_app
@@ -28,7 +31,9 @@ services:
     image: figure_hook_app
     environment:
       - FLASK_ENV=production
-      - FLASK_SERVER_NAME=localhost
+      - FLASK_SERVER_NAME=${FLASK_SERVER_NAME}
+      - APP_PORT=8000
+      - APP_WORKERS=2
     env_file:
       - .env
     volumes:
@@ -39,7 +44,6 @@ services:
     depends_on:
       - db
       - redis
-      - scheduler
       - rabbitmq
   scheduler:
     build:
@@ -103,3 +107,5 @@ secrets:
     file: ./nginx.crt
   site_key:
     file: ./nginx.key
+  dhparam:
+    file: ./dhparam.pem
