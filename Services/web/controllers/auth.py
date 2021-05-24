@@ -81,4 +81,4 @@ def save_webhook_info(channel_id, _id, token, **kwargs):
 
 
 def check_state(state):
-    return session['state'] == state
+    return session.get('state') == state
