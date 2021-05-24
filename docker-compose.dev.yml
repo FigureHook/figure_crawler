@@ -50,6 +50,9 @@ services:
     build:
       context: Services/reverse_proxy
       dockerfile: DockerFile.dev
+    environment:
+      - APP_PORT=8000
+      - APP_SERVICE=crawler
     ports:
       - 80:80
       - 443:443
