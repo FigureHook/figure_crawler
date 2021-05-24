@@ -18,6 +18,7 @@ services:
       - backend
     depends_on:
       - db
+      - rabbitmq
   db:
     image: postgres:13.1
     restart: always
@@ -40,7 +41,8 @@ services:
       - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
       - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
     networks:
-      - backend
+      backend:
+        aliases: rabbit
   redis:
     image: redis:alpine
     restart: always
