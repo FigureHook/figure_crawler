@@ -28,10 +28,10 @@ server {
     gzip_types text/plain application/javascript text/css text/xml application/xml application/xml+rss text/javascript application/vnd.ms-fontobject application/x-font-ttf font/opentype;
 
     ######## SSL #########
-    include /etc/letsencrypt/options-ssl-nginx.conf;
-    ssl_certificate       /run/secrets/site_cert;
-    ssl_certificate_key   /run/secrets/site_key;
-    ssl_dhparam /run/secrets/dhparams;
+    include /etc/nginx/conf.d/options-ssl-nginx.conf;
+    ssl_certificate         /run/secrets/site_cert;
+    ssl_certificate_key     /run/secrets/site_key;
+    ssl_dhparam             /run/secrets/dhparam;
 
     location /.well-known/acme-challenge/ {
         root /var/www/certbot;
