@@ -25,7 +25,7 @@ def test_webhook_auth(client, mocker: MockerFixture):
     mocker.patch('Services.web.controllers.auth.send_hook_noti')
 
     with client.session_transaction() as session:
-        session['webhook_setting'] = {}
+        session['webhook_setting'] = {'lang': 'zh-TW'}
         session['entry_uri'] = '/'
 
     r = client.get(
