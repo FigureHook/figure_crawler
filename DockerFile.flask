@@ -21,4 +21,8 @@ COPY --from=builder /workspace/Services/web ./web
 
 RUN pip install *.whl && pybabel compile -d web/translations/
 
-CMD [ "gunicorn", "-w", "2", "-b", "0.0.0.0:8000", "web.wsgi:app" ]
+CMD gunicorn \
+    --worker-class gevent \
+    --workers $APP_WORKERS \
+    --bind :$APP_PORT \
+    web.wsgi:app
