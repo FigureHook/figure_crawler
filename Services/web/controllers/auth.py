@@ -1,13 +1,13 @@
 import os
 
 import requests as rq
+from babel import Locale
 from basic_task.tasks import send_new_hook_notification
 from figure_hook.Models import Webhook
-from flask import Blueprint, flash, request
+from flask import Blueprint, flash, redirect, request
 from flask.globals import session
 from flask.helpers import url_for
-from flask_babel import gettext
-from werkzeug.utils import redirect
+from flask_babel import force_locale, gettext
 
 blueprint = Blueprint("auth", __name__)
 
@@ -32,7 +32,10 @@ def webhook():
         webhook_setting = session['webhook_setting']
         save_webhook_info(webhook_channel_id, webhook_id, webhook_token, **webhook_setting)
 
-        send_hook_noti(webhook_id, webhook_token)
+        with force_locale(Locale.parse(webhook_setting['lang'], sep='-')):
+            msg = gettext("FigureHook hooked on this channel.")
+
+        send_hook_noti(webhook_id, webhook_token, msg)
         flash(gettext("Hooking success!"), 'success')
 
     elif r.status_code >= 400:
@@ -45,11 +48,11 @@ def webhook():
     return redirect(session['entry_uri'])
 
 
-def send_hook_noti(webhook_id, webhook_token):
+def send_hook_noti(webhook_id, webhook_token, msg):
     send_new_hook_notification.apply_async(kwargs={
         'webhook_id': webhook_id,
         'webhook_token': webhook_token,
-        'msg': gettext("FigureHook hooked on this channel.")
+        'msg': msg
     })
 
 
