@@ -23,7 +23,7 @@ __all__ = [
 
 class ProductFactory(ABC):
     """
-    ### abstract product factory
+    # abstract product factory
     Inherit this class and implement the parser class property
     """
     __product_parser__: ClassVar[Type[ProductParser]]
@@ -37,7 +37,8 @@ class ProductFactory(ABC):
     ):
         if not getattr(cls, "__product_parser__", None):
             raise NotImplementedError(
-                f"Please inherit from {ProductFactory.__name__} and set the class attribute `__product_parser__`.")
+                f"Please inherit from {ProductFactory.__name__} and set the class attribute `__product_parser__`."
+            )
 
         parser = cls.__product_parser__(url, page)
         product = Product(
@@ -72,7 +73,28 @@ class ProductFactory(ABC):
         return product
 
 
+class GSCFactory(ProductFactory):
+    """Good smile company product factory"""
+    __product_parser__ = GSCProductParser
+
+
+class AlterFactory(ProductFactory):
+    """Alter product factory"""
+    __product_parser__ = AlterProductParser
+
+
+SupportingFactory = namedtuple(
+    'SupportingFactory',
+    ["hostname", "factory"]
+)
+
+
 class GeneralFactory:
+    supporting_factories = (
+        SupportingFactory(BrandHost.GSC, GSCFactory),
+        SupportingFactory(BrandHost.ALTER, AlterFactory)
+    )
+
     @classmethod
     def createProduct(
             cls,
@@ -88,18 +110,16 @@ class GeneralFactory:
             )
         return factory.createProduct(url, page, is_normalized)
 
-    @staticmethod
-    def detect_factory(url: str) -> Union[Type[ProductFactory], None]:
+    @classmethod
+    def detect_factory(cls, url: str) -> Union[Type[ProductFactory], None]:
         netloc = urlparse(url).netloc
-        SupportingFactory = namedtuple('SupportingFactory', ["hostname", "factory"])
-        supporting_factories = [
-            SupportingFactory(BrandHost.GSC, GSCFactory),
-            SupportingFactory(BrandHost.ALTER, AlterFactory)
-        ]
+
         if not netloc:
-            raise ValueError(f"Failed to parse hostname from provided url({url})")
+            raise ValueError(
+                f"Failed to parse hostname from provided url({url})"
+            )
         if netloc:
-            for supporting_factory in supporting_factories:
+            for supporting_factory in cls.supporting_factories:
                 if is_from_this_host(netloc, supporting_factory.hostname):
                     return supporting_factory.factory
         return None
@@ -108,13 +128,3 @@ class GeneralFactory:
 def is_from_this_host(netloc: str, host: str):
     result = re.search(host, netloc)
     return bool(result)
-
-
-class GSCFactory(ProductFactory):
-    """Good smile company product factory"""
-    __product_parser__ = GSCProductParser
-
-
-class AlterFactory(ProductFactory):
-    """Alter product factory"""
-    __product_parser__ = AlterProductParser
