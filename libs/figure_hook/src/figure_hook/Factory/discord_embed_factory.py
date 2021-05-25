@@ -96,7 +96,7 @@ class DiscordEmbedFactory:
 
     @staticmethod
     def create_new_hook_notification(msg: str):
-        title = f":hook: {msg}"
+        title = f":hook: {msg} :hook:"
         embed = Embed(title=title, colour=Colour(0x00B5FF))
 
         return embed
