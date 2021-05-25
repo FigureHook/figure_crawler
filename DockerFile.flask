@@ -15,8 +15,8 @@ FROM eltonhyc/figure_hook
 ENV FLASK_ENV=production
 WORKDIR /app
 
-COPY --from=builder /workspace/libs/figure_*/dist/*.whl .
-COPY --from=builder /workspace/Services/celery/dist/*.whl .
+COPY --from=builder /workspace/libs/figure_*/dist/*.whl ./
+COPY --from=builder /workspace/Services/celery/dist/*.whl ./
 COPY --from=builder /workspace/Services/web ./web
 
 RUN pip install *.whl && pybabel compile -d web/translations/
