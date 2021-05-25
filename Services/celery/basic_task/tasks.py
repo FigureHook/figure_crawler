@@ -24,8 +24,11 @@ from .celery import app
 def news_push():
     this_task: Task
     with pgsql_session() as session:
-        this_task = session.query(Task).where(Task.name == PeriodicTask.NEWS_PUSH).scalar()
-        new_releases = ReleaseHelper.fetch_new_releases(session, this_task.executed_at)  # type: ignore
+        this_task = session.query(Task).where(
+            Task.name == PeriodicTask.NEWS_PUSH).scalar()
+        new_releases = ReleaseHelper.fetch_new_releases(
+            session, this_task.executed_at  # type: ignore
+        )
         raw_embeds: list[NewReleaseEmbed] = []
         for r in new_releases:
             is_lazy_og_image = r.thumbnail == r.og_image
@@ -44,13 +47,23 @@ def news_push():
             raw_embeds.append(embed)
         this_task.update()
 
-        webhooks: list[WebhookModel] = WebhookModel.all()
+        webhooks: list[WebhookModel] = WebhookModel.all()  # type: ignore
         webhook_adapter = RequestsWebhookAdapter()
-        dispatcher = DiscordNewReleaseEmbedsDispatcher(webhooks, raw_embeds, webhook_adapter)
+        dispatcher = DiscordNewReleaseEmbedsDispatcher(
+            webhooks, raw_embeds, webhook_adapter
+        )
         dispatcher.dispatch()
 
         for webhook_id, is_existed in dispatcher.webhook_status.items():
-            update(WebhookModel).where(WebhookModel.id == webhook_id).values(is_existed=is_existed)
+            stmt = update(WebhookModel).where(
+                WebhookModel.id == webhook_id
+            ).values(
+                is_existed=is_existed
+            ).execution_options(
+                synchronize_session="fetch"
+            )
+
+            session.execute(stmt)
 
     return dispatcher.stats
 
@@ -59,7 +72,9 @@ def news_push():
 def check_new_release():
     scheduled_jobs = []
     with pgsql_session():
-        CheckingPair = namedtuple("CheckingPair", ["checksum_cls", "spider_name"])
+        CheckingPair = namedtuple(
+            "CheckingPair", ["checksum_cls", "spider_name"]
+        )
         sites_to_check = [
             CheckingPair(AlterChecksum, "alter_recent"),
             CheckingPair(GSCChecksum, "gsc_recent")
