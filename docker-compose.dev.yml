@@ -42,7 +42,8 @@ services:
       - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
     networks:
       backend:
-        aliases: rabbit
+        aliases:
+          - rabbit
   redis:
     image: redis:alpine
     restart: always
