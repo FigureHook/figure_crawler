@@ -3,8 +3,6 @@ services:
   reverse_proxy:
     build:
       context: Services/reverse_proxy
-      dockerfile: DockerFile
-    container_name: reverse_proxy
     restart: always
     environment:
       - APP_PORT=${APP_PORT}
@@ -27,7 +25,7 @@ services:
   web_app:
     build:
       context: .
-      dockerfile: DockerFile.flask
+      dockerfile: Dockerfile.flask
     image: figure_hook_app
     environment:
       - FLASK_SERVER_NAME=${FLASK_SERVER_NAME}
@@ -46,7 +44,7 @@ services:
   scheduler:
     build:
       context: .
-      dockerfile: DockerFile.celery
+      dockerfile: Dockerfile.celery
     image: figure_hook_scheduler
     env_file:
       - .env
@@ -57,8 +55,9 @@ services:
   crawler:
     build:
       context: .
-      dockerfile: DockerFile.scrapyd
+      dockerfile: Dockerfile.scrapyd
     image: figure_hook_crawler
+    restart: always
     env_file:
       - .env
     networks:

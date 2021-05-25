@@ -3,7 +3,6 @@ services:
   crawler:
     build:
       context: .
-      dockerfile: DockerFile
     image: figure_crawler
     env_file:
       - .env
@@ -52,7 +51,7 @@ services:
   reverse_proxy:
     build:
       context: Services/reverse_proxy
-      dockerfile: DockerFile.dev
+      dockerfile: Dockerfile.dev
     environment:
       - APP_PORT=8000
       - APP_SERVICE=crawler
