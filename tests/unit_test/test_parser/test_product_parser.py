@@ -1,4 +1,4 @@
-from datetime import date, datetime
+from datetime import datetime
 
 import pytest
 import yaml
@@ -8,7 +8,7 @@ from figure_parser.alter import (AlterAnnouncementLinkExtractor,
 from figure_parser.constants import AlterCategory, GSCCategory, GSCLang
 from figure_parser.extension_class import HistoricalReleases, Release
 from figure_parser.gsc import (GSCAnnouncementLinkExtractor, GSCProductParser,
-                               GSCReleaseInfo, GSCYearlyAnnouncement)
+                               GSCYearlyAnnouncement)
 from figure_parser.utils import get_page
 
 
@@ -134,16 +134,6 @@ class TestGSCParser(BaseTestCase):
             "test": GSCProductParser(request.param["url"]),
             "expected": request.param
         }
-
-    def test_release_info(self):
-        gsc_release_info = GSCReleaseInfo()
-        for key, value in gsc_release_info.items():
-            assert type(key) is date
-            assert type(value) is list
-            for product in value:
-                assert type(product) is dict
-                assert "url" in product.keys()
-                assert "jan" in product.keys()
 
     def test_announcement(self):
         gsc_yearly = GSCYearlyAnnouncement(
