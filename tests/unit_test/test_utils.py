@@ -1,8 +1,6 @@
 import pytest
 from figure_parser.constants import BrandHost
-from figure_parser.utils import check_url_host, price_parse
-
-mock_self = "mock"
+from figure_parser.utils import check_domain, price_parse
 
 brand_host_test_data = [
     (BrandHost.GSC, "https://www.goodsmile.info/ja/product/8978"),
@@ -10,14 +8,23 @@ brand_host_test_data = [
 ]
 
 
-@pytest.mark.parametrize("host, url", brand_host_test_data)
-def test_host(host, url):
+@pytest.mark.parametrize("domain, url", brand_host_test_data)
+def test_domain_checker(domain, url):
+    class MockBaseParser:
+        @check_domain
+        def __init__(self, item_url, parser=None):
+            pass
 
-    @check_url_host(host)
-    def init(self, item_url, parser=None):
-        pass
+    class MockParser(MockBaseParser):
+        __allow_domain__ = domain
 
-    init(mock_self, url)
+    class MockFailParser(MockBaseParser):
+        __allow_domain__ = 'no.xyz'
+
+    MockParser(url)
+
+    with pytest.raises(ValueError):
+        MockFailParser(url)
 
 
 def test_price_parser():

@@ -7,13 +7,15 @@ from bs4 import BeautifulSoup
 from pytz import timezone
 
 from .extension_class import HistoricalReleases, OrderPeriod, Release
-from .utils import get_page, make_last_element_filler
+from .utils import check_domain, get_page, make_last_element_filler
 
 
 class ProductParser(ABC):
+    __allow_domain__: ClassVar[str]
     headers: ClassVar[Dict[str, str]] = {}
     cookies: ClassVar[Dict[str, str]] = {}
 
+    @check_domain
     def __init__(self, url: str, page: Optional[BeautifulSoup] = None):
         self.__url = url
         self.__page = page or get_page(url, self.headers, self.cookies)

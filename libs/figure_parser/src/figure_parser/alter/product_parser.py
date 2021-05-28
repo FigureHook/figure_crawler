@@ -8,11 +8,12 @@ from bs4.element import Tag
 
 from ..abcs import ProductParser
 from ..constants import BrandHost
-from ..utils import check_url_host, price_parse, scale_parse, size_parse
+from ..utils import price_parse, scale_parse, size_parse
 
 
 class AlterProductParser(ProductParser):
-    @check_url_host(BrandHost.ALTER)
+    __allow_domain__ = BrandHost.ALTER
+
     def __init__(self, url: str, page: Optional[BeautifulSoup] = None):
         super().__init__(url, page)
         self.detail = self._parse_detail()
@@ -33,7 +34,8 @@ class AlterProductParser(ProductParser):
                 heads.append(key)
                 value = td.text
                 if key in ["原型", "彩色"]:
-                    value = [content for content in td.contents if content.name != "br"]
+                    value = [
+                        content for content in td.contents if content.name != "br"]
                 values.append(value)
 
         spec: Dict[str, str] = dict(zip(heads, values))
@@ -75,7 +77,8 @@ class AlterProductParser(ProductParser):
     def parse_release_dates(self) -> List[date]:
         date_text = self.spec["発売月"]
         matched_date = re.findall(r"\d+年\d+月", date_text)
-        date_list = [datetime.strptime(date, "%Y年%m月").date() for date in matched_date]
+        date_list = [datetime.strptime(date, "%Y年%m月").date()
+                     for date in matched_date]
         return date_list
 
     def parse_scale(self) -> Union[int, None]:

@@ -12,7 +12,7 @@ from bs4.element import NavigableString, ResultSet, Tag
 from ..abcs import ProductParser
 from ..constants import BrandHost
 from ..extension_class import OrderPeriod
-from ..utils import check_url_host, price_parse, scale_parse, size_parse
+from ..utils import price_parse, scale_parse, size_parse
 
 Bs4Element = Union[Tag, NavigableString, None]
 
@@ -23,6 +23,8 @@ with open(locale_file_path, "r") as stream:
 
 
 class GSCProductParser(ProductParser):
+    __allow_domain__ = BrandHost.GSC
+
     locale: str
     resale: bool
     detail: Union[Tag, Any]
@@ -30,7 +32,6 @@ class GSCProductParser(ProductParser):
         "age_verification_ok": "true"
     }
 
-    @check_url_host(BrandHost.GSC)
     def __init__(self, url: str, page: Optional[BeautifulSoup] = None):
 
         super().__init__(url, page)

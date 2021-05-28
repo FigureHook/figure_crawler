@@ -1,5 +1,6 @@
 import re
 from dataclasses import asdict
+from functools import wraps
 from typing import List, TypeVar, Union
 from urllib.parse import urlparse
 
@@ -40,17 +41,19 @@ class RelativeUrl:
         return f"https://{BrandHost.ALTER}{path}"
 
 
-def check_url_host(brand_host):
-    def decorator(init):
-        def checker(parser, url, *args, **kwargs):
-            netloc = urlparse(url).netloc
+def check_domain(init_func):
+    @wraps(init_func)
+    def checker(parser, url, *args, **kwargs):
+        netloc = urlparse(url).netloc
 
-            if netloc and not re.search(brand_host.value, netloc):
-                raise ValueError("Invalid host.")
+        valid_domain = re.search(parser.__allow_domain__, netloc)
+        if netloc and not valid_domain:
+            raise ValueError("Invalid domain.")
 
-            init(parser, url, *args, **kwargs)
-        return checker
-    return decorator
+        elif netloc and valid_domain:
+            init_func(parser, url, *args, **kwargs)
+
+    return checker
 
 
 def price_parse(text: str, remove_tax: bool = False) -> Union[int, None]:
