@@ -1,4 +1,5 @@
 from datetime import date, datetime
+from typing import Optional
 
 from babel.dates import format_date
 from discord import Colour, Embed
@@ -11,7 +12,9 @@ embed_templates = {
         "release_date": "Release Date",
         "sculptors": "Sculptors",
         "paintworks": "Paintworks",
-        "date_format": "MMM, yyyy"
+        "date_format": "MMM, yyyy",
+        "size": "Size",
+        "scale": "Scale"
     },
     "ja": {
         "maker": "メーカー",
@@ -21,6 +24,8 @@ embed_templates = {
         "sculptors": "原型制作",
         "paintworks": "彩色",
         "date_format": "yyyy年 MMM",
+        "size": "サイズ",
+        "scale": "スケール"
     },
     "zh-TW": {
         "maker": "製造商",
@@ -30,6 +35,8 @@ embed_templates = {
         "sculptors": "原型製作",
         "paintworks": "色彩",
         "date_format": "yyyy年 MMM",
+        "size": "尺寸",
+        "scale": "比例"
     },
 }
 
@@ -62,25 +69,40 @@ class NewReleaseEmbed(Embed):
                 locale = locale_mapping.get(lang, "en")
                 date_format = embed_templates[lang]["date_format"]
                 release_date = datetime.strptime(f["value"], "%Y-%m-%d").date()
-                f["value"] = str(format_date(release_date, date_format, locale=locale))
+                f["value"] = str(format_date(
+                    release_date, date_format, locale=locale)
+                )
 
         return embed
+
+    def add_field(self, *, name, value, inline):
+        if not value:
+            return self
+        return super().add_field(name=name, value=value, inline=inline)
 
 
 class DiscordEmbedFactory:
     @staticmethod
     def create_new_release(
+        *,
         name: str,
         url: str,
         series: str,
         maker: str,
-        price: int,
         image: str,
-        release_date: date,
         thumbnail: str,
         is_adult: bool,
+        price: Optional[int],
+        release_date: Optional[date],
+        scale: Optional[int],
+        size: Optional[int],
     ):
-        embed = NewReleaseEmbed(title=name, type="rich", url=url, is_nsfw=is_adult)
+        embed = NewReleaseEmbed(
+            title=name,
+            type="rich",
+            url=url,
+            is_nsfw=is_adult
+        )
         embed.set_image(url=image)
         embed.set_thumbnail(url=thumbnail)
         embed.add_field(
@@ -88,13 +110,18 @@ class DiscordEmbedFactory:
         ).add_field(
             name="series", value=series, inline=False
         ).add_field(
+            name="size", value=f"{size} mm", inline=True
+        ).add_field(
+            name="scale", value=f"1/{scale}", inline=True
+        ).add_field(
             name="price", value=f"JPY {price:,}", inline=True
         ).add_field(
             name="release_date", value=release_date, inline=True
         )
+
         return embed
 
-    @staticmethod
+    @ staticmethod
     def create_new_hook_notification(msg: str):
         title = f":hook: {msg} :hook:"
         embed = Embed(title=title, colour=Colour(0x00B5FF))
