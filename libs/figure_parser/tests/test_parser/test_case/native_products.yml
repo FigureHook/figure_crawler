@@ -50,3 +50,30 @@
   size: 25
   thumbnail: null
   url: https://www.native-web.jp/characters/3407/
+- JAN:
+  adult: True
+  category: フィギュア
+  copyright: ©島田フミカネ
+  distributer: ネイティブ
+  images: https://www.native-web.jp/wp-content/uploads/2020/04/img_200408-norah_07.jpg
+  maker_id: "4748"
+  manufacturer: native
+  name: ノーラ
+  og_image: https://www.native-web.jp/wp-content/uploads/2020/04/img_200408-norah_01.jpg
+  order_period:
+    end: 2020-06-15 19:00:00
+    start: 2020-04-08 12:00:00
+  paintwork:
+    - 星名詠美
+  release_infos:
+    - price: 20000
+      release_date: 2021-07-01 00:00:00
+  releaser: ネイティブ
+  resale: False
+  scale: 7
+  sculptor:
+    - アビラ
+  series: 島田フミカネ オリジナルキャラクター
+  size: 23
+  thumbnail: null
+  url: https://www.native-web.jp/creators/4748/
