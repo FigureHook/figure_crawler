@@ -1,0 +1,52 @@
+- JAN: null
+  adult: True
+  category: フィギュア
+  copyright: ©鬼月あるちゅ
+  distributer: ネイティブ
+  images: https://www.native-web.jp/wp-content/uploads/2013/03/img_gamergirl_02.jpg
+  maker_id: "806"
+  manufacturer: native
+  name: Gamer Girl
+  og_image: https://www.native-web.jp/wp-content/uploads/2013/03/img_gamergirl_01.jpg
+  order_period:
+    end: 2013-05-07 19:00:00
+    start: 2013-03-25 15:00:00
+  paintwork: []
+  release_infos:
+    - price: 10476
+      release_date: 2013-11-01
+  releaser: ネイティブ
+  resale: False
+  scale: 7
+  sculptor:
+    - ブラウン萬斎
+  series: 鬼月あるちゅオリジナルキャラクター
+  size: 27
+  thumbnail: null
+  url: https://www.native-web.jp/creators/806/
+- JAN: null
+  adult: True
+  category: フィギュア
+  copyright: ©Liquid 2002
+  distributer: ネイティブ
+  images: https://www.native-web.jp/wp-content/uploads/2018/08/img_origa_03.jpg
+  maker_id: "3407"
+  manufacturer: BINDing
+  name: オリガ・ディスコルディア
+  og_image: https://www.native-web.jp/wp-content/uploads/2018/08/img_origa_01.jpg
+  order_period:
+    end: 2018-10-10 19:00:00
+    start: 2018-08-08 15:00:00
+  paintwork: []
+  release_infos:
+    - price: 25740
+      release_date: 2019-06-01 00:00:00
+  releaser: BINDing
+  resale: False
+  scale: 4
+  sculptor:
+    - BINDing
+  series: 黒獣 ～気高き聖女は白濁に染まる～
+  size: 25
+  thumbnail: null
+  url: https://www.native-web.jp/characters/3407/
