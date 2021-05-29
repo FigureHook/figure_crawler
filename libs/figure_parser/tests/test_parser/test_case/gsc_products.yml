@@ -4,7 +4,7 @@
   copyright: ©2009-2014 Nitroplus
   distributer: グッドスマイルカンパニー
   images: https://images.goodsmile.info/cgm/images/product/20140407/4364/28492/large/b5070189c0ebd591226eafb796fd7a77.jpg
-  maker_id: '4364'
+  maker_id: "4364"
   manufacturer: ウイング
   name: 三世村正
   og_image: http://images.goodsmile.info/cgm/images/product/20140407/4364/28497/medium/e5a7fbd92965838205f1b600d6e3fb95.jpg
@@ -13,15 +13,15 @@
     start: 2016-04-25 12:00:00
   paintwork: []
   release_infos:
-  - price: 11800
-    release_date: 2014-10-01 00:00:00
-  - price: 11800
-    release_date: 2016-09-01 00:00:00
+    - price: 11800
+      release_date: 2014-10-01 00:00:00
+    - price: 11800
+      release_date: 2016-09-01 00:00:00
   releaser: ウイング
   resale: true
   scale: 7
   sculptor:
-  - 絵里子（新居興業）
+    - 絵里子（新居興業）
   series: 装甲悪鬼村正
   size: 250
   thumbnail: http://images.goodsmile.info/cgm/images/product/20140407/4364/28497/medium/e5a7fbd92965838205f1b600d6e3fb95.jpg
@@ -32,7 +32,7 @@
   copyright: ©neco/A-Z:PROJECT
   distributer: グッドスマイルカンパニー
   images: https://images.goodsmile.info/cgm/images/product/20191113/8978/65167/large/2a08f3b686ff5cb6b26ba399aedbdf2b.jpg
-  maker_id: '8978'
+  maker_id: "8978"
   manufacturer: Myethos
   name: A-Z:[B]
   og_image: http://images.goodsmile.info/cgm/images/product/20191113/8978/65177/medium/fb0bf5ab90cbc0082e1127e3ca91dd9e.jpg
@@ -41,14 +41,14 @@
     start: 2019-11-14 12:00:00
   paintwork: []
   release_infos:
-  - price: 12545
-    release_date: 2020-06-01 00:00:00
+    - price: 12545
+      release_date: 2020-06-01 00:00:00
   releaser: Myethos
   resale: false
   scale: 7
   sculptor:
-  - SunYaMing
-  series: 'A-Z:'
+    - SunYaMing
+  series: "A-Z:"
   size: 250
   thumbnail: http://images.goodsmile.info/cgm/images/product/20191113/8978/65177/medium/fb0bf5ab90cbc0082e1127e3ca91dd9e.jpg
   url: https://www.goodsmile.info/ja/product/8978
@@ -58,7 +58,7 @@
   copyright: ©TYPE-MOON / FGO PROJECT
   distributer: グッドスマイルカンパニー
   images: https://images.goodsmile.info/cgm/images/product/20200624/9683/71238/large/4770e9ca6230563d478bca4b0e34f0f2.jpg
-  maker_id: '9683'
+  maker_id: "9683"
   manufacturer: Phat!
   name: フォーリナー/葛飾北斎
   og_image: http://images.goodsmile.info/cgm/images/product/20200624/9683/71244/medium/5b5da6ddc11880433d64c674e8d86f44.jpg
@@ -66,15 +66,15 @@
     end: 2020-08-26 21:00:00
     start: 2020-06-26 12:00:00
   paintwork:
-  - 佐倉
+    - 佐倉
   release_infos:
-  - price: 32000
-    release_date: 2021-09-01 00:00:00
+    - price: 32000
+      release_date: 2021-09-01 00:00:00
   releaser: ファット・カンパニー
   resale: false
   scale: 7
   sculptor:
-  - 間崎祐介
+    - 間崎祐介
   series: Fate/Grand Order
   size: 280
   thumbnail: http://images.goodsmile.info/cgm/images/product/20200624/9683/71244/medium/5b5da6ddc11880433d64c674e8d86f44.jpg
@@ -85,7 +85,7 @@
   copyright: ©TYPE-MOON・ufotable・FSNPC
   distributer: グッドスマイルカンパニー
   images: https://images.goodsmile.info/cgm/images/product/20200318/9361/68599/large/a8b96d40fe85c254fa1cdb15b32e26df.jpg
-  maker_id: '9361'
+  maker_id: "9361"
   manufacturer: ＫＡＤＯＫＡＷＡ
   name: セイバーオルタ 着物Ver.
   og_image: http://images.goodsmile.info/cgm/images/product/20200318/9361/68610/medium/d2e96f23dd8c649c8e8c741ebb7d7f74.jpg
@@ -93,15 +93,15 @@
     end: 2020-06-10 21:00:00
     start: 2020-03-26 12:00:00
   paintwork:
-  - かわも（リボルブ）
+    - かわも（リボルブ）
   release_infos:
-  - price: 21818
-    release_date: 2020-12-01 00:00:00
+    - price: 21818
+      release_date: 2020-12-01 00:00:00
   releaser: KADOKAWA
   resale: false
   scale: 7
   sculptor:
-  - のぶた（リボルブ）
+    - のぶた（リボルブ）
   series: 劇場版Fate/stay night [Heaven's Feel]
   size: 275
   thumbnail: http://images.goodsmile.info/cgm/images/product/20200318/9361/68610/medium/d2e96f23dd8c649c8e8c741ebb7d7f74.jpg
@@ -112,7 +112,7 @@
   copyright: ©2009-2020 Nitroplus
   distributer: グッドスマイルカンパニー
   images: https://images.goodsmile.info/cgm/images/product/20200814/9925/73148/large/711e1ed11101a8a6d2854a075423f568.jpg
-  maker_id: '9925'
+  maker_id: "9925"
   manufacturer: ウイング
   name: 二世村正
   og_image: http://images.goodsmile.info/cgm/images/product/20200814/9925/73152/medium/6705acc0d42ed64db8520508369883ae.jpg
@@ -121,13 +121,13 @@
     start: 2020-08-18 12:00:00
   paintwork: []
   release_infos:
-  - price: 16000
-    release_date: 2021-02-01 00:00:00
+    - price: 16000
+      release_date: 2021-02-01 00:00:00
   releaser: ウイング
   resale: false
   scale: 7
   sculptor:
-  - 絵里子（新居興業）
+    - 絵里子（新居興業）
   series: 装甲悪鬼村正
   size: 240
   thumbnail: http://images.goodsmile.info/cgm/images/product/20200814/9925/73152/medium/6705acc0d42ed64db8520508369883ae.jpg
@@ -135,11 +135,12 @@
 - JAN: null
   adult: false
   category: POP UP PARADE
-  copyright: ©Rooster Teeth Productions, LLC. All Rights Reserved. Licensed by Rooster
+  copyright:
+    ©Rooster Teeth Productions, LLC. All Rights Reserved. Licensed by Rooster
     Teeth Productions, LLC
   distributer: グッドスマイルカンパニー
   images: https://images.goodsmile.info/cgm/images/product/20200731/9888/72837/large/b5db91fe7f646183583a07879ac280a4.jpg
-  maker_id: '9888'
+  maker_id: "9888"
   manufacturer: グッドスマイルカンパニー
   name: POP UP PARADE ルビー・ローズ
   og_image: http://images.goodsmile.info/cgm/images/product/20200731/9888/72842/medium/7f0a7f51f2fe16edfb59c24010e9080b.jpg
@@ -148,13 +149,13 @@
     start: 2020-08-04 12:00:00
   paintwork: []
   release_infos:
-  - price: 3545
-    release_date: 2021-01-01 00:00:00
+    - price: 3545
+      release_date: 2021-01-01 00:00:00
   releaser: グッドスマイルカンパニー
   resale: false
   scale: null
   sculptor:
-  - jarel
+    - jarel
   series: RWBY(ルビー)
   size: 170
   thumbnail: http://images.goodsmile.info/cgm/images/product/20200731/9888/72842/medium/7f0a7f51f2fe16edfb59c24010e9080b.jpg
@@ -162,12 +163,13 @@
 - JAN: null
   adult: false
   category: フィギュア
-  copyright: "©2020  TOMY. © 2018 Paramount Pictures Corporation.  All Rights Reserved.\r\
+  copyright:
+    "©2020  TOMY. © 2018 Paramount Pictures Corporation.  All Rights Reserved.\r\
     \nTM & ® denote Japan Trademarks. Manufactured under license from TOMY Company,\
     \ Ltd.\r\nFor sale in Japan only.\r\n「トランスフォーマー」「ＴＲＡＮＳＦＯＲＭＥＲＳ」は株式会社タカラトミーの登録商標です。"
   distributer: グッドスマイルカンパニー
   images: https://images.goodsmile.info/cgm/images/product/20200626/9709/71468/large/10488b14834fbb06a017d67719274723.jpg
-  maker_id: '9709'
+  maker_id: "9709"
   manufacturer: threezero
   name: PREMIUM Optimus Prime（PREMIUM オプティマスプライム）
   og_image: http://images.goodsmile.info/cgm/images/product/20200626/9709/71431/medium/af24fad8ffbf4af1eff25c93a78994d8.jpg
@@ -176,13 +178,13 @@
     start: 2020-06-30 12:00:00
   paintwork: []
   release_infos:
-  - price: 60000
-    release_date: 2021-06-01 00:00:00
+    - price: 60000
+      release_date: 2021-06-01 00:00:00
   releaser: threezero
   resale: false
   scale: null
   sculptor:
-  - threezero
+    - threezero
   series: BUMBLEBEE（バンブルビー）
   size: 480
   thumbnail: http://images.goodsmile.info/cgm/images/product/20200626/9709/71431/medium/af24fad8ffbf4af1eff25c93a78994d8.jpg
@@ -193,7 +195,7 @@
   copyright: ©荒川弘／鋼の錬金術師製作委員会・MBS
   distributer: グッドスマイルカンパニー
   images: https://images.goodsmile.info/cgm/images/product/20200907/10021/74006/large/e1b9bd1473d3b1a6718e271d9bfad747.jpg
-  maker_id: '10021'
+  maker_id: "10021"
   manufacturer: グッドスマイルカンパニー
   name: POP UP PARADE エドワード・エルリック
   og_image: http://images.goodsmile.info/cgm/images/product/20200907/10021/74016/medium/243822a5bd46eb175dfbc98e7feafbbe.jpg
@@ -202,8 +204,8 @@
     start: 2020-09-10 12:00:00
   paintwork: []
   release_infos:
-  - price: 3545
-    release_date: 2021-01-01 00:00:00
+    - price: 3545
+      release_date: 2021-01-01 00:00:00
   releaser: グッドスマイルカンパニー
   resale: false
   scale: null
@@ -218,7 +220,7 @@
   copyright: © 私屋カヲル／こどものじかん製作委員会
   distributer: グッドスマイルカンパニー
   images: https://images.goodsmile.info/cgm/images/product/20091023/2171/5942/large/e53693699d03e0847b42946c88d62f20.jpg
-  maker_id: '2171'
+  maker_id: "2171"
   manufacturer: FREEing
   name: 九重りん　体操服ver.
   og_image: http://images.goodsmile.info/cgm/images/product/20091023/2171/5887/medium/3e7eb57656651f5a15d943038ef50fcd.jpg
@@ -227,13 +229,13 @@
     start: null
   paintwork: []
   release_infos:
-  - price: 11238
-    release_date: 2009-01-01 00:00:00
+    - price: 11238
+      release_date: 2009-01-01 00:00:00
   releaser: FREEing
   resale: false
   scale: 4
   sculptor:
-  - FREEing
+    - FREEing
   series: こどものじかん
   size: 190
   thumbnail: http://images.goodsmile.info/cgm/images/product/20091023/2171/5887/medium/3e7eb57656651f5a15d943038ef50fcd.jpg
@@ -244,7 +246,7 @@
   copyright: © 奈須きのこ/講談社・アニプレックス・ノーツ・ufotable
   distributer: グッドスマイルカンパニー
   images: https://images.goodsmile.info/cgm/images/product/20091023/2138/5767/large/54d780148032d652cac51bbc02e9b443.jpg
-  maker_id: '2138'
+  maker_id: "2138"
   manufacturer: グッドスマイルカンパニー
   name: 両儀 式
   og_image: http://images.goodsmile.info/cgm/images/product/20091023/2138/5755/medium/0eb7efe720ccea9fd567a4d4905b0ba5.jpg
@@ -253,14 +255,14 @@
     start: null
   paintwork: []
   release_infos:
-  - price: 5238
-    release_date: 2009-02-01 00:00:00
+    - price: 5238
+      release_date: 2009-02-01 00:00:00
   releaser: グッドスマイルカンパニー
   resale: false
   scale: 6
   sculptor:
-  - 川畑和男
-  - 工藤祐司（マックスファクトリー）
+    - 川畑和男
+    - 工藤祐司（マックスファクトリー）
   series: 空の境界
   size: null
   thumbnail: http://images.goodsmile.info/cgm/images/product/20091023/2138/5755/medium/0eb7efe720ccea9fd567a4d4905b0ba5.jpg
@@ -271,7 +273,7 @@
   copyright: ©Spike Chunsoft Co., Ltd./希望ヶ峰学園映像部 All Rights Reserved.
   distributer: グッドスマイルカンパニー
   images: https://images.goodsmile.info/cgm/images/product/20140120/4198/27708/large/e25883005d4b4d330d97b1d620a8aa66.jpg
-  maker_id: '4198'
+  maker_id: "4198"
   manufacturer: Phat!
   name: 霧切響子
   og_image: http://images.goodsmile.info/cgm/images/product/20140120/4198/27710/medium/a69e81f414d7e534fe8eb8c910ff2fc4.jpg
@@ -279,19 +281,19 @@
     end: 2020-07-22 21:00:00
     start: 2020-05-21 12:00:00
   paintwork:
-  - 髙山英樹
+    - 髙山英樹
   release_infos:
-  - price: 10000
-    release_date: 2014-10-01 00:00:00
-  - price: 11000
-    release_date: 2017-04-01 00:00:00
-  - price: 13000
-    release_date: 2021-05-01 00:00:00
+    - price: 10000
+      release_date: 2014-10-01 00:00:00
+    - price: 11000
+      release_date: 2017-04-01 00:00:00
+    - price: 13000
+      release_date: 2021-05-01 00:00:00
   releaser: Phat!
   resale: true
   scale: 8
   sculptor:
-  - iTANDi
+    - iTANDi
   series: ダンガンロンパ 希望の学園と絶望の高校生 The Animation
   size: 150
   thumbnail: http://images.goodsmile.info/cgm/images/product/20140120/4198/27710/medium/a69e81f414d7e534fe8eb8c910ff2fc4.jpg
@@ -302,7 +304,7 @@
   copyright: ©Spike Chunsoft Co., Ltd./希望ヶ峰学園映像部 All Rights Reserved.
   distributer: Good Smile Company
   images: https://images.goodsmile.info/cgm/images/product/20140120/4198/27706/large/4e17730853b6d42d484f618783639de6.jpg
-  maker_id: '4198'
+  maker_id: "4198"
   manufacturer: Phat!
   name: Kyoko Kirigiri
   og_image: http://images.goodsmile.info/cgm/images/product/20140120/4198/27710/medium/a69e81f414d7e534fe8eb8c910ff2fc4.jpg
@@ -310,20 +312,20 @@
     end: 2020-07-23 12:00:00
     start: 2020-05-21 12:00:00
   paintwork:
-  - Takayama Hideki
+    - Takayama Hideki
   release_infos:
-  - price: 13000
-    release_date: 2014-10-01 00:00:00
-  - price: 13000
-    release_date: 2017-02-01 00:00:00
-  - price: 13000
-    release_date: 2021-05-01 00:00:00
+    - price: 13000
+      release_date: 2014-10-01 00:00:00
+    - price: 13000
+      release_date: 2017-02-01 00:00:00
+    - price: 13000
+      release_date: 2021-05-01 00:00:00
   releaser: Phat! Company
   resale: true
   scale: 8
   sculptor:
-  - iTANDi
-  series: 'Danganronpa: Kibou no Gakuen to Zetsubou no Koukousei The Animation'
+    - iTANDi
+  series: "Danganronpa: Kibou no Gakuen to Zetsubou no Koukousei The Animation"
   size: 150
   thumbnail: http://images.goodsmile.info/cgm/images/product/20140120/4198/27710/medium/a69e81f414d7e534fe8eb8c910ff2fc4.jpg
   url: https://www.goodsmile.info/en/product/4198
@@ -333,7 +335,7 @@
   copyright: ©長月達平・株式会社KADOKAWA刊／Re:ゼロから始める異世界生活製作委員会
   distributer: グッドスマイルカンパニー
   images: https://images.goodsmile.info/cgm/images/product/20170210/6256/43795/large/e69c3be08309486616d9d792d0f478af.jpg
-  maker_id: '6256'
+  maker_id: "6256"
   manufacturer: グッドスマイルカンパニー
   name: レム
   og_image: http://images.goodsmile.info/cgm/images/product/20170210/6256/43793/medium/46973d9d0e5ae2baa27dc63cfb1fe598.jpg
@@ -341,18 +343,18 @@
     end: 2020-08-19 21:00:00
     start: 2020-06-19 12:00:00
   paintwork:
-  - Luu(グッドスマイル上海)
-  - えこし
+    - Luu(グッドスマイル上海)
+    - えこし
   release_infos:
-  - price: 11389
-    release_date: 2018-02-01 00:00:00
-  - price: 11818
-    release_date: 2021-10-01 00:00:00
+    - price: 11389
+      release_date: 2018-02-01 00:00:00
+    - price: 11818
+      release_date: 2021-10-01 00:00:00
   releaser: グッドスマイルカンパニー
   resale: true
   scale: 7
   sculptor:
-  - ゆうこ～ん(knead)
+    - ゆうこ～ん(knead)
   series: Re:ゼロから始める異世界生活
   size: 225
   thumbnail: http://images.goodsmile.info/cgm/images/product/20170210/6256/43793/medium/46973d9d0e5ae2baa27dc63cfb1fe598.jpg
@@ -363,7 +365,7 @@
   copyright: ©Crypton Future Media, INC. www.piapro.net
   distributer: グッドスマイルカンパニー
   images: https://images.goodsmile.info/cgm/images/product/20190212/8067/58180/large/4a628e50a64e11b59cc57f84c66cafbf.jpg
-  maker_id: '8067'
+  maker_id: "8067"
   manufacturer: グッドスマイルカンパニー
   name: POP UP PARADE 初音ミク
   og_image: http://images.goodsmile.info/cgm/images/product/20190212/8067/58185/medium/642b8b6cdfad86f8ec5ce48c8448f009.jpg
@@ -371,17 +373,17 @@
     end: 2020-06-24 21:00:00
     start: 2020-05-22 12:00:00
   paintwork:
-  - エムアイシー
+    - エムアイシー
   release_infos:
-  - price: 3611
-    release_date: 2019-06-01 00:00:00
-  - price: 3545
-    release_date: 2020-10-01 00:00:00
+    - price: 3611
+      release_date: 2019-06-01 00:00:00
+    - price: 3545
+      release_date: 2020-10-01 00:00:00
   releaser: グッドスマイルカンパニー
   resale: true
   scale: null
   sculptor:
-  - デザインココ
+    - デザインココ
   series: キャラクター・ボーカル・シリーズ01 初音ミク
   size: 170
   thumbnail: http://images.goodsmile.info/cgm/images/product/20190212/8067/58185/medium/642b8b6cdfad86f8ec5ce48c8448f009.jpg
@@ -392,7 +394,7 @@
   copyright: ©2013 アイディアファクトリー・コンパイルハート/ネプテューヌ製作委員会
   distributer: フロンティアワークス
   images: https://images.goodsmile.info/cgm/images/product/20191210/9066/65902/large/bdc4ace29c91df869779be233519fa48.jpg
-  maker_id: '9066'
+  maker_id: "9066"
   manufacturer: その他
   name: パープルハート・ライラックCOOL（OVA「超次元ゲイム ネプテューヌ ～ねぷのなつやすみ～」ブルーレイ＜完全初回限定生産＞同梱）
   og_image: http://images.goodsmile.info/cgm/images/product/20191210/9066/65909/medium/8c41601ae7ff56a731b88430ed960205.jpg
@@ -400,15 +402,15 @@
     end: null
     start: null
   paintwork:
-  - 中野フィギュア教室（福井）
+    - 中野フィギュア教室（福井）
   release_infos:
-  - price: 32000
-    release_date: 2020-12-01 00:00:00
+    - price: 32000
+      release_date: 2020-12-01 00:00:00
   releaser: フロンティアワークス
   resale: false
   scale: 7
   sculptor:
-  - モワノー
+    - モワノー
   series: 超次元ゲイム ネプテューヌ ～ねぷのなつやすみ～
   size: 250
   thumbnail: http://images.goodsmile.info/cgm/images/product/20191210/9066/65909/medium/8c41601ae7ff56a731b88430ed960205.jpg
@@ -419,7 +421,7 @@
   copyright: ©2015-2019 DMM GAMES/Nitroplus
   distributer: グッドスマイルカンパニー
   images: https://images.goodsmile.info/cgm/images/product/20180919/7619/54677/large/0699a9a7c74b5e7e58087047743d0f64.jpg
-  maker_id: '7619'
+  maker_id: "7619"
   manufacturer: オランジュ・ルージュ
   name: 一分の一スケール　三日月宗近
   og_image: http://images.goodsmile.info/cgm/images/product/20180919/7619/54686/medium/a418ee9846138ea781d5aa6613d0e3e7.jpg
@@ -428,13 +430,13 @@
     start: null
   paintwork: []
   release_infos:
-  - price: 2777778
-    release_date: 2019-09-01 00:00:00
+    - price: 2777778
+      release_date: 2019-09-01 00:00:00
   releaser: オランジュ・ルージュ
   resale: false
   scale: 1
   sculptor:
-  - プラスティックマニア
+    - プラスティックマニア
   series: 刀剣乱舞-ONLINE-
   size: 1800
   thumbnail: http://images.goodsmile.info/cgm/images/product/20180919/7619/54686/medium/a418ee9846138ea781d5aa6613d0e3e7.jpg
@@ -445,7 +447,7 @@
   copyright: ©円谷プロ ©2018 TRIGGER・雨宮哲／「GRIDMAN」製作委員会
   distributer: グッドスマイルカンパニー
   images: https://images.goodsmile.info/cgm/images/product/20191204/9052/65762/large/5839ac9fcd1f23c375b78d9edf96b2c3.jpg
-  maker_id: '9052'
+  maker_id: "9052"
   manufacturer: グッドスマイルカンパニー
   name: 超合体超人 DXフルパワーグリッドマン Initial Fighter カラー
   og_image: http://images.goodsmile.info/cgm/images/product/20191204/9052/65765/medium/7a7dd4aa7c0b890f8b9272fba2035a40.jpg
@@ -454,13 +456,13 @@
     start: null
   paintwork: []
   release_infos:
-  - price: 15909
-    release_date: 2020-02-01 00:00:00
+    - price: 15909
+      release_date: 2020-02-01 00:00:00
   releaser: グッドスマイルカンパニー
   resale: false
   scale: null
   sculptor:
-  - アストレイズ
+    - アストレイズ
   series: SSSS.GRIDMAN
   size: 210
   thumbnail: http://images.goodsmile.info/cgm/images/product/20191204/9052/65765/medium/7a7dd4aa7c0b890f8b9272fba2035a40.jpg
@@ -471,7 +473,7 @@
   copyright: ©2020 コーエーテクモゲームス All rights reserved.
   distributer: グッドスマイルカンパニー
   images: https://images.goodsmile.info/cgm/images/product/20190925/8841/64026/large/83d0954b6bca2fdbdf736aa44387f4dd.jpg
-  maker_id: '8841'
+  maker_id: "8841"
   manufacturer: Wonderful Works
   name: ライザ（ライザリン・シュタウト）
   og_image: http://images.goodsmile.info/cgm/images/product/20190925/8841/65326/medium/5b2fad5ffa7857cf4bd2e8514250b0bd.jpg
@@ -479,19 +481,19 @@
     end: 2020-11-25 21:00:00
     start: 2020-10-20 12:00:00
   paintwork:
-  - 路川宏之
+    - 路川宏之
   release_infos:
-  - price: 18800
-    release_date: 2020-07-01 00:00:00
-  - price: 18800
-    release_date: 2021-06-01 00:00:00
+    - price: 18800
+      release_date: 2020-07-01 00:00:00
+    - price: 18800
+      release_date: 2021-06-01 00:00:00
   releaser: WonderfulWorks
   resale: true
   scale: 7
   sculptor:
-  - 榊馨
-  - やまかつ
-  - iTANDi
+    - 榊馨
+    - やまかつ
+    - iTANDi
   series: ライザのアトリエ ～常闇の女王と秘密の隠れ家～
   size: 240
   thumbnail: http://images.goodsmile.info/cgm/images/product/20190925/8841/65326/medium/5b2fad5ffa7857cf4bd2e8514250b0bd.jpg
@@ -502,7 +504,7 @@
   copyright: ©saitom
   distributer: グッドスマイルカンパニー
   images: https://images.goodsmile.info/cgm/images/product/20200707/9734/71738/large/3533c4b97c38b6fe73b7291188a5cfd2.jpg
-  maker_id: '9734'
+  maker_id: "9734"
   manufacturer: マックスファクトリー
   name: ステラ
   og_image: http://images.goodsmile.info/cgm/images/product/20200707/9734/71746/medium/25ce6fccef10be466efcc3c676b5aeab.jpg
@@ -510,15 +512,15 @@
     end: 2020-09-02 21:00:00
     start: 2020-07-10 12:00:00
   paintwork:
-  - 中野フィギュア教室（福井）
+    - 中野フィギュア教室（福井）
   release_infos:
-  - price: 15273
-    release_date: 2021-08-01 00:00:00
+    - price: 15273
+      release_date: 2021-08-01 00:00:00
   releaser: マックスファクトリー
   resale: false
   scale: 7
   sculptor:
-  - あきもふ
+    - あきもふ
   series: DF
   size: 250
   thumbnail: http://images.goodsmile.info/cgm/images/product/20200707/9734/71746/medium/25ce6fccef10be466efcc3c676b5aeab.jpg
@@ -529,7 +531,7 @@
   copyright: © 2011 平坂読・メディアファクトリー／製作委員会は友達が少ない
   distributer: グッドスマイルカンパニー
   images: https://images.goodsmile.info/cgm/images/product/20120729/3629/19754/large/8c3ae7731aa259b59f316ea8a13b632f.jpg
-  maker_id: '3629'
+  maker_id: "3629"
   manufacturer: グッドスマイルカンパニー
   name: 柏崎星奈
   og_image: http://images.goodsmile.info/cgm/images/product/20120729/3629/19752/medium/b824044b745f1cd6ef31dced3b4d5f02.jpg
@@ -538,13 +540,13 @@
     start: None
   paintwork: []
   release_infos:
-  - price: 6476
-    release_date: 2013-05-01 00:00:00
+    - price: 6476
+      release_date: 2013-05-01 00:00:00
   releaser: グッドスマイルカンパニー
   resale: false
   scale: 7
   sculptor:
-  - Fio（ReplyFrom...）
+    - Fio（ReplyFrom...）
   series: 僕は友達が少ない
   size: 215
   thumbnail: http://images.goodsmile.info/cgm/images/product/20120729/3629/19752/medium/b824044b745f1cd6ef31dced3b4d5f02.jpg
@@ -555,7 +557,7 @@
   copyright: ©2017 Nintendo / MONOLITHSOFT
   distributer: グッドスマイルカンパニー
   images: https://images.goodsmile.info/cgm/images/product/20171220/6966/49531/large/71fb6d429debc6db494a65af44ecc1de.jpg
-  maker_id: '6966'
+  maker_id: "6966"
   manufacturer: グッドスマイルカンパニー
   name: ホムラ
   og_image: http://images.goodsmile.info/cgm/images/product/20171220/6966/49538/medium/d8175bcab59faa4f3748168279cba2e9.jpg
@@ -563,21 +565,21 @@
     end: 2021-04-28 21:00:00
     start: 2021-04-02 12:00:00
   paintwork:
-  - あきもとはじめ
+    - あきもとはじめ
   release_infos:
-  - price: 18333
-    release_date: 2018-12-01 00:00:00
-  - price: 18333
-    release_date: 2021-06-01 00:00:00
-  - price: 18333
-    release_date: 2022-09-01 00:00:00
-  - price: 18333
-    release_date: 2023-02-01 00:00:00
+    - price: 18333
+      release_date: 2018-12-01 00:00:00
+    - price: 18333
+      release_date: 2021-06-01 00:00:00
+    - price: 18333
+      release_date: 2022-09-01 00:00:00
+    - price: 18333
+      release_date: 2023-02-01 00:00:00
   releaser: グッドスマイルカンパニー
   resale: true
   scale: 7
   sculptor:
-  - あきもふ
+    - あきもふ
   series: ゼノブレイド2
   size: 210
   thumbnail: http://images.goodsmile.info/cgm/images/product/20171220/6966/49538/medium/d8175bcab59faa4f3748168279cba2e9.jpg
@@ -588,7 +590,7 @@
   copyright: ©橘公司・つなこ
   distributer: グッドスマイルカンパニー
   images: https://images.goodsmile.info/cgm/images/product/20200131/9250/67403/large/9b6feaa42c4e43c59d2bf1d5fb94a8a9.jpg
-  maker_id: '9250'
+  maker_id: "9250"
   manufacturer: アクアマリン
   name: 時崎狂三 決意のafter date style
   og_image: http://images.goodsmile.info/cgm/images/product/20200131/9250/67413/medium/804a5ffe1132adb6dce72b2e271ec3b3.jpg
@@ -596,15 +598,15 @@
     end: 2020-04-15 21:00:00
     start: 2020-02-06 12:00:00
   paintwork:
-  - グラハム仮面
+    - グラハム仮面
   release_infos:
-  - price: 13800
-    release_date: null
+    - price: 13800
+      release_date: null
   releaser: アクアマリン
   resale: false
   scale: 7
   sculptor:
-  - デザインココ
+    - デザインココ
   series: デート・ア・ライブ
   size: 155
   thumbnail: http://images.goodsmile.info/cgm/images/product/20200131/9250/67413/medium/804a5ffe1132adb6dce72b2e271ec3b3.jpg
@@ -615,7 +617,7 @@
   copyright: ©ATLUS ©SEGA All rights reserved.
   distributer: グッドスマイルカンパニー
   images: https://images.goodsmile.info/cgm/images/product/20180424/7236/51668/large/7ee7504abad45d098d929b8131dd420c.jpg
-  maker_id: '7236'
+  maker_id: "7236"
   manufacturer: アクアマリン
   name: グウェンドリン 天翔ける戦乙女（ワルキューレ）
   og_image: http://images.goodsmile.info/cgm/images/product/20180424/7236/51673/medium/a7b017b3455ac47778439f07e888e7d0.jpg
@@ -623,15 +625,15 @@
     end: 2018-05-23 21:00:00
     start: 2018-04-26 12:00:00
   paintwork:
-  - 星名詠美
+    - 星名詠美
   release_infos:
-  - price: 15300
-    release_date: 2019-01-01 00:00:00
+    - price: 15300
+      release_date: 2019-01-01 00:00:00
   releaser: アクアマリン
   resale: false
   scale: 8
   sculptor:
-  - Chilmiru
+    - Chilmiru
   series: オーディンスフィア レイヴスラシル
   size: 250
   thumbnail: http://images.goodsmile.info/cgm/images/product/20180424/7236/51673/medium/a7b017b3455ac47778439f07e888e7d0.jpg
