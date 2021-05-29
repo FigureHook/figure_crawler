@@ -10,7 +10,10 @@ from figure_parser.constants import AlterCategory, GSCCategory, GSCLang
 from figure_parser.extension_class import HistoricalReleases, Release
 from figure_parser.gsc import (GSCAnnouncementLinkExtractor, GSCProductParser,
                                GSCYearlyAnnouncement)
+from figure_parser.native import NativeProductParser
 from figure_parser.utils import get_page
+
+THIS_DIR = os.path.dirname(__file__)
 
 
 def load_yaml(path):
@@ -212,6 +215,19 @@ class TestAlterParser(BaseTestCase):
         links = AlterAnnouncementLinkExtractor.extract(page)
         assert links
         assert isinstance(links, list)
+
+
+class TestNativeParser(BaseTestCase):
+    products = load_yaml(
+        f"{THIS_DIR}/test_case/native_products.yml"
+    )
+
+    @pytest.fixture(scope="class", params=products)
+    def item(self, request):
+        return {
+            "test": NativeProductParser(request.param["url"]),
+            "expected": request.param
+        }
 
 
 class TestParserUtils:
