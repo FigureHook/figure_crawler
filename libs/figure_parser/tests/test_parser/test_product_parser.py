@@ -1,5 +1,6 @@
 from datetime import datetime
 
+import os
 import pytest
 import yaml
 from _pytest.assertion.util import isiterable
@@ -63,12 +64,14 @@ class BaseTestCase:
         assert len(release_infos) == len(expected_release_infos)
 
         release_infos.sort()
-        expected_release_infos.sort(key=lambda r: r["release_date"].timestamp() if r["release_date"] else 0)
+        expected_release_infos.sort(
+            key=lambda r: r["release_date"].timestamp() if r["release_date"] else 0)
 
         for r, e_r in zip(release_infos, expected_release_infos):
             r: Release
             assert r.price == e_r["price"]
-            expected_date = e_r["release_date"].date() if e_r["release_date"] else e_r["release_date"]
+            expected_date = e_r["release_date"].date(
+            ) if e_r["release_date"] else e_r["release_date"]
             assert r.release_date == expected_date
 
     def test_maker_id(self, item):
@@ -126,7 +129,9 @@ class BaseTestCase:
 
 
 class TestGSCParser(BaseTestCase):
-    products = load_yaml("tests/test_case/gsc_products.yml")
+    products = load_yaml(
+        f"{os.path.dirname(__file__)}/test_case/gsc_products.yml"
+    )
 
     @pytest.fixture(scope="class", params=products)
     def item(self, request):
@@ -176,7 +181,9 @@ class TestGSCParser(BaseTestCase):
 
 
 class TestAlterParser(BaseTestCase):
-    products = load_yaml("tests/test_case/alter_products.yml")
+    products = load_yaml(
+        f"{os.path.dirname(__file__)}/test_case/alter_products.yml"
+    )
 
     @pytest.fixture(scope="class", params=products)
     def item(self, request):
