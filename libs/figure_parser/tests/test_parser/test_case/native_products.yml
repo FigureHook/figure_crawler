@@ -13,15 +13,15 @@
     start: 2013-03-25 15:00:00
   paintwork: []
   release_infos:
-    - price: 10476
-      release_date: 2013-11-01
+    - price: 11000
+      release_date: 2013-11-01 00:00:00
   releaser: ネイティブ
   resale: False
   scale: 7
   sculptor:
     - ブラウン萬斎
   series: 鬼月あるちゅオリジナルキャラクター
-  size: 27
+  size: 270
   thumbnail: null
   url: https://www.native-web.jp/creators/806/
 - JAN: null
@@ -39,7 +39,7 @@
     start: 2018-08-08 15:00:00
   paintwork: []
   release_infos:
-    - price: 25740
+    - price: 27800
       release_date: 2019-06-01 00:00:00
   releaser: BINDing
   resale: False
@@ -47,7 +47,7 @@
   sculptor:
     - BINDing
   series: 黒獣 ～気高き聖女は白濁に染まる～
-  size: 25
+  size: 250
   thumbnail: null
   url: https://www.native-web.jp/characters/3407/
 - JAN:
@@ -66,14 +66,43 @@
   paintwork:
     - 星名詠美
   release_infos:
-    - price: 20000
+    - price: 22000
       release_date: 2021-07-01 00:00:00
   releaser: ネイティブ
   resale: False
   scale: 7
   sculptor:
     - アビラ
+    - ネイティブ
   series: 島田フミカネ オリジナルキャラクター
-  size: 23
+  size: 230
   thumbnail: null
   url: https://www.native-web.jp/creators/4748/
+- JAN: null
+  adult: True
+  category: フィギュア
+  copyright: ©柾見ちえ
+  distributer: ネイティブ
+  images: https://www.native-web.jp/wp-content/uploads/2021/03/img_210324-mia_04.jpg
+  maker_id: "14193"
+  manufacturer: BINDing
+  name: ミーア
+  og_image: https://www.native-web.jp/wp-content/uploads/2021/03/img_210324-mia_01.jpg
+  order_period:
+    end: 2021-05-26 19:00:00
+    start: 2021-03-24 12:00:00
+  paintwork:
+    - 中野フィギュア教室（福井）
+  release_infos:
+    - price: 29700
+      release_date: 2021-10-01 00:00:00
+  releaser: BINDing
+  resale: False
+  scale: 4
+  sculptor:
+    - BINDing
+    - 永野健民（永野工房）
+  series: クリエイターズ オピニオン
+  size: 290
+  thumbnail: null
+  url: https://www.native-web.jp/creators/14193/
