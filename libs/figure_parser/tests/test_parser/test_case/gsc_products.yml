@@ -536,8 +536,8 @@
   name: 柏崎星奈
   og_image: http://images.goodsmile.info/cgm/images/product/20120729/3629/19752/medium/b824044b745f1cd6ef31dced3b4d5f02.jpg
   order_period:
-    end: None
-    start: None
+    end: null
+    start: null
   paintwork: []
   release_infos:
     - price: 6476
