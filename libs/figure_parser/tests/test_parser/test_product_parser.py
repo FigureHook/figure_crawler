@@ -42,20 +42,23 @@ class BaseTestCase:
 
     def test_order_period(self, item):
         order_period = item["test"].parse_order_period()
+        expected_order_period = item["expected"]["order_period"]
 
-        if not order_period:
+        if not expected_order_period['start'] and not expected_order_period['end']:
             pytest.xfail("Some maker didn't announce the period.")
 
         start = order_period.start
         end = order_period.end
 
-        if not end:
+        if start and not end:
             pytest.xfail("Some products could be ordered until sold out.")
 
-        assert type(start) is datetime
-        assert type(end) is datetime
-        assert start == item["expected"]["order_period"]["start"]
-        assert end == item["expected"]["order_period"]["end"]
+        if expected_order_period['start']:
+            assert type(start) is datetime
+            assert start == item["expected"]["order_period"]["start"]
+        if expected_order_period['end']:
+            assert type(end) is datetime
+            assert end == item["expected"]["order_period"]["end"]
 
     def test_sculptor(self, item):
         sculptor = item["test"].parse_sculptors()
@@ -129,6 +132,12 @@ class BaseTestCase:
         if og_image:
             assert isinstance(og_image, str)
         assert og_image == item["expected"]["og_image"]
+
+    def test_jan(self, item):
+        jan = item['test'].parse_JAN()
+        expected_jan = item["expected"]["JAN"]
+
+        assert jan == expected_jan
 
 
 class TestGSCParser(BaseTestCase):
