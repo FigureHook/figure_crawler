@@ -142,7 +142,7 @@ class BaseTestCase:
 
 class TestGSCParser(BaseTestCase):
     products = load_yaml(
-        f"{os.path.dirname(__file__)}/test_case/gsc_products.yml"
+        f"{THIS_DIR}/test_case/gsc_products.yml"
     )
 
     @pytest.fixture(scope="class", params=products)
@@ -194,7 +194,7 @@ class TestGSCParser(BaseTestCase):
 
 class TestAlterParser(BaseTestCase):
     products = load_yaml(
-        f"{os.path.dirname(__file__)}/test_case/alter_products.yml"
+        f"{THIS_DIR}/test_case/alter_products.yml"
     )
 
     @pytest.fixture(scope="class", params=products)
