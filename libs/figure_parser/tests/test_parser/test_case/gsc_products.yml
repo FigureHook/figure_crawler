@@ -13,10 +13,12 @@
     start: 2016-04-25 12:00:00
   paintwork: []
   release_infos:
-    - price: 11800
+    - price: 12980
       release_date: 2014-10-01 00:00:00
-    - price: 11800
+      tax_including: true
+    - price: 12980
       release_date: 2016-09-01 00:00:00
+      tax_including: true
   releaser: ウイング
   resale: true
   scale: 7
@@ -41,8 +43,9 @@
     start: 2019-11-14 12:00:00
   paintwork: []
   release_infos:
-    - price: 12545
+    - price: 13800
       release_date: 2020-06-01 00:00:00
+      tax_including: true
   releaser: Myethos
   resale: false
   scale: 7
@@ -68,8 +71,9 @@
   paintwork:
     - 佐倉
   release_infos:
-    - price: 32000
+    - price: 35200
       release_date: 2021-09-01 00:00:00
+      tax_including: true
   releaser: ファット・カンパニー
   resale: false
   scale: 7
@@ -95,8 +99,9 @@
   paintwork:
     - かわも（リボルブ）
   release_infos:
-    - price: 21818
+    - price: 24000
       release_date: 2020-12-01 00:00:00
+      tax_including: true
   releaser: KADOKAWA
   resale: false
   scale: 7
@@ -121,8 +126,9 @@
     start: 2020-08-18 12:00:00
   paintwork: []
   release_infos:
-    - price: 16000
+    - price: 17600
       release_date: 2021-02-01 00:00:00
+      tax_including: true
   releaser: ウイング
   resale: false
   scale: 7
@@ -149,8 +155,9 @@
     start: 2020-08-04 12:00:00
   paintwork: []
   release_infos:
-    - price: 3545
+    - price: 3900
       release_date: 2021-01-01 00:00:00
+      tax_including: true
   releaser: グッドスマイルカンパニー
   resale: false
   scale: null
@@ -178,8 +185,9 @@
     start: 2020-06-30 12:00:00
   paintwork: []
   release_infos:
-    - price: 60000
+    - price: 66000
       release_date: 2021-06-01 00:00:00
+      tax_including: true
   releaser: threezero
   resale: false
   scale: null
@@ -204,8 +212,9 @@
     start: 2020-09-10 12:00:00
   paintwork: []
   release_infos:
-    - price: 3545
+    - price: 3900
       release_date: 2021-01-01 00:00:00
+      tax_including: true
   releaser: グッドスマイルカンパニー
   resale: false
   scale: null
@@ -229,8 +238,9 @@
     start: null
   paintwork: []
   release_infos:
-    - price: 11238
+    - price: 12362
       release_date: 2009-01-01 00:00:00
+      tax_including: true
   releaser: FREEing
   resale: false
   scale: 4
@@ -255,8 +265,9 @@
     start: null
   paintwork: []
   release_infos:
-    - price: 5238
+    - price: 5762
       release_date: 2009-02-01 00:00:00
+      tax_including: true
   releaser: グッドスマイルカンパニー
   resale: false
   scale: 6
@@ -285,10 +296,13 @@
   release_infos:
     - price: 10000
       release_date: 2014-10-01 00:00:00
+      tax_including: false
     - price: 11000
       release_date: 2017-04-01 00:00:00
+      tax_including: false
     - price: 13000
       release_date: 2021-05-01 00:00:00
+      tax_including: false
   releaser: Phat!
   resale: true
   scale: 8
@@ -314,12 +328,15 @@
   paintwork:
     - Takayama Hideki
   release_infos:
-    - price: 13000
+    - price: 14300
       release_date: 2014-10-01 00:00:00
-    - price: 13000
+      tax_including: true
+    - price: 14300
       release_date: 2017-02-01 00:00:00
-    - price: 13000
+      tax_including: true
+    - price: 14300
       release_date: 2021-05-01 00:00:00
+      tax_including: true
   releaser: Phat! Company
   resale: true
   scale: 8
@@ -348,8 +365,10 @@
   release_infos:
     - price: 11389
       release_date: 2018-02-01 00:00:00
+      tax_including: false
     - price: 11818
       release_date: 2021-10-01 00:00:00
+      tax_including: false
   releaser: グッドスマイルカンパニー
   resale: true
   scale: 7
@@ -377,8 +396,10 @@
   release_infos:
     - price: 3611
       release_date: 2019-06-01 00:00:00
+      tax_including: false
     - price: 3545
       release_date: 2020-10-01 00:00:00
+      tax_including: false
   releaser: グッドスマイルカンパニー
   resale: true
   scale: null
@@ -406,6 +427,7 @@
   release_infos:
     - price: 32000
       release_date: 2020-12-01 00:00:00
+      tax_including: false
   releaser: フロンティアワークス
   resale: false
   scale: 7
@@ -430,8 +452,9 @@
     start: null
   paintwork: []
   release_infos:
-    - price: 2777778
+    - price: 3055556
       release_date: 2019-09-01 00:00:00
+      tax_including: true
   releaser: オランジュ・ルージュ
   resale: false
   scale: 1
@@ -456,8 +479,9 @@
     start: null
   paintwork: []
   release_infos:
-    - price: 15909
+    - price: 17500
       release_date: 2020-02-01 00:00:00
+      tax_including: true
   releaser: グッドスマイルカンパニー
   resale: false
   scale: null
@@ -483,10 +507,12 @@
   paintwork:
     - 路川宏之
   release_infos:
-    - price: 18800
+    - price: 20680
       release_date: 2020-07-01 00:00:00
-    - price: 18800
+      tax_including: true
+    - price: 20680
       release_date: 2021-06-01 00:00:00
+      tax_including: true
   releaser: WonderfulWorks
   resale: true
   scale: 7
@@ -514,8 +540,9 @@
   paintwork:
     - 中野フィギュア教室（福井）
   release_infos:
-    - price: 15273
+    - price: 16800
       release_date: 2021-08-01 00:00:00
+      tax_including: true
   releaser: マックスファクトリー
   resale: false
   scale: 7
@@ -540,8 +567,9 @@
     start: null
   paintwork: []
   release_infos:
-    - price: 6476
+    - price: 7124
       release_date: 2013-05-01 00:00:00
+      tax_including: true
   releaser: グッドスマイルカンパニー
   resale: false
   scale: 7
@@ -567,14 +595,18 @@
   paintwork:
     - あきもとはじめ
   release_infos:
-    - price: 18333
+    - price: 20166
       release_date: 2018-12-01 00:00:00
-    - price: 18333
+      tax_including: true
+    - price: 20166
       release_date: 2021-06-01 00:00:00
-    - price: 18333
+      tax_including: true
+    - price: 20166
       release_date: 2022-09-01 00:00:00
-    - price: 18333
+      tax_including: true
+    - price: 20166
       release_date: 2023-02-01 00:00:00
+      tax_including: true
   releaser: グッドスマイルカンパニー
   resale: true
   scale: 7
@@ -600,8 +632,9 @@
   paintwork:
     - グラハム仮面
   release_infos:
-    - price: 13800
+    - price: 15180
       release_date: null
+      tax_including: true
   releaser: アクアマリン
   resale: false
   scale: 7
@@ -627,8 +660,9 @@
   paintwork:
     - 星名詠美
   release_infos:
-    - price: 15300
+    - price: 16830
       release_date: 2019-01-01 00:00:00
+      tax_including: true
   releaser: アクアマリン
   resale: false
   scale: 8
