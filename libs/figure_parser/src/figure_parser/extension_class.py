@@ -51,13 +51,13 @@ class OrderPeriod(AsDictable):
 
 
 class Price(int):
-    def __new__(cls, value, *args, **kwargs):
+    def __new__(cls, value: int, *args, **kwargs):
         if value < 0:
-            raise ValueError("positive types must not be less than zero")
+            value = abs(value)
 
         return super().__new__(cls, value)
 
-    def __init__(self, value, tax_including: bool = False):
+    def __init__(self, value: int, tax_including: bool = False):
         super().__init__()
         self._tax_including = tax_including
 

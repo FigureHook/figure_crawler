@@ -6,13 +6,14 @@ from figure_parser.extension_class import (HistoricalReleases, OrderPeriod,
                                            Price, Release)
 
 
-def test_release_class(mocker: MockerFixture):
-    mocker.patch('figure_parser.extension_class.Price', int)
-    r1 = Release(release_date=date(2020, 1, 1), price=Price(10000))
+class TestRelease:
+    def test_release_class(self, mocker: MockerFixture):
+        mocker.patch('figure_parser.extension_class.Price', int)
+        r1 = Release(release_date=date(2020, 1, 1), price=Price(10000))
 
-    assert hasattr(r1, "release_date")
-    assert hasattr(r1, "price")
-    assert hasattr(r1, "announced_at")
+        assert hasattr(r1, "release_date")
+        assert hasattr(r1, "price")
+        assert hasattr(r1, "announced_at")
 
 
 def test_release_info_class(mocker: MockerFixture):
@@ -84,10 +85,10 @@ class TestPrice:
         price = Price(300)
         assert isinstance(price, int)
 
-    def test_price_should_be_postive(self):
-        with pytest.raises(ValueError):
-            Price(-200)
+    def test_price_always_be_postive(self):
+        price = Price(-21323)
+        assert price == 21323
 
     def test_price_has_tax_including_attribute(self):
-        price = Price(500,)
+        price = Price(500)
         assert hasattr(price, 'tax_including')
