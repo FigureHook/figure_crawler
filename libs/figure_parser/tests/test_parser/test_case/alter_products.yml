@@ -284,9 +284,6 @@
     - price: 9800
       release_date: 2013-08-01 00:00:00
       tax_including: true
-    - price: 10800
-      release_date: 2013-08-01 00:00:00
-      tax_including: true
   releaser: アルター
   resale: false
   scale: 8

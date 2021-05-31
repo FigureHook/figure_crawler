@@ -5,6 +5,7 @@ from urllib.parse import urlparse, urlunparse
 
 from bs4 import BeautifulSoup
 from bs4.element import Tag
+from figure_parser.extension_class import Price
 
 from ..abcs import ProductParser
 from ..constants import BrandHost
@@ -65,10 +66,12 @@ class AlterProductParser(ProductParser):
         price_list: List[int] = []
         price_text = self.spec["価格"]
         is_weird_price_text = re.findall(r"税抜", price_text)
+        tax_including = "税込" in price_text
         price_pattern = r"税抜\d\S+?円" if is_weird_price_text else r"\d\S+?円"
         price_text = re.findall(price_pattern, price_text)
         for p in price_text:
             price = price_parse(p)
+            price = Price(price, tax_including)
             if price:
                 price_list.append(price)
 
