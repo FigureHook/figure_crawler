@@ -99,6 +99,10 @@ class ProductParser(ABC):
         return last_release.release_date if last_release else None
 
     def parse_release_infos(self) -> HistoricalReleases:
+        """
+        Focus on release dates.
+        if prices is longer than dates, discard remaining data.
+        """
         dates = self.parse_release_dates()
         prices = self.parse_prices()
 
@@ -112,11 +116,11 @@ class ProductParser(ABC):
         elif dates_len > prices_len:
             filler = make_last_element_filler(prices, len(dates))
             prices.extend(filler)
-        elif prices_len > dates_len:
-            filler = make_last_element_filler(dates, len(prices))
-            dates.extend(filler)
+        # elif prices_len > dates_len:
+        #     filler = make_last_element_filler(dates, len(prices))
+        #     dates.extend(filler)
 
-        assert len(dates) == len(prices)
+        assert len(dates) <= len(prices)
 
         historical_releases: HistoricalReleases[Release] = HistoricalReleases()
         for d, p in zip(dates, prices):

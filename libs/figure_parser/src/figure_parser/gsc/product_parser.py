@@ -11,7 +11,7 @@ from bs4.element import NavigableString, ResultSet, Tag
 
 from ..abcs import ProductParser
 from ..constants import BrandHost
-from ..extension_class import OrderPeriod
+from ..extension_class import OrderPeriod, Price
 from ..utils import price_parse, scale_parse, size_parse
 
 Bs4Element = Union[Tag, NavigableString, None]
@@ -113,30 +113,33 @@ class GSCProductParser(ProductParser):
 
         return date_list
 
-    def _parse_resale_prices(self) -> List[int]:
-        price_slot: List[int] = []
-        price_items = self.detail.find_all(name="dt", text=re.compile(r"販(\w|)価格"))
+    def _parse_resale_prices(self) -> List[Price]:
+        price_slot = []
+        price_items = self.detail.find_all(
+            name="dt", text=re.compile(r"販(\w|)価格"))
 
         for price_item in price_items:
             price_text: str = price_item.find_next("dd").text.strip()
             tax_feature = self._get_from_locale("tax")
-            remove_tax = bool(re.search(f"{tax_feature}", price_text))
-            price = price_parse(price_text, remove_tax=remove_tax)
+            tax_including = bool(re.search(f"{tax_feature}", price_text))
+            price = price_parse(price_text)
+            price = Price(price, tax_including)
             if price:
                 price_slot.append(price)
 
         return price_slot
 
-    def parse_prices(self) -> List[int]:
-        price_slot: List[int] = []
+    def parse_prices(self) -> List[Price]:
+        price_slot = []
         tag = self._get_from_locale("price")
         last_price_target = self._find_detail("dt", f"^{tag}")
 
         if last_price_target:
             tax_feature = self._get_from_locale("tax")
             last_price_text = last_price_target.find_next("dd").text.strip()
-            remove_tax = bool(re.search(f"{tax_feature}", last_price_text))
-            last_price = price_parse(last_price_text, remove_tax=remove_tax)
+            tax_including = bool(re.search(f"{tax_feature}", last_price_text))
+            last_price = price_parse(last_price_text)
+            last_price = Price(last_price, tax_including)
         else:
             last_price = None
 

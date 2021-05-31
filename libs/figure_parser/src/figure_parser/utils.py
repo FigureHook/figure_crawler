@@ -58,19 +58,17 @@ def check_domain(init_func):
     return checker
 
 
-def price_parse(text: str, remove_tax: bool = False) -> Union[int, None]:
+def price_parse(text: str) -> int:
     pattern = r"\d+"
     price_text = ""
 
     for n in re.findall(pattern, text):
         price_text += n
 
-    try:
+    if price_text.isdigit():
         price = int(price_text)
-        if remove_tax:
-            price = round(price / 1.1)
-    except ValueError:
-        return None
+    else:
+        raise ValueError(f"Can't parse price from `{text}`.")
 
     return price
 
