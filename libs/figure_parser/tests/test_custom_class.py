@@ -2,7 +2,7 @@ from datetime import date, datetime
 
 import pytest
 from figure_parser.extension_class import (HistoricalReleases, OrderPeriod,
-                                           Release)
+                                           Price, Release)
 
 
 def test_release_class():
@@ -74,3 +74,17 @@ class TestOrderPeriod:
         assert OrderPeriod(None, datetime(2000, 1, 1))
         assert OrderPeriod(datetime(2020, 1, 1), None)
         assert OrderPeriod(datetime(2020, 1, 1), datetime(2022, 1, 1))
+
+
+class TestPrice:
+    def test_is_int(self):
+        price = Price(300)
+        assert isinstance(price, int)
+
+    def test_price_should_be_postive(self):
+        with pytest.raises(ValueError):
+            Price(-200)
+
+    def test_price_has_tax_including_attribute(self):
+        price = Price(500,)
+        assert hasattr(price, 'tax_including')

@@ -22,7 +22,9 @@ class OrderPeriod(AsDictable):
         end = self.end
         if start and end:
             if end < start:
-                raise ValueError(f"start_datetime {start} shouldn't later than end_datetime {end}.")
+                raise ValueError(
+                    f"start_datetime {start} shouldn't later than end_datetime {end}."
+                )
 
     @property
     def is_available(self):
@@ -46,6 +48,22 @@ class OrderPeriod(AsDictable):
 
     def __bool__(self):
         return any((self.start, self.end))
+
+
+class Price(int):
+    def __new__(cls, value, *args, **kwargs):
+        if value < 0:
+            raise ValueError("positive types must not be less than zero")
+
+        return super().__new__(cls, value)
+
+    def __init__(self, value, tax_including: bool = False):
+        super().__init__()
+        self._tax_including = tax_including
+
+    @property
+    def tax_including(self):
+        return self._tax_including
 
 
 @dataclass
