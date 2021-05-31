@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 
 from ..abcs import ProductParser
 from ..constants import BrandHost
-from ..extension_class import OrderPeriod
+from ..extension_class import OrderPeriod, Price
 from ..utils import price_parse, scale_parse, size_parse
 
 
@@ -37,12 +37,14 @@ class NativeProductParser(ProductParser):
     def parse_category(self) -> str:
         return "フィギュア"
 
-    def parse_prices(self) -> list[int]:
+    def parse_prices(self) -> list[Price]:
         prices = []
         price_text = self.detail.get('価格')
         if price_text:
+            tax_including = "税込" in price_text
             price_text = price_text.split("\n")[0]
             price = price_parse(price_text)
+            price = Price(price, tax_including)
             prices.append(price)
 
         return prices
