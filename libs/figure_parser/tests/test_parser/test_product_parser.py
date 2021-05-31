@@ -79,6 +79,7 @@ class BaseTestCase:
             expected_date = e_r["release_date"].date(
             ) if e_r["release_date"] else e_r["release_date"]
             assert r.release_date == expected_date
+            assert r.price.tax_including is e_r['tax_including']
 
     def test_maker_id(self, item):
         id_ = item["test"].parse_maker_id()
