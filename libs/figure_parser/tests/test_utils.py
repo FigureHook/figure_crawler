@@ -29,8 +29,9 @@ def test_domain_checker(domain, url):
 
 def test_price_parser():
     price_text = "1,100,000,000"
-    price = price_parse(price_text, remove_tax=True)
-    price_with_tax = price_parse(price_text)
+    price = price_parse(price_text)
 
-    assert price == 1000000000
-    assert price_with_tax == 1100000000
+    assert price == 1100000000
+
+    with pytest.raises(ValueError):
+        price_parse('')
