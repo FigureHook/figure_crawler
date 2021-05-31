@@ -1,7 +1,8 @@
 import re
 from dataclasses import asdict
 from functools import wraps
-from typing import List, TypeVar, Union
+from itertools import repeat
+from typing import Iterable, List, TypeVar, Union
 from urllib.parse import urlparse
 
 import requests as rq
@@ -17,10 +18,11 @@ class AsDictable:
         return asdict(self)
 
 
-def make_last_element_filler(target_list: List[T], desired_length: int) -> List[T]:
+def make_last_element_filler(target_list: List[T], desired_length: int) -> Iterable[T]:
     original_len = len(target_list)
-    last_element = target_list[-1::]
-    filler = last_element * (desired_length - original_len)
+    last_element = target_list[-1]
+    repeat_times = desired_length - original_len
+    filler = repeat(last_element, repeat_times)
 
     return filler
 
