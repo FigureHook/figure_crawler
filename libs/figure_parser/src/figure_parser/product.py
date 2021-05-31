@@ -6,7 +6,7 @@ from hashlib import md5
 from typing import Callable, Optional, Union
 
 from figure_parser.extension_class import (HistoricalReleases, OrderPeriod,
-                                           Release)
+                                           Price, Release)
 
 from .utils import AsDictable
 
@@ -57,7 +57,7 @@ class ProductBase(AsDictable):
     order_period: OrderPeriod
     release_infos: HistoricalReleases[Release]
     release_date: Optional[date]
-    price: Optional[int]
+    price: Optional[Price]
     size: Optional[int]
     scale: Optional[int]
     series: Optional[str]
