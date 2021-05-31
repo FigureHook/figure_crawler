@@ -6,7 +6,7 @@ from typing import ClassVar, Dict, List, Optional, Union
 from bs4 import BeautifulSoup
 from pytz import timezone
 
-from .extension_class import HistoricalReleases, OrderPeriod, Release
+from .extension_class import HistoricalReleases, OrderPeriod, Price, Release
 from .utils import check_domain, get_page, make_last_element_filler
 
 
@@ -44,7 +44,7 @@ class ProductParser(ABC):
     def parse_sculptors(self) -> List[str]: ...
 
     @abstractmethod
-    def parse_prices(self) -> List[int]:
+    def parse_prices(self) -> List[Price]:
         """
         Try to parse historical prices
         Order of prices should be as same as release_dates.
@@ -90,7 +90,7 @@ class ProductParser(ABC):
     def parse_images(self) -> List[str]:
         ...
 
-    def parse_price(self) -> Union[int, None]:
+    def parse_price(self) -> Union[Price, None]:
         last_release = self.parse_release_infos().last()
         return last_release.price if last_release else None
 

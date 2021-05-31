@@ -1,22 +1,25 @@
 from datetime import date, datetime
 
 import pytest
+from pytest_mock import MockerFixture
 from figure_parser.extension_class import (HistoricalReleases, OrderPeriod,
                                            Price, Release)
 
 
-def test_release_class():
-    r1 = Release(release_date=date(2020, 1, 1), price=10000)
+def test_release_class(mocker: MockerFixture):
+    mocker.patch('figure_parser.extension_class.Price', int)
+    r1 = Release(release_date=date(2020, 1, 1), price=Price(10000))
 
     assert hasattr(r1, "release_date")
     assert hasattr(r1, "price")
     assert hasattr(r1, "announced_at")
 
 
-def test_release_info_class():
-    first_release = Release(release_date=date(2020, 1, 1), price=10000)
-    second_release = Release(release_date=date(2020, 2, 1), price=12000)
-    third_release = Release(release_date=None, price=12000)
+def test_release_info_class(mocker: MockerFixture):
+    mocker.patch('figure_parser.extension_class.Price', int)
+    first_release = Release(release_date=date(2020, 1, 1), price=Price(10000))
+    second_release = Release(release_date=date(2020, 2, 1), price=Price(12000))
+    third_release = Release(release_date=None, price=Price(12000))
     date_price_combos = [first_release, second_release, third_release]
     sorted_combos = [third_release, first_release, second_release]
 

@@ -69,7 +69,7 @@ class Price(int):
 @dataclass
 class Release(AsDictable):
     release_date: Optional[date]
-    price: Optional[int]
+    price: Optional[Price]
     announced_at: Optional[date] = None
 
 
