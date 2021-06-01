@@ -24,6 +24,11 @@ class AlterCategory(str, Enum):
     ALMECHA = "almecha"
 
 
+class NativeCategory(str, Enum):
+    CREATORS = "creators"
+    CHARACTERS = "characters"
+
+
 class GSCLang(str, Enum):
     ENGLISH = "en"
     JAPANESE = "ja"
