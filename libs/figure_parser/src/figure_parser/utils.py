@@ -42,6 +42,10 @@ class RelativeUrl:
     def alter(path):
         return f"https://{BrandHost.ALTER}{path}"
 
+    @staticmethod
+    def native(path):
+        return f"https://{BrandHost.NATIVE}{path}"
+
 
 def check_domain(init_func):
     @wraps(init_func)
