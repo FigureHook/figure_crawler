@@ -109,11 +109,19 @@ class DiscordEmbedFactory:
             name="maker", value=maker, inline=False
         ).add_field(
             name="series", value=series, inline=False
-        ).add_field(
-            name="size", value=f"{size} mm", inline=True
-        ).add_field(
-            name="scale", value=f"1/{scale}", inline=True
-        ).add_field(
+        )
+
+        if size:
+            embed.add_field(
+                name="size", value=f"{size} mm", inline=True
+            )
+
+        if scale:
+            embed.add_field(
+                name="scale", value=f"1/{scale}", inline=True
+            )
+
+        embed.add_field(
             name="price", value=f"JPY {price:,}", inline=True
         ).add_field(
             name="release_date", value=release_date, inline=True
@@ -121,7 +129,7 @@ class DiscordEmbedFactory:
 
         return embed
 
-    @ staticmethod
+    @staticmethod
     def create_new_hook_notification(msg: str):
         title = f":hook: {msg} :hook:"
         embed = Embed(title=title, colour=Colour(0x00B5FF))
