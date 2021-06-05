@@ -127,6 +127,7 @@ class ProductParser(ABC):
             release = Release(release_date=d, price=p)
             historical_releases.append(release)
 
+        historical_releases.sort()
         return historical_releases
 
     def parse_distributer(self) -> Union[str, None]:
