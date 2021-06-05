@@ -25,7 +25,8 @@ def news_push():
     this_task: Task
     with pgsql_session() as session:
         this_task = session.query(Task).where(
-            Task.name == PeriodicTask.NEWS_PUSH).scalar()
+            Task.name == PeriodicTask.NEWS_PUSH
+        ).scalar()
         new_releases = ReleaseHelper.fetch_new_releases(
             session, this_task.executed_at  # type: ignore
         )
@@ -42,18 +43,23 @@ def news_push():
                 image=image,
                 release_date=r.release_date,
                 is_adult=r.is_adult,
-                thumbnail=r.thumbnail
+                thumbnail=r.thumbnail,
+                scale=r.scale,
+                size=r.size
             )
             raw_embeds.append(embed)
         this_task.update()
 
         webhooks: list[WebhookModel] = WebhookModel.all()  # type: ignore
-        webhook_adapter = RequestsWebhookAdapter()
-        dispatcher = DiscordNewReleaseEmbedsDispatcher(
-            webhooks, raw_embeds, webhook_adapter
-        )
-        dispatcher.dispatch()
 
+    # begin dispatching embeds
+    webhook_adapter = RequestsWebhookAdapter()
+    dispatcher = DiscordNewReleaseEmbedsDispatcher(
+        webhooks, raw_embeds, webhook_adapter
+    )
+    dispatcher.dispatch()
+
+    with pgsql_session() as session:
         for webhook_id, is_existed in dispatcher.webhook_status.items():
             stmt = update(WebhookModel).where(
                 WebhookModel.id == webhook_id
