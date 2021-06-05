@@ -38,6 +38,7 @@ class ProductReleaseInfo(PkModelWithTimestamps):
     __tablename__ = "product_release_info"
 
     price = Column(Integer)
+    tax_including = Column(Boolean)
     initial_release_date = Column(Date, nullable=True)
     delay_release_date = Column(Date)
     announced_at = Column(Date)
