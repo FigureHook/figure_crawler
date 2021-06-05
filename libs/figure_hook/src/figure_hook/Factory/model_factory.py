@@ -34,10 +34,11 @@ class ProductModelFactory:
         for release in product_dataclass.release_infos:
             release_info = ProductReleaseInfo(
                 price=release.price,
-                tax_including=release.price.tax_including,
                 initial_release_date=release.release_date,
                 announced_at=release.announced_at
             )
+            if release.price:
+                release_info.tax_including = release.price.tax_including
             release_infos.append(release_info)
 
         product = Product.create(
@@ -79,14 +80,14 @@ class ProductModelFactory:
         if status is ReleaseInfoStatus.SAME:
             pass
         elif status is ReleaseInfoStatus.NEW_RELEASE:
-            product_model.release_infos.append(
-                ProductReleaseInfo(
-                    initial_release_date=last_release_form_dataclass.release_date,
-                    price=last_release_form_dataclass.price,
-                    tax_including=last_release_form_dataclass.price.tax_including,
-                    announced_at=last_release_form_dataclass.announced_at
-                )
+            new_release = ProductReleaseInfo(
+                initial_release_date=last_release_form_dataclass.release_date,
+                price=last_release_form_dataclass.price,
+                announced_at=last_release_form_dataclass.announced_at
             )
+            if last_release_form_dataclass.price:
+                new_release.tax_including = last_release_form_dataclass.price.tax_including
+            product_model.release_infos.append(new_release)
         elif status is ReleaseInfoStatus.DELAY:
             new_release_date = last_release_form_dataclass.release_date
             last_release_form_model.postpone_release_date_to(new_release_date)
@@ -141,7 +142,9 @@ def rebuild_release_infos(
     model_infos: List[ProductReleaseInfo]
 ) -> List[ProductReleaseInfo]:
     for dr, mr in zip(parsed_infos, model_infos):
-        mr.update(price=dr.price, tax_including=dr.price.tax_including)
+        mr.update(price=dr.price)
+        if dr.price:
+            mr.update(tax_including=dr.price.tax_including)
         if dr.release_date:
             if dr.release_date < mr.initial_release_date:
                 mr.update(initial_release_date=dr.release_date)
