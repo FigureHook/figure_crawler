@@ -1,10 +1,8 @@
 import os
 from contextlib import contextmanager
-from typing import Optional
 
 from figure_hook.Models.base import Model
 from sqlalchemy import create_engine
-from sqlalchemy.engine.base import Engine
 from sqlalchemy.orm import sessionmaker
 
 # https://stackoverflow.com/questions/12223335/sqlalchemy-creating-vs-reusing-a-session
@@ -47,4 +45,4 @@ def pgsql_session():
 
         yield session
 
-    Model.set_session(None)
+    Model.set_session(None)  # type: ignore
