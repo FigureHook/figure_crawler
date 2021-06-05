@@ -154,7 +154,7 @@ class GSCProductParser(ProductParser):
 
             return price_slot
 
-        if last_price:
+        if last_price is not None and last_price >= 0:
             price_slot.append(last_price)
 
         return price_slot
@@ -279,7 +279,11 @@ class GSCProductParser(ProductParser):
 
         period_text: str = period.text.strip()
         order_period_pattern = self._get_from_locale("order_period_pattern")
-        period_list = [x for x in re.finditer(order_period_pattern, period_text)]
+        period_list = [
+            x for x in re.finditer(
+                order_period_pattern, period_text
+            )
+        ]
 
         start = make_datetime(period_list[0], self.locale)
         end = None
