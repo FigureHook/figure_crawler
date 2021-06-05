@@ -26,12 +26,15 @@ class ProductModelFactory:
         paintworks = Paintwork.multiple_as_unique(product_dataclass.paintworks)
         sculptors = Sculptor.multiple_as_unique(product_dataclass.sculptors)
 
-        images = ProductOfficialImage.create_image_list(product_dataclass.images)
+        images = ProductOfficialImage.create_image_list(
+            product_dataclass.images
+        )
 
         release_infos: List[ProductReleaseInfo] = []
         for release in product_dataclass.release_infos:
             release_info = ProductReleaseInfo(
                 price=release.price,
+                tax_including=release.price.tax_including,
                 initial_release_date=release.release_date,
                 announced_at=release.announced_at
             )
@@ -80,6 +83,7 @@ class ProductModelFactory:
                 ProductReleaseInfo(
                     initial_release_date=last_release_form_dataclass.release_date,
                     price=last_release_form_dataclass.price,
+                    tax_including=last_release_form_dataclass.price.tax_including,
                     announced_at=last_release_form_dataclass.announced_at
                 )
             )
@@ -137,7 +141,7 @@ def rebuild_release_infos(
     model_infos: List[ProductReleaseInfo]
 ) -> List[ProductReleaseInfo]:
     for dr, mr in zip(parsed_infos, model_infos):
-        mr.update(price=dr.price)
+        mr.update(price=dr.price, tax_including=dr.price.tax_including)
         if dr.release_date:
             if dr.release_date < mr.initial_release_date:
                 mr.update(initial_release_date=dr.release_date)
