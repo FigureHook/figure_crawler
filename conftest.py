@@ -49,6 +49,7 @@ def session():
 
 @pytest.fixture()
 def product():
+    from figure_parser.extension_class import Price
     fake = Faker(['ja-JP'])
 
     release_infos = HistoricalReleases()
@@ -56,7 +57,7 @@ def product():
         release_infos.append(
             Release(
                 release_date=fake.date_object(),
-                price=random.randint(1000, 1000000)
+                price=Price(random.randint(1000, 1000000), fake.boolean(chance_of_getting_true=25))
             )
         )
 
@@ -66,7 +67,7 @@ def product():
         series=fake.name(),
         manufacturer=fake.company(),
         category=fake.name(),
-        price=random.randint(1000, 1000000),
+        price=Price(random.randint(1000, 1000000), fake.boolean(chance_of_getting_true=25)),
         release_date=fake.date_object(),
         release_infos=release_infos,
         order_period=OrderPeriod(fake.date_time()),
