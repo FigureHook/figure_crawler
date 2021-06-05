@@ -11,20 +11,23 @@ from sqlalchemy.orm import sessionmaker
 
 
 class PostgreSQLDB:
-    _engine: Optional[Engine]
-    _Session: sessionmaker
+    __instance__ = None
 
-    def __init__(self):
-        db_url = os.getenv("POSTGRES_URL")
-        db_user = os.getenv('POSTGRES_USER')
-        db_pw = os.getenv('POSTGRES_PASSWORD')
-        database = os.getenv('POSTGRES_DATABASE')
-        self._engine = create_engine(
-            f"postgresql+psycopg2://{db_user}:{db_pw}@{db_url}/{database}",
-            echo=False,
-            future=True
-        )
-        self._Session = sessionmaker(self._engine)
+    def __new__(cls) -> 'PostgreSQLDB':
+        if not cls.__instance__:
+            db_url = os.getenv("POSTGRES_URL")
+            db_user = os.getenv('POSTGRES_USER')
+            db_pw = os.getenv('POSTGRES_PASSWORD')
+            database = os.getenv('POSTGRES_DATABASE')
+            cls._engine = create_engine(
+                f"postgresql+psycopg2://{db_user}:{db_pw}@{db_url}/{database}",
+                echo=False,
+                future=True
+            )
+            cls._sessionmaker = sessionmaker(cls._engine)
+            cls.__instance__ = super().__new__(cls)
+
+        return cls.__instance__
 
     @property
     def engine(self):
@@ -32,7 +35,7 @@ class PostgreSQLDB:
 
     @property
     def Session(self):
-        return self._Session
+        return self._sessionmaker
 
 
 @contextmanager
