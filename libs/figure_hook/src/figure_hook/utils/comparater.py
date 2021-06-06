@@ -8,6 +8,7 @@ from figure_parser.product import ProductBase
 
 def compare_release_infos(p_dataclass: ProductBase, p_model: ProductModel) -> ReleaseInfoStatus:
     """Compare the alteration between parsed data(:dataclass:`ProductBase`) and stored data(:model:`Product`)
+    TODO: refer other value in release_info (e.g. price, tax_including, announced_at)
 
     1. CONFLICT
         When :prop:`release_infos` in :class:`ProductBase` were less than :prop:`release_infos` in :class:`Product`.
