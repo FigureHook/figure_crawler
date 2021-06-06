@@ -27,6 +27,11 @@ class FactoryTestBase:
         self.factory.createProduct(self.product_url, is_normalized=True)
         nomalization.assert_called()
 
+    def test_product_creation_with_speculate_announce_date(self, mocker:MockerFixture):
+        speculating = mocker.patch.object(Product, 'speculate_announce_date')
+        self.factory.createProduct(self.product_url, speculate_announce_date=True)
+        speculating.assert_called()
+
 
 class TestGSCFactory(FactoryTestBase):
     factory = GSCFactory

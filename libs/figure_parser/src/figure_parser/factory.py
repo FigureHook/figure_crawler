@@ -34,6 +34,7 @@ class ProductFactory(ABC):
             url: str,
             page: Optional[BeautifulSoup] = None,
             is_normalized: bool = False,
+            speculate_announce_date: bool = False
     ):
         if not getattr(cls, "__product_parser__", None):
             raise NotImplementedError(
@@ -69,6 +70,9 @@ class ProductFactory(ABC):
 
         if is_normalized:
             product.normalize_attrs()
+
+        if speculate_announce_date:
+            product.speculate_announce_date()
 
         return product
 
