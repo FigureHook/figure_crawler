@@ -35,14 +35,14 @@ class FactoryTestBase:
         speculating.assert_called()
 
 
-class TestGSCFactory(FactoryTestBase):
-    factory = GSCFactory
-    product_url = "https://www.goodsmile.info/ja/product/10753/"
+class TestBrandFactory:
+    class TestGSCFactory(FactoryTestBase):
+        factory = GSCFactory
+        product_url = "https://www.goodsmile.info/ja/product/10753/"
 
-
-class TestAlterFactory(FactoryTestBase):
-    factory = AlterFactory
-    product_url = "https://www.alter-web.jp/products/261/"
+    class TestAlterFactory(FactoryTestBase):
+        factory = AlterFactory
+        product_url = "https://www.alter-web.jp/products/261/"
 
 
 class TestGeneralFactory:
