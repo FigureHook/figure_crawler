@@ -119,6 +119,9 @@ class ProductDataProcessMixin:
         "sculptors"
     ]
 
+    order_period: OrderPeriod
+    release_infos: HistoricalReleases[Release]
+
     def normalize_attrs(self) -> None:
         """
         ## normalize string attributes or string in list attributes
@@ -131,10 +134,23 @@ class ProductDataProcessMixin:
         for attr in self.__attrs_to_be_normalized__:
             attr_value = getattr(self, attr)
             if attr_value is not None:
-                normalized_attr_value = ProductUtils.normalize_product_attr(attr_value)
+                normalized_attr_value = ProductUtils.normalize_product_attr(
+                    attr_value)
                 if attr in self.__worker_attrs__:
-                    normalized_attr_value = ProductUtils.normalize_worker_attr(normalized_attr_value)
+                    normalized_attr_value = ProductUtils.normalize_worker_attr(
+                        normalized_attr_value)
                 setattr(self, attr, normalized_attr_value)
+
+    def speculate_announce_date(self) -> None:
+        """speculate announce_date from order_period
+
+        this method should set last release `.announced_at` to date of order_period `.start`(when existed)
+        """
+        last_release = self.release_infos.last()
+        if last_release:
+            if last_release.announced_at is None:
+                if self.order_period.start:
+                    last_release.announced_at = self.order_period.start.date()
 
 
 class Product(ProductBase, ProductDataProcessMixin):
