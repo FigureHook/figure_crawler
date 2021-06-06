@@ -176,10 +176,11 @@ class TestReleaseInfoComparater:
 
 @pytest.mark.usefixtures("session")
 def test_rebuild_release_infos(product_base):
+    from figure_parser.extension_class import Price
     product_base.release_infos = HistoricalReleases([
-        Release(date(2019, 11, 2), 13000),
-        Release(date(2020, 3, 2), 13000),
-        Release(date(2023, 2, 2), 12000),
+        Release(date(2019, 11, 2), Price(13000)),
+        Release(date(2020, 3, 2), Price(13000)),
+        Release(date(2023, 2, 2), Price(13000)),
     ])
 
     p_m = Product.create(
@@ -187,15 +188,15 @@ def test_rebuild_release_infos(product_base):
         release_infos=[
             ProductReleaseInfo(
                 initial_release_date=date(2019, 12, 2),
-                price=12000
+                price=Price(12000)
             ),
             ProductReleaseInfo(
                 initial_release_date=date(2020, 2, 2),
-                price=12000
+                price=Price(12000)
             ),
             ProductReleaseInfo(
                 initial_release_date=date(2023, 2, 2),
-                price=12000
+                price=Price(12000)
             ),
         ]
     )
