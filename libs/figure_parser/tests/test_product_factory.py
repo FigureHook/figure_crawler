@@ -1,6 +1,7 @@
 from dataclasses import is_dataclass
 
 import pytest
+from figure_parser.errors import UnsupportedDomainError
 from figure_parser.factory import (AlterFactory, GeneralFactory, GSCFactory,
                                    ProductFactory)
 from figure_parser.product import Product
@@ -69,7 +70,7 @@ class TestGeneralFactory:
     def test_provide_unsupported_url(self, mocker: MockerFixture):
         mocker.patch.object(
             GeneralFactory, "detect_factory", return_value=None)
-        with pytest.raises(ValueError):
+        with pytest.raises(UnsupportedDomainError):
             assert GeneralFactory.createProduct(
                 "https://sshop.com/product/AVC222/"
             )

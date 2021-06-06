@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from datetime import date, datetime
 from typing import Any, Optional, TypeVar
 
+from .errors import OrderPeriodError
 from .utils import AsDictable
 
 __all__ = [
@@ -22,7 +23,7 @@ class OrderPeriod(AsDictable):
         end = self.end
         if start and end:
             if end < start:
-                raise ValueError(
+                raise OrderPeriodError(
                     f"start_datetime {start} shouldn't later than end_datetime {end}."
                 )
 

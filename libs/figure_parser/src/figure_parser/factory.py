@@ -9,6 +9,7 @@ from bs4 import BeautifulSoup
 from figure_parser.abcs import ProductParser
 from figure_parser.alter import AlterProductParser
 from figure_parser.constants import BrandHost
+from figure_parser.errors import UnsupportedDomainError
 from figure_parser.gsc import GSCProductParser
 
 from .product import Product
@@ -109,7 +110,7 @@ class GeneralFactory:
         factory = cls.detect_factory(url)
         if not factory:
             supported_hosts = [host.value for host in BrandHost]
-            raise ValueError(
+            raise UnsupportedDomainError(
                 f"Couldn't detect any factory for provided url({url})\nCurrent supported hostnames: {pformat(supported_hosts)}"
             )
         return factory.createProduct(url, page, is_normalized)

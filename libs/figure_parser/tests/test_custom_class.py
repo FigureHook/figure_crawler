@@ -1,9 +1,10 @@
 from datetime import date, datetime
 
 import pytest
-from pytest_mock import MockerFixture
+from figure_parser.errors import OrderPeriodError
 from figure_parser.extension_class import (HistoricalReleases, OrderPeriod,
                                            Price, Release)
+from pytest_mock import MockerFixture
 
 
 class TestRelease:
@@ -66,7 +67,7 @@ class TestOrderPeriod:
         assert not order_period.end
 
     def test_checker(self):
-        with pytest.raises(ValueError):
+        with pytest.raises(OrderPeriodError):
             OrderPeriod(datetime(2000, 1, 1), datetime(1999, 1, 1))
 
     def test_none_of_one(self):

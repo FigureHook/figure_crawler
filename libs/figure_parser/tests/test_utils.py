@@ -1,5 +1,6 @@
 import pytest
 from figure_parser.constants import BrandHost
+from figure_parser.errors import UnsupportedDomainError
 from figure_parser.utils import check_domain, price_parse
 
 brand_host_test_data = [
@@ -23,7 +24,7 @@ def test_domain_checker(domain, url):
 
     MockParser(url)
 
-    with pytest.raises(ValueError):
+    with pytest.raises(UnsupportedDomainError):
         MockFailParser(url)
 
 

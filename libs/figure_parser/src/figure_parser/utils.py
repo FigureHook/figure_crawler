@@ -9,6 +9,7 @@ import requests as rq
 from bs4 import BeautifulSoup
 
 from .constants import BrandHost
+from .errors import UnsupportedDomainError
 
 T = TypeVar('T')
 
@@ -54,7 +55,7 @@ def check_domain(init_func):
 
         valid_domain = re.search(parser.__allow_domain__, netloc)
         if netloc and not valid_domain:
-            raise ValueError("Invalid domain.")
+            raise UnsupportedDomainError("Invalid domain.")
 
         elif netloc and valid_domain:
             init_func(parser, url, *args, **kwargs)
