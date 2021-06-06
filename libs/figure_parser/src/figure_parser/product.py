@@ -89,7 +89,8 @@ class ProductBase(AsDictable):
             self.scale,
             self.releaser,
             self.distributer,
-            self.jan
+            self.jan,
+            self.release_infos
         )
 
         m = md5()
