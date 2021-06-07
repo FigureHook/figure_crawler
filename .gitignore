@@ -7,7 +7,8 @@ playground/
 data/
 .devcontainer/
 *.sqlite
-*.env
+.env
+deploy.env
 *.csv
 *.log
 logs/
