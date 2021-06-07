@@ -3,6 +3,7 @@ from datetime import date, datetime
 import pytest
 from figure_parser.product import (ProductBase, ProductDataProcessMixin,
                                    ProductUtils)
+from pytest_mock import MockerFixture
 
 
 @pytest.mark.usefixtures("product")
@@ -13,7 +14,7 @@ def test_product_base(product: ProductBase):
     assert p.checksum == product.checksum
 
 
-def test_product_data_process_mixin(mocker):
+def test_product_data_process_mixin(mocker: MockerFixture):
     attributes_be_tested = [
         "name",
         "series",
