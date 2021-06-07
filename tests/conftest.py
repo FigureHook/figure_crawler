@@ -38,5 +38,5 @@ def session():
         Model.metadata.create_all(bind=pgsql.engine)
         yield session
 
-    Model.set_session(None)
+    Model.set_session(None)  # type: ignore
     Model.metadata.drop_all(bind=pgsql.engine)
