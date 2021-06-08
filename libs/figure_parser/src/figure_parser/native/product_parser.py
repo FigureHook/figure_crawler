@@ -85,7 +85,7 @@ class NativeProductParser(ProductParser):
         sculptors = []
         raw_sculptors = sculptors_text.split("\n")
         for raw_sculptor in raw_sculptors:
-            pattern = r"\s?\(?.[原型形製制作]?協力[:：]"
+            pattern = r"\s?\(?.[原型形製制作]+協力[:：]"
             sculptor = re.sub(pattern, "", raw_sculptor)
             sculptor = sculptor.strip()
             sculptors.append(sculptor)
@@ -94,13 +94,14 @@ class NativeProductParser(ProductParser):
 
     def parse_scale(self) -> Union[int, None]:
         spec_text = self.detail.get('サイズ')
-        scale_text, _ = spec_text.split("\n")
+        scale_text = spec_text.split("\n")[0]
         return scale_parse(scale_text)
 
     def parse_size(self) -> Union[int, None]:
         spec_text = self.detail.get('サイズ')
-        _, size_text = spec_text.split("\n")
-        return size_parse(size_text)
+        if spec_text:
+            return size_parse(spec_text)
+        return None
 
     def parse_copyright(self) -> Union[str, None]:
         copyright_ele = self.page.select_one('.copyright')
@@ -135,13 +136,18 @@ class NativeProductParser(ProductParser):
         if order_period_text:
             order_period_text = re.sub(r"\(\w\)", "", order_period_text)
             r = re.findall(pattern, order_period_text)
-            datetime_format = r"%Y年%m月%d日%H時"
-            start_text, end_text = r
-            start = datetime.strptime(start_text, datetime_format)
-            end = datetime.strptime(end_text, datetime_format)
-            order_period = OrderPeriod(start, end)
+            if r:
+                datetime_format = r"%Y年%m月%d日%H時"
+                start_text, *remaining = r
+                start = datetime.strptime(start_text, datetime_format)
+                end = None
+                if len(r) >= 2:
+                    end_text, *_ = remaining
+                    end = datetime.strptime(end_text, datetime_format)
 
-            return order_period
+                order_period = OrderPeriod(start, end)
+
+                return order_period
 
         return super().parse_order_period()
 
