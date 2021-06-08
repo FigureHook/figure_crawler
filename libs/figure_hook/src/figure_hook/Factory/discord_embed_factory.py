@@ -116,15 +116,15 @@ class DiscordEmbedFactory:
                 name="size", value=f"{size} mm", inline=True
             )
 
-        if scale:
-            embed.add_field(
-                name="scale", value=f"1/{scale}", inline=True
-            )
+        # if scale:
+        #     embed.add_field(
+        #         name="scale", value=f"1/{scale}", inline=True
+        #     )
 
         embed.add_field(
-            name="price", value=f"JPY {price:,}", inline=True
-        ).add_field(
             name="release_date", value=release_date, inline=True
+        ).add_field(
+            name="price", value=f"JPY {price:,}", inline=True
         )
 
         return embed
