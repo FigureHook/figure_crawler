@@ -7,8 +7,9 @@ from datetime import date
 import scrapy
 from bs4 import BeautifulSoup
 from figure_parser.constants import (AlterCategory, BrandHost, GSCCategory,
-                                     GSCLang)
-from figure_parser.factory import AlterFactory, GSCFactory
+                                     GSCLang, NativeCategory)
+from figure_parser.factory import AlterFactory, GSCFactory, NativeFactory
+from figure_parser.native.announcement_parser import get_max_page_count
 from figure_parser.utils import RelativeUrl
 from scrapy.linkextractors import LinkExtractor
 from scrapy.spiders import CrawlSpider
@@ -107,6 +108,55 @@ class AlterProductSpider(CrawlSpider):
         self.logger.info(f"Parsing {response.url}...")
         page = BeautifulSoup(response.text, "lxml")
         product = AlterFactory.createProduct(response.url, page=page, is_normalized=True)
+        yield product
+
+
+class NativeProductSpider(CrawlSpider):
+    name = "native_product"
+    # allowed_domains = [BrandHost.NATIVE]
+
+    def __init__(
+        self,
+        category=NativeCategory.CREATORS,
+        begin_page=1,
+        end_page=None,
+        force_update=False,
+    ) -> None:
+        super().__init__()
+        self.category = category
+        self.begin_page = begin_page
+        self.end_page = end_page
+        self._force_update = force_update
+
+    @property
+    def force_update(self):
+        return self._force_update
+
+    def start_requests(self):
+        url = RelativeUrl.native(
+            f"/{self.category}/"
+        )
+        yield scrapy.Request(url, callback=self.parse)
+
+    def parse(self, response):
+        page = BeautifulSoup(response.text, "lxml")
+        if not self.end_page:
+            self.end_page = get_max_page_count(page)
+
+        for page_num in range(self.begin_page, self.end_page+1):
+            url = RelativeUrl.native(
+                f"/{self.category}/page/{page_num}"
+            )
+            yield scrapy.Request(url, callback=self.parse_product_url)
+
+    def parse_product_url(self, response):
+        for link in LinkExtractor(restrict_css="section > a").extract_links(response):
+            yield scrapy.Request(link.url, callback=self.parse_product)
+
+    def parse_product(self, response):
+        self.logger.info(f"Parsing {response.url}...")
+        page = BeautifulSoup(response.text, "lxml")
+        product = NativeFactory.createProduct(response.url, page=page, is_normalized=True, speculate_announce_date=True)
         yield product
 
 

@@ -8,6 +8,19 @@ from ..utils import RelativeUrl, get_page
 # FIXME: lack of test
 
 
+def get_max_page_count(category_page: BeautifulSoup):
+    pattern = r"\d\ / (?P<total>\d)"
+    count_ele = category_page.select_one('.pages')
+    count_text = count_ele.text.strip()
+    result = re.search(pattern, count_text)
+    total = result.groupdict().get('total')
+    if total:
+        if total.isdigit():
+            return int(total)
+
+    raise ValueError
+
+
 class NativeAnnouncementParser:
     def __init__(self, category: NativeCategory) -> None:
         self.category = category
@@ -18,16 +31,7 @@ class NativeAnnouncementParser:
             f"/{self.category}/"
         )
         page = get_page(url)
-        pattern = r"\d\ / (?P<total>\d)"
-        count_ele = page.select_one('.pages')
-        count_text = count_ele.text.strip()
-        result = re.search(pattern, count_text)
-        total = result.groupdict().get('total')
-        if total:
-            if total.isdigit():
-                return int(total)
-
-        raise ValueError
+        return get_max_page_count(page)
 
     def _get_page_items(self, page_num):
         announcement_url = RelativeUrl.native(
