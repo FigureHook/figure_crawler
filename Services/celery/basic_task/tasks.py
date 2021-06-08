@@ -52,12 +52,12 @@ def news_push():
 
         webhooks: list[WebhookModel] = WebhookModel.all()  # type: ignore
 
-    # begin dispatching embeds
-    webhook_adapter = RequestsWebhookAdapter()
-    dispatcher = DiscordNewReleaseEmbedsDispatcher(
-        webhooks, raw_embeds, webhook_adapter
-    )
-    dispatcher.dispatch()
+        # begin dispatching embeds
+        webhook_adapter = RequestsWebhookAdapter()
+        dispatcher = DiscordNewReleaseEmbedsDispatcher(
+            webhooks, raw_embeds, webhook_adapter
+        )
+        dispatcher.dispatch()  # long-time job
 
     with pgsql_session() as session:
         for webhook_id, is_existed in dispatcher.webhook_status.items():
