@@ -6,12 +6,13 @@ from typing import ClassVar, Optional, Type, Union
 from urllib.parse import urlparse
 
 from bs4 import BeautifulSoup
-from figure_parser.abcs import ProductParser
-from figure_parser.alter import AlterProductParser
-from figure_parser.constants import BrandHost
-from figure_parser.errors import UnsupportedDomainError
-from figure_parser.gsc import GSCProductParser
 
+from .abcs import ProductParser
+from .alter import AlterProductParser
+from .constants import BrandHost
+from .errors import UnsupportedDomainError
+from .gsc import GSCProductParser
+from .native import NativeProductParser
 from .product import Product
 
 __all__ = [
@@ -88,6 +89,11 @@ class AlterFactory(ProductFactory):
     __product_parser__ = AlterProductParser
 
 
+class NativeFactory(ProductFactory):
+    """Native product factory"""
+    __product_parser__ = NativeProductParser
+
+
 SupportingFactory = namedtuple(
     'SupportingFactory',
     ["hostname", "factory"]
@@ -97,7 +103,8 @@ SupportingFactory = namedtuple(
 class GeneralFactory:
     supporting_factories = (
         SupportingFactory(BrandHost.GSC, GSCFactory),
-        SupportingFactory(BrandHost.ALTER, AlterFactory)
+        SupportingFactory(BrandHost.ALTER, AlterFactory),
+        SupportingFactory(BrandHost.NATIVE, NativeFactory)
     )
 
     @classmethod
