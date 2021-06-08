@@ -3,7 +3,7 @@ from dataclasses import is_dataclass
 import pytest
 from figure_parser.errors import UnsupportedDomainError
 from figure_parser.factory import (AlterFactory, GeneralFactory, GSCFactory,
-                                   ProductFactory)
+                                   NativeFactory, ProductFactory)
 from figure_parser.product import Product
 from pytest_mock import MockerFixture
 
@@ -44,6 +44,10 @@ class TestBrandFactory:
     class TestAlterFactory(FactoryTestBase):
         factory = AlterFactory
         product_url = "https://www.alter-web.jp/products/261/"
+
+    class TestNativeFactory(FactoryTestBase):
+        factory = NativeFactory
+        product_url = "https://www.native-web.jp/creators/806/"
 
 
 class TestGeneralFactory:
