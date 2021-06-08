@@ -74,6 +74,6 @@ networks:
 
 secrets:
   site_cert:
-    file: ./nginx.crt
+    file: ./secrets/nginx.crt
   site_key:
-    file: ./nginx.key
+    file: ./secrets/nginx.key

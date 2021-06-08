@@ -83,8 +83,8 @@ networks:
 
 secrets:
   site_cert:
-    file: ./nginx.crt
+    file: ./secrets/nginx.crt
   site_key:
-    file: ./nginx.key
+    file: ./secrets/nginx.key
   dhparam:
-    file: ./dhparam.pem
+    file: ./secrets/dhparam.pem
