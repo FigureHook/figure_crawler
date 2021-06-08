@@ -53,7 +53,7 @@ class SiteChecksum(ABC):
 
     def update(self):
         if self.__site_checksum:
-            self.__site_checksum.update(checksum=self.current)
+            self.__site_checksum.update(checksum=self.current)  # type: ignore
         else:
             self.__site_checksum = AnnouncementChecksum.create(site=self.__site__, checksum=self.current)
 
