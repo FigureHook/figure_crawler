@@ -113,7 +113,7 @@ class AlterProductSpider(CrawlSpider):
 
 class NativeProductSpider(CrawlSpider):
     name = "native_product"
-    # allowed_domains = [BrandHost.NATIVE]
+    allowed_domains = [BrandHost.NATIVE]
 
     def __init__(
         self,
@@ -172,3 +172,17 @@ class AlterRecentProductSpider(AlterProductSpider):
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(category=AlterCategory.ALL, begin_year=date.today().year, *args, **kwargs)
+
+
+class NativeRecentCharacterSpider(NativeProductSpider):
+    name = "native_character_recent"
+
+    def __init__(self) -> None:
+        super().__init__(category=NativeCategory.CHARACTERS, begin_page=1, end_page=1)
+
+
+class NativeRecentCreatorSpider(NativeProductSpider):
+    name = "native_creator_recent"
+
+    def __init__(self) -> None:
+        super().__init__(category=NativeCategory.CREATORS, begin_page=1, end_page=1)
