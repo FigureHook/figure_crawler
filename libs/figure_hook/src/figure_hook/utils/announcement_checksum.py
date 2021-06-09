@@ -15,6 +15,7 @@ __all__ = [
     "GSCChecksum",
     "AlterChecksum",
     "SiteChecksum",
+    "NativeChecksum",
 ]
 
 
@@ -104,3 +105,28 @@ class AlterChecksum(SiteChecksum):
     def trigger_crawler() -> list:
         job = schedule_spider("alter_recent")
         return [job]
+
+
+class NativeChecksum(SiteChecksum):
+    __site__ = SourceSite.NATIVE
+
+    @staticmethod
+    def _extract_feature() -> bytes:
+        url = RelativeUrl.native("/news/feed/")
+        response = rq.head(url)
+        etag = response.headers.get('ETag')
+        response.raise_for_status()
+        return str(etag).encode("utf-8")
+
+    @staticmethod
+    def trigger_crawler() -> list:
+        jobs = []
+        spider_names = [
+            "native_character_recent",
+            "native_creator_recent"
+        ]
+        for name in spider_names:
+            job = schedule_spider(name)
+            jobs.append(job)
+
+        return jobs

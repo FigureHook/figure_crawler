@@ -13,6 +13,7 @@ class ReleaseInfoStatus(Enum):
 class SourceSite(Enum):
     GSC = 1
     ALTER = 2
+    NATIVE = 3
 
 
 class PeriodicTask(Enum):

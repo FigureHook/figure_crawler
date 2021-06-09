@@ -1,6 +1,6 @@
 import pytest
 from figure_hook.utils.announcement_checksum import (AlterChecksum,
-                                                     GSCChecksum, SiteChecksum)
+                                                     GSCChecksum, NativeChecksum, SiteChecksum)
 from pytest_mock import MockerFixture
 
 
@@ -50,3 +50,7 @@ class TestGSC(BaseTestChecksum):
 
 class TestAlter(BaseTestChecksum):
     __checksum_class__ = AlterChecksum
+
+
+class TestNative(BaseTestChecksum):
+    __checksum_class__ = NativeChecksum
