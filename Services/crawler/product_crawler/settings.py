@@ -65,9 +65,7 @@ ROBOTSTXT_OBEY = False
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    # 'product_crawler.pipelines.ProductDataProcessingPipeline': 300,
     'product_crawler.pipelines.SaveProductInDatabasePipeline': 400,
-    # 'gsc_crawler.pipelines.OrderPeriodFillingPipeline': 500
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

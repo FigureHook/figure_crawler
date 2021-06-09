@@ -147,7 +147,7 @@ class NativeProductSpider(CrawlSpider):
             url = RelativeUrl.native(
                 f"/{self.category}/page/{page_num}"
             )
-            yield scrapy.Request(url, callback=self.parse_product_url)
+            yield scrapy.Request(url, callback=self.parse_product_url, dont_filter=True)
 
     def parse_product_url(self, response):
         for link in LinkExtractor(restrict_css="section > a").extract_links(response):
