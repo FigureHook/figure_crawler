@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from hashlib import md5
 from typing import Optional
+from figure_hook.utils.scrapyd_api import schedule_spider
 
 import requests as rq
 from figure_hook.constants import SourceSite
@@ -27,7 +28,9 @@ class SiteChecksum(ABC):
 
     def __init__(self) -> None:
         if not hasattr(self, "__site__"):
-            raise NotImplementedError("Class attribute `__site__` should be implemented.")
+            raise NotImplementedError(
+                "Class attribute `__site__` should be implemented."
+            )
 
         self.__site_checksum = AnnouncementChecksum.get_by_site(self.__site__)
         self._feature = self._extract_feature()
@@ -55,11 +58,18 @@ class SiteChecksum(ABC):
         if self.__site_checksum:
             self.__site_checksum.update(checksum=self.current)  # type: ignore
         else:
-            self.__site_checksum = AnnouncementChecksum.create(site=self.__site__, checksum=self.current)
+            self.__site_checksum = AnnouncementChecksum.create(
+                site=self.__site__,
+                checksum=self.current
+            )
 
     @staticmethod
     @abstractmethod
     def _extract_feature() -> bytes: ...
+
+    @staticmethod
+    @abstractmethod
+    def trigger_crawler() -> list: ...
 
 
 class GSCChecksum(SiteChecksum):
@@ -73,6 +83,11 @@ class GSCChecksum(SiteChecksum):
         response.raise_for_status()
         return response.content
 
+    @staticmethod
+    def trigger_crawler() -> list:
+        job = schedule_spider("gsc_recent")
+        return [job]
+
 
 class AlterChecksum(SiteChecksum):
     __site__ = SourceSite.ALTER
@@ -84,3 +99,8 @@ class AlterChecksum(SiteChecksum):
         response = rq.get(url)
         response.raise_for_status()
         return response.content
+
+    @staticmethod
+    def trigger_crawler() -> list:
+        job = schedule_spider("alter_recent")
+        return [job]

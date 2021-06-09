@@ -1,6 +1,7 @@
 import pytest
 from figure_hook.utils.announcement_checksum import (AlterChecksum,
                                                      GSCChecksum, SiteChecksum)
+from pytest_mock import MockerFixture
 
 
 @pytest.mark.usefixtures("session")
@@ -31,6 +32,16 @@ class BaseTestChecksum:
 
         fetched_site_checksum: SiteChecksum = self.__checksum_class__()
         assert site_checksum.current == fetched_site_checksum.previous
+
+    def test_trigger_crawler(self, mocker: MockerFixture):
+        crawler_trigger = mocker.patch(
+            "figure_hook.utils.announcement_checksum.schedule_spider",
+            return_value="job"
+        )
+        site_checksum: SiteChecksum = self.__checksum_class__()
+        jobs = site_checksum.trigger_crawler()
+        assert isinstance(jobs, list)
+        assert crawler_trigger.called
 
 
 class TestGSC(BaseTestChecksum):
