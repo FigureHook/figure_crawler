@@ -39,7 +39,8 @@ class ReleaseHelper:
         ).where(
             ProductReleaseInfo.created_at > time,
             # ensure fetched data parsed by new release checking parser
-            ProductReleaseInfo.announced_at.isnot(None)
+            ProductReleaseInfo.announced_at.isnot(None),
+            ProductReleaseInfo.announced_at >= time.date()
         ).cte("release_info")
 
         stmt = select(
