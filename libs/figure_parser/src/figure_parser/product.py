@@ -90,7 +90,9 @@ class ProductBase(AsDictable):
             self.releaser,
             self.distributer,
             self.jan,
-            self.release_infos
+            self.release_infos,
+            self.thumbnail,
+            self.og_image
         )
 
         m = md5()
