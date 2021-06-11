@@ -121,8 +121,10 @@ class NativeProductSpider(CrawlSpider):
         begin_page=1,
         end_page=None,
         force_update=False,
+        *arg,
+        **kwargs
     ) -> None:
-        super().__init__()
+        super().__init__(*arg, **kwargs)
         self.category = category
         self.begin_page = begin_page
         self.end_page = end_page
@@ -177,12 +179,12 @@ class AlterRecentProductSpider(AlterProductSpider):
 class NativeRecentCharacterSpider(NativeProductSpider):
     name = "native_character_recent"
 
-    def __init__(self) -> None:
-        super().__init__(category=NativeCategory.CHARACTERS, begin_page=1, end_page=1)
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(category=NativeCategory.CHARACTERS, begin_page=1, end_page=1, *args, **kwargs)
 
 
 class NativeRecentCreatorSpider(NativeProductSpider):
     name = "native_creator_recent"
 
-    def __init__(self) -> None:
-        super().__init__(category=NativeCategory.CREATORS, begin_page=1, end_page=1)
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(category=NativeCategory.CREATORS, begin_page=1, end_page=1, *args, **kwargs)
