@@ -104,7 +104,10 @@ class DiscordEmbedFactory:
             is_nsfw=is_adult
         )
         embed.set_image(url=image)
-        embed.set_thumbnail(url=thumbnail)
+
+        if thumbnail:
+            embed.set_thumbnail(url=thumbnail)
+
         embed.add_field(
             name="maker", value=maker, inline=False
         ).add_field(
