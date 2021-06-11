@@ -57,11 +57,12 @@ class NativeProductParser(ProductParser):
         release_dates = []
         if release_date_text:
             result = re.search(pattern, release_date_text)
-            year = result.groupdict().get('year', 0)
-            month = result.groupdict().get('month', 0)
-            release_date = datetime(int(year), int(month), 1).date()
+            if result:
+                year = result.groupdict().get('year', 0)
+                month = result.groupdict().get('month', 0)
+                release_date = datetime(int(year), int(month), 1).date()
 
-            release_dates.append(release_date)
+                release_dates.append(release_date)
 
         return release_dates
 
