@@ -68,10 +68,12 @@ class NewReleaseEmbed(Embed):
             if key == "release_date":
                 locale = locale_mapping.get(lang, "en")
                 date_format = embed_templates[lang]["date_format"]
-                release_date = datetime.strptime(f["value"], "%Y-%m-%d").date()
-                f["value"] = str(format_date(
-                    release_date, date_format, locale=locale)
-                )
+                if f["value"]:
+                    release_date = datetime.strptime(
+                        f["value"], "%Y-%m-%d").date()
+                    f["value"] = str(format_date(
+                        release_date, date_format, locale=locale)
+                    )
 
         return embed
 
