@@ -75,6 +75,9 @@ class DiscordHookerStats(UserDict):
         self.data["webhook_sending_count/404"] += 1
 
 
+avartar = "https://cdn.discordapp.com/app-icons/655029515726094337/27898ae3dcc9811d2622977f38364425.png"
+
+
 class DiscordHooker(Sender):
     batch_size = 10
 
@@ -110,7 +113,10 @@ class DiscordHooker(Sender):
 
     def _send(self, webhook: Webhook, embeds: list[Embed]):
         try:
-            webhook.send(embeds=embeds)
+            webhook.send(
+                avatar_url=avartar,
+                embeds=embeds
+            )
             self._stats.sending_success()
 
         except NotFound:
