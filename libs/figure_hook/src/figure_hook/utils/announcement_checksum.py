@@ -56,6 +56,9 @@ class SiteChecksum(ABC):
         return calculate_checksum(self.feature)
 
     def update(self):
+        """This method will create new sitechecksum,
+        if the sitechecsum wasn't existed in database.
+        """
         if self.__site_checksum:
             self.__site_checksum.update(checksum=self.current)  # type: ignore
         else:
@@ -66,11 +69,17 @@ class SiteChecksum(ABC):
 
     @staticmethod
     @abstractmethod
-    def _extract_feature() -> bytes: ...
+    def _extract_feature() -> bytes:
+        """Return any bytes which could identify the site has changed.
+        """
+        pass
 
     @staticmethod
     @abstractmethod
-    def trigger_crawler() -> list: ...
+    def trigger_crawler() -> list:
+        """Trigger the spiders to parse new product.
+        """
+        pass
 
 
 class GSCChecksum(SiteChecksum):
