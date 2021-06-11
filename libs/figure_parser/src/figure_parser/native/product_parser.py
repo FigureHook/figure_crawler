@@ -128,6 +128,12 @@ class NativeProductParser(ProductParser):
 
         return images
 
+    def parse_thumbnail(self) -> Union[str, None]:
+        slide_image = self.page.select_one('.swiper-slide > .img > img')
+
+        thumbnail = re.sub(r"\d+(?=[.jpg])", "m", slide_image['src'])
+        return thumbnail
+
     def parse_maker_id(self) -> Union[str, None]:
         return re.findall(r"\d+", self.url)[0]
 
