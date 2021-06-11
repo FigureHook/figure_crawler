@@ -21,7 +21,7 @@ __all__ = [
 
 
 def calculate_checksum(target):
-    return md5(str(target).encode("utf-8")).hexdigest()
+    return md5(target).hexdigest()
 
 
 class SiteChecksum(ABC):
