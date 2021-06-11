@@ -117,13 +117,14 @@ class DiscordHooker(Sender):
             self._stats.sending_404()
             return False
 
-        except HTTPException:
+        except HTTPException as e:
             self._stats.sending_failed()
+            raise e
 
         except Exception as e:
             # FIXME: how to log the error?
-            print(e)
             self._stats.sending_failed()
+            raise e
 
         return True
 
