@@ -1,4 +1,3 @@
-from collections import namedtuple
 from typing import Type
 
 from discord import RequestsWebhookAdapter, Webhook
@@ -13,8 +12,9 @@ from figure_hook.Models import Task
 from figure_hook.Models import Webhook as WebhookModel
 from figure_hook.Sender.discord_hooker import DiscordHooker
 from figure_hook.utils.announcement_checksum import (AlterChecksum,
-                                                     GSCChecksum, SiteChecksum)
-from figure_hook.utils.scrapyd_api import schedule_spider
+                                                     GSCChecksum,
+                                                     NativeChecksum,
+                                                     SiteChecksum)
 from sqlalchemy.sql import update
 
 from .celery import app
@@ -77,21 +77,17 @@ def news_push():
 @app.task
 def check_new_release():
     scheduled_jobs = []
+    site_checksums: list[Type[SiteChecksum]] = [
+        AlterChecksum,
+        GSCChecksum,
+        NativeChecksum
+    ]
     with pgsql_session():
-        CheckingPair = namedtuple(
-            "CheckingPair", ["checksum_cls", "spider_name"]
-        )
-        sites_to_check = [
-            CheckingPair(AlterChecksum, "alter_recent"),
-            CheckingPair(GSCChecksum, "gsc_recent")
-        ]
-        for checking_pair in sites_to_check:
-            checksum_cls: Type[SiteChecksum] = checking_pair.checksum_cls
-            spider = checking_pair.spider_name
-            checksum = checksum_cls()
+        for site_checksum in site_checksums:
+            checksum = site_checksum()
             if checksum.is_changed:
-                response = schedule_spider(spider)
-                scheduled_jobs.append(response)
+                spider_jobs = checksum.trigger_crawler()
+                scheduled_jobs.extend(spider_jobs)
                 checksum.update()
     return scheduled_jobs
 
