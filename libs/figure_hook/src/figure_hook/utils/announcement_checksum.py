@@ -1,7 +1,6 @@
 from abc import ABC, abstractmethod
 from hashlib import md5
 from typing import Optional
-from figure_hook.utils.scrapyd_api import schedule_spider
 
 import requests as rq
 from figure_hook.constants import SourceSite
@@ -10,6 +9,8 @@ from figure_hook.Models import AnnouncementChecksum
 from figure_parser.alter.announcecment_parser import fetch_alter_newest_year
 from figure_parser.constants import AlterCategory, GSCCategory, GSCLang
 from figure_parser.utils import RelativeUrl
+
+from .scrapyd_api import schedule_spider
 
 __all__ = [
     "GSCChecksum",
@@ -25,6 +26,7 @@ def calculate_checksum(target):
 
 class SiteChecksum(ABC):
     __site__: SourceSite
+    __spiders__: list[str]
     __site_checksum: Optional[AnnouncementChecksum]
 
     def __init__(self) -> None:
@@ -67,23 +69,26 @@ class SiteChecksum(ABC):
                 checksum=self.current
             )
 
-    @staticmethod
-    @abstractmethod
-    def _extract_feature() -> bytes:
-        """Return any bytes which could identify the site has changed.
-        """
-        pass
+    @classmethod
+    def trigger_crawler(cls) -> list:
+        """Trigger the spiders to parse new product."""
+        jobs = []
+        for spider in cls.__spiders__:
+            job = schedule_spider(spider)
+            jobs.append(job)
+
+        return jobs
 
     @staticmethod
     @abstractmethod
-    def trigger_crawler() -> list:
-        """Trigger the spiders to parse new product.
-        """
+    def _extract_feature() -> bytes:
+        """Return any bytes which could identify the site has changed."""
         pass
 
 
 class GSCChecksum(SiteChecksum):
     __site__ = SourceSite.GSC
+    __spiders__ = ["gsc_recent"]
 
     @staticmethod
     def _extract_feature() -> bytes:
@@ -93,14 +98,10 @@ class GSCChecksum(SiteChecksum):
         response.raise_for_status()
         return response.content
 
-    @staticmethod
-    def trigger_crawler() -> list:
-        job = schedule_spider("gsc_recent")
-        return [job]
-
 
 class AlterChecksum(SiteChecksum):
     __site__ = SourceSite.ALTER
+    __spiders__ = ["alter_recent"]
 
     @staticmethod
     def _extract_feature() -> bytes:
@@ -110,14 +111,13 @@ class AlterChecksum(SiteChecksum):
         response.raise_for_status()
         return response.content
 
-    @staticmethod
-    def trigger_crawler() -> list:
-        job = schedule_spider("alter_recent")
-        return [job]
-
 
 class NativeChecksum(SiteChecksum):
     __site__ = SourceSite.NATIVE
+    __spiders__ = [
+        "native_character_recent",
+        "native_creator_recent"
+    ]
 
     @staticmethod
     def _extract_feature() -> bytes:
@@ -126,16 +126,3 @@ class NativeChecksum(SiteChecksum):
         etag = response.headers.get('ETag')
         response.raise_for_status()
         return str(etag).encode("utf-8")
-
-    @staticmethod
-    def trigger_crawler() -> list:
-        jobs = []
-        spider_names = [
-            "native_character_recent",
-            "native_creator_recent"
-        ]
-        for name in spider_names:
-            job = schedule_spider(name)
-            jobs.append(job)
-
-        return jobs
