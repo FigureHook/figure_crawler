@@ -85,10 +85,11 @@ class NativeProductParser(ProductParser):
         sculptors = []
         raw_sculptors = sculptors_text.split("\n")
         for raw_sculptor in raw_sculptors:
-            pattern = r"\s?\(?.[原型形製制作]+協力[:：]"
+            pattern = r"\s?\(?.[原型形製制作]+協力[:：].+[\）\)]?"
             sculptor = re.sub(pattern, "", raw_sculptor)
             sculptor = sculptor.strip()
-            sculptors.append(sculptor)
+            if sculptor:
+                sculptors.append(sculptor)
 
         return sculptors
 
