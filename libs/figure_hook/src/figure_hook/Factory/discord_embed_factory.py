@@ -14,7 +14,8 @@ embed_templates = {
         "paintworks": "Paintworks",
         "date_format": "MMM, yyyy",
         "size": "Size",
-        "scale": "Scale"
+        "scale": "Scale",
+        "new_release": ":new: New Release",
     },
     "ja": {
         "maker": "メーカー",
@@ -25,7 +26,8 @@ embed_templates = {
         "paintworks": "彩色",
         "date_format": "yyyy年 MMM",
         "size": "サイズ",
-        "scale": "スケール"
+        "scale": "スケール",
+        "new_release": ":new: 新リリース",
     },
     "zh-TW": {
         "maker": "製造商",
@@ -36,7 +38,8 @@ embed_templates = {
         "paintworks": "色彩",
         "date_format": "yyyy年 MMM",
         "size": "尺寸",
-        "scale": "比例"
+        "scale": "比例",
+        "new_release": ":new: 新商品",
     },
 }
 
@@ -61,13 +64,20 @@ class NewReleaseEmbed(Embed):
 
     def localized_with(self, lang: str):
         """lang: en, ja, zh-TW"""
-        embed = self.copy()
+        embed: NewReleaseEmbed = self.copy()
+        embed_locale = embed_templates[lang]
+
+        if embed.author:
+            key = str(embed.author.name)
+            author_name = embed_locale.get(key)
+            embed.set_author(name=author_name)
+
         for f in embed._fields:
             key = f["name"]
-            f["name"] = embed_templates[lang].get(key, key)
+            f["name"] = embed_locale.get(key, key)
             if key == "release_date":
                 locale = locale_mapping.get(lang, "en")
-                date_format = embed_templates[lang]["date_format"]
+                date_format = embed_locale["date_format"]
                 if f["value"]:
                     release_date = datetime.strptime(
                         f["value"], "%Y-%m-%d").date()
@@ -105,7 +115,9 @@ class DiscordEmbedFactory:
             url=url,
             is_nsfw=is_adult
         )
+
         embed.set_image(url=image)
+        embed.set_author(name="new_release")
 
         if thumbnail:
             embed.set_thumbnail(url=thumbnail)
