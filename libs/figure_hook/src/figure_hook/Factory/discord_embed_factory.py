@@ -15,7 +15,7 @@ embed_templates = {
         "date_format": "MMM, yyyy",
         "size": "Size",
         "scale": "Scale",
-        "new_release": ":new: New Release",
+        "new_release": "New Release",
     },
     "ja": {
         "maker": "メーカー",
@@ -27,7 +27,7 @@ embed_templates = {
         "date_format": "yyyy年 MMM",
         "size": "サイズ",
         "scale": "スケール",
-        "new_release": ":new: 新リリース",
+        "new_release": "新リリース",
     },
     "zh-TW": {
         "maker": "製造商",
@@ -39,7 +39,7 @@ embed_templates = {
         "date_format": "yyyy年 MMM",
         "size": "尺寸",
         "scale": "比例",
-        "new_release": ":new: 新商品",
+        "new_release": "新商品",
     },
 }
 
@@ -70,7 +70,10 @@ class NewReleaseEmbed(Embed):
         if embed.author:
             key = str(embed.author.name)
             author_name = embed_locale.get(key)
-            embed.set_author(name=author_name)
+            embed.set_author(
+                name=author_name,
+                icon_url=embed.author.icon_url
+            )
 
         for f in embed._fields:
             key = f["name"]
@@ -117,7 +120,11 @@ class DiscordEmbedFactory:
         )
 
         embed.set_image(url=image)
-        embed.set_author(name="new_release")
+        embed.set_author(
+            name="new_release",
+            # Icons made by Pixel perfect from www.flaticon.com
+            icon_url="https://image.flaticon.com/icons/png/32/879/879833.png"
+        )
 
         if thumbnail:
             embed.set_thumbnail(url=thumbnail)
