@@ -1,5 +1,5 @@
 from figure_hook.Adapters.webhook_adapter import DiscordWebhookAdapter
-from figure_hook.Sender.discord_hooker import DiscordHooker
+from figure_hook.Publishers.discord_hooker import DiscordHooker
 
 # !!FIXME: lack of test
 
@@ -25,7 +25,7 @@ class DiscordNewReleaseEmbedsDispatcher:
             cache_key = (webhook.lang, webhook.is_nsfw)
             discord_webhook = DiscordWebhookAdapter(webhook, self.adapter)
             embeds = self._get_embeds_from_cache(cache_key)
-            self.hooker.send(discord_webhook, embeds)
+            self.hooker.publish(discord_webhook, embeds)
 
     def _get_embeds_from_cache(self, key: tuple[str, bool]):
         webhook_lang, webhook_is_nsfw = key

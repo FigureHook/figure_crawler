@@ -2,9 +2,9 @@ from datetime import datetime
 
 from discord import NotFound, RequestsWebhookAdapter, Webhook
 from discord.embeds import Embed
-from figure_hook.Sender.discord_hooker import (DiscordHooker,
-                                               DiscordHookerStats,
-                                               process_embeds)
+from figure_hook.Publishers.discord_hooker import (DiscordHooker,
+                                                   DiscordHookerStats,
+                                                   process_embeds)
 from pytest_mock import MockerFixture
 
 
@@ -34,7 +34,7 @@ def test_hooker_sending(mocker: MockerFixture):
 
     for webhook, side_effect in webhooks:
         mock_send.side_effect = side_effect
-        hooker.send(webhook, embeds)
+        hooker.publish(webhook, embeds)
 
     assert mock_send.call_count == 21
 

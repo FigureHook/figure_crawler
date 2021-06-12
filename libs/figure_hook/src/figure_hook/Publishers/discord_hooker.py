@@ -5,7 +5,7 @@ from typing import Any
 from discord import Embed, Webhook
 from discord.errors import HTTPException, NotFound
 
-from .abcs import Sender
+from .abcs import Publisher
 
 
 class DiscordHookerStats(UserDict):
@@ -78,7 +78,7 @@ class DiscordHookerStats(UserDict):
 avartar = "https://cdn.discordapp.com/app-icons/655029515726094337/27898ae3dcc9811d2622977f38364425.png"
 
 
-class DiscordHooker(Sender):
+class DiscordHooker(Publisher):
     batch_size = 10
 
     _stats: DiscordHookerStats
@@ -94,7 +94,7 @@ class DiscordHooker(Sender):
     def stats(self):
         return self._stats
 
-    def send(self, webhook: Webhook, embeds: list[Embed]):
+    def publish(self, webhook: Webhook, embeds: list[Embed]):
         if not embeds:
             return
 
@@ -105,13 +105,13 @@ class DiscordHooker(Sender):
         for batch in embeds_batch:
             # once the webhook is not found, stop sending remaining batch.
             if (not webhook_status or all(webhook_status)) and batch:
-                status = self._send(webhook, batch)
+                status = self._publish(webhook, batch)
                 webhook_status.append(status)
 
         self.webhook_status[str(webhook.id)] = all(webhook_status)
         self.stats.finish()
 
-    def _send(self, webhook: Webhook, embeds: list[Embed]):
+    def _publish(self, webhook: Webhook, embeds: list[Embed]):
         try:
             webhook.send(
                 avatar_url=avartar,

@@ -10,7 +10,7 @@ from figure_hook.Factory.discord_embed_factory import (DiscordEmbedFactory,
 from figure_hook.Helpers.db_helper import ReleaseHelper
 from figure_hook.Models import Task
 from figure_hook.Models import Webhook as WebhookModel
-from figure_hook.Sender.discord_hooker import DiscordHooker
+from figure_hook.Publishers.discord_hooker import DiscordHooker
 from figure_hook.utils.announcement_checksum import (AlterChecksum,
                                                      GSCChecksum,
                                                      NativeChecksum,
@@ -98,5 +98,5 @@ def send_new_hook_notification(webhook_id, webhook_token, msg):
     embed = DiscordEmbedFactory.create_new_hook_notification(msg)
     webhook = Webhook.partial(webhook_id, webhook_token, adapter=adapter)
     hooker = DiscordHooker()
-    hooker.send(webhook, [embed])
+    hooker.publish(webhook, [embed])
     return hooker.stats
