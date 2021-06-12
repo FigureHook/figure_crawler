@@ -7,6 +7,7 @@ discord.py
 aiohttp
 Babel
 redis
+plurk-oauth
 
 # orm
 sqlalchemy_mixins
