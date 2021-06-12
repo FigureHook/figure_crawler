@@ -29,3 +29,4 @@ celerybeat-schedule
 *.pid
 *.drawio
 *.mo
+*.*~
