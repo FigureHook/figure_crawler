@@ -7,10 +7,12 @@ from figure_hook.Dispatchers.discord_hook_dispatcher import \
     DiscordNewReleaseEmbedsDispatcher
 from figure_hook.Factory.discord_embed_factory import (DiscordEmbedFactory,
                                                        NewReleaseEmbed)
+from figure_hook.Factory.plurk_content_factory import PlurkContentFactory
 from figure_hook.Helpers.db_helper import ReleaseHelper
 from figure_hook.Models import Task
 from figure_hook.Models import Webhook as WebhookModel
 from figure_hook.Publishers.discord_hooker import DiscordHooker
+from figure_hook.Publishers.plurk import Plurker
 from figure_hook.utils.announcement_checksum import (AlterChecksum,
                                                      GSCChecksum,
                                                      NativeChecksum,
@@ -22,6 +24,8 @@ from .celery import app
 
 @app.task
 def news_push():
+    """FIXME: so ugly
+    """
     this_task: Task
     with pgsql_session() as session:
         this_task = session.query(Task).where(
@@ -31,9 +35,12 @@ def news_push():
             session, this_task.executed_at  # type: ignore
         )
         raw_embeds: list[NewReleaseEmbed] = []
+        plurker = Plurker()
         for r in new_releases:
             is_lazy_og_image = r.thumbnail == r.og_image
             image = r.image_url if is_lazy_og_image else r.og_image
+
+            # Discord embed
             embed = DiscordEmbedFactory.create_new_release(
                 name=r.name,
                 url=r.url,
@@ -48,6 +55,23 @@ def news_push():
                 size=r.size
             )
             raw_embeds.append(embed)
+
+            # Plurk
+            plurk = PlurkContentFactory.create_new_release(
+                name=r.name,
+                url=r.url,
+                series=r.series,
+                maker=r.maker,
+                price=r.price,
+                image=image,
+                release_date=r.release_date,
+                is_adult=r.is_adult,
+                thumbnail=r.thumbnail,
+                scale=r.scale,
+                size=r.size
+            )
+            plurker.publish(content=plurk)
+
         this_task.update()
 
         webhooks: list[WebhookModel] = WebhookModel.all()  # type: ignore
@@ -71,7 +95,10 @@ def news_push():
 
             session.execute(stmt)
 
-    return dispatcher.stats
+    return {
+        "discord": dispatcher.stats,
+        "plurk": plurker.stats,
+    }
 
 
 @app.task
