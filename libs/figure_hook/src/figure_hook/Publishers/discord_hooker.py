@@ -1,25 +1,21 @@
-from collections import UserDict
-from datetime import datetime
 from typing import Any
 
 from discord import Embed, Webhook
 from discord.errors import HTTPException, NotFound
 
-from .abcs import Publisher
+from .abcs import Publisher, Stats
 
 
-class DiscordHookerStats(UserDict):
+class DiscordHookerStats(Stats):
     def __init__(self) -> None:
         init_data = {
-            "start_time": None,
-            "finish_time": None,
             "webhook_count": 0,
             "webhook_sending_count": 0,
             "webhook_sending_count/success": 0,
             "webhook_sending_count/failed": 0,
             "webhook_sending_count/404": 0,
         }
-        super().__init__(init_data)
+        super().__init__(extension_data=init_data)
 
     @property
     def webhook_count(self):
@@ -40,21 +36,6 @@ class DiscordHookerStats(UserDict):
     @property
     def sending_404_count(self):
         return self.data["webhook_sending_count/404"]
-
-    @property
-    def start_time(self):
-        return self.data["start_time"]
-
-    @property
-    def finish_time(self):
-        return self.data["finish_time"]
-
-    def start(self):
-        if not self.start_time:
-            self.data["start_time"] = datetime.utcnow()
-
-    def finish(self):
-        self.data["finish_time"] = datetime.utcnow()
 
     def webhook_count_plusone(self):
         self.data["webhook_count"] += 1
