@@ -68,7 +68,7 @@ class GSCProductParser(ProductParser):
         resale_dates = self._find_detail("dt", resale_date_info_tag)
 
         resale_dd: str = resale_dates.find_next("dd").text.strip()
-        resale_date_text: str = resale_dd if resale_dd else resale_dates.text.strip()
+        resale_date_text: str = resale_dd or resale_dates.text.strip()
 
         dates = []
         found = re.finditer(date_pattern, resale_date_text)

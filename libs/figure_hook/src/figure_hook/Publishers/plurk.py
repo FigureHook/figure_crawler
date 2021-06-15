@@ -49,7 +49,7 @@ class PlurkerStats(Stats):
 
 class Plurker(Publisher):
     def __init__(self, stats=None) -> None:
-        self._stats = stats if stats else PlurkerStats()
+        self._stats = stats or PlurkerStats()
         super().__init__()
 
     @property

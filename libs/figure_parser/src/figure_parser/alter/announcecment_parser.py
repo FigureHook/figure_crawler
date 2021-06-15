@@ -17,7 +17,7 @@ class AlterYearlyAnnouncement(YearlyAnnouncement):
     ):
         if not end:
             newest_year = fetch_alter_newest_year()
-            end = newest_year if newest_year else datetime.now().year
+            end = newest_year or datetime.now().year
 
         super().__init__(start, end)
         self._category = category

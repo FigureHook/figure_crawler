@@ -39,6 +39,6 @@ class PlurkContentFactory:
         return {
             "content": content,
             "qualifier": "shares",
-            "porn": 1 if is_adult else 0,
+            "porn": int(is_adult),
             "lang": "tr_ch"
         }
