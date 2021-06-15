@@ -22,7 +22,7 @@ class PlurkContentFactory:
     ):
         release_date_text = "未定"
         if release_date:
-            release_date_text = str(format_date(release_date, "YYYY/MMM", locale='zh'))
+            release_date_text = str(format_date(release_date, "YYYY年MMM", locale='zh'))
 
         content = "" \
             "[**新品速報**]\n" \
