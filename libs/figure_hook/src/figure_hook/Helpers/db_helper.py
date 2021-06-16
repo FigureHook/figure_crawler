@@ -13,7 +13,7 @@ class ReleaseHelper:
     def fetch_new_releases(session: Session, time: datetime) -> list[ReleaseFeed]:
         """fetch new releases to push.
 
-        return list of Row with
+        sql result would be a list of Row with
 
         ```py
         Row._fields(

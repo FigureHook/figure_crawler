@@ -36,39 +36,12 @@ def news_push():
         raw_embeds: list[NewReleaseEmbed] = []
         plurker = Plurker()
         for r in new_releases:
-            is_lazy_og_image = r.thumbnail == r.og_image
-            image = r.image_url if is_lazy_og_image else r.og_image
-
             # Discord embed
-            embed = DiscordEmbedFactory.create_new_release(
-                name=r.name,
-                url=r.url,
-                series=r.series,
-                maker=r.maker,
-                price=r.price,
-                image=image,
-                release_date=r.release_date,
-                is_adult=r.is_adult,
-                thumbnail=r.thumbnail,
-                scale=r.scale,
-                size=r.size
-            )
+            embed = DiscordEmbedFactory.create_new_release(r)
             raw_embeds.append(embed)
 
             # Plurk
-            plurk = PlurkContentFactory.create_new_release(
-                name=r.name,
-                url=r.url,
-                series=r.series,
-                maker=r.maker,
-                price=r.price,
-                image=image,
-                release_date=r.release_date,
-                is_adult=r.is_adult,
-                thumbnail=r.thumbnail,
-                scale=r.scale,
-                size=r.size
-            )
+            plurk = PlurkContentFactory.create_new_release(r)
             plurker.publish(content=plurk)
 
         this_task.update()
