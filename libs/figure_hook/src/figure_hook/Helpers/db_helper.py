@@ -1,16 +1,16 @@
 from datetime import datetime
 
+from figure_hook.extension_class import ReleaseFeed
 from figure_hook.Models import (Company, Product, ProductOfficialImage,
                                 ProductReleaseInfo, Series)
 from sqlalchemy import select
-from sqlalchemy.engine.row import Row
 from sqlalchemy.orm.session import Session
 from sqlalchemy.sql.expression import and_, literal_column
 
 
 class ReleaseHelper:
     @staticmethod
-    def fetch_new_releases(session: Session, time: datetime) -> list[Row]:
+    def fetch_new_releases(session: Session, time: datetime) -> list[ReleaseFeed]:
         """fetch new releases to push.
 
         return list of Row with
@@ -66,8 +66,28 @@ class ReleaseHelper:
             Product.series
         ).outerjoin(
             ProductOfficialImage,
-            and_(Product.id == ProductOfficialImage.product_id, ProductOfficialImage.order == 1)
+            and_(Product.id == ProductOfficialImage.product_id,
+                 ProductOfficialImage.order == 1)
         )
 
         releases = session.execute(stmt).all()
-        return releases
+
+        release_feeds = []
+        for release in releases:
+            feed = ReleaseFeed(
+                name=release.name,
+                url=release.url,
+                is_adult=release.is_adult,
+                series=release.series,
+                maker=release.maker,
+                size=release.size,
+                scale=release.scale,
+                price=release.price,
+                release_date=release.release_date,
+                image_url=release.image_url,
+                thumbnail=release.thumbnail,
+                og_image=release.og_image
+            )
+            release_feeds.append(feed)
+
+        return release_feeds

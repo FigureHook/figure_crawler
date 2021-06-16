@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from datetime import date
+from typing import Optional
 
 __all__ = [
     "ReleaseFeed"
@@ -13,13 +14,13 @@ class ReleaseFeed:
     is_adult: bool
     series: str
     maker: str
-    size: int
-    scale: int
-    price: int
-    release_date: date
+    size: Optional[int]
+    scale: Optional[int]
+    price: Optional[int]
+    release_date: Optional[date]
     image_url: str
-    thumbnail: str
-    og_image: str
+    thumbnail: Optional[str]
+    og_image: Optional[str]
 
     @property
     def media_image(self):
