@@ -48,6 +48,26 @@ def session():
 
 
 @pytest.fixture()
+def release_feed():
+    from figure_hook.extension_class import ReleaseFeed
+    fake = Faker(['ja-JP'])
+    return ReleaseFeed(
+        name=fake.name(),
+        url=fake.url(),
+        is_adult=fake.boolean(chance_of_getting_true=25),
+        series=fake.name(),
+        maker=fake.name(),
+        scale=random.randint(1, 30),
+        size=random.randint(1, 1000),
+        price=random.randint(1000, 1000000),
+        release_date=fake.date_object(),
+        image_url=fake.uri(),
+        thumbnail=fake.uri(),
+        og_image=fake.uri()
+    )
+
+
+@pytest.fixture()
 def product():
     from figure_parser.extension_class import Price
     fake = Faker(['ja-JP'])
