@@ -1,23 +1,11 @@
-from datetime import date
-
+import pytest
 from discord import Embed
 from figure_hook.Factory.discord_embed_factory import DiscordEmbedFactory
 
 
-def test_discord_new_release_embed_creation():
-    embed = DiscordEmbedFactory.create_new_release(
-        name="kappa",
-        url="https://foobar.com",
-        series="Jazz",
-        maker="someone",
-        price=12980,
-        image="https://img.com/kappa/jpg",
-        release_date=date(2020, 2, 2),
-        scale=8,
-        size=None,
-        is_adult=False,
-        thumbnail="http://img.com/thumbnail.jpg"
-    )
+@pytest.mark.usefixtures('release_feed')
+def test_discord_new_release_embed_creation(release_feed):
+    embed = DiscordEmbedFactory.create_new_release(release_feed)
     embed.localized_with("ja")
     assert isinstance(embed, Embed)
 

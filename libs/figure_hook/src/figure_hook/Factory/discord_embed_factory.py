@@ -1,8 +1,9 @@
-from datetime import date, datetime
-from typing import Optional
+from datetime import datetime
 
 from babel.dates import format_date
 from discord import Colour, Embed
+
+from ..extension_class import ReleaseFeed
 
 embed_templates = {
     "en": {
@@ -98,46 +99,33 @@ class NewReleaseEmbed(Embed):
 
 class DiscordEmbedFactory:
     @staticmethod
-    def create_new_release(
-        *,
-        name: str,
-        url: str,
-        series: str,
-        maker: str,
-        image: str,
-        thumbnail: str,
-        is_adult: bool,
-        price: Optional[int],
-        release_date: Optional[date],
-        scale: Optional[int],
-        size: Optional[int],
-    ):
+    def create_new_release(release_feed: ReleaseFeed):
         embed = NewReleaseEmbed(
-            title=name,
+            title=release_feed.name,
             type="rich",
-            url=url,
-            is_nsfw=is_adult
+            url=release_feed.url,
+            is_nsfw=release_feed.is_adult
         )
 
-        embed.set_image(url=image)
+        embed.set_image(url=release_feed.media_image)
         embed.set_author(
             name="new_release",
             # Icons made by Pixel perfect from www.flaticon.com
             icon_url="https://image.flaticon.com/icons/png/32/879/879833.png"
         )
 
-        if thumbnail:
-            embed.set_thumbnail(url=thumbnail)
+        if release_feed.thumbnail:
+            embed.set_thumbnail(url=release_feed.thumbnail)
 
         embed.add_field(
-            name="maker", value=maker, inline=False
+            name="maker", value=release_feed.maker, inline=False
         ).add_field(
-            name="series", value=series, inline=False
+            name="series", value=release_feed.series, inline=False
         )
 
-        if size:
+        if release_feed.size:
             embed.add_field(
-                name="size", value=f"{size} mm", inline=True
+                name="size", value=f"{release_feed.size} mm", inline=True
             )
 
         # if scale:
@@ -146,9 +134,9 @@ class DiscordEmbedFactory:
         #     )
 
         embed.add_field(
-            name="release_date", value=release_date, inline=True
+            name="release_date", value=release_feed.release_date, inline=True
         ).add_field(
-            name="price", value=f"JPY {price:,}", inline=True
+            name="price", value=f"JPY {release_feed.price:,}", inline=True
         )
 
         return embed
