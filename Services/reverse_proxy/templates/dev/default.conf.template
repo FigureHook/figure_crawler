@@ -39,7 +39,7 @@ server {
     error_page 503 @service_down_page;
 
     location @service_down_page {
-        root /flags/;
+        root /usr/share/nginx/html;
         rewrite ^(.*)$ /503.html break;
     }
 
