@@ -6,6 +6,8 @@ services:
     image: figure_crawler
     env_file:
       - .env
+    ports:
+      - 8000:8000
     volumes:
       - .:/workspace
       - ./flags:/flags
@@ -48,32 +50,6 @@ services:
     restart: always
     networks:
       - backend
-  reverse_proxy:
-    build:
-      context: Services/reverse_proxy
-      dockerfile: Dockerfile.dev
-    environment:
-      - APP_PORT=8000
-      - APP_SERVICE=crawler
-    ports:
-      - 80:80
-      - 443:443
-    volumes:
-      - ./flags:/flags
-    depends_on:
-      - crawler
-    networks:
-      - frontend
-    secrets:
-      - site_cert
-      - site_key
-
 networks:
   frontend:
   backend:
-
-secrets:
-  site_cert:
-    file: ./secrets/nginx.crt
-  site_key:
-    file: ./secrets/nginx.key
