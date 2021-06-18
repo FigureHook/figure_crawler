@@ -1,3 +1,4 @@
+from copy import deepcopy
 from datetime import datetime
 
 from babel.dates import format_date
@@ -63,9 +64,12 @@ class NewReleaseEmbed(Embed):
     def is_nsfw(self):
         return self._is_nsfw
 
+    def copy(self):
+        return deepcopy(super().copy())
+
     def localized_with(self, lang: str):
         """lang: en, ja, zh-TW"""
-        embed: NewReleaseEmbed = self.copy()
+        embed: Embed = self.copy()
         embed_locale = embed_templates[lang]
 
         if embed.author:
@@ -79,6 +83,7 @@ class NewReleaseEmbed(Embed):
         for f in embed._fields:
             key = f["name"]
             f["name"] = embed_locale.get(key, key)
+
             if key == "release_date":
                 locale = locale_mapping.get(lang, "en")
                 date_format = embed_locale["date_format"]
