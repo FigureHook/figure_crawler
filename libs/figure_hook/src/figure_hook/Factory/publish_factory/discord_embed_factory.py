@@ -3,8 +3,9 @@ from datetime import datetime
 
 from babel.dates import format_date
 from discord import Colour, Embed
+from figure_hook.extension_class import ReleaseFeed
 
-from ..extension_class import ReleaseFeed
+from .abcs import PublishFactory
 
 embed_templates = {
     "en": {
@@ -18,6 +19,7 @@ embed_templates = {
         "size": "Size",
         "scale": "Scale",
         "new_release": "New Release",
+        "resale_release": "New Release (resale)"
     },
     "ja": {
         "maker": "メーカー",
@@ -30,6 +32,7 @@ embed_templates = {
         "size": "サイズ",
         "scale": "スケール",
         "new_release": "新リリース",
+        "resale_release": "新リリース（再販）"
     },
     "zh-TW": {
         "maker": "製造商",
@@ -42,6 +45,7 @@ embed_templates = {
         "size": "尺寸",
         "scale": "比例",
         "new_release": "新商品",
+        "resale_release": "新商品(再販)"
     },
 }
 
@@ -102,7 +106,7 @@ class NewReleaseEmbed(Embed):
         return super().add_field(name=name, value=value, inline=inline)
 
 
-class DiscordEmbedFactory:
+class DiscordEmbedFactory(PublishFactory):
     @staticmethod
     def create_new_release(release_feed: ReleaseFeed):
         embed = NewReleaseEmbed(
@@ -112,9 +116,11 @@ class DiscordEmbedFactory:
             is_nsfw=release_feed.is_adult
         )
 
+        author = "resale_release" if release_feed.resale else "new_release"
+
         embed.set_image(url=release_feed.media_image)
         embed.set_author(
-            name="new_release",
+            name=author,
             # Icons made by Pixel perfect from www.flaticon.com
             icon_url="https://image.flaticon.com/icons/png/32/879/879833.png"
         )

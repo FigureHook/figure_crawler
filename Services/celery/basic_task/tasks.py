@@ -3,9 +3,10 @@ from typing import Type
 from discord import RequestsWebhookAdapter, Webhook
 from figure_hook.constants import PeriodicTask
 from figure_hook.database import pgsql_session
-from figure_hook.Factory.discord_embed_factory import (DiscordEmbedFactory,
-                                                       NewReleaseEmbed)
-from figure_hook.Factory.plurk_content_factory import PlurkContentFactory
+from figure_hook.Factory.publish_factory.discord_embed_factory import (
+    DiscordEmbedFactory, NewReleaseEmbed)
+from figure_hook.Factory.publish_factory.plurk_content_factory import \
+    PlurkContentFactory
 from figure_hook.Helpers.db_helper import ReleaseHelper
 from figure_hook.Models import Task
 from figure_hook.Models import Webhook as WebhookModel

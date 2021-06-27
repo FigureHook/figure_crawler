@@ -1,6 +1,7 @@
 import pytest
 from discord import Embed
-from figure_hook.Factory.discord_embed_factory import DiscordEmbedFactory
+from figure_hook.Factory.publish_factory.discord_embed_factory import \
+    DiscordEmbedFactory
 
 
 @pytest.mark.usefixtures('release_feed')

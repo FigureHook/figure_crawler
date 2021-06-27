@@ -1,5 +1,6 @@
 import pytest
-from figure_hook.Factory.plurk_content_factory import PlurkContentFactory
+from figure_hook.Factory.publish_factory.plurk_content_factory import \
+    PlurkContentFactory
 
 
 @pytest.mark.usefixtures("release_feed")

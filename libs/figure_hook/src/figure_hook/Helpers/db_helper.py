@@ -11,27 +11,7 @@ from sqlalchemy.sql.expression import and_, literal_column
 class ReleaseHelper:
     @staticmethod
     def fetch_new_releases(session: Session, time: datetime) -> list[ReleaseFeed]:
-        """fetch new releases to push.
-
-        sql result would be a list of Row with
-
-        ```py
-        Row._fields(
-            'name',
-            'url',
-            'is_adult',
-            'series',
-            'maker',
-            'size',
-            'scale',
-            'price',
-            'release_date',
-            'image_url',
-            'thumbnail',
-            'og_image'
-        )
-        ```
-        """
+        """fetch new releases to push."""
         r = select(
             ProductReleaseInfo.product_id,
             ProductReleaseInfo.price.label('price'),
@@ -47,6 +27,7 @@ class ReleaseHelper:
             Product.name.label("name"),
             Product.url.label("url"),
             Product.adult.label("is_adult"),
+            Product.resale.label("resale"),
             Series.name.label("series"),
             Company.name.label("maker"),
             literal_column("release_info.price").label("price"),
@@ -86,7 +67,8 @@ class ReleaseHelper:
                 release_date=release.release_date,
                 image_url=release.image_url,
                 thumbnail=release.thumbnail,
-                og_image=release.og_image
+                og_image=release.og_image,
+                resale=release.resale,
             )
             release_feeds.append(feed)
 
