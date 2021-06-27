@@ -85,7 +85,8 @@ class DiscordHooker(Publisher):
         webhook_status = []
         for batch in embeds_batch:
             # once the webhook is not found, stop sending remaining batch.
-            if (not webhook_status or all(webhook_status)) and batch:
+            webhook_is_alive = not webhook_status or all(webhook_status)
+            if webhook_is_alive and batch:
                 status = self._publish(webhook, batch)
                 webhook_status.append(status)
 
