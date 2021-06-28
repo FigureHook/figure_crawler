@@ -50,9 +50,9 @@ def news_push():
         webhooks: list[WebhookModel] = WebhookModel.all()  # type: ignore
 
         # begin dispatching embeds
-        webhook_adapter = RequestsWebhookAdapter()
         dispatcher = DiscordNewReleaseEmbedsDispatcher(
-            webhooks, raw_embeds, webhook_adapter
+            webhooks,
+            raw_embeds
         )
         dispatcher.dispatch()  # long-time job
 

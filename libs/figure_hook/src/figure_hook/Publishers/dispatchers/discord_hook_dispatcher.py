@@ -1,3 +1,6 @@
+from typing import Optional
+
+from discord import RequestsWebhookAdapter, WebhookAdapter
 from figure_hook.Adapters.webhook_adapter import DiscordWebhookAdapter
 
 from ..discord_hooker import DiscordHooker
@@ -6,11 +9,11 @@ from ..discord_hooker import DiscordHooker
 
 
 class DiscordNewReleaseEmbedsDispatcher:
-    def __init__(self, webhooks, raw_embeds, adapter) -> None:
+    def __init__(self, webhooks, raw_embeds, adapter: Optional[WebhookAdapter] = None) -> None:
         self.embeds_cache = {}
         self.webhooks = webhooks
         self.raw_embeds = raw_embeds
-        self.adapter = adapter
+        self.adapter = adapter or RequestsWebhookAdapter()
         self.hooker = DiscordHooker()
 
     @property
