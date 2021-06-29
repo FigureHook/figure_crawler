@@ -31,7 +31,7 @@ pytest-flask
 flake8
 autopep8
 alembic
-sqlalchemy2-stubs
+coverage
 
 # flask-related
 flask
