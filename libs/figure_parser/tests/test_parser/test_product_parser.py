@@ -1,6 +1,7 @@
-from datetime import datetime
-
 import os
+from datetime import datetime
+from pathlib import Path
+
 import pytest
 import yaml
 from _pytest.assertion.util import isiterable
@@ -13,7 +14,7 @@ from figure_parser.gsc import (GSCAnnouncementLinkExtractor, GSCProductParser,
 from figure_parser.native import NativeProductParser
 from figure_parser.utils import get_page
 
-THIS_DIR = os.path.dirname(__file__)
+THIS_DIR = Path(os.path.dirname(__file__)).resolve()
 
 
 def load_yaml(path):
@@ -143,7 +144,7 @@ class BaseTestCase:
 
 class TestGSCParser(BaseTestCase):
     products = load_yaml(
-        f"{THIS_DIR}/test_case/gsc_products.yml"
+        THIS_DIR.joinpath("test_case", "gsc_products.yml")
     )
 
     @pytest.fixture(scope="class", params=products)
@@ -195,7 +196,7 @@ class TestGSCParser(BaseTestCase):
 
 class TestAlterParser(BaseTestCase):
     products = load_yaml(
-        f"{THIS_DIR}/test_case/alter_products.yml"
+        THIS_DIR.joinpath("test_case", "alter_products.yml")
     )
 
     @pytest.fixture(scope="class", params=products)
