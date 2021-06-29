@@ -7,8 +7,7 @@ from figure_hook.Factory.publish_factory.discord_embed_factory import (
     DiscordEmbedFactory, NewReleaseEmbed)
 from figure_hook.Factory.publish_factory.plurk_content_factory import \
     PlurkContentFactory
-from figure_hook.Helpers.db_helper import ReleaseHelper
-from figure_hook.Models import Task
+from figure_hook.Helpers.db_helper import ReleaseHelper, TaskHelper
 from figure_hook.Models import Webhook as WebhookModel
 from figure_hook.Publishers import DiscordHooker, Plurker
 from figure_hook.Publishers.dispatchers import \
@@ -26,11 +25,11 @@ from .celery import app
 def news_push():
     """FIXME: so ugly
     """
-    this_task: Task
     with pgsql_session() as session:
-        this_task = session.query(Task).where(
-            Task.name == PeriodicTask.NEWS_PUSH
-        ).scalar()
+        this_task = TaskHelper.get_task(session, PeriodicTask.NEWS_PUSH)
+        if not this_task:
+            return False
+
         new_releases = ReleaseHelper.fetch_new_releases(
             session, this_task.executed_at  # type: ignore
         )

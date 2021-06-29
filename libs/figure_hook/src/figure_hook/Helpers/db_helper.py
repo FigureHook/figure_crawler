@@ -1,8 +1,10 @@
 from datetime import datetime
+from typing import Union
 
+from figure_hook.constants import PeriodicTask
 from figure_hook.extension_class import ReleaseFeed
 from figure_hook.Models import (Company, Product, ProductOfficialImage,
-                                ProductReleaseInfo, Series)
+                                ProductReleaseInfo, Series, Task)
 from sqlalchemy import select
 from sqlalchemy.orm.session import Session
 from sqlalchemy.sql.expression import and_, literal_column
@@ -73,3 +75,11 @@ class ReleaseHelper:
             release_feeds.append(feed)
 
         return release_feeds
+
+
+class TaskHelper:
+    @staticmethod
+    def get_task(session: Session, task_id: PeriodicTask) -> Union[Task, None]:
+        stmt = select(Task).where(Task.name == PeriodicTask.NEWS_PUSH)
+        task = session.execute(stmt).scalar()
+        return task

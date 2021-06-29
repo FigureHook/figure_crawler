@@ -7,7 +7,6 @@ Authlib==0.15.4
 Automat==20.2.0
 autopep8==1.5.7
 Babel==2.9.1
--e git+git@github.com:EltonChou/figure_crawler.git@278734ab7379a6145d26d602ec145bc65b1ebae5#egg=basic_task&subdirectory=Services/celery
 beautifulsoup4==4.9.3
 billiard==3.6.4.0
 cachelib==0.1.1
@@ -79,6 +78,7 @@ pyflakes==2.3.1
 pyOpenSSL==20.0.1
 pyparsing==2.4.7
 pytest==6.2.4
+pytest-celery==0.0.0
 pytest-flask==1.2.0
 pytest-mock==3.6.1
 python-dateutil==2.8.1
