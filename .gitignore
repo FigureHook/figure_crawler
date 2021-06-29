@@ -1,4 +1,3 @@
-.vscode/
 .mypy_cache/
 .pytest_cache/
 .devcontainer/
@@ -30,6 +29,10 @@ celerybeat-schedule
 *.drawio
 *.mo
 *.*~
+
+# vscode
+**/.vscode/launch.json
+**/.vscode/settings.json
 
 # coverage
 **/htmlcov/
