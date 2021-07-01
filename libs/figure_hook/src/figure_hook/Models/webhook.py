@@ -34,3 +34,7 @@ class Webhook(Model, TimestampsMixin):
     def get_by_channel_id(cls, channel_id: str) -> 'Webhook':
         channel_id = str(channel_id)
         return cls.query.get(channel_id)
+
+    @staticmethod
+    def supporting_languages():
+        return Webhook.supporting_langs

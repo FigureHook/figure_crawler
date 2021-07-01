@@ -1,11 +1,11 @@
-from figure_hook.Helpers.general_helper import DataHelper
+from figure_hook.Models import Webhook
 from flask_babel import lazy_gettext
 from flask_wtf import FlaskForm
 from wtforms import BooleanField, SelectField, SubmitField, ValidationError
 
 
 def validate_language(form, field: SelectField):
-    supporting_langs = DataHelper.webhook_supporting_languages()
+    supporting_langs = Webhook.supporting_languages()
 
     if field.data not in supporting_langs:
         raise ValidationError(
