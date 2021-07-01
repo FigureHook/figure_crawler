@@ -1,6 +1,6 @@
 from sqlalchemy import Boolean, Column, String
 from sqlalchemy.orm import validates
-from sqlalchemy_mixins import TimestampsMixin
+from sqlalchemy_mixins.timestamp import TimestampsMixin
 
 from .base import Model
 
