@@ -6,13 +6,9 @@
         {
             "label": "load libs",
             "type": "shell",
-            "command": "pip",
+            "command": "source",
             "args": [
-                "install",
-                "-e",
-                "${workspaceFolder}/libs/figure_hook",
-                "${workspaceFolder}/libs/figure_parser",
-                "${workspaceFolder}/Services/celery"
+                "${workspaceFolder}/.sh/load_libs.sh",
             ]
         },
         {
