@@ -5,9 +5,7 @@ from datetime import date
 from hashlib import md5
 from typing import Callable, Optional, Union
 
-from figure_parser.extension_class import (HistoricalReleases, OrderPeriod,
-                                           Price, Release)
-
+from .extension_class import HistoricalReleases, OrderPeriod, Price, Release
 from .utils import AsDictable
 
 __all__ = [
@@ -157,7 +155,6 @@ class ProductDataProcessMixin:
 
 class Product(ProductBase, ProductDataProcessMixin):
     __slots__ = ()
-    ...
 
 
 class ProductUtils:

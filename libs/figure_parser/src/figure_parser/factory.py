@@ -102,6 +102,7 @@ SupportingFactory = namedtuple(
 
 
 class GeneralFactory:
+    """General Factory"""
     supporting_factories = (
         SupportingFactory(BrandHost.GSC, GSCFactory),
         SupportingFactory(BrandHost.ALTER, AlterFactory),
@@ -115,6 +116,9 @@ class GeneralFactory:
             page: Optional[BeautifulSoup] = None,
             is_normalized: bool = False,
     ):
+        """
+        The method will return the product created by factory based on the hostname of given url.
+        """
         factory = cls.detect_factory(url)
         if not factory:
             supported_hosts = [host.value for host in BrandHost]
@@ -125,6 +129,9 @@ class GeneralFactory:
 
     @classmethod
     def detect_factory(cls, url: str) -> Union[Type[ProductFactory], None]:
+        """
+        The method will return a factory based on hostname of giver url.
+        """
         netloc = urlparse(url).netloc
 
         if not netloc:

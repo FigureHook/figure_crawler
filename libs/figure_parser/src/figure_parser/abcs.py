@@ -11,6 +11,7 @@ from .utils import check_domain, get_page, make_last_element_filler
 
 
 class ProductParser(ABC):
+    """ProductParser base abstract class"""
     __allow_domain__: ClassVar[str]
     headers: ClassVar[Dict[str, str]] = {}
     cookies: ClassVar[Dict[str, str]] = {}
@@ -29,66 +30,85 @@ class ProductParser(ABC):
         return self.__page
 
     @abstractmethod
-    def parse_name(self) -> str: ...
+    def parse_name(self) -> str:
+        """Parse product name"""
 
     @abstractmethod
-    def parse_series(self) -> Union[str, None]: ...
+    def parse_series(self) -> Union[str, None]:
+        """Parse series of product"""
 
     @abstractmethod
-    def parse_manufacturer(self) -> str: ...
+    def parse_manufacturer(self) -> str:
+        """Parse manufacturer"""
 
     @abstractmethod
-    def parse_category(self) -> str: ...
+    def parse_category(self) -> str:
+        """
+        There might be several kinks of category,
+        but this project is focusing on scaled-figure currently.
+        """
 
     @abstractmethod
-    def parse_sculptors(self) -> List[str]: ...
+    def parse_sculptors(self) -> List[str]:
+        """
+        This project respect sculptors,
+        please try your best to parse all scultpors.
+
+        Because there would be serveral formats used to present sculptors.
+        """
 
     @abstractmethod
     def parse_prices(self) -> List[Price]:
         """
-        Try to parse historical prices
-        Order of prices should be as same as release_dates.
+        Parse latest price and past prices
+        Order of prices should follow their release_dates.
+
+        Use :class:`Price`.
+        Should check including-tax or not when parsing.
         """
-        ...
 
     @abstractmethod
     def parse_release_dates(self) -> List[date]:
         """
-        Try to parse all release-dates
-        Order of release_dates should be as same as prices.
+        Parse latest release date and past dates.
+
+        This order should be followed by prices.
         """
-        ...
 
     @abstractmethod
     def parse_scale(self) -> Union[int, None]:
         """
-        The result should like these:
-        1/8 -> 8
-        1/7 -> 7
-        Others -> None
+        The result should be the denominator of scale:
+
+        + 1/8 -> 8
+        + 1/7 -> 7
+        + Others -> None
         """
-        ...
 
     @abstractmethod
     def parse_size(self) -> Union[int, None]:
         """The unit is `mm`"""
-        ...
 
     @abstractmethod
     def parse_copyright(self) -> Union[str, None]:
-        ...
+        """Copyright would be something like this
+        `© YYYY foo/bar All Rights Reserved.`
+        """
 
     @abstractmethod
     def parse_releaser(self) -> Union[str, None]:
-        ...
+        """Releaser is `発売元` in Japanese.
+        """
 
     @abstractmethod
     def parse_resale(self) -> bool:
-        ...
+        """Parse the product is resale or not.
+        """
 
     @abstractmethod
     def parse_images(self) -> List[str]:
-        ...
+        """Parse images of the product.
+        """
 
     def parse_price(self) -> Union[Price, None]:
         last_release = self.parse_release_infos().last()
@@ -98,10 +118,19 @@ class ProductParser(ABC):
         last_release = self.parse_release_infos().last()
         return last_release.release_date if last_release else None
 
-    def parse_release_infos(self) -> HistoricalReleases:
+    def parse_release_infos(self) -> HistoricalReleases[Release]:
         """
         Focus on release dates.
         if prices is longer than dates, discard remaining data.
+
+        The method will use `dates` from :meth:`.parse_release_dates`
+        and `prices` from :meth:`.parse_prices`.
+
+        If one of them is empty list,
+        the empty one would be filled by `None` to fit the other's length.
+
+        If boths are not empty but one of them is shorter,
+        the shorter would use last element to fit the other's length.
         """
         dates = self.parse_release_dates()
         prices = self.parse_prices()
@@ -111,8 +140,10 @@ class ProductParser(ABC):
 
         if not prices:
             prices = [None] * dates_len
+
         elif not dates:
             dates = [None] * prices_len
+
         elif dates_len > prices_len:
             filler = make_last_element_filler(prices, len(dates))
             prices.extend(filler)
@@ -131,29 +162,50 @@ class ProductParser(ABC):
         return historical_releases
 
     def parse_distributer(self) -> Union[str, None]:
+        """Distributer is `販売元` in Japanese.
+        """
         return None
 
     def parse_adult(self) -> bool:
+        """Is the product adult-only ( ͡° ͜ʖ ͡°)
+        """
         return False
 
     def parse_order_period(self) -> OrderPeriod:
+        """Parse order period"""
         return OrderPeriod(None, None)
 
     def parse_paintworks(self) -> List[str]:
+        """
+        This project respect paintworks,
+        please try your best to parse all paintworks.
+
+        Because there would be serveral formats used to present paintworks.
+        """
         return []
 
     def parse_JAN(self) -> Union[str, None]:
+        """Parse JAN code of product.
+        """
         return None
 
     def parse_maker_id(self) -> Union[str, None]:
+        """
+        Not sure what kind do data should be parsed.
+        But it should be unique enough in the source site.
+        """
         return None
 
     def parse_thumbnail(self) -> Union[str, None]:
+        """Parse thumbnail from meta tag.
+        """
         meta_thumbnail = self.page.select_one("meta[name='thumbnail']")
         thumbnail = meta_thumbnail["content"] if meta_thumbnail else None
         return thumbnail
 
     def parse_og_image(self) -> Union[str, None]:
+        """Parse open graph image from meta tag.
+        """
         meta_og_image = self.page.find("meta", property="og:image")
         og_image = meta_og_image["content"] if meta_og_image else None
         return og_image
