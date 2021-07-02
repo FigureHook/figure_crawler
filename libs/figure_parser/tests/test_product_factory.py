@@ -1,9 +1,10 @@
 from dataclasses import is_dataclass
 
 import pytest
+from figure_parser.abcs import ProductFactory
 from figure_parser.errors import UnsupportedDomainError
 from figure_parser.factory import (AlterFactory, GeneralFactory, GSCFactory,
-                                   NativeFactory, ProductFactory)
+                                   NativeFactory)
 from figure_parser.product import Product
 from pytest_mock import MockerFixture
 

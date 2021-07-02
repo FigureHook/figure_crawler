@@ -1,14 +1,21 @@
 from abc import ABC, abstractmethod
 from collections import UserDict
 from datetime import date, datetime
-from typing import ClassVar, Dict, List, Optional, Union
+from typing import ClassVar, Dict, List, Optional, Type, Union
 
 from bs4 import BeautifulSoup
 from pytz import timezone
 
 from .extension_class import HistoricalReleases, OrderPeriod, Price, Release
+from .product import Product
 from .utils import check_domain, get_page, make_last_element_filler
 
+__all__ = [
+    "ProductParser",
+    "YearlyAnnouncement",
+    "ShipmentParser",
+    "ProductFactory",
+]
 
 class ProductParser(ABC):
     """ProductParser base abstract class
@@ -276,3 +283,59 @@ class ShipmentParser(ABC, UserDict):
         """return value would be used in UserDict _dict
         """
         pass
+
+
+class ProductFactory(ABC):
+    """
+    # abstract product factory
+    Inherit this class and implement the parser class property
+    """
+    __product_parser__: ClassVar[Type[ProductParser]]
+
+    @classmethod
+    def createProduct(
+            cls,
+            url: str,
+            page: Optional[BeautifulSoup] = None,
+            is_normalized: bool = False,
+            speculate_announce_date: bool = False
+    ):
+        if not getattr(cls, "__product_parser__", None):
+            raise NotImplementedError(
+                f"Please inherit from {ProductFactory.__name__} and set the class attribute `__product_parser__`."
+            )
+
+        parser = cls.__product_parser__(url, page)
+        product = Product(
+            url=url,
+            name=parser.parse_name(),
+            series=parser.parse_series(),
+            manufacturer=parser.parse_manufacturer(),
+            category=parser.parse_category(),
+            price=parser.parse_price(),
+            release_date=parser.parse_release_date(),
+            release_infos=parser.parse_release_infos(),
+            order_period=parser.parse_order_period(),
+            size=parser.parse_size(),
+            scale=parser.parse_scale(),
+            sculptors=parser.parse_sculptors(),
+            paintworks=parser.parse_paintworks(),
+            resale=parser.parse_resale(),
+            adult=parser.parse_adult(),
+            copyright=parser.parse_copyright(),
+            releaser=parser.parse_releaser(),
+            distributer=parser.parse_distributer(),
+            jan=parser.parse_JAN(),
+            maker_id=parser.parse_maker_id(),
+            images=parser.parse_images(),
+            thumbnail=parser.parse_thumbnail(),
+            og_image=parser.parse_og_image(),
+        )
+
+        if is_normalized:
+            product.normalize_attrs()
+
+        if speculate_announce_date:
+            product.speculate_announce_date()
+
+        return product
