@@ -11,7 +11,12 @@ from .utils import check_domain, get_page, make_last_element_filler
 
 
 class ProductParser(ABC):
-    """ProductParser base abstract class"""
+    """ProductParser base abstract class
+
+    parser would check the given url is from `__allow_domain__` or not when initialized.
+
+    For some site you might need to set class variable `headers` or `cookies`.
+    """
     __allow_domain__: ClassVar[str]
     headers: ClassVar[Dict[str, str]] = {}
     cookies: ClassVar[Dict[str, str]] = {}
