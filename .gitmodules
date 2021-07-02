@@ -1,5 +1,4 @@
 [submodule "libs/figure_parser"]
 	path = libs/figure_parser
 	url = git@github.com:FigureHook/figure_parser.git
-[submodule ".\\figure_parser\\"]
 	branch = main
