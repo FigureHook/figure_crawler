@@ -17,6 +17,7 @@ __all__ = [
     "ProductFactory",
 ]
 
+
 class ProductParser(ABC):
     """ProductParser base abstract class
 
