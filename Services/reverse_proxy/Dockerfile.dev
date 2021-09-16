@@ -1,4 +1,0 @@
-FROM nginx:stable-alpine
-
-COPY templates/dev /etc/nginx/templates
-COPY html /usr/share/nginx/html
