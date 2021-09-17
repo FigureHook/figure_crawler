@@ -1,7 +1,13 @@
 FROM python:3.9-buster
 
+ENV POETRY_VERSION=1.1.8
+
+RUN pip install "poetry==$POETRY_VERSION"
+
 WORKDIR /workspace
 
-COPY requirements*.txt .
-COPY .sh/python_init.sh .
-RUN sh python_init.sh
+COPY poetry.lock .
+COPY pyproject.toml .
+
+RUN poetry config virtualenvs.create false \
+    && poetry install --no-interaction --no-ansi
