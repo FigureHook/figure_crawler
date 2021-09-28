@@ -7,8 +7,6 @@ from figure_parser.extension_class import (HistoricalReleases, OrderPeriod,
                                            Release)
 from figure_parser.product import ProductBase
 
-os.environ['POSTGRES_DATABASE'] = "figure_testing"
-
 
 @pytest.fixture()
 def session():
