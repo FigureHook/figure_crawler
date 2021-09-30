@@ -146,9 +146,12 @@ class DiscordEmbedFactory(PublishFactory):
 
         embed.add_field(
             name="release_date", value=release_feed.release_date, inline=True
-        ).add_field(
-            name="price", value=f"JPY {release_feed.price:,}", inline=True
         )
+
+        if release_feed.price:
+            embed.add_field(
+                name="price", value=f"JPY {release_feed.price:,}", inline=True
+            )
 
         return embed
 
