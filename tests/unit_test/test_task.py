@@ -1,9 +1,12 @@
+from abc import ABC
+from typing import Type
+
+import pytest
 from pytest_mock import MockerFixture
 
 from figure_hook.Publishers.abcs import Stats
 from figure_hook.Tasks.on_demand import send_discord_welcome_webhook
-from figure_hook.constants import PeriodicTask
-from figure_hook.Tasks.periodic import (DiscordNewReleasePush,
+from figure_hook.Tasks.periodic import (DiscordNewReleasePush, NewReleasePush,
                                         PlurkNewReleasePush)
 
 
@@ -14,19 +17,30 @@ def test_send_welcome_hook(mocker: MockerFixture):
     assert webhook_send.call_count == 1
 
 
-def test_trigger_new_release_crawler():
-    raise NotImplementedError
+@pytest.mark.usefixtures("session", "mock_publisher")
+class NewsReleasePush(ABC):
+    task_cls: Type[NewReleasePush]
+
+    @pytest.fixture
+    def mock_publisher(self, mocker: MockerFixture):
+        mocker.patch('plurk_oauth.PlurkAPI.callAPI', return_value={"a": True})
+        mocker.patch('discord.Webhook.send')
+
+    def test_attributes(self):
+        task = self.task_cls()
+        assert hasattr(task, 'name')
+        assert type(task.name) is str
+
+    @pytest.mark.usefixtures("mock_publisher")
+    def test_execution(self):
+        task = self.task_cls()
+        result = task.execute()
+        assert isinstance(result, Stats)
 
 
-def test_plurk_push_release_news():
-    task = PlurkNewReleasePush()
-    assert isinstance(task.task_id, PeriodicTask)
-    stats = task.execute()
-    assert isinstance(stats, Stats)
+class TestDiscordNewsReleasePush(NewsReleasePush):
+    task_cls = DiscordNewReleasePush
 
 
-def test_discord_push_release_news():
-    task = DiscordNewReleasePush()
-    assert isinstance(task.task_id, PeriodicTask)
-    stats = task.execute()
-    assert isinstance(stats, Stats)
+class TestPlurkNewsReleasePush(NewsReleasePush):
+    task_cls = PlurkNewReleasePush
