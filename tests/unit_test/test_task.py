@@ -17,15 +17,16 @@ def test_send_welcome_hook(mocker: MockerFixture):
     assert webhook_send.call_count == 1
 
 
-@pytest.mark.usefixtures("session", "mock_publisher")
+@pytest.mark.usefixtures("session")
 class NewsReleasePush(ABC):
     task_cls: Type[NewReleasePush]
 
     @pytest.fixture
     def mock_publisher(self, mocker: MockerFixture):
         mocker.patch('plurk_oauth.PlurkAPI.callAPI', return_value={"a": True})
-        mocker.patch('discord.Webhook.send')
+        mocker.patch('discord.webhook.Webhook.send')
 
+    @pytest.mark.usefixtures("mock_publisher")
     def test_attributes(self):
         task = self.task_cls()
         assert hasattr(task, 'name')
