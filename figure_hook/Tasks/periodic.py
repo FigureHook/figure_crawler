@@ -4,7 +4,6 @@ from discord.webhook import RequestsWebhookAdapter
 from sqlalchemy import select, update
 
 from figure_hook.constants import PeriodicTask
-from figure_hook.database import pgsql_session
 from figure_hook.Factory.publish_factory.discord_embed_factory import \
     DiscordEmbedFactory
 from figure_hook.Factory.publish_factory.plurk_content_factory import \
@@ -19,22 +18,24 @@ from figure_hook.Publishers.plurk import Plurker
 class NewReleasePush(ABC):
     __task_id__: PeriodicTask
 
-    def __init__(self):
-        with pgsql_session() as session:
-            the_task = self._fetch_model(session)
+    def __init__(self, session):
+        self._session = session
+        self._model = self._fetch_model() or Task.create(name=self.name)
 
-            if not the_task:
-                the_task = Task(
-                    name=self.name
-                )
-                session.add(the_task)
-
-    def _fetch_model(self, session):
+    def _fetch_model(self):
         stmt = select(Task).where(Task.name == self.name)
-        result = session.execute(stmt)
+        result = self.session.execute(stmt)
         the_task = result.scalar()
 
         return the_task
+
+    @property
+    def executed_at(self):
+        return self._model.executed_at
+
+    @property
+    def session(self):
+        return self._session
 
     @property
     def name(self):
@@ -45,10 +46,14 @@ class NewReleasePush(ABC):
         return self.__task_id__
 
     def _fetch_new_releases(self):
-        with pgsql_session() as session:
-            task = self._fetch_model(session)
-            releases = ReleaseHelper.fetch_new_releases(session, task.executed_at)
+        releases = ReleaseHelper.fetch_new_releases(
+            self.session,
+            self.executed_at
+        )
         return releases
+
+    def _update_execution_time(self):
+        self._model.update()
 
     @abstractmethod
     def execute(self):
@@ -60,14 +65,14 @@ class DiscordNewReleasePush(NewReleasePush):
 
     def execute(self):
         new_releases = self._fetch_new_releases()
+        self._update_execution_time()
         raw_embeds = []
 
         for release in new_releases:
             embed = DiscordEmbedFactory.create_new_release(release)
             raw_embeds.append(embed)
 
-        with pgsql_session():
-            webhooks = Webhook.all()
+        webhooks = Webhook.all()
 
         webhook_adapter = RequestsWebhookAdapter()
         dispatcher = DiscordNewReleaseEmbedsDispatcher(
@@ -77,22 +82,21 @@ class DiscordNewReleasePush(NewReleasePush):
         )
         dispatcher.dispatch()
 
-        self._update_webhook_by_status(dispatcher.webhook_status)
+        self._update_webhook_status(dispatcher.webhook_status)
 
         return dispatcher.stats
 
-    def _update_webhook_by_status(self, webhook_status):
-        with pgsql_session() as session:
-            for webhook_id, is_existed in webhook_status.items():
-                stmt = update(Webhook).where(
-                    Webhook.id == webhook_id
-                ).values(
-                    is_existed=is_existed
-                ).execution_options(
-                    synchronize_session="fetch"
-                )
+    def _update_webhook_status(self, webhook_status):
+        for webhook_id, is_existed in webhook_status.items():
+            stmt = update(Webhook).where(
+                Webhook.id == webhook_id
+            ).values(
+                is_existed=is_existed
+            ).execution_options(
+                synchronize_session="fetch"
+            )
 
-                session.execute(stmt)
+            self.session.execute(stmt)
 
 
 class PlurkNewReleasePush(NewReleasePush):
@@ -101,6 +105,7 @@ class PlurkNewReleasePush(NewReleasePush):
     def execute(self):
         plurker = Plurker()
         new_releases = self._fetch_new_releases()
+        self._update_execution_time()
 
         for release in new_releases:
             content = PlurkContentFactory.create_new_release(release)
