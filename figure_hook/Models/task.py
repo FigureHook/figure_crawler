@@ -1,5 +1,4 @@
-from figure_hook.constants import PeriodicTask
-from sqlalchemy import Column, DateTime, Enum
+from sqlalchemy import Column, DateTime, String
 from sqlalchemy.sql import func
 
 from .base import Model
@@ -13,7 +12,7 @@ class Task(Model):
     __tablename__ = "periodic_task"
     __datetime_callback__ = func.now
 
-    name = Column(Enum(PeriodicTask), primary_key=True)
+    name = Column(String, primary_key=True)
     executed_at = Column(
         DateTime,
         default=__datetime_callback__(),

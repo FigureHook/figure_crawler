@@ -17,4 +17,5 @@ class SourceSite(Enum):
 
 
 class PeriodicTask(Enum):
-    NEWS_PUSH = 1
+    DISCORD_NEW_RELEASE_PUSH = 1
+    PLURK_NEW_RELEASE_PUSH = 2
