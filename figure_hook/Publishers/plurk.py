@@ -1,20 +1,9 @@
 import os
+from typing import Optional
 
 from plurk_oauth import PlurkAPI
 
 from .abcs import Publisher, Stats
-
-APP_KEY = os.getenv('PLURK_APP_KEY')
-APP_SECRET = os.getenv('PLURK_APP_SECRET')
-ACCESS_TOKEN = os.getenv('PLURK_USER_TOKEN')
-ACCESS_TOKEN_SECRET = os.getenv('PLURK_USER_SECRET')
-
-plurk = PlurkAPI(
-    key=APP_KEY,
-    secret=APP_SECRET,
-    access_token=ACCESS_TOKEN,
-    access_secret=ACCESS_TOKEN_SECRET
-)
 
 
 class PlurkerStats(Stats):
@@ -48,7 +37,31 @@ class PlurkerStats(Stats):
 
 
 class Plurker(Publisher):
-    def __init__(self, stats=None) -> None:
+    def __init__(
+        self,
+        app_key: Optional[str] = None,
+        app_secret: Optional[str] = None,
+        access_token: Optional[str] = None,
+        access_secret: Optional[str] = None,
+        stats: Optional[PlurkerStats] = None,
+    ) -> None:
+        """
+        Will try to fetch `PLURK_APP_KEY`, `PLURK_APP_SECRET`,
+        `PLURK_USER_TOKEN`, `PLURK_USER_SECRET` from environment variables
+        if `app_key`, `app_secret`, `access_token`, `access_secret` weren't provided.
+
+        """
+        APP_KEY = os.getenv('PLURK_APP_KEY', app_key)
+        APP_SECRET = os.getenv('PLURK_APP_SECRET', app_secret)
+        ACCESS_TOKEN = os.getenv('PLURK_USER_TOKEN', access_token)
+        ACCESS_TOKEN_SECRET = os.getenv('PLURK_USER_SECRET', access_secret)
+
+        self.plurk = PlurkAPI(
+            key=APP_KEY,
+            secret=APP_SECRET,
+            access_token=ACCESS_TOKEN,
+            access_secret=ACCESS_TOKEN_SECRET
+        )
         self._stats = stats or PlurkerStats()
         super().__init__()
 
@@ -63,7 +76,7 @@ class Plurker(Publisher):
         return response
 
     def _publish(self, content):
-        response = plurk.callAPI("/APP/Timeline/plurkAdd", options=content)
+        response = self.plurk.callAPI("/APP/Timeline/plurkAdd", options=content)
         if response:
             self.stats.sending_success()
         else:

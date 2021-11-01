@@ -43,6 +43,7 @@ def session():
     from figure_hook.database import PostgreSQLDB
 
     pgsql = PostgreSQLDB()
+    Model.metadata.drop_all(bind=pgsql.engine)
     Session = sessionmaker(pgsql.engine)
     with Session() as session:
         Model.set_session(session)

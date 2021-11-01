@@ -1,44 +1,50 @@
+from typing import Type
+
 import pytest
-from figure_hook.utils.announcement_checksum import (AlterChecksum,
-                                                     GSCChecksum, NativeChecksum, SiteChecksum)
 from pytest_mock import MockerFixture
+
+from figure_hook.utils.announcement_checksum import (AlterChecksum,
+                                                     GSCChecksum,
+                                                     NativeChecksum,
+                                                     SiteChecksum)
+from figure_hook.utils.scrapyd_api import ScrapydUtil
 
 
 @pytest.mark.usefixtures("session")
 class BaseTestChecksum:
-    __checksum_class__ = None
+    __checksum_class__: Type[SiteChecksum]
 
-    def test_initialize(self):
-        site_checksum = self.__checksum_class__()
-        assert site_checksum
+    @pytest.fixture
+    def site_checksum(self, session):
+        util = ScrapydUtil("http://localhost:8000", "project")
+        site_checksum = self.__checksum_class__(util)
+        return site_checksum
 
-    def test_property(self):
-        site_checksum = self.__checksum_class__()
+    @pytest.mark.usefixtures("site_checksum")
+    def test_property(self, site_checksum):
         assert hasattr(site_checksum, "current")
         assert hasattr(site_checksum, "previous")
         assert hasattr(site_checksum, "is_changed")
         assert hasattr(site_checksum, "feature")
         assert isinstance(site_checksum.feature, bytes)
 
-    def test_checksum_generation(self):
-        site_checksum: SiteChecksum = self.__checksum_class__()
+    @pytest.mark.usefixtures("site_checksum")
+    def test_checksum_generation(self, site_checksum):
         checksum = site_checksum._generate_checksum()
         assert checksum
 
-    def test_update_checksum(self):
-        site_checksum: SiteChecksum = self.__checksum_class__()
+    @pytest.mark.usefixtures("site_checksum")
+    def test_update_checksum(self, site_checksum):
         site_checksum.update()
         assert not site_checksum.is_changed
 
-        fetched_site_checksum: SiteChecksum = self.__checksum_class__()
-        assert site_checksum.current == fetched_site_checksum.previous
-
-    def test_trigger_crawler(self, mocker: MockerFixture):
+    @pytest.mark.usefixtures("site_checksum")
+    def test_trigger_crawler(self, mocker: MockerFixture, site_checksum):
         crawler_trigger = mocker.patch(
-            "figure_hook.utils.announcement_checksum.schedule_spider",
+            "figure_hook.utils.scrapyd_api.ScrapydUtil.schedule_spider",
             return_value="job"
         )
-        site_checksum: SiteChecksum = self.__checksum_class__()
+
         jobs = site_checksum.trigger_crawler()
         assert isinstance(jobs, list)
         assert crawler_trigger.called
