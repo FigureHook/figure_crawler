@@ -6,20 +6,45 @@ from faker import Faker
 from figure_parser.extension_class import (HistoricalReleases, OrderPeriod,
                                            Release)
 from figure_parser.product import ProductBase
+from sqlalchemy.orm import Session, sessionmaker
+
+from figure_hook.Models.base import Model
+from utils.db_fake_data import (insert_fake_products, insert_fake_tasks,
+                                insert_fake_webhooks,
+                                update_fake_release_created_time)
 
 os.environ['POSTGRES_DATABASE'] = "figure_testing"
 
 
 @pytest.fixture()
-def session():
-    from sqlalchemy.orm import Session
-
+def fake_data():
     from figure_hook.database import PostgreSQLDB
-    from figure_hook.Models.base import Model
 
     pgsql = PostgreSQLDB()
+    Model.metadata.drop_all(bind=pgsql.engine)
 
-    with Session(pgsql.engine) as session:
+    session = Session(pgsql.engine)
+    Model.set_session(session)
+    Model.metadata.create_all(bind=pgsql.engine)
+    insert_fake_products(session)
+    insert_fake_webhooks(session)
+    update_fake_release_created_time(session)
+    insert_fake_tasks(session)
+    session.commit()
+
+    yield
+
+    Model.set_session(None)  # type: ignore
+    Model.metadata.drop_all(bind=pgsql.engine)
+
+
+@pytest.fixture()
+def session():
+    from figure_hook.database import PostgreSQLDB
+
+    pgsql = PostgreSQLDB()
+    Session = sessionmaker(pgsql.engine)
+    with Session() as session:
         Model.set_session(session)
         Model.metadata.create_all(bind=pgsql.engine)
         yield session
