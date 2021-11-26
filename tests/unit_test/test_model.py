@@ -197,7 +197,8 @@ class TestRelationShip:
         product.save()
         session.commit()
 
-        fetched_product = Product.get_by_id(product.id)  # type: ignore
+        fetched_product = Product.get_by_id(product.id)
+        assert fetched_product
         assert isinstance(fetched_product.release_infos, list)
         assert len(fetched_product.release_infos) == 2
         assert fetched_product.release_infos[-1] == resale_info
@@ -211,7 +212,9 @@ class TestRelationShip:
         product.save()
         session.commit()
 
-        last_release = product.first().last_release()
+        f_p = product.first()
+        assert f_p
+        last_release = f_p.last_release()
         assert last_release is resale_info
 
     def test_product_release_infos_is_nullsfirst(self, session):
@@ -224,7 +227,8 @@ class TestRelationShip:
         product.save()
         session.commit()
 
-        p = Product.get_by_id(product.id)  # type: ignore
+        p = Product.get_by_id(product.id)
+        assert p
         assert p.release_infos[0] == stall_info
 
     def test_series_has_many_products(self):
@@ -325,7 +329,7 @@ class TestRelationShip:
         product.save()
         session.commit()
 
-        Product.destroy(product.id)
+        Product.destroy([product.id])
         session.commit()
 
         assert not ProductOfficialImage.all()
@@ -341,7 +345,7 @@ class TestRelationShip:
         product.save()
         session.commit()
 
-        Product.destroy(product.id)
+        Product.destroy([product.id])
         session.commit()
 
         assert not ProductReleaseInfo.all()
@@ -358,7 +362,7 @@ class TestRelationShip:
         p.save()
         session.commit()
 
-        Product.destroy(p.id)
+        Product.destroy([p.id])
         session.commit()
 
         s_asso = session.query(product_sculptor_table).all()
@@ -380,15 +384,16 @@ class TestRelationShip:
         p.save()
         session.commit()
 
-        Paintwork.destroy(newbie.id)
+        Paintwork.destroy([newbie.id])
         session.commit()
 
         s_asso = session.query(product_sculptor_table).all()
         p_asso = session.query(product_paintwork_table).all()
         assert s_asso
         assert not p_asso
-        assert Product.first()
-        assert Product.first().sculptors
+        f_p = Product.first()
+        assert f_p
+        assert f_p.sculptors
 
     def test_delete_sculptor_and_association_but_not_effect_product(self, session):
         from figure_hook.Models.relation_table import (product_paintwork_table,
@@ -402,15 +407,17 @@ class TestRelationShip:
         p.save()
         session.commit()
 
-        Sculptor.destroy(master.id)
+        Sculptor.destroy([master.id])
         session.commit()
 
         s_asso = session.query(product_sculptor_table).all()
         p_asso = session.query(product_paintwork_table).all()
         assert not s_asso
         assert p_asso
-        assert Product.first()
-        assert not Product.first().sculptors
+
+        f_p = Product.first()
+        assert f_p
+        assert not f_p.sculptors
 
 
 @pytest.mark.usefixtures("session")
@@ -431,6 +438,7 @@ class TestAnnouncementChecksum:
         session.commit()
 
         site_checksum = AnnouncementChecksum.get_by_site(SourceSite.GSC)
+        assert site_checksum
         assert site_checksum.checksum == checksum
         assert isinstance(site_checksum.checked_at, datetime)
 
