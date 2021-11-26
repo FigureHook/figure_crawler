@@ -458,3 +458,10 @@ class TestWebhook:
         Webhook.create(channel_id="123357805", id="asdfasdf", token="asdfasdf", lang="en")
         with pytest.raises(AssertionError):
             Webhook.create(channel_id="12311357805", id="asdfsasdf", token="asdfassdf", lang="fr")
+
+    def test_token_encryption(self):
+        token = "theverysecrettoken"
+        w = Webhook.create(channel_id="123123", id="asdf", token=token, lang="ja")
+        assert type(w.token) is str
+        assert type(w.decrypted_token) is str
+        assert w.decrypted_token == token

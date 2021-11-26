@@ -1,6 +1,9 @@
-from sqlalchemy import Boolean, Column, String
+from sqlalchemy import Boolean, Column, String, event
+from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import validates
 from sqlalchemy_mixins.timestamp import TimestampsMixin
+
+from figure_hook.Helpers.encrypt_helper import EncryptHelper
 
 from .base import Model
 
@@ -20,6 +23,10 @@ class Webhook(Model, TimestampsMixin):
     is_nsfw = Column(Boolean, default=False)
     lang = Column(String(5), default="en")
 
+    @hybrid_property
+    def decrypted_token(self):
+        return EncryptHelper.decrypt_str(self.token)
+
     @validates('lang')
     def validate_lang(self, key, lang):
         try:
@@ -38,3 +45,8 @@ class Webhook(Model, TimestampsMixin):
     @staticmethod
     def supporting_languages():
         return Webhook.supporting_langs
+
+
+@event.listens_for(target=Webhook.token, identifier='set', retval=True)
+def _webhook_attr_token_receive_set(target, token_value: str, old_token_value, initiator) -> str:
+    return EncryptHelper.encrypt_str(token_value)
