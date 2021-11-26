@@ -11,7 +11,7 @@ def bytes_to_str(value: bytes) -> str:
     return value.decode('utf-8')
 
 
-_secret = os.getenv('SECRET')
+_secret = os.getenv('FIGURE_HOOK_SECRET')
 assert _secret
 fernet = Fernet(_secret)
 
