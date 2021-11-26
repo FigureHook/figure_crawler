@@ -29,6 +29,7 @@ celerybeat-schedule
 *.drawio
 *.mo
 *.*~
+*.tar
 
 # vscode
 **/.vscode/launch.json
