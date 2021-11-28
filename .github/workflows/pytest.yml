@@ -35,7 +35,7 @@ jobs:
       
     - name: Run pytest
       env:
-        POSTGRES_DATABASE: figure
+        POSTGRES_DATABASE: figure_testing
         POSTGRES_PASSWORD: password
         POSTGRES_USER: postgres
         POSTGRES_URL: 127.0.0.1:5432
@@ -46,6 +46,4 @@ jobs:
         SCRAPYD_URL: 127.0.0.1:6666
       run: |
         docker-compose -f docker-compose.test.yml --env-file sample.env up -d
-        python -c 'import os; print(os.getenv("POSTGRES_USER"))'
-        alembic upgrade head
         pytest
