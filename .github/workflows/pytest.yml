@@ -29,7 +29,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install poetry==1.1.8
-        poetry intsall
+        poetry install
         
     - name: Docker Setup
       run: docker-compose -f docker-compose.test.yml up -d
