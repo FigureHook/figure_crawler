@@ -38,7 +38,7 @@ jobs:
         POSTGRES_DATABASE: figure
         POSTGRES_PASSWORD: password
         POSTGRES_USER: postgres
-        POSTGRES_URL: 127.0.0.1
+        POSTGRES_URL: 127.0.0.1:5432
         PLURK_APP_KEY: app_key
         PLURK_APP_SECRET: app_secret
         PLURK_USER_TOKEN: user_token
