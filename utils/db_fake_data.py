@@ -34,7 +34,7 @@ def create_fake_webhooks(amount: int) -> list[Webhook]:
             channel_id=fake.lexify(text='?????????????'),
             token=fake.lexify(text='?????????????'),
             is_nsfw=fake.boolean(chance_of_getting_true=80),
-            lang=fake.random_choices(elements=Webhook.supporting_langs)
+            lang=fake.random_element(elements=Webhook.supporting_langs)
         )
         webhooks.append(webhook)
 
