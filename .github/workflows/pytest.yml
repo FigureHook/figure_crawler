@@ -44,7 +44,7 @@ jobs:
         PLURK_USER_TOKEN: user_token
         PLURK_USER_SECRET: user_secret
         SCRAPYD_URL: 127.0.0.1:6666
-        FIGURE_HOOK_SECRET: top_secret
+        FIGURE_HOOK_SECRET: IKFQX3cOo1MGs8xw-cbrwWiWxLyokSV_1SHQIYioHS4=  # A URL-safe base64-encoded 32-byte key.
       run: |
         docker-compose -f docker-compose.test.yml --env-file sample.env up -d
         pytest
