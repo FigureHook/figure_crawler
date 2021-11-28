@@ -15,7 +15,7 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  deploy:
+  test:
 
     runs-on: ubuntu-latest
 
@@ -37,4 +37,4 @@ jobs:
     - name: Run pytest
       run: |
         source sample.env
-        pytest
+        poetry run pytest
