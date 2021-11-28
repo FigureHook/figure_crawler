@@ -35,6 +35,6 @@ jobs:
     - name: Run pytest
       run: |
         cat sample.env >> $GITHUB_ENV
-        docker-compose -f .\docker-compose.test.yml --env-file sample.env up -d
+        docker-compose -f docker-compose.test.yml --env-file sample.env up -d
         poetry run alembic upgrade head
         poetry run pytest
