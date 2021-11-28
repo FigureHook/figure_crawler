@@ -17,6 +17,13 @@ fernet = Fernet(_secret)
 
 
 class EncryptHelper:
+    @staticmethod
+    def encrypt(data: bytes) -> bytes:
+        return fernet.encrypt(data)
+
+    @staticmethod
+    def decrypt(data: bytes) -> bytes:
+        return fernet.decrypt(data)
 
     @staticmethod
     def encrypt_str(data: str) -> str:
