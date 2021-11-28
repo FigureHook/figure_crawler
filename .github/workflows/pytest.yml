@@ -37,5 +37,7 @@ jobs:
       run: |
         cat sample.env >> $GITHUB_ENV
         docker-compose -f docker-compose.test.yml --env-file sample.env up -d
-        alembic upgrade head
-        pytest
+        python -c 'import os; print(os.getenv("POSTGRES_USER"))'        
+
+# alembic upgrade head
+# pytest
