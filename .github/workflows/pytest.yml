@@ -34,8 +34,17 @@ jobs:
         poetry install
       
     - name: Run pytest
+      env:
+        POSTGRES_DATABASE: figure
+        POSTGRES_PASSWORD: password
+        POSTGRES_USER: postgres
+        POSTGRES_URL: 127.0.0.1
+        PLURK_APP_KEY: app_key
+        PLURK_APP_SECRET: app_secret
+        PLURK_USER_TOKEN: user_token
+        PLURK_USER_SECRET: user_secret
+        SCRAPYD_URL: 127.0.0.1:6666
       run: |
-        cat sample.env >> $GITHUB_ENV
         docker-compose -f docker-compose.test.yml --env-file sample.env up -d
         python -c 'import os; print(os.getenv("POSTGRES_USER"))'
         alembic upgrade head
