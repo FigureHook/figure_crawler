@@ -1,10 +1,11 @@
 from abc import ABC, abstractmethod
 from hashlib import md5
-from typing import Optional
+from typing import Any, Optional
 
 import requests as rq
 from figure_parser.alter.announcecment_parser import fetch_alter_newest_year
-from figure_parser.constants import AlterCategory, GSCCategory, GSCLang
+from figure_parser.constants import (AlterCategory, GSCCategory, GSCLang,
+                                     NativeCategory)
 from figure_parser.utils import RelativeUrl
 
 from figure_hook.constants import SourceSite
@@ -27,7 +28,7 @@ def calculate_checksum(target):
 
 class SiteChecksum(ABC):
     __site__: SourceSite
-    __spiders__: list[str]
+    __spider__: str
     __site_checksum: Optional[AnnouncementChecksum]
     scrapyd_util: ScrapydUtil
 
@@ -40,6 +41,11 @@ class SiteChecksum(ABC):
         self.__site_checksum = AnnouncementChecksum.get_by_site(self.__site__)
         self._feature = self._extract_feature()
         self.scrapyd_util = scrapyd_util
+
+    @property
+    @abstractmethod
+    def spider_configs(self) -> list[dict[str, Any]]:
+        pass
 
     @property
     def feature(self):
@@ -75,8 +81,10 @@ class SiteChecksum(ABC):
     def trigger_crawler(self) -> list:
         """Trigger the spiders to parse new product."""
         jobs = []
-        for spider in self.__spiders__:
-            job = self.scrapyd_util.schedule_spider(spider)
+        for config in self.spider_configs:
+            spider_name = self.__spider__
+            settings = config['settings']
+            job = self.scrapyd_util.schedule_spider(spider_name, settings=settings)
             jobs.append(job)
 
         return jobs
@@ -90,7 +98,19 @@ class SiteChecksum(ABC):
 
 class GSCChecksum(SiteChecksum):
     __site__ = SourceSite.GSC
-    __spiders__ = ["gsc_recent"]
+    __spider__ = "gsc_product"
+
+    @property
+    def spider_configs(self) -> list[dict[str, Any]]:
+        return [
+            {
+                'settings': {
+                    'begin_year': DatetimeHelper.today().year,
+                    'end_year': DatetimeHelper.today().year,
+                    'category': GSCCategory.SCALE
+                }
+            }
+        ]
 
     @staticmethod
     def _extract_feature() -> bytes:
@@ -103,7 +123,30 @@ class GSCChecksum(SiteChecksum):
 
 class AlterChecksum(SiteChecksum):
     __site__ = SourceSite.ALTER
-    __spiders__ = ["alter_recent"]
+    __spider__ = "alter_product"
+
+    @property
+    def spider_configs(self) -> list[dict[str, Any]]:
+        return [
+            {
+                'settings': {
+                    'begin_year': DatetimeHelper.today().year,
+                    'category': AlterCategory.FIGURE
+                }
+            },
+            {
+                'settings': {
+                    'begin_year': DatetimeHelper.today().year,
+                    'category': AlterCategory.ALTAIR
+                }
+            },
+            {
+                'settings': {
+                    'begin_year': DatetimeHelper.today().year,
+                    'category': AlterCategory.COLLABO
+                }
+            },
+        ]
 
     @staticmethod
     def _extract_feature() -> bytes:
@@ -116,10 +159,24 @@ class AlterChecksum(SiteChecksum):
 
 class NativeChecksum(SiteChecksum):
     __site__ = SourceSite.NATIVE
-    __spiders__ = [
-        "native_character_recent",
-        "native_creator_recent"
-    ]
+    __spider__ = "native_product"
+
+    @property
+    def spider_configs(self) -> list[dict[str, Any]]:
+        return [
+            {
+                'settings': {
+                    'end_page': 1,
+                    'category': NativeCategory.CHARACTERS
+                }
+            },
+            {
+                'settings': {
+                    'end_page': 1,
+                    'category': NativeCategory.CREATORS
+                }
+            },
+        ]
 
     @staticmethod
     def _extract_feature() -> bytes:

@@ -22,10 +22,10 @@ class ScrapydUtil:
                 schedule_status.append(response)
         return schedule_status
 
-    def schedule_spider(self, spider_name: str, project_name: Optional[str] = None):
+    def schedule_spider(self, spider_name: str, project_name: Optional[str] = None, settings={}):
         the_project = project_name or self.default_project_name
         try:
-            response = schedule(self.scrapyd_url, the_project, spider_name)
+            response = schedule(self.scrapyd_url, the_project, spider_name, args=settings)
         except ConnectionRefusedError:
             return None
         return response
