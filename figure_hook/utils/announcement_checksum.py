@@ -107,7 +107,8 @@ class GSCChecksum(SiteChecksum):
                 'settings': {
                     'begin_year': DatetimeHelper.today().year,
                     'end_year': DatetimeHelper.today().year,
-                    'category': GSCCategory.SCALE
+                    'category': GSCCategory.SCALE,
+                    'is_announcement_spider': True
                 }
             }
         ]
@@ -131,19 +132,22 @@ class AlterChecksum(SiteChecksum):
             {
                 'settings': {
                     'begin_year': DatetimeHelper.today().year,
-                    'category': AlterCategory.FIGURE
+                    'category': AlterCategory.FIGURE,
+                    'is_announcement_spider': True
                 }
             },
             {
                 'settings': {
                     'begin_year': DatetimeHelper.today().year,
-                    'category': AlterCategory.ALTAIR
+                    'category': AlterCategory.ALTAIR,
+                    'is_announcement_spider': True
                 }
             },
             {
                 'settings': {
                     'begin_year': DatetimeHelper.today().year,
-                    'category': AlterCategory.COLLABO
+                    'category': AlterCategory.COLLABO,
+                    'is_announcement_spider': True
                 }
             },
         ]
@@ -167,13 +171,15 @@ class NativeChecksum(SiteChecksum):
             {
                 'settings': {
                     'end_page': 1,
-                    'category': NativeCategory.CHARACTERS
+                    'category': NativeCategory.CHARACTERS,
+                    'is_announcement_spider': True
                 }
             },
             {
                 'settings': {
                     'end_page': 1,
-                    'category': NativeCategory.CREATORS
+                    'category': NativeCategory.CREATORS,
+                    'is_announcement_spider': True
                 }
             },
         ]
