@@ -4,6 +4,7 @@ from typing import Optional
 from plurk_oauth import PlurkAPI
 
 from .abcs import Publisher, Stats
+from .exceptions import PlurkPublishException
 
 
 class PlurkerStats(Stats):
@@ -79,6 +80,16 @@ class Plurker(Publisher):
         response = self.plurk.callAPI("/APP/Timeline/plurkAdd", options=content)
         if response:
             self.stats.sending_success()
+            return response
         else:
             self.stats.sending_failed()
-        return response
+            error = self.plurk.error()
+            msg = error['reason']
+
+            if 'error_text' in error['content']:
+                msg = error['content']['error_text']
+
+            raise PlurkPublishException({
+                'error': msg,
+                'caused_by': content
+            })
