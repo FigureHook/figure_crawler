@@ -105,7 +105,8 @@ def _make_plurk_obj(
     ## /APP/Timeline/plurkAdd
 
     Required params: `content`, `qualifier`
-    Optional params: `limited_to`, `excluded`, `no_comments`, `lang`, `replurkable`, `porn`, `publish_to_followers`, `publish_to_anonymous`
+    Optional params: `limited_to`, `excluded`, `no_comments`, `lang`, `replurkable`,
+    `porn`, `publish_to_followers`, `publish_to_anonymous`
     """
     plurk_obj: dict[str, Any] = {
         'content': content,
