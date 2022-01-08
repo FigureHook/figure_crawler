@@ -36,7 +36,7 @@ class TestPlurkContentFactory:
             obj = {
                 'content': content,
                 'qualifier': qualifier,
-                'limited_to': str(limited_to),
+                'limited_to': limited_to,
                 'no_comments': no_comments,
                 'lang': lang,
                 'replurkable': replurkable,
