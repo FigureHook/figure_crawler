@@ -111,7 +111,7 @@ def _make_plurk_obj(
     plurk_obj: dict[str, Any] = {
         'content': content,
         'qualifier': qualifier,
-        'limited_to': str(limited_to),
+        'limited_to': limited_to,
         'no_comments': no_comments,
         'lang': lang,
         'replurkable': int(replurkble),
