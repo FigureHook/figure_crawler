@@ -1,9 +1,12 @@
+import logging
+import time
 from abc import ABC, abstractmethod
 
 from discord.webhook import RequestsWebhookAdapter
 from sqlalchemy import select, update
 
 from figure_hook.constants import PeriodicTask
+from figure_hook.extension_class import ReleaseFeed
 from figure_hook.Factory.publish_factory.discord_embed_factory import \
     DiscordEmbedFactory
 from figure_hook.Factory.publish_factory.plurk_content_factory import \
@@ -12,7 +15,10 @@ from figure_hook.Helpers.db_helper import ReleaseHelper
 from figure_hook.Models import Task, Webhook
 from figure_hook.Publishers.dispatchers import \
     DiscordNewReleaseEmbedsDispatcher
+from figure_hook.Publishers.exceptions import PlurkPublishException
 from figure_hook.Publishers.plurk import Plurker
+
+logger = logging.getLogger(__name__)
 
 
 class NewReleasePush(ABC):
@@ -102,13 +108,21 @@ class DiscordNewReleasePush(NewReleasePush):
 class PlurkNewReleasePush(NewReleasePush):
     __task_id__ = PeriodicTask.PLURK_NEW_RELEASE_PUSH
 
-    def execute(self):
-        plurker = Plurker()
+    def __init__(self, session):
+        super().__init__(session)
+        self.plurker = Plurker()
+
+    def execute(self, logger: logging.Logger = logger):
         new_releases = self._fetch_new_releases()
         self._update_execution_time()
 
         for release in new_releases:
             content = PlurkContentFactory.create_new_release(release)
-            plurker.publish(content=content)
+            try:
+                self.plurker.publish(content=content)
+            except PlurkPublishException as err:
+                logger.error(err)
+            finally:
+                time.sleep(3)
 
-        return plurker.stats
+        return self.plurker.stats
