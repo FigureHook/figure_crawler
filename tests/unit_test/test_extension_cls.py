@@ -4,6 +4,7 @@ import pytest
 @pytest.mark.usefixtures("release_feed")
 def test_release_feed(release_feed):
     check_attrs = [
+        'id',
         'name',
         'url',
         'is_adult',
@@ -21,4 +22,4 @@ def test_release_feed(release_feed):
     ]
 
     for attr in check_attrs:
-        assert hasattr(release_feed, attr)
+        assert hasattr(release_feed, attr), f"lack of attribute: {attr}"

@@ -59,6 +59,7 @@ def release_feed():
     from figure_hook.extension_class import ReleaseFeed
     fake = Faker(['ja-JP'])
     return ReleaseFeed(
+        id=random.randint(1, 1000),
         name=fake.name(),
         url=fake.url(),
         is_adult=fake.boolean(chance_of_getting_true=25),

@@ -1,10 +1,7 @@
 from datetime import datetime
-from typing import Union
-
-from figure_hook.constants import PeriodicTask
 from figure_hook.extension_class import ReleaseFeed
 from figure_hook.Models import (Company, Product, ProductOfficialImage,
-                                ProductReleaseInfo, Series, Task)
+                                ProductReleaseInfo, Series)
 from sqlalchemy import select
 from sqlalchemy.orm.session import Session
 from sqlalchemy.sql.expression import and_, literal_column
@@ -15,6 +12,7 @@ class ReleaseHelper:
     def fetch_new_releases(session: Session, time: datetime) -> list[ReleaseFeed]:
         """fetch new releases to push."""
         r = select(
+            ProductReleaseInfo.id,
             ProductReleaseInfo.product_id,
             ProductReleaseInfo.price.label('price'),
             ProductReleaseInfo.initial_release_date.label('release_date')
@@ -26,6 +24,7 @@ class ReleaseHelper:
         ).cte("release_info")
 
         stmt = select(
+            ProductReleaseInfo.id.label("release_id"),
             Product.name.label("name"),
             Product.url.label("url"),
             Product.adult.label("is_adult"),
@@ -44,9 +43,9 @@ class ReleaseHelper:
         ).join(
             r
         ).join(
-            Product.manufacturer
+            Company, Product.manufacturer_id == Company.id
         ).join(
-            Product.series
+            Series, Product.series_id == Series.id
         ).outerjoin(
             ProductOfficialImage,
             and_(Product.id == ProductOfficialImage.product_id,
@@ -58,6 +57,7 @@ class ReleaseHelper:
         release_feeds = []
         for release in releases:
             feed = ReleaseFeed(
+                id=release.release_id,
                 name=release.name,
                 url=release.url,
                 is_adult=release.is_adult,
@@ -75,11 +75,3 @@ class ReleaseHelper:
             release_feeds.append(feed)
 
         return release_feeds
-
-
-class TaskHelper:
-    @staticmethod
-    def get_task(session: Session, task_id: PeriodicTask) -> Union[Task, None]:
-        stmt = select(Task).where(Task.name == PeriodicTask.NEWS_PUSH)
-        task = session.execute(stmt).scalar()
-        return task

@@ -6,7 +6,6 @@ from discord.webhook import RequestsWebhookAdapter
 from sqlalchemy import select, update
 
 from figure_hook.constants import PeriodicTask
-from figure_hook.extension_class import ReleaseFeed
 from figure_hook.Factory.publish_factory.discord_embed_factory import \
     DiscordEmbedFactory
 from figure_hook.Factory.publish_factory.plurk_content_factory import \

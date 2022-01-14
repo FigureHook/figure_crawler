@@ -27,6 +27,7 @@ class NewsReleasePush(ABC):
     def mock_publisher(self, mocker: MockerFixture):
         mocker.patch('plurk_oauth.PlurkAPI.callAPI', return_value={"a": True})
         mocker.patch('discord.webhook.Webhook.send')
+        mocker.patch('time.sleep')
 
     @pytest.mark.usefixtures("mock_publisher")
     def test_attributes(self):
