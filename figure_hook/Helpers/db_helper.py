@@ -4,25 +4,13 @@ from figure_hook.Models import (Company, Product, ProductOfficialImage,
                                 ProductReleaseInfo, Series)
 from sqlalchemy import select
 from sqlalchemy.orm.session import Session
-from sqlalchemy.sql.expression import and_, literal_column
+from sqlalchemy.sql.expression import and_
 
 
 class ReleaseHelper:
     @staticmethod
     def fetch_new_releases(session: Session, time: datetime) -> list[ReleaseFeed]:
         """fetch new releases to push."""
-        r = select(
-            ProductReleaseInfo.id,
-            ProductReleaseInfo.product_id,
-            ProductReleaseInfo.price.label('price'),
-            ProductReleaseInfo.initial_release_date.label('release_date')
-        ).where(
-            ProductReleaseInfo.created_at > time,
-            # ensure fetched data parsed by new release checking parser
-            ProductReleaseInfo.announced_at.isnot(None),
-            ProductReleaseInfo.announced_at >= time.date()
-        ).cte("release_info")
-
         stmt = select(
             ProductReleaseInfo.id.label("release_id"),
             Product.name.label("name"),
@@ -31,8 +19,8 @@ class ReleaseHelper:
             Product.resale.label("resale"),
             Series.name.label("series"),
             Company.name.label("maker"),
-            literal_column("release_info.price").label("price"),
-            literal_column("release_info.release_date").label("release_date"),
+            ProductReleaseInfo.price.label("price"),
+            ProductReleaseInfo.initial_release_date.label("release_date"),
             ProductOfficialImage.url.label("image_url"),
             Product.thumbnail.label("thumbnail"),
             Product.og_image.label("og_image"),
@@ -40,21 +28,23 @@ class ReleaseHelper:
             Product.scale.label("scale")
         ).select_from(
             Product
+        ).where(
+            ProductReleaseInfo.created_at >= time
         ).join(
-            r
+            ProductReleaseInfo, ProductReleaseInfo.product_id == Product.id
         ).join(
-            Company, Product.manufacturer_id == Company.id
+            Company, Company.id == Product.manufacturer_id
         ).join(
-            Series, Product.series_id == Series.id
-        ).outerjoin(
+            Series, Series.id == Product.series_id
+        ).join(
             ProductOfficialImage,
             and_(Product.id == ProductOfficialImage.product_id,
-                 ProductOfficialImage.order == 1)
+                 ProductOfficialImage.order == 1),
         )
 
         releases = session.execute(stmt).all()
 
-        release_feeds = []
+        release_feeds: list[ReleaseFeed] = []
         for release in releases:
             feed = ReleaseFeed(
                 id=release.release_id,
