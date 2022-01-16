@@ -18,7 +18,7 @@ from figure_hook.Publishers.dispatchers import \
 from figure_hook.exceptions import PublishError
 from figure_hook.Publishers.plurk import Plurker
 
-logger = logging.getLogger(__name__)
+default_logger = logging.getLogger(__name__)
 
 
 class NewReleasePush(ABC):
@@ -114,7 +114,7 @@ class PlurkNewReleasePush(NewReleasePush):
         self.failed_releases = []
         self.plurker = Plurker()
 
-    def execute(self, logger: logging.Logger = logger):
+    def execute(self, logger: logging.Logger = default_logger):
         new_releases = self._fetch_new_releases()
         self._update_execution_time()
 
