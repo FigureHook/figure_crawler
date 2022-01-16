@@ -51,8 +51,9 @@ def compare_release_infos(p_dataclass: ProductBase, p_model: ProductModel) -> Re
 
         last_release_from_dataclass = d_ri.last()
         last_release_form_model = p_model.last_release()
-        if last_release_from_dataclass.release_date != last_release_form_model.initial_release_date:
-            return ReleaseInfoStatus.DELAY
+        if last_release_from_dataclass and last_release_form_model:
+            if last_release_from_dataclass.release_date != last_release_form_model.initial_release_date:
+                return ReleaseInfoStatus.DELAY
 
         return ReleaseInfoStatus.ALTER
 
