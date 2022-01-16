@@ -6,6 +6,7 @@ from discord.webhook import RequestsWebhookAdapter
 from sqlalchemy import select, update
 
 from figure_hook.constants import PeriodicTask
+from figure_hook.extension_class import ReleaseFeed
 from figure_hook.Factory.publish_factory.discord_embed_factory import \
     DiscordEmbedFactory
 from figure_hook.Factory.publish_factory.plurk_content_factory import \
@@ -105,10 +106,12 @@ class DiscordNewReleasePush(NewReleasePush):
 
 
 class PlurkNewReleasePush(NewReleasePush):
+    failed_releases: list[ReleaseFeed]
     __task_id__ = PeriodicTask.PLURK_NEW_RELEASE_PUSH
 
     def __init__(self, session):
         super().__init__(session)
+        self.failed_releases = []
         self.plurker = Plurker()
 
     def execute(self, logger: logging.Logger = logger):
@@ -120,6 +123,7 @@ class PlurkNewReleasePush(NewReleasePush):
             try:
                 self.plurker.publish(content=content)
             except PlurkPublishException as err:
+                self.failed_releases.append(release)
                 logger.error(err)
             finally:
                 time.sleep(3)
