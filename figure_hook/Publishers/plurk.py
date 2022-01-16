@@ -3,6 +3,8 @@ from typing import Optional
 
 from plurk_oauth import PlurkAPI
 
+from figure_hook.exceptions import PublishError
+
 from .abcs import Publisher, Stats
 
 
@@ -70,6 +72,9 @@ class Plurker(Publisher):
         return self._stats
 
     def publish(self, *, content):
+        """
+        :raise PublishError: raise error when publish failed.
+        """
         self.stats.start()
         response = self._publish(content)
         self.stats.finish()
@@ -79,6 +84,13 @@ class Plurker(Publisher):
         response = self.plurk.callAPI("/APP/Timeline/plurkAdd", options=content)
         if response:
             self.stats.sending_success()
+            return response
         else:
             self.stats.sending_failed()
-        return response
+            error = self.plurk.error()
+            msg = error['reason']
+
+            if 'error_text' in error['content']:
+                msg = error['content']['error_text']
+
+            raise PublishError(publisher=self, reason=msg, caused_by=content)

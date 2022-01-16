@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from datetime import date
-from typing import Optional
+from typing import Any, Optional
 
 __all__ = [
     "ReleaseFeed"
@@ -9,6 +9,7 @@ __all__ = [
 
 @dataclass
 class ReleaseFeed:
+    id: Any
     name: str
     url: str
     is_adult: bool

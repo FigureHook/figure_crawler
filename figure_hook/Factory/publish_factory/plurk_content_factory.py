@@ -1,7 +1,79 @@
+from typing import Any, Literal, Optional
+from enum import IntEnum
+
 from babel.dates import format_date
+
 from figure_hook.extension_class import ReleaseFeed
 
 from .abcs import PublishFactory
+
+PlurkQualifier = Literal[
+    'plays',
+    'buys',
+    'sells',
+    'loves',
+    'likes',
+    'shares',
+    'hates',
+    'wants',
+    'wishes',
+    'needs',
+    'has',
+    'will',
+    'hopes',
+    'asks',
+    'wonders',
+    'feels',
+    'thinks',
+    'draws',
+    'is',
+    'says',
+    'eats',
+    'writes',
+    'whispers'
+]
+
+PlurkLang = Literal[
+    'en',
+    'tr_ch',
+    'tr_hk',
+    'cn',
+    'ja',
+    'ca',
+    'el',
+    'dk',
+    'de',
+    'es',
+    'sv',
+    'nb',
+    'hi',
+    'ro',
+    'hr',
+    'fr',
+    'ru',
+    'it',
+    'he',
+    'hu',
+    'ne',
+    'th',
+    'ta_fp',
+    'in',
+    'pl',
+    'ar',
+    'fi',
+    'tr',
+    'ga',
+    'sk',
+    'uk',
+    'fa',
+    'pt_BR',
+]
+
+
+class PlurkCommentPermission(IntEnum):
+    DEFAULT = 0
+    NO_COMMENTS = 1
+    ONLY_FRIENDS = 2
 
 
 def link(text: str, url: str) -> str:
@@ -16,7 +88,72 @@ def italic(text: str) -> str:
     return f"*{text}*"
 
 
+def _make_plurk_obj(
+    content: str,
+    qualifier: PlurkQualifier,
+    limited_to: list[int] = [],
+    excluded: Optional[list[int]] = None,
+    no_comments: PlurkCommentPermission = PlurkCommentPermission.DEFAULT,
+    lang: PlurkLang = 'en',
+    replurkble: bool = True,
+    porn: bool = False,
+    publish_to_followers: bool = True,
+    publish_to_anonymous: bool = True
+):
+    """
+    https://www.plurk.com/API#:~:text=Error%20returns%3A-,/APP/Timeline/plurkAdd,-requires%20user%27s%20access
+
+    ## /APP/Timeline/plurkAdd
+
+    Required params: `content`, `qualifier`
+    Optional params: `limited_to`, `excluded`, `no_comments`, `lang`, `replurkable`,
+    `porn`, `publish_to_followers`, `publish_to_anonymous`
+    """
+    plurk_obj: dict[str, Any] = {
+        'content': content,
+        'qualifier': qualifier,
+        'limited_to': limited_to,
+        'no_comments': no_comments.value,
+        'lang': lang,
+        'replurkable': int(replurkble),
+        'porn': int(porn),
+        'publish_to_followers': int(publish_to_followers),
+        'publish_to_anonymous': int(publish_to_anonymous)
+    }
+
+    if excluded:
+        plurk_obj['excluded'] = excluded
+
+    return plurk_obj
+
+
 class PlurkContentFactory(PublishFactory):
+    @staticmethod
+    def create(
+        content: str,
+        qualifier: PlurkQualifier,
+        limited_to: list[int] = [],
+        excluded: Optional[list[int]] = None,
+        no_comments: PlurkCommentPermission = PlurkCommentPermission.DEFAULT,
+        lang: PlurkLang = 'en',
+        replurkble: bool = True,
+        porn: bool = False,
+        publish_to_followers: bool = True,
+        publish_to_anonymous: bool = True
+    ):
+        return _make_plurk_obj(
+            content,
+            qualifier,
+            limited_to=limited_to,
+            excluded=excluded,
+            no_comments=no_comments,
+            lang=lang,
+            replurkble=replurkble,
+            porn=porn,
+            publish_to_followers=publish_to_followers,
+            publish_to_anonymous=publish_to_anonymous
+        )
+
     @staticmethod
     def create_new_release(release_feed: ReleaseFeed):
         release_date_text, price_text = "未定", "未定"
@@ -47,9 +184,9 @@ class PlurkContentFactory(PublishFactory):
             "----------\n" \
             f"📨 {figure_hook_link}"
 
-        return {
-            "content": content,
-            "qualifier": "shares",
-            "porn": int(release_feed.is_adult),
-            "lang": "tr_ch"
-        }
+        return _make_plurk_obj(
+            content=content,
+            qualifier='shares',
+            porn=release_feed.is_adult,
+            lang='tr_ch'
+        )
