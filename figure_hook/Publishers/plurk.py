@@ -72,6 +72,9 @@ class Plurker(Publisher):
         return self._stats
 
     def publish(self, *, content):
+        """
+        :raise PublishError: raise error when publish failed.
+        """
         self.stats.start()
         response = self._publish(content)
         self.stats.finish()
@@ -90,4 +93,4 @@ class Plurker(Publisher):
             if 'error_text' in error['content']:
                 msg = error['content']['error_text']
 
-            raise PublishError(reason=msg, caused_by=content)
+            raise PublishError(publisher=self, reason=msg, caused_by=content)

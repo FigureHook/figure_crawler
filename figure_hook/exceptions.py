@@ -13,8 +13,8 @@ class FigureHookError(Exception):
 class PublishError(FigureHookError):
     """Bass class for Publishers errors"""
 
-    def __init__(self, reason: str, caused_by: object, *args: object) -> None:
-        msg = f"{reason}, {caused_by}"
+    def __init__(self, publisher: object, reason: str, caused_by: object, *args: object) -> None:
+        msg = f"'{reason}' caused by {caused_by} from {publisher}, "
         super().__init__(msg, *args)
 
 
