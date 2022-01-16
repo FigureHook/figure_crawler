@@ -1,4 +1,5 @@
 from typing import Any, Literal, Optional
+from enum import IntEnum
 
 from babel.dates import format_date
 
@@ -68,11 +69,11 @@ PlurkLang = Literal[
     'pt_BR',
 ]
 
-PlurkCommentFlag = Literal[
-    0,  # default
-    1,  # no comments
-    2,  # only for friends
-]
+
+class PlurkCommentPermission(IntEnum):
+    DEFAULT = 0
+    NO_COMMENTS = 1
+    ONLY_FRIENDS = 2
 
 
 def link(text: str, url: str) -> str:
@@ -92,7 +93,7 @@ def _make_plurk_obj(
     qualifier: PlurkQualifier,
     limited_to: list[int] = [],
     excluded: Optional[list[int]] = None,
-    no_comments: PlurkCommentFlag = 0,
+    no_comments: PlurkCommentPermission = PlurkCommentPermission.DEFAULT,
     lang: PlurkLang = 'en',
     replurkble: bool = True,
     porn: bool = False,
@@ -112,7 +113,7 @@ def _make_plurk_obj(
         'content': content,
         'qualifier': qualifier,
         'limited_to': limited_to,
-        'no_comments': no_comments,
+        'no_comments': no_comments.value,
         'lang': lang,
         'replurkable': int(replurkble),
         'porn': int(porn),
@@ -133,7 +134,7 @@ class PlurkContentFactory(PublishFactory):
         qualifier: PlurkQualifier,
         limited_to: list[int] = [],
         excluded: Optional[list[int]] = None,
-        no_comments: PlurkCommentFlag = 0,
+        no_comments: PlurkCommentPermission = PlurkCommentPermission.DEFAULT,
         lang: PlurkLang = 'en',
         replurkble: bool = True,
         porn: bool = False,
