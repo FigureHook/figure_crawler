@@ -15,7 +15,7 @@ from figure_hook.Helpers.db_helper import ReleaseHelper
 from figure_hook.Models import Task, Webhook
 from figure_hook.Publishers.dispatchers import \
     DiscordNewReleaseEmbedsDispatcher
-from figure_hook.Publishers.exceptions import PlurkPublishException
+from figure_hook.exceptions import PublishError
 from figure_hook.Publishers.plurk import Plurker
 
 logger = logging.getLogger(__name__)
@@ -122,7 +122,7 @@ class PlurkNewReleasePush(NewReleasePush):
             content = PlurkContentFactory.create_new_release(release)
             try:
                 self.plurker.publish(content=content)
-            except PlurkPublishException as err:
+            except PublishError as err:
                 self.failed_releases.append(release)
                 logger.error(err)
             finally:

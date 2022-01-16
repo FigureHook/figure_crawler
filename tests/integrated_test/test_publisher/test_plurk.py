@@ -1,7 +1,7 @@
 import pytest
 from pytest_mock import MockerFixture
 
-from figure_hook.exceptions import PlurkPublishException
+from figure_hook.exceptions import PublishError
 from figure_hook.Publishers.plurk import Plurker
 
 
@@ -22,7 +22,7 @@ def test_publish_with_error(mocker: MockerFixture):
 
     content = {}
     plurk = Plurker()
-    with pytest.raises(PlurkPublishException):
+    with pytest.raises(PublishError):
         plurk.publish(content=content)
 
     mock_callapi.assert_called_once()

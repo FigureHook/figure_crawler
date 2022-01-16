@@ -3,8 +3,9 @@ from typing import Optional
 
 from plurk_oauth import PlurkAPI
 
+from figure_hook.exceptions import PublishError
+
 from .abcs import Publisher, Stats
-from .exceptions import PlurkPublishException
 
 
 class PlurkerStats(Stats):
@@ -89,7 +90,4 @@ class Plurker(Publisher):
             if 'error_text' in error['content']:
                 msg = error['content']['error_text']
 
-            raise PlurkPublishException({
-                'error': msg,
-                'caused_by': content
-            })
+            raise PublishError(reason=msg, caused_by=content)
