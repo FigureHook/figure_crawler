@@ -1,10 +1,11 @@
 from datetime import date, datetime
 
 import pytest
+
 from figure_hook.constants import SourceSite
-from figure_hook.Models import (AnnouncementChecksum, Category, Company,
-                                Paintwork, Product, ProductOfficialImage,
-                                ProductReleaseInfo, Sculptor, Series, Webhook)
+from figure_hook.Models import (Category, Company, Paintwork, Product,
+                                ProductOfficialImage, ProductReleaseInfo,
+                                Sculptor, Series, SourceChecksum, Webhook)
 
 
 @pytest.mark.usefixtures("session")
@@ -421,29 +422,26 @@ class TestRelationShip:
 
 
 @pytest.mark.usefixtures("session")
-class TestAnnouncementChecksum:
+class TestSourceChecksum:
     def test_save_checksum(self, session):
-        AnnouncementChecksum.create(
-            site=SourceSite.GSC,
+        SourceChecksum.create(
+            source=SourceSite.GSC_ANNOUNCEMENT,
             checksum="kappa"
         )
         session.commit()
 
-    def test_fetch_checksum_by_site(self, session):
+    def test_fetch_checksum_by_source(self, session):
         checksum = "kappa"
-        AnnouncementChecksum.create(
-            site=SourceSite.GSC,
+        SourceChecksum.create(
+            source=SourceSite.GSC_ANNOUNCEMENT,
             checksum=checksum
         )
         session.commit()
 
-        site_checksum = AnnouncementChecksum.get_by_site(SourceSite.GSC)
+        site_checksum = SourceChecksum.get_by_site(SourceSite.GSC_ANNOUNCEMENT)
         assert site_checksum
         assert site_checksum.checksum == checksum
         assert isinstance(site_checksum.checked_at, datetime)
-
-    def test_pk_is_enum(self):
-        assert not AnnouncementChecksum.get_by_site(1)  # type: ignore
 
 
 @pytest.mark.usefixtures("session")

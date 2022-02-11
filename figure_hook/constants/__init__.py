@@ -10,10 +10,10 @@ class ReleaseInfoStatus(Enum):
     CONFLICT = 6
 
 
-class SourceSite(Enum):
-    GSC = 1
-    ALTER = 2
-    NATIVE = 3
+class SourceSite:
+    GSC_ANNOUNCEMENT = "gsc_announcement"
+    ALTER_ANNOUNCEMENT = "alter_announcement"
+    NATIVE_ANNOUNCEMENT = "native_announcement"
 
 
 class PeriodicTask(Enum):

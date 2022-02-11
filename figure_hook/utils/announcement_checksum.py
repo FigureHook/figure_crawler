@@ -10,7 +10,7 @@ from figure_parser.utils import RelativeUrl
 
 from figure_hook.constants import SourceSite
 from figure_hook.Helpers.datetime_helper import DatetimeHelper
-from figure_hook.Models import AnnouncementChecksum
+from figure_hook.Models import SourceChecksum
 
 from .scrapyd_api import ScrapydUtil
 
@@ -27,9 +27,9 @@ def calculate_checksum(target):
 
 
 class SiteChecksum(ABC):
-    __site__: SourceSite
+    __site__: str
     __spider__: str
-    __site_checksum: Optional[AnnouncementChecksum]
+    __site_checksum: Optional[SourceChecksum]
     scrapyd_util: ScrapydUtil
 
     def __init__(self, scrapyd_util: ScrapydUtil) -> None:
@@ -38,7 +38,7 @@ class SiteChecksum(ABC):
                 "Class attribute `__site__` should be implemented."
             )
 
-        self.__site_checksum = AnnouncementChecksum.get_by_site(self.__site__)
+        self.__site_checksum = SourceChecksum.get_by_site(self.__site__)
         self._feature = self._extract_feature()
         self.scrapyd_util = scrapyd_util
 
@@ -73,8 +73,8 @@ class SiteChecksum(ABC):
         if self.__site_checksum:
             self.__site_checksum.update(checksum=self.current)  # type: ignore
         else:
-            self.__site_checksum = AnnouncementChecksum.create(
-                site=self.__site__,
+            self.__site_checksum = SourceChecksum.create(
+                source=self.__site__,
                 checksum=self.current
             )
 
@@ -97,7 +97,7 @@ class SiteChecksum(ABC):
 
 
 class GSCChecksum(SiteChecksum):
-    __site__ = SourceSite.GSC
+    __site__ = SourceSite.GSC_ANNOUNCEMENT
     __spider__ = "gsc_product"
 
     @property
@@ -123,7 +123,7 @@ class GSCChecksum(SiteChecksum):
 
 
 class AlterChecksum(SiteChecksum):
-    __site__ = SourceSite.ALTER
+    __site__ = SourceSite.ALTER_ANNOUNCEMENT
     __spider__ = "alter_product"
 
     @property
@@ -162,7 +162,7 @@ class AlterChecksum(SiteChecksum):
 
 
 class NativeChecksum(SiteChecksum):
-    __site__ = SourceSite.NATIVE
+    __site__ = SourceSite.NATIVE_ANNOUNCEMENT
     __spider__ = "native_product"
 
     @property
