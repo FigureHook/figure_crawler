@@ -12,7 +12,7 @@ def bytes_to_str(value: bytes) -> str:
 
 
 _secret = os.getenv('FIGURE_HOOK_SECRET')
-assert _secret
+assert _secret, "Didn't set environment variable `FIGURE_HOOK_SECRET`."
 fernet = Fernet(_secret)
 
 
