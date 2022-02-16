@@ -11,7 +11,7 @@ from figure_hook.utils.scrapyd_api import ScrapydUtil
 
 
 @pytest.mark.usefixtures("session")
-class BaseTestChecksum:
+class BaseTestAnnouncementChecksum:
     __checksum_class__: Type[SiteChecksum]
 
     @pytest.fixture
@@ -50,13 +50,13 @@ class BaseTestChecksum:
         assert crawler_trigger.called
 
 
-class TestGSC(BaseTestChecksum):
+class TestGSC(BaseTestAnnouncementChecksum):
     __checksum_class__ = GSCChecksum
 
 
-class TestAlter(BaseTestChecksum):
+class TestAlter(BaseTestAnnouncementChecksum):
     __checksum_class__ = AlterChecksum
 
 
-class TestNative(BaseTestChecksum):
+class TestNative(BaseTestAnnouncementChecksum):
     __checksum_class__ = NativeChecksum
