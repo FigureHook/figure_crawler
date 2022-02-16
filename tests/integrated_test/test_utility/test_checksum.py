@@ -7,6 +7,7 @@ from figure_hook.utils.announcement_checksum import (AlterChecksum,
                                                      GSCChecksum,
                                                      NativeChecksum,
                                                      SiteChecksum)
+from figure_hook.utils.shipment_checksum import (GSCShipmentChecksum, ShipmentChecksum)
 from figure_hook.utils.scrapyd_api import ScrapydUtil
 
 
@@ -60,3 +61,26 @@ class TestAlter(BaseTestAnnouncementChecksum):
 
 class TestNative(BaseTestAnnouncementChecksum):
     __checksum_class__ = NativeChecksum
+
+
+@pytest.mark.usefixtures("session")
+class BaseTestShipmentChecksum:
+    __checksum_cls__: Type[ShipmentChecksum]
+
+    @pytest.fixture
+    def shipment_checksum(self, session):
+        shipment_checksum = self.__checksum_cls__()
+        return shipment_checksum
+
+    @pytest.mark.usefixtures("shipment_checksum")
+    def test_checksum_should_be_different_at_firsttime(self, shipment_checksum: ShipmentChecksum):
+        assert shipment_checksum.is_changed, "`previous` and `current` shoud be different at firsttime."
+
+    @pytest.mark.usefixtures("shipment_checksum")
+    def test_checksum_should_not_be_changed_after_updated(self, shipment_checksum):
+        shipment_checksum.update()
+        assert not shipment_checksum.is_changed, "`previous` and `current` should be same after checksum updated."
+
+
+class TestGSCShipment(BaseTestShipmentChecksum):
+    __checksum_cls__ = GSCShipmentChecksum

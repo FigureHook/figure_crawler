@@ -12,6 +12,7 @@ class ReleaseInfoStatus(Enum):
 
 class SourceSite:
     GSC_ANNOUNCEMENT = "gsc_announcement"
+    GSC_SHIPMENT = "gsc_shipment"
     ALTER_ANNOUNCEMENT = "alter_announcement"
     NATIVE_ANNOUNCEMENT = "native_announcement"
 
