@@ -1,6 +1,4 @@
-from abc import ABC, abstractmethod
-from hashlib import md5
-from typing import Any, Optional
+from typing import Any
 
 import requests as rq
 from figure_parser.alter.announcecment_parser import fetch_alter_newest_year
@@ -10,94 +8,18 @@ from figure_parser.utils import RelativeUrl
 
 from figure_hook.constants import SourceSite
 from figure_hook.Helpers.datetime_helper import DatetimeHelper
-from figure_hook.Models import SourceChecksum
 
-from .scrapyd_api import ScrapydUtil
+from .abcs import ProductAnnouncementChecksum
 
 __all__ = [
-    "GSCChecksum",
-    "AlterChecksum",
-    "SiteChecksum",
-    "NativeChecksum",
+    "GSCProductAnnouncementChecksum",
+    "AlterProductAnnouncementChecksum",
+    "NativeProductAnnouncementChecksum",
 ]
 
 
-def calculate_checksum(target):
-    return md5(target).hexdigest()
-
-
-class SiteChecksum(ABC):
-    __site__: str
-    __spider__: str
-    __site_checksum: Optional[SourceChecksum]
-    scrapyd_util: ScrapydUtil
-
-    def __init__(self, scrapyd_util: ScrapydUtil) -> None:
-        if not hasattr(self, "__site__"):
-            raise NotImplementedError(
-                "Class attribute `__site__` should be implemented."
-            )
-
-        self.__site_checksum = SourceChecksum.get_by_site(self.__site__)
-        self._feature = self._extract_feature()
-        self.scrapyd_util = scrapyd_util
-
-    @property
-    @abstractmethod
-    def spider_configs(self) -> list[dict[str, Any]]:
-        pass
-
-    @property
-    def feature(self):
-        return self._feature
-
-    @property
-    def current(self):
-        return self._generate_checksum()
-
-    @property
-    def previous(self):
-        return self.__site_checksum.checksum if self.__site_checksum else None
-
-    @property
-    def is_changed(self):
-        return self.current != self.previous
-
-    def _generate_checksum(self):
-        return calculate_checksum(self.feature)
-
-    def update(self):
-        """This method will create new sitechecksum,
-        if the sitechecsum wasn't existed in database.
-        """
-        if self.__site_checksum:
-            self.__site_checksum.update(checksum=self.current)  # type: ignore
-        else:
-            self.__site_checksum = SourceChecksum.create(
-                source=self.__site__,
-                checksum=self.current
-            )
-
-    def trigger_crawler(self) -> list:
-        """Trigger the spiders to parse new product."""
-        jobs = []
-        for config in self.spider_configs:
-            spider_name = self.__spider__
-            settings = config['settings']
-            job = self.scrapyd_util.schedule_spider(spider_name, settings=settings)
-            jobs.append(job)
-
-        return jobs
-
-    @staticmethod
-    @abstractmethod
-    def _extract_feature() -> bytes:
-        """Return any bytes which could identify the site has changed."""
-        pass
-
-
-class GSCChecksum(SiteChecksum):
-    __site__ = SourceSite.GSC_ANNOUNCEMENT
+class GSCProductAnnouncementChecksum(ProductAnnouncementChecksum):
+    __source_site__ = SourceSite.GSC_ANNOUNCEMENT
     __spider__ = "gsc_product"
 
     @property
@@ -122,8 +44,8 @@ class GSCChecksum(SiteChecksum):
         return response.content
 
 
-class AlterChecksum(SiteChecksum):
-    __site__ = SourceSite.ALTER_ANNOUNCEMENT
+class AlterProductAnnouncementChecksum(ProductAnnouncementChecksum):
+    __source_site__ = SourceSite.ALTER_ANNOUNCEMENT
     __spider__ = "alter_product"
 
     @property
@@ -161,8 +83,8 @@ class AlterChecksum(SiteChecksum):
         return response.content
 
 
-class NativeChecksum(SiteChecksum):
-    __site__ = SourceSite.NATIVE_ANNOUNCEMENT
+class NativeProductAnnouncementChecksum(ProductAnnouncementChecksum):
+    __source_site__ = SourceSite.NATIVE_ANNOUNCEMENT
     __spider__ = "native_product"
 
     @property
