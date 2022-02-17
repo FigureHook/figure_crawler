@@ -2,12 +2,9 @@ import functools
 from abc import ABC, abstractmethod
 from hashlib import md5
 
-import requests as rq
-
-from figure_hook.constants import SourceSite
 from figure_hook.Models.source_checksum import SourceChecksum
 
-__all__ = ["ShipmentChecksum", "GSCShipmentChecksum"]
+__all__ = ["ShipmentChecksum"]
 
 
 @functools.lru_cache
@@ -57,14 +54,3 @@ class ShipmentChecksum(ABC):
 
     @abstractmethod
     def _extract_feature(self) -> bytes: ...
-
-
-class GSCShipmentChecksum(ShipmentChecksum):
-    __source_site__ = SourceSite.GSC_SHIPMENT
-
-    def _extract_feature(self) -> bytes:
-        url = "https://www.goodsmile.info/ja/releaseinfo"
-        response = rq.get(url)
-        response.raise_for_status()
-
-        return response.content

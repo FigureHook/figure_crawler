@@ -3,11 +3,12 @@ from typing import Type
 import pytest
 from pytest_mock import MockerFixture
 
+from figure_hook.SourceChecksum.abcs import ShipmentChecksum
+from figure_hook.SourceChecksum.shipment_checksum import GSCShipmentChecksum
 from figure_hook.utils.announcement_checksum import (AlterChecksum,
                                                      GSCChecksum,
                                                      NativeChecksum,
                                                      SiteChecksum)
-from figure_hook.utils.shipment_checksum import (GSCShipmentChecksum, ShipmentChecksum)
 from figure_hook.utils.scrapyd_api import ScrapydUtil
 
 
