@@ -21,4 +21,4 @@ class GSCDelayChecksum(DelayChecksum):
         page = BeautifulSoup(response.content, 'lxml')
         release_date_relations = page.find_all('span', text=re.compile('発売時期|発売延期|発売月'), attrs={'class': "newsTtlBd"})
 
-        return [response.content, struct.pack('b', len(release_date_relations))]
+        return [response.content, str(len(release_date_relations)).encode()]
