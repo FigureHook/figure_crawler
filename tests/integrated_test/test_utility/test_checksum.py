@@ -4,7 +4,10 @@ import pytest
 from pytest_mock import MockerFixture
 
 from figure_hook.SourceChecksum.abcs import (ProductAnnouncementChecksum,
-                                             ShipmentChecksum, generate_checksum)
+                                             BaseSourceSiteChecksum,
+                                             ShipmentChecksum,
+                                             generate_checksum)
+from figure_hook.SourceChecksum.delay_checksum import GSCDelayChecksum
 from figure_hook.SourceChecksum.product_announcement_checksum import (
     AlterProductAnnouncementChecksum, GSCProductAnnouncementChecksum,
     NativeProductAnnouncementChecksum)
@@ -65,8 +68,8 @@ class TestNative(BaseTestAnnouncementChecksum):
 
 
 @pytest.mark.usefixtures("session")
-class BaseTestShipmentChecksum:
-    __checksum_cls__: Type[ShipmentChecksum]
+class BaseTestSourceSiteChecksum:
+    __checksum_cls__: Type[BaseSourceSiteChecksum]
 
     @pytest.fixture
     def shipment_checksum(self, session):
@@ -83,5 +86,9 @@ class BaseTestShipmentChecksum:
         assert not shipment_checksum.is_changed, "`previous` and `current` should be same after checksum updated."
 
 
-class TestGSCShipment(BaseTestShipmentChecksum):
+class TestGSCShipment(BaseTestSourceSiteChecksum):
     __checksum_cls__ = GSCShipmentChecksum
+
+
+class TestGSCDelay(BaseTestSourceSiteChecksum):
+    __checksum_cls__ = GSCDelayChecksum

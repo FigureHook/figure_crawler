@@ -1,7 +1,7 @@
 import functools
 from abc import ABC, abstractmethod
 from hashlib import md5
-from typing import Any
+from typing import Any, Union
 
 from figure_hook.Models.source_checksum import SourceChecksum
 from figure_hook.utils.scrapyd_api import ScrapydUtil
@@ -10,14 +10,20 @@ __all__ = ["BaseSourceSiteChecksum", "ProductAnnouncementChecksum", "ShipmentChe
 
 
 @functools.lru_cache
-def generate_checksum(target) -> str:
-    return md5(target).hexdigest()
+def generate_checksum(*target) -> str:
+    m = md5()
+    for t in target:
+        m.update(t)
+    return m.hexdigest()
+
+
+ChecksumFeature = Union[bytes, list[bytes]]
 
 
 class BaseSourceSiteChecksum(ABC):
     __source_site__: str
     __source_checksum: SourceChecksum
-    _feature: bytes
+    _feature: ChecksumFeature
 
     def __init__(self) -> None:
         if not hasattr(self, "__source_site__"):
@@ -33,11 +39,13 @@ class BaseSourceSiteChecksum(ABC):
         self.extract_feature()
 
     @property
-    def feature(self) -> bytes:
+    def feature(self) -> ChecksumFeature:
         return self._feature
 
     @property
     def current(self) -> str:
+        if isinstance(self.feature, list):
+            return generate_checksum(*self.feature)
         return generate_checksum(self.feature)
 
     @property
@@ -55,7 +63,7 @@ class BaseSourceSiteChecksum(ABC):
         self._feature = self._extract_feature()
 
     @abstractmethod
-    def _extract_feature(self) -> bytes:
+    def _extract_feature(self) -> ChecksumFeature:
         """Return any bytes which could identify the site has changed."""
 
 
@@ -85,4 +93,8 @@ class ProductAnnouncementChecksum(BaseSourceSiteChecksum, ABC):
 
 
 class ShipmentChecksum(BaseSourceSiteChecksum, ABC):
+    ...
+
+
+class DelayChecksum(BaseSourceSiteChecksum, ABC):
     ...
