@@ -129,6 +129,7 @@ class ProductModelFactory:
             order_period_end=product_dataclass.order_period.end,
             thumbnail=product_dataclass.thumbnail,
             og_image=product_dataclass.og_image,
+            jan=product_dataclass.jan,
             # relationship
             sculptors=sculptors,
             paintworks=paintworks,
