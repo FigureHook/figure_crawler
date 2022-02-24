@@ -1,9 +1,10 @@
 from typing import List
 
+from figure_parser.product import ProductBase
+
 from figure_hook.constants import ReleaseInfoStatus
 from figure_hook.Models import Product as ProductModel
 from figure_hook.Models import ProductReleaseInfo
-from figure_parser.product import ProductBase
 
 
 def compare_release_infos(p_dataclass: ProductBase, p_model: ProductModel) -> ReleaseInfoStatus:
@@ -18,7 +19,7 @@ def compare_release_infos(p_dataclass: ProductBase, p_model: ProductModel) -> Re
         (`set(dates in ProductBase.release_infos)` - `set(initial_release_dates in Product.release_infos)`)
     3. DELAY
         When length of two `release_infos` are same,
-        but the last release date of `ProductBase.release_infos` is not equal to `Product.release_infos` last release date.
+        but the last release date of `ProductBase.release_infos` is later than `Product.release_infos` last release date.
     4. NEW_RELEASE
         When `ProductBase.release_infos` is more than `Product.release_infos` and the set is different.
     5. ALTER
@@ -52,8 +53,16 @@ def compare_release_infos(p_dataclass: ProductBase, p_model: ProductModel) -> Re
         last_release_from_dataclass = d_ri.last()
         last_release_form_model = p_model.last_release()
         if last_release_from_dataclass and last_release_form_model:
-            if last_release_from_dataclass.release_date != last_release_form_model.initial_release_date:
-                return ReleaseInfoStatus.DELAY
+            if last_release_from_dataclass.release_date:
+                if last_release_form_model.should_be_postponed(last_release_from_dataclass.release_date):
+                    return ReleaseInfoStatus.DELAY
+
+        if all([
+            not m_r.should_be_postponed(d_r.release_date)
+            for d_r, m_r in zip(d_ri, m_ri)
+            if d_r.release_date
+        ]):
+            return ReleaseInfoStatus.SAME
 
         return ReleaseInfoStatus.ALTER
 
