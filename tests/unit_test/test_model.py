@@ -54,14 +54,11 @@ class TestProductReleaseInfo:
         info_b.postpone_release_date_to(delay_date)
 
         assert info.delay_release_date == delay_date
-        assert info_b.delay_release_date == delay_date
+        assert not info_b.initial_release_date
 
         delay_datetime = datetime(2022, 2, 2, 12)
         info.postpone_release_date_to(delay_datetime)
         assert info.delay_release_date == delay_datetime.date()
-
-        with pytest.raises(ValueError):
-            info.postpone_release_date_to(date(1999, 1, 1))
 
         with pytest.raises(TypeError):
             info.postpone_release_date_to(1)  # type: ignore
@@ -71,6 +68,27 @@ class TestProductReleaseInfo:
         info = ProductReleaseInfo.create(price=12960, initial_release_date=date(2020, 1, 1), product_id=p.id)
         info.stall()
         assert not info.initial_release_date
+
+    def test_should_be_postponed(self):
+        p = Product.create(name="foo")
+        info_a = ProductReleaseInfo.create(
+            price=12960,
+            initial_release_date=date(2020, 1, 1),
+            product_id=p.id)
+        info_b = ProductReleaseInfo.create(
+            price=12960,
+            initial_release_date=date(2020, 1, 1),
+            delay_release_date=date(2020, 6, 1),
+            product_id=p.id)
+        info_c = ProductReleaseInfo.create(
+            price=12960,
+            initial_release_date=None,
+            product_id=p.id)
+        assert info_a.should_be_postponed(date(2021, 1, 1))
+        assert not info_b.should_be_postponed(date(2019, 1, 1))
+        assert not info_b.should_be_postponed(date(2020, 5, 1))
+        assert info_b.should_be_postponed(date(2020, 9, 1))
+        assert not info_c.should_be_postponed(date(2019, 1, 1))
 
 
 @pytest.mark.usefixtures("session")

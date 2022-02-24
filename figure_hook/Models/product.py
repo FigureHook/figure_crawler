@@ -56,20 +56,27 @@ class ProductReleaseInfo(PkModelWithTimestamps):
         if not valid_type:
             raise TypeError(f"{delay_date} must be `date` or `datetime`")
 
-        has_init_release_date = bool(self.initial_release_date)
+        if self.should_be_postponed(delay_date):
+            has_init_release_date = bool(self.initial_release_date)
 
-        if not has_init_release_date:
-            self.update(delay_release_date=delay_date)
-        if has_init_release_date:
-            if self.initial_release_date < delay_date:
+            if not has_init_release_date:
+                self.update(initial_release_date=delay_date)
+            if has_init_release_date:
                 self.update(delay_release_date=delay_date)
-            if self.initial_release_date > delay_date:
-                raise ValueError(
-                    f"delay_date {delay_date} should be later than initial_release_date {self.initial_release_date}"
-                )
 
     def stall(self):
         self.update(initial_release_date=None, delay_release_date=None)
+
+    def should_be_postponed(self, new_date: date) -> bool:
+        if self.initial_release_date and self.delay_release_date:
+            if new_date > self.initial_release_date and new_date > self.delay_release_date:
+                return True
+
+        if self.initial_release_date and not self.delay_release_date:
+            if new_date > self.initial_release_date:
+                return True
+
+        return False
 
 
 class Product(PkModelWithTimestamps):
