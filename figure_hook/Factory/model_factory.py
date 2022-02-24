@@ -5,7 +5,7 @@ from figure_hook.Models import Category, Company, Paintwork
 from figure_hook.Models import Product as Product
 from figure_hook.Models import (ProductOfficialImage, ProductReleaseInfo,
                                 Sculptor, Series)
-from figure_hook.utils.comparater import compare_release_infos
+from figure_hook.utils.comparator import compare_release_infos
 from figure_parser.extension_class import HistoricalReleases, Release
 from figure_parser.product import ProductBase
 
@@ -136,6 +136,8 @@ class ProductModelFactory:
         )
 
         return product_model
+
+# FIXME: if release date was brought forward?
 
 
 def rebuild_release_infos(
