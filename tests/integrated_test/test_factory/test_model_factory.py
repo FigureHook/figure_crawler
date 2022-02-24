@@ -157,7 +157,7 @@ class TestReleaseInfoComparater:
         product_base.release_infos = HistoricalReleases([
             Release(date(2020, 1, 2), Price(12000)),
             Release(date(2023, 2, 2), Price(12000)),
-            Release(date(2028, 2, 2), Price(12000)),
+            Release(date(2028, 1, 2), Price(12000)),
         ])
 
         p_m = Product.create(
@@ -172,7 +172,7 @@ class TestReleaseInfoComparater:
                     price=12000
                 ),
                 ProductReleaseInfo(
-                    initial_release_date=date(2028, 1, 2),
+                    initial_release_date=date(2028, 2, 2),
                     price=12000
                 ),
             ]
