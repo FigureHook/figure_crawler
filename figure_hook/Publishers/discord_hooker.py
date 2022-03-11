@@ -1,7 +1,12 @@
-from typing import Any
+from typing import Any, List, Optional
 
-from discord import Embed, Webhook
+from discord import Embed, RequestsWebhookAdapter, Webhook, WebhookAdapter
 from discord.errors import HTTPException, NotFound
+
+from figure_hook.Adapters.webhook_adapter import DiscordWebhookAdapter
+from figure_hook.Factory.publish_factory.discord_embed_factory import \
+    NewReleaseEmbed
+from figure_hook.Models import Webhook as WebhookModel
 
 from .abcs import Publisher, Stats
 
@@ -64,7 +69,7 @@ class DiscordHooker(Publisher):
 
     _stats: DiscordHookerStats
 
-    def __init__(self, stats: DiscordHookerStats = None) -> None:
+    def __init__(self, stats: Optional[DiscordHookerStats] = None) -> None:
         if stats:
             self._stats = stats
         if not stats:
@@ -75,7 +80,7 @@ class DiscordHooker(Publisher):
     def stats(self):
         return self._stats
 
-    def publish(self, webhook: Webhook, embeds: list[Embed]):
+    def publish(self, webhook: Webhook, embeds: List[Embed]):
         if not embeds:
             return
 
@@ -93,7 +98,7 @@ class DiscordHooker(Publisher):
         self.webhook_status[str(webhook.id)] = all(webhook_status)
         self.stats.finish()
 
-    def _publish(self, webhook: Webhook, embeds: list[Embed]):
+    def _publish(self, webhook: Webhook, embeds: List[Embed]):
         try:
             webhook.send(
                 avatar_url=avartar,
@@ -117,7 +122,48 @@ class DiscordHooker(Publisher):
         return True
 
 
-def process_embeds(embeds: list[Any], batch_size: int = 10) -> list[list[Any]]:
+class DiscordNewReleaseHooker(DiscordHooker):
+    embeds_cache: dict[tuple[str, bool], List[NewReleaseEmbed]]
+    raw_embeds: List[NewReleaseEmbed]
+
+    def __init__(self, raw_embeds: List[NewReleaseEmbed], stats: Optional[DiscordHookerStats] = None) -> None:
+        self.embeds_cache = {}
+        self.raw_embeds = raw_embeds
+        super().__init__(stats)
+
+    def publish(self, webhook: WebhookModel, webhook_adapter: Optional[WebhookAdapter] = None):
+        if not webhook_adapter:
+            webhook_adapter = RequestsWebhookAdapter()
+
+        cache_key = (webhook.lang, webhook.is_nsfw)
+        discord_webhook = DiscordWebhookAdapter(webhook_model=webhook, webhook_adapter=webhook_adapter)
+        embeds: List[Embed] = list(self._get_embeds_from_cache(cache_key))
+        return super().publish(discord_webhook, embeds)
+
+    def _get_embeds_from_cache(self, key: tuple[str, bool]):
+        webhook_lang, webhook_is_nsfw = key
+        embeds = self.embeds_cache.get(key)
+
+        if embeds is None:  # prevent running loop when embeds is []
+            embeds = [
+                raw_embed.localized_with(webhook_lang)
+                for raw_embed in self.raw_embeds
+                if _is_embed_should_be_processed(webhook_is_nsfw, raw_embed)
+            ]
+
+            self.embeds_cache.setdefault(key, embeds)
+
+        return embeds
+
+
+def _is_embed_should_be_processed(webhook_nsfw_flag: bool, embed: NewReleaseEmbed) -> bool:
+    return any((
+        webhook_nsfw_flag,
+        not webhook_nsfw_flag and not embed.is_nsfw
+    ))
+
+
+def process_embeds(embeds: List[Any], batch_size: int = 10) -> List[List[Any]]:
     """Process embeds
     The maximum number of embed could be sent in one time is 10.
     If the embeds are more than 10, the embeds should be seperated into

@@ -12,9 +12,8 @@ from figure_hook.Factory.publish_factory.discord_embed_factory import \
 from figure_hook.Factory.publish_factory.plurk_content_factory import \
     PlurkContentFactory
 from figure_hook.Helpers.db_helper import ReleaseHelper
+from figure_hook.Publishers.discord_hooker import DiscordNewReleaseHooker
 from figure_hook.Models import Task, Webhook
-from figure_hook.Publishers.dispatchers import \
-    DiscordNewReleaseEmbedsDispatcher
 from figure_hook.exceptions import PublishError
 from figure_hook.Publishers.plurk import Plurker
 
@@ -70,27 +69,19 @@ class DiscordNewReleasePush(NewReleasePush):
     __task_id__ = PeriodicTask.DISCORD_NEW_RELEASE_PUSH
 
     def execute(self):
-        new_releases = self._fetch_new_releases()
+        raw_embeds = [DiscordEmbedFactory.create_new_release(release) for release in self._fetch_new_releases()]
         self._update_execution_time()
-        raw_embeds = []
-
-        for release in new_releases:
-            embed = DiscordEmbedFactory.create_new_release(release)
-            raw_embeds.append(embed)
-
-        webhooks = Webhook.all()
 
         webhook_adapter = RequestsWebhookAdapter()
-        dispatcher = DiscordNewReleaseEmbedsDispatcher(
-            webhooks=webhooks,
-            raw_embeds=raw_embeds,
-            adapter=webhook_adapter
-        )
-        dispatcher.dispatch()
+        publisher = DiscordNewReleaseHooker(raw_embeds=raw_embeds)
 
-        self._update_webhook_status(dispatcher.webhook_status)
+        webhooks = Webhook.all()
+        for webhook in webhooks:
+            publisher.publish(webhook=webhook, webhook_adapter=webhook_adapter)
 
-        return dispatcher.stats
+        self._update_webhook_status(publisher.webhook_status)
+
+        return publisher.stats
 
     def _update_webhook_status(self, webhook_status):
         for webhook_id, is_existed in webhook_status.items():
