@@ -1,3 +1,4 @@
+from itertools import product
 from figure_hook.Models import (Category, Company, Paintwork, Product,
                                 ProductOfficialImage, ProductReleaseInfo,
                                 Sculptor, Series, SourceChecksum, Webhook)
@@ -86,6 +87,18 @@ class TestProductReleaseInfo:
         info = ProductReleaseInfo.create(price=12960, initial_release_date=date(2020, 1, 1), product_id=p.id)
         info.stall()
         assert not info.initial_release_date
+
+    def test_get_release_date(self):
+        p = Product.create(name="foo")
+        info_1 = ProductReleaseInfo(price=12960, initial_release_date=date(2020, 1, 1), product_id=p.id)
+        assert info_1.release_date == date(2020, 1, 1)
+
+        info_2 = ProductReleaseInfo(price=12960, initial_release_date=date(2020, 1, 1),
+                                    adjusted_release_date=date(2020, 5, 1), product_id=p.id)
+        assert info_2.release_date == date(2020, 5, 1)
+
+        info_3 = ProductReleaseInfo(price=12960, product_id=p.id)
+        assert info_3.release_date == None
 
 
 @pytest.mark.usefixtures("session")
