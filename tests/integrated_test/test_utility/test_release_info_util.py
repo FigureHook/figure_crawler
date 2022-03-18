@@ -6,7 +6,7 @@ from pytest_mock import MockerFixture
 
 from figure_hook.Models import Product
 from figure_hook.Models.product import ProductReleaseInfo
-from figure_hook.utils.release_info_util import ReleaseInfosStatus, ReleasInfosComparator
+from figure_hook.utils.release_info_util import ReleaseInfosStatus, ReleaseInfosComparator
 
 
 @pytest.mark.usefixtures("session")
@@ -25,7 +25,7 @@ class TestReleaseInfoComparater:
                 )
             ]
         )
-        assert ReleasInfosComparator.compare(release_infos, p_m.release_infos) == ReleaseInfosStatus.CHANGE
+        assert ReleaseInfosComparator.compare(release_infos, p_m.release_infos) == ReleaseInfosStatus.CHANGE
 
     def test_same(self):
         release_infos = HistoricalReleases([
@@ -51,7 +51,7 @@ class TestReleaseInfoComparater:
             ]
         )
 
-        assert ReleasInfosComparator.compare(release_infos, p_m.release_infos) == ReleaseInfosStatus.SAME
+        assert ReleaseInfosComparator.compare(release_infos, p_m.release_infos) == ReleaseInfosStatus.SAME
 
     def test_delay_has_been_confirmed(self):
         release_infos = HistoricalReleases([
@@ -79,7 +79,7 @@ class TestReleaseInfoComparater:
             ]
         )
 
-        assert ReleasInfosComparator.compare(release_infos, p_m.release_infos) == ReleaseInfosStatus.SAME
+        assert ReleaseInfosComparator.compare(release_infos, p_m.release_infos) == ReleaseInfosStatus.SAME
 
     def test_last_release_date_was_brought_forward(self):
         release_infos = HistoricalReleases([
@@ -106,7 +106,7 @@ class TestReleaseInfoComparater:
             ]
         )
 
-        assert ReleasInfosComparator.compare(release_infos, p_m.release_infos) == ReleaseInfosStatus.CHANGE
+        assert ReleaseInfosComparator.compare(release_infos, p_m.release_infos) == ReleaseInfosStatus.CHANGE
 
     def test_last_release_date_was_delayed_but_brought_forward(self):
         release_infos = HistoricalReleases([
@@ -134,7 +134,7 @@ class TestReleaseInfoComparater:
             ]
         )
 
-        assert ReleasInfosComparator.compare(release_infos, p_m.release_infos) == ReleaseInfosStatus.CHANGE
+        assert ReleaseInfosComparator.compare(release_infos, p_m.release_infos) == ReleaseInfosStatus.CHANGE
 
     def test_new_release(self):
         release_infos = HistoricalReleases([
@@ -157,7 +157,7 @@ class TestReleaseInfoComparater:
             ]
         )
 
-        assert ReleasInfosComparator.compare(release_infos, p_m.release_infos) == ReleaseInfosStatus.NEW_RELEASE
+        assert ReleaseInfosComparator.compare(release_infos, p_m.release_infos) == ReleaseInfosStatus.NEW_RELEASE
 
     def test_conflict(self):
         release_infos = HistoricalReleases([
@@ -183,4 +183,4 @@ class TestReleaseInfoComparater:
             ]
         )
 
-        assert ReleasInfosComparator.compare(release_infos, p_m.release_infos) == ReleaseInfosStatus.CONFLICT
+        assert ReleaseInfosComparator.compare(release_infos, p_m.release_infos) == ReleaseInfosStatus.CONFLICT
