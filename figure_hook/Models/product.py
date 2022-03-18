@@ -45,7 +45,7 @@ class ProductReleaseInfo(PkModelWithTimestamps):
     shipped_at = Column(Date)
     product_id = Column(Integer, ForeignKey("product.id", ondelete="CASCADE"), nullable=False)
 
-    def postpone_release_date_to(self, delay_date: Union[date, datetime, None]):
+    def adjust_release_date_to(self, delay_date: Union[date, datetime, None]):
         if not delay_date:
             return
 
