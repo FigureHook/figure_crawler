@@ -19,7 +19,7 @@ embed_templates = {
         "size": "Size",
         "scale": "Scale",
         "new_release": "New Release",
-        "resale_release": "New Release (resale)"
+        "re_release": "Rerelease"
     },
     "ja": {
         "maker": "メーカー",
@@ -32,7 +32,7 @@ embed_templates = {
         "size": "サイズ",
         "scale": "スケール",
         "new_release": "新リリース",
-        "resale_release": "新リリース（再販）"
+        "re_release": "新リリース（再販）"
     },
     "zh-TW": {
         "maker": "製造商",
@@ -45,7 +45,7 @@ embed_templates = {
         "size": "尺寸",
         "scale": "比例",
         "new_release": "新商品",
-        "resale_release": "新商品(再販)"
+        "re_release": "新商品(再販)"
     },
 }
 
@@ -116,13 +116,13 @@ class DiscordEmbedFactory(PublishFactory):
             is_nsfw=release_feed.is_adult
         )
 
-        author = "resale_release" if release_feed.rerelease else "new_release"
+        author = "re_release" if release_feed.rerelease else "new_release"
 
         embed.set_image(url=release_feed.media_image)
         embed.set_author(
             name=author,
             # Icons made by Pixel perfect from www.flaticon.com
-            icon_url="https://image.flaticon.com/icons/png/32/879/879833.png"
+            icon_url="https://image.flaticon.com/icons/png/32/879/879833.png"  # type: ignore
         )
 
         if release_feed.thumbnail:
