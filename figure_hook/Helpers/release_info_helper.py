@@ -25,9 +25,9 @@ class ReleaseInfosStatus(Enum):
     CONFLICT = 3
 
 
-class ReleaseInfosComparator:
+class ReleaseInfoHelper:
     @staticmethod
-    def compare(
+    def compare_infos(
             historical_releases: HistoricalReleases[Release],
             release_info_models: List[ProductReleaseInfo]
     ) -> ReleaseInfosStatus:

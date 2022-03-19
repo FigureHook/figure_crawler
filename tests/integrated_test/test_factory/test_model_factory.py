@@ -29,8 +29,8 @@ class TestProdcutModelFactory:
         assert isinstance(up, Product)
 
     def test_occur_conflict_error_when_update(self, mocker: MockerFixture, product):
-        from figure_hook.utils.release_info_util import ReleaseInfosStatus
-        mocker.patch("figure_hook.utils.release_info_util.ReleaseInfosComparator.compare",
+        from figure_hook.Helpers.release_info_helper import ReleaseInfosStatus
+        mocker.patch("figure_hook.Helpers.release_info_helper.ReleaseInfoHelper.compare_infos",
                      return_value=ReleaseInfosStatus.CONFLICT)
 
         p = ProductModelFactory.createProduct(product)

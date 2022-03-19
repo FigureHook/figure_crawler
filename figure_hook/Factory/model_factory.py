@@ -7,9 +7,9 @@ from figure_hook.Models import Category, Company, Paintwork
 from figure_hook.Models import Product as ProductModel
 from figure_hook.Models import (ProductOfficialImage, ProductReleaseInfo,
                                 Sculptor, Series)
-from figure_hook.utils.release_info_util import (ReleaseInfosComparator,
-                                                 ReleaseInfosSolution,
-                                                 ReleaseInfosStatus)
+from figure_hook.Helpers.release_info_helper import (ReleaseInfoHelper,
+                                                     ReleaseInfosSolution,
+                                                     ReleaseInfosStatus)
 
 __all__ = (
     "ProductModelFactory",
@@ -79,11 +79,11 @@ class ProductModelFactory:
         """
         release_info_solution = ReleaseInfosSolution()
 
-        status = ReleaseInfosComparator.compare(product_dataclass.release_infos, product_model.release_infos)
+        status = ReleaseInfoHelper.compare_infos(product_dataclass.release_infos, product_model.release_infos)
         while status is not ReleaseInfosStatus.SAME and status is not ReleaseInfosStatus.CONFLICT:
             release_info_solution.set_situation(status).execute(
                 product_dataclass=product_dataclass, product_model=product_model)
-            status = ReleaseInfosComparator.compare(product_dataclass.release_infos, product_model.release_infos)
+            status = ReleaseInfoHelper.compare_infos(product_dataclass.release_infos, product_model.release_infos)
 
         if status is ReleaseInfosStatus.CONFLICT:
             raise ReleaseInfosConflictError(product_dataclass.url)
