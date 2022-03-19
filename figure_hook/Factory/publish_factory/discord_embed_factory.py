@@ -116,7 +116,7 @@ class DiscordEmbedFactory(PublishFactory):
             is_nsfw=release_feed.is_adult
         )
 
-        author = "resale_release" if release_feed.resale else "new_release"
+        author = "resale_release" if release_feed.rerelease else "new_release"
 
         embed.set_image(url=release_feed.media_image)
         embed.set_author(

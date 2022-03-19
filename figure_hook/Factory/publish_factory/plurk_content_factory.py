@@ -165,7 +165,7 @@ class PlurkContentFactory(PublishFactory):
         if release_feed.price:
             price_text = f"{release_feed.price:,} 日圓"
 
-        category_text = "再販" if release_feed.resale else "新品"
+        category_text = "再販" if release_feed.rerelease else "新品"
 
         post_category = bold(f"[{category_text}速報]")
         post_product_name = link(release_feed.name, release_feed.url)

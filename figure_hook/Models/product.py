@@ -80,7 +80,7 @@ class Product(PkModelWithTimestamps):
     name = Column(String, nullable=False)
     size = Column(SmallInteger)
     scale = Column(SmallInteger)
-    resale = Column(Boolean)
+    rerelease = Column(Boolean)
     adult = Column(Boolean)
     copyright = Column(String)
     url = Column(String)

@@ -18,7 +18,7 @@ def test_release_feed(release_feed):
         'thumbnail',
         'og_image',
         'media_image',
-        'resale',
+        'rerelease',
     ]
 
     for attr in check_attrs:

@@ -81,7 +81,7 @@ def test_new_release_hooker(mocker: MockerFixture):
         name='product',
         url='https://example.com',
         is_adult=False,
-        resale=False,
+        rerelease=False,
         series='series',
         maker='maker',
         size=7,

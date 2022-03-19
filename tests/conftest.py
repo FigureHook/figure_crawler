@@ -63,7 +63,7 @@ def release_feed():
         name=fake.name(),
         url=fake.url(),
         is_adult=fake.boolean(chance_of_getting_true=25),
-        resale=fake.boolean(chance_of_getting_true=25),
+        rerelease=fake.boolean(chance_of_getting_true=25),
         series=fake.name(),
         maker=fake.name(),
         scale=random.randint(1, 30),

@@ -16,7 +16,7 @@ def _make_release_feed_statement(where_clause):
         Product.name.label("name"),
         Product.url.label("url"),
         Product.adult.label("is_adult"),
-        Product.resale.label("resale"),
+        Product.rerelease.label("rerelease"),
         Series.name.label("series"),
         Company.name.label("maker"),
         ProductReleaseInfo.price.label("price"),
@@ -72,7 +72,7 @@ def _make_release_feed(release):
         image_url=release.image_url,
         thumbnail=release.thumbnail,
         og_image=release.og_image,
-        resale=release.resale,
+        rerelease=release.rerelease,
     )
     return feed
 

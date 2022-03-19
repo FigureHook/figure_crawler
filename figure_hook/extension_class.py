@@ -13,7 +13,7 @@ class ReleaseFeed:
     name: str
     url: str
     is_adult: bool
-    resale: bool
+    rerelease: bool
     series: str
     maker: str
     size: Optional[int]
