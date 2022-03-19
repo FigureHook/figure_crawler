@@ -104,7 +104,7 @@ class ProductModelFactory:
             name=product_dataclass.name,
             size=product_dataclass.size,
             scale=product_dataclass.scale,
-            rerelease=product_dataclass.rerelease,
+            rerelease=product_model.rerelease or product_dataclass.rerelease,
             adult=product_dataclass.adult,
             copyright=product_dataclass.copyright,
             series=series,
