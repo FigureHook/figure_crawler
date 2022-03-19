@@ -3,7 +3,7 @@ from enum import Enum
 from typing import List, Set, Union
 
 from figure_parser.extension_class import HistoricalReleases, Release
-from figure_parser.product import Product
+from figure_parser.product import ProductBase
 
 from figure_hook.Models import Product as ProductModel
 from figure_hook.Models import ProductReleaseInfo
@@ -62,7 +62,7 @@ class ReleaseInfosSolution:
 
     def execute(
         self,
-        product_dataclass: Product,
+        product_dataclass: ProductBase,
         product_model: ProductModel
     ):
         if self.situation is ReleaseInfosStatus.SAME:
@@ -79,7 +79,7 @@ class ReleaseInfosSolution:
 
     @staticmethod
     def _resolve_new_release(
-        product_dataclass: Product,
+        product_dataclass: ProductBase,
         product_model: ProductModel
     ):
         """Solution for :attr:`ReleaseInfosStatus.NEW_RELEASE`"""
@@ -95,7 +95,7 @@ class ReleaseInfosSolution:
 
     @staticmethod
     def _resolve_change(
-        product_dataclass: Product,
+        product_dataclass: ProductBase,
         product_model: ProductModel
     ):
         """Solution for :attr:`ReleaseInfosStatus.CHANGE`"""

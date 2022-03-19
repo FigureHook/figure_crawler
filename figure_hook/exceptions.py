@@ -1,6 +1,6 @@
 __all__ = (
     # Error
-    'FigureHookError', 'PublishError',
+    'FigureHookError', 'PublishError', 'ReleaseInfosConflictError',
     # Warning
     'FigureHookWarning'
 )
@@ -20,3 +20,9 @@ class PublishError(FigureHookError):
 
 class FigureHookWarning(UserWarning):
     """Bass class for all figure_hook warning"""
+
+
+class ReleaseInfosConflictError(FigureHookError):
+    def __init__(self, url):
+        message = f"parsed release_infos were less than release_infos in Modal.({url})"
+        super().__init__(message)
