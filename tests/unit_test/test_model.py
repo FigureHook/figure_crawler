@@ -1,11 +1,11 @@
-from datetime import date, datetime
-
-import pytest
-
-from figure_hook.constants import SourceSite
+from itertools import product
 from figure_hook.Models import (Category, Company, Paintwork, Product,
                                 ProductOfficialImage, ProductReleaseInfo,
                                 Sculptor, Series, SourceChecksum, Webhook)
+from figure_hook.constants import SourceSite
+from datetime import date, datetime
+
+import pytest
 
 
 @pytest.mark.usefixtures("session")
@@ -44,33 +44,61 @@ class TestProductReleaseInfo:
         fetched_info = ProductReleaseInfo.get_by_id(info.id)  # type: ignore
         assert fetched_info is info
 
-    def test_postpone_release_date(self):
+    def test_basic_info_adjust_release_date(self):
         p = Product.create(name="foo")
-        b = Product.create(name="bar")
-        info = ProductReleaseInfo.create(price=12960, initial_release_date=date(2020, 1, 1), product_id=p.id)
-        info_b = ProductReleaseInfo.create(price=12960, product_id=b.id)
+        info_has_init_date = ProductReleaseInfo.create(
+            price=12960, initial_release_date=date(2020, 1, 1), product_id=p.id
+        )
         delay_date = date(2021, 1, 1)
-        info.postpone_release_date_to(delay_date)
-        info_b.postpone_release_date_to(delay_date)
 
-        assert info.delay_release_date == delay_date
-        assert info_b.delay_release_date == delay_date
+        info_has_init_date.adjust_release_date_to(delay_date)
+        assert info_has_init_date.adjusted_release_date == delay_date
 
         delay_datetime = datetime(2022, 2, 2, 12)
-        info.postpone_release_date_to(delay_datetime)
-        assert info.delay_release_date == delay_datetime.date()
 
-        with pytest.raises(ValueError):
-            info.postpone_release_date_to(date(1999, 1, 1))
+        info_has_init_date.adjust_release_date_to(delay_datetime)
+        assert info_has_init_date.adjusted_release_date == delay_datetime.date()
 
-        with pytest.raises(TypeError):
-            info.postpone_release_date_to(1)  # type: ignore
+        with pytest.raises(AssertionError):
+            info_has_init_date.adjust_release_date_to(1)
+
+    def test_stall_info_adjust_release_date(self):
+        p = Product.create(name="foo")
+        stall_info = ProductReleaseInfo.create(price=12960, product_id=p.id)
+        delay_date = date(2021, 1, 1)
+
+        stall_info.adjust_release_date_to(delay_date)
+        assert stall_info.initial_release_date == delay_date
+
+    def test_release_date_could_be_brought_forward(self):
+        p = Product.create(name="foo")
+        init_date = ProductReleaseInfo.create(
+            price=12960, initial_release_date=date(2020, 1, 1), product_id=p.id
+        )
+
+        early_date = date(2019, 12, 1)
+        init_date.adjust_release_date_to(early_date)
+
+        assert init_date.initial_release_date == date(2020, 1, 1)
+        assert init_date.adjusted_release_date == early_date
 
     def test_stall_release(self):
         p = Product.create(name="foo")
         info = ProductReleaseInfo.create(price=12960, initial_release_date=date(2020, 1, 1), product_id=p.id)
         info.stall()
         assert not info.initial_release_date
+
+    def test_get_release_date(self):
+        p = Product.create(name="foo")
+        info_1 = ProductReleaseInfo(price=12960, initial_release_date=date(2020, 1, 1), product_id=p.id)
+        assert info_1.release_date == date(2020, 1, 1)
+
+        info_2 = ProductReleaseInfo(price=12960, initial_release_date=date(2020, 1, 1),
+                                    adjusted_release_date=date(2020, 5, 1), product_id=p.id)
+        assert info_2.release_date == date(2020, 5, 1)
+
+        info_3 = ProductReleaseInfo(price=12960, product_id=p.id)
+        assert info_3.release_date == None
 
 
 @pytest.mark.usefixtures("session")

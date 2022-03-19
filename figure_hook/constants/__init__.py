@@ -1,15 +1,6 @@
 from enum import Enum
 
 
-class ReleaseInfoStatus(Enum):
-    SAME = 1
-    NEW_RELEASE = 2
-    DELAY = 3
-    STALLED = 4
-    ALTER = 5
-    CONFLICT = 6
-
-
 class SourceSite:
     GSC_ANNOUNCEMENT = "gsc_announcement"
     GSC_SHIPMENT = "gsc_shipment"

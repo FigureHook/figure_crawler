@@ -40,36 +40,33 @@ class ProductReleaseInfo(PkModelWithTimestamps):
     price = Column(Integer)
     tax_including = Column(Boolean)
     initial_release_date = Column(Date, nullable=True)
-    delay_release_date = Column(Date)
+    adjusted_release_date = Column(Date)
     announced_at = Column(Date)
     shipped_at = Column(Date)
     product_id = Column(Integer, ForeignKey("product.id", ondelete="CASCADE"), nullable=False)
 
-    def postpone_release_date_to(self, delay_date: Union[date, datetime, None]):
+    @property
+    def release_date(self):
+        return self.adjusted_release_date or self.initial_release_date
+
+    def adjust_release_date_to(self, delay_date: Union[date, datetime, None]):
         if not delay_date:
             return
 
         if isinstance(delay_date, datetime):
             delay_date = delay_date.date()
 
-        valid_type = isinstance(delay_date, date)
-        if not valid_type:
-            raise TypeError(f"{delay_date} must be `date` or `datetime`")
+        assert isinstance(delay_date, date), f"{delay_date} must be `date` or `datetime`"
 
         has_init_release_date = bool(self.initial_release_date)
 
-        if not has_init_release_date:
-            self.update(delay_release_date=delay_date)
         if has_init_release_date:
-            if self.initial_release_date < delay_date:
-                self.update(delay_release_date=delay_date)
-            if self.initial_release_date > delay_date:
-                raise ValueError(
-                    f"delay_date {delay_date} should be later than initial_release_date {self.initial_release_date}"
-                )
+            self.update(adjusted_release_date=delay_date)
+        else:
+            self.update(initial_release_date=delay_date)
 
     def stall(self):
-        self.update(initial_release_date=None, delay_release_date=None)
+        self.update(initial_release_date=None, adjusted_release_date=None)
 
 
 class Product(PkModelWithTimestamps):
