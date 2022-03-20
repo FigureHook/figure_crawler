@@ -1,5 +1,3 @@
-from datetime import date
-
 import pytest
 from pytest_mock import MockerFixture
 
@@ -19,12 +17,12 @@ def product_base():
 @pytest.mark.usefixtures("product", "session")
 class TestProdcutModelFactory:
     def test_create(self, mocker: MockerFixture, product):
-        p = ProductModelFactory.createProduct(product)
+        p = ProductModelFactory.create_product(product)
         assert isinstance(p, Product)
 
     def test_update(self, mocker: MockerFixture, product):
-        p = ProductModelFactory.createProduct(product)
-        up = ProductModelFactory.updateProduct(product, p)
+        p = ProductModelFactory.create_product(product)
+        up = ProductModelFactory.update_product(product, p)
 
         assert isinstance(up, Product)
 
@@ -33,6 +31,6 @@ class TestProdcutModelFactory:
         mocker.patch("figure_hook.Helpers.release_info_helper.ReleaseInfoHelper.compare_infos",
                      return_value=ReleaseInfosStatus.CONFLICT)
 
-        p = ProductModelFactory.createProduct(product)
+        p = ProductModelFactory.create_product(product)
         with pytest.raises(ReleaseInfosConflictError):
-            ProductModelFactory.updateProduct(product, p)
+            ProductModelFactory.update_product(product, p)

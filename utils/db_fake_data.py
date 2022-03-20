@@ -107,7 +107,7 @@ def update_fake_release_created_time(session):
 def insert_fake_products(session):
     products = create_fake_products(100)
     for p in products:
-        product_model = ProductModelFactory.createProduct(p)
+        product_model = ProductModelFactory.create_product(p)
         session.add(product_model)
 
 

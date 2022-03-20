@@ -18,7 +18,7 @@ __all__ = (
 
 class ProductModelFactory:
     @staticmethod
-    def createProduct(product_dataclass: ProductBase) -> ProductModel:
+    def create_product(product_dataclass: ProductBase) -> ProductModel:
         series = Series.as_unique(name=product_dataclass.series)
         manufacturer = Company.as_unique(name=product_dataclass.manufacturer)
         category = Category.as_unique(name=product_dataclass.category)
@@ -73,7 +73,7 @@ class ProductModelFactory:
         return product
 
     @staticmethod
-    def updateProduct(product_dataclass: ProductBase, product_model: ProductModel) -> ProductModel:
+    def update_product(product_dataclass: ProductBase, product_model: ProductModel) -> ProductModel:
         """Should be called in database session.
         :raise ReleaseInfosConflictError: Unable to sync the release_infos
         """
