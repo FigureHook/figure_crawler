@@ -118,21 +118,20 @@ class DiscordEmbedFactory(PublishFactory):
 
         author = "re_release" if release_feed.rerelease else "new_release"
 
-        embed.set_image(url=release_feed.media_image)
-        embed.set_author(
+        embed.set_image(
+            url=release_feed.media_image
+        ).set_author(
             name=author,
             # Icons made by Pixel perfect from www.flaticon.com
             icon_url="https://image.flaticon.com/icons/png/32/879/879833.png"  # type: ignore
-        )
-
-        if release_feed.thumbnail:
-            embed.set_thumbnail(url=release_feed.thumbnail)
-
-        embed.add_field(
+        ).add_field(
             name="maker", value=release_feed.maker, inline=False
         ).add_field(
             name="series", value=release_feed.series, inline=False
         )
+
+        if release_feed.thumbnail:
+            embed.set_thumbnail(url=release_feed.thumbnail)
 
         if release_feed.size:
             embed.add_field(
