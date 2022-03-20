@@ -4,7 +4,7 @@ from typing import Type, TypeVar, Union, cast, List
 from sqlalchemy import (Boolean, Column, Date, DateTime, ForeignKey, Integer,
                         SmallInteger, String)
 from sqlalchemy.ext.orderinglist import ordering_list
-from sqlalchemy.orm import relationship, RelationshipProperty
+from sqlalchemy.orm import relationship
 
 from .base import PkModel, PkModelWithTimestamps
 from .relation_table import product_paintwork_table, product_sculptor_table
@@ -64,12 +64,17 @@ class ProductReleaseInfo(PkModelWithTimestamps):
         has_init_release_date = bool(self.initial_release_date)
 
         if has_init_release_date:
-            self.update(adjusted_release_date=delay_date)
+            self.adjusted_release_date = delay_date
         else:
-            self.update(initial_release_date=delay_date)
+            self.initial_release_date = delay_date
+
+        return self
 
     def stall(self):
-        self.update(initial_release_date=None, adjusted_release_date=None)
+        self.initial_release_date = None
+        self.adjusted_release_date = None
+
+        return self
 
 
 class Product(PkModelWithTimestamps):
