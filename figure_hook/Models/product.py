@@ -1,10 +1,10 @@
 from datetime import date, datetime
-from typing import Union
+from typing import Type, TypeVar, Union, cast, List
 
 from sqlalchemy import (Boolean, Column, Date, DateTime, ForeignKey, Integer,
                         SmallInteger, String)
 from sqlalchemy.ext.orderinglist import ordering_list
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, RelationshipProperty
 
 from .base import PkModel, PkModelWithTimestamps
 from .relation_table import product_paintwork_table, product_sculptor_table
@@ -16,6 +16,9 @@ __all__ = [
 ]
 
 
+P = TypeVar('P', bound='ProductOfficialImage')
+
+
 class ProductOfficialImage(PkModel):
     __tablename__ = "product_official_image"
 
@@ -24,7 +27,7 @@ class ProductOfficialImage(PkModel):
     product_id = Column(Integer, ForeignKey("product.id", ondelete="CASCADE"), nullable=False)
 
     @classmethod
-    def create_image_list(cls: 'ProductOfficialImage', image_urls: list[str]) -> list['ProductOfficialImage']:
+    def create_image_list(cls: Type[P], image_urls: list[str]) -> list[P]:
         images = []
 
         for url in image_urls:
@@ -38,7 +41,7 @@ class ProductReleaseInfo(PkModelWithTimestamps):
     __tablename__ = "product_release_info"
 
     price = Column(Integer)
-    tax_including = Column(Boolean)
+    tax_including = cast(bool, Column(Boolean))
     initial_release_date = Column(Date, nullable=True)
     adjusted_release_date = Column(Date)
     announced_at = Column(Date)
@@ -131,21 +134,21 @@ class Product(PkModelWithTimestamps):
         lazy="joined"
     )
     # ---relationships field---
-    release_infos = relationship(
+    release_infos = cast(List[ProductReleaseInfo], relationship(
         ProductReleaseInfo,
         backref="product",
         order_by="nulls_first(asc(ProductReleaseInfo.initial_release_date))",
         cascade="all, delete",
         passive_deletes=True,
-    )
-    official_images = relationship(
+    ))
+    official_images = cast(List[ProductOfficialImage], relationship(
         ProductOfficialImage,
         backref="product",
         order_by="ProductOfficialImage.order",
         collection_class=ordering_list("order", count_from=1),
         cascade="all, delete",
         passive_deletes=True
-    )
+    ))
     sculptors = relationship(
         "Sculptor",
         secondary=product_sculptor_table,

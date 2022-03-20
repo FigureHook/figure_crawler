@@ -1,4 +1,4 @@
-from typing import Type, Union
+from typing import Type, Union, cast
 
 from sqlalchemy import Column, DateTime, String
 from sqlalchemy.sql import func
@@ -15,7 +15,7 @@ class SourceChecksum(Model):
     __datetime_callback__ = func.now
 
     source = Column(String, primary_key=True)
-    checksum = Column(String)
+    checksum = cast(str, Column(String))
     checked_at = Column(
         DateTime,
         default=__datetime_callback__(),

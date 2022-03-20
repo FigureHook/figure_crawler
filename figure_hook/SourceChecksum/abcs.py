@@ -31,9 +31,8 @@ class BaseSourceSiteChecksum(ABC):
                 "Class attribute `__source_site__` should be implemented."
             )
 
-        site_checksum = SourceChecksum.get_by_site(self.__source_site__)
-        if not site_checksum:
-            site_checksum = SourceChecksum.create(source=self.__source_site__, checksum='init')
+        site_checksum = SourceChecksum.get_by_site(
+            self.__source_site__) or SourceChecksum(source=self.__source_site__, checksum='init').save()
 
         self.__source_checksum = site_checksum
         self.extract_feature()

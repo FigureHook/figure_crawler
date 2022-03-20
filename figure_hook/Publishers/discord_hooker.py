@@ -74,20 +74,20 @@ class DiscordHooker(Publisher):
             self._stats = stats
         if not stats:
             self._stats = DiscordHookerStats()
-        self.webhook_status = {}
+        self.webhook_status: dict[str, bool] = {}
 
     @property
     def stats(self):
         return self._stats
 
-    def publish(self, webhook: Webhook, embeds: List[Embed]):
+    def publish(self, webhook: Webhook, embeds: List[Embed]):  # type: ignore[override]
         if not embeds:
             return
 
         self.stats.webhook_count_plusone()
         self.stats.start()
         embeds_batch = process_embeds(embeds.copy(), self.batch_size)
-        webhook_status = []
+        webhook_status: List[bool] = []
         for batch in embeds_batch:
             # once the webhook is not found, stop sending remaining batch.
             webhook_is_alive = not webhook_status or all(webhook_status)
@@ -131,7 +131,7 @@ class DiscordNewReleaseHooker(DiscordHooker):
         self.raw_embeds = raw_embeds
         super().__init__(stats)
 
-    def publish(self, webhook: WebhookModel, webhook_adapter: Optional[WebhookAdapter] = None):
+    def publish(self, webhook: WebhookModel, webhook_adapter: Optional[WebhookAdapter] = None):  # type: ignore[override]
         if not webhook_adapter:
             webhook_adapter = RequestsWebhookAdapter()
 
@@ -144,7 +144,8 @@ class DiscordNewReleaseHooker(DiscordHooker):
         webhook_lang, webhook_is_nsfw = key
         embeds = self.embeds_cache.get(key)
 
-        if embeds is None:  # prevent running loop when embeds is []
+        # prevent running loop when embeds is empty
+        if embeds is None:
             embeds = [
                 raw_embed.localized_with(webhook_lang)
                 for raw_embed in self.raw_embeds

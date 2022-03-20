@@ -1,4 +1,4 @@
-from typing import List, Type, TypeVar
+from typing import List, Type, TypeVar, Optional
 
 from sqlalchemy import Column, String
 
@@ -9,15 +9,15 @@ __all__ = [
     "Sculptor"
 ]
 
-T = TypeVar('T')
+U = TypeVar('U', bound='UniqueMixin')
 
 
-class WorkerMultipleUniqueMixin:
+class WorkerMultipleUniqueMixin(UniqueMixin):
     __abstract__ = True
 
     @classmethod
-    def multiple_as_unique(cls: Type[T], worker_names: List[str]) -> List[T]:
-        workers = []
+    def multiple_as_unique(cls: Type[U], worker_names: List[str]) -> List[Optional[U]]:
+        workers: List[Optional[U]] = []
         for name in worker_names:
             worker = cls.as_unique(name=name)
             workers.append(worker)
@@ -25,7 +25,7 @@ class WorkerMultipleUniqueMixin:
         return workers
 
 
-class Paintwork(WorkerMultipleUniqueMixin, UniqueMixin, PkModel):
+class Paintwork(WorkerMultipleUniqueMixin, PkModel):
     __tablename__ = "paintwork"
 
     name = Column(String, nullable=False)
@@ -39,7 +39,7 @@ class Paintwork(WorkerMultipleUniqueMixin, UniqueMixin, PkModel):
         return query.filter(Paintwork.name == name)
 
 
-class Sculptor(WorkerMultipleUniqueMixin, UniqueMixin, PkModel):
+class Sculptor(WorkerMultipleUniqueMixin, PkModel):
     __tablename__ = "sculptor"
 
     name = Column(String, nullable=False)

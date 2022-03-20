@@ -1,5 +1,7 @@
-from sqlalchemy import Boolean, Column, String, event
-from sqlalchemy.ext.hybrid import hybrid_property
+
+from typing import cast
+from sqlalchemy import Boolean, Column, String
+from sqlalchemy.event import listens_for
 from sqlalchemy.orm import validates
 from sqlalchemy_mixins.timestamp import TimestampsMixin
 
@@ -15,19 +17,18 @@ __all__ = [
 class Webhook(Model, TimestampsMixin):
     __tablename__ = "webhook"
     supporting_langs = ("zh-TW", "en", "ja")
+    channel_id = cast(str, Column(String, primary_key=True))
+    id = cast(str, Column(String, unique=True, nullable=False))
+    token = cast(str, Column(String, nullable=False))
+    is_existed = cast(bool, Column(Boolean))
+    is_nsfw = cast(bool, Column(Boolean, default=False))
+    lang = cast(str, Column(String(5), default="en"))
 
-    channel_id = Column(String, primary_key=True)
-    id = Column(String, unique=True, nullable=False)
-    token = Column(String, nullable=False)
-    is_existed = Column(Boolean)
-    is_nsfw = Column(Boolean, default=False)
-    lang = Column(String(5), default="en")
-
-    @hybrid_property
+    @ property
     def decrypted_token(self):
         return EncryptHelper.decrypt_str(self.token)
 
-    @validates('lang')
+    @ validates('lang')
     def validate_lang(self, key, lang):
         try:
             assert lang in self.supporting_langs
@@ -37,16 +38,16 @@ class Webhook(Model, TimestampsMixin):
             )
         return lang
 
-    @classmethod
+    @ classmethod
     def get_by_channel_id(cls, channel_id: str) -> 'Webhook':
         channel_id = str(channel_id)
         return cls.query.get(channel_id)
 
-    @staticmethod
+    @ staticmethod
     def supporting_languages():
         return Webhook.supporting_langs
 
 
-@event.listens_for(target=Webhook.token, identifier='set', retval=True)
+@ listens_for(target=Webhook.token, identifier='set', retval=True)
 def _webhook_attr_token_receive_set(target, token_value: str, old_token_value, initiator) -> str:
     return EncryptHelper.encrypt_str(token_value)
