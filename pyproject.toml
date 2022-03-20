@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "figure_hook"
-version = "0.0.5"
+version = "0.1.0"
 description = ""
 authors = ["Elton Chou <plscd748@gmail.com>"]
 
