@@ -1,3 +1,5 @@
+from typing import Dict
+
 import pytest
 from pytest_mock import MockerFixture
 
@@ -7,7 +9,7 @@ from figure_hook.Publishers.plurk import Plurker
 
 def test_publish(mocker: MockerFixture):
     mock_callapi = mocker.patch('plurk_oauth.PlurkAPI.callAPI', return_value={"a": True})
-    content = {}
+    content: Dict = {}
     plurk = Plurker()
     r = plurk.publish(content=content)
 
@@ -20,7 +22,7 @@ def test_publish_with_error(mocker: MockerFixture):
     mock_callapi = mocker.patch('plurk_oauth.PlurkAPI.callAPI', return_value=None)
     mocker.patch('plurk_oauth.PlurkAPI.error', return_value=error)
 
-    content = {}
+    content: Dict = {}
     plurk = Plurker()
     with pytest.raises(PublishError):
         plurk.publish(content=content)
