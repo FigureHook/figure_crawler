@@ -414,9 +414,9 @@ python-versions = ">=3.7"
 MarkupSafe = ">=0.9.2"
 
 [package.extras]
-babel = ["babel"]
-lingua = ["lingua"]
 testing = ["pytest"]
+lingua = ["lingua"]
+babel = ["babel"]
 
 [[package]]
 name = "markupsafe"
@@ -521,8 +521,8 @@ optional = false
 python-versions = ">=3.6"
 
 [package.extras]
-dev = ["pre-commit", "tox"]
-testing = ["pytest", "pytest-benchmark"]
+testing = ["pytest-benchmark", "pytest"]
+dev = ["tox", "pre-commit"]
 
 [[package]]
 name = "plurk-oauth"
@@ -751,7 +751,7 @@ six = "*"
 
 [[package]]
 name = "scrapy"
-version = "2.6.1"
+version = "2.6.2"
 description = "A high-level Web Crawling and Web Scraping framework"
 category = "main"
 optional = false
@@ -792,7 +792,7 @@ scrapy = ">=0.17"
 w3lib = "*"
 
 [package.extras]
-test = ["pytest", "pytest-console-scripts", "pytest-cov", "pytest-mock"]
+test = ["pytest-mock", "pytest-cov", "pytest-console-scripts", "pytest"]
 
 [[package]]
 name = "service-identity"
@@ -1811,8 +1811,8 @@ requests-file = [
     {file = "requests_file-1.5.1-py2.py3-none-any.whl", hash = "sha256:dfe5dae75c12481f68ba353183c53a65e6044c923e64c24b2209f6c7570ca953"},
 ]
 scrapy = [
-    {file = "Scrapy-2.6.1-py2.py3-none-any.whl", hash = "sha256:e977f57d4e828f25d2702e8c2212e8abcd7d6ce45be560f1830a39432a494c09"},
-    {file = "Scrapy-2.6.1.tar.gz", hash = "sha256:56fd55a59d0f329ce752892358abee5a6b50b4fc55a40420ea317dc617553827"},
+    {file = "Scrapy-2.6.2-py2.py3-none-any.whl", hash = "sha256:53528bcaf8c2c77aca359af11f349dec5dad98845a13d4c0bb9abd07f302298d"},
+    {file = "Scrapy-2.6.2.tar.gz", hash = "sha256:55e21181165f25337105fff1efc8393296375cea7de699a7e703bbd265595f26"},
 ]
 scrapyd-client = [
     {file = "scrapyd-client-1.2.0.tar.gz", hash = "sha256:220e5b92ca796b19ef76a16389490ab3e172b289a2978d19f9afae284ee03de9"},
