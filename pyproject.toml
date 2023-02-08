@@ -14,7 +14,7 @@ sqlalchemy-mixins = "^1.5"
 Babel = "^2.9.1"
 psycopg2-binary = "^2.9.1"
 scrapyd-client = "^1.2.0"
-cryptography = "^36.0.0"
+cryptography = "^39.0.1"
 SQLAlchemy = {extras = ["mypy"], version = "^1.4.32"}
 
 [tool.poetry.dev-dependencies]
